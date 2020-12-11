@@ -1,0 +1,40 @@
+﻿@model Mall.Entities.DistributorInfo
+@{
+    Layout = null;
+    bool? NeedDistributionWeiXinShare = (bool?)ViewBag.NeedDistributionWeiXinShare;  //是否需要处理微信分享
+}
+@if (Model != null && Model.IsNormalDistributor)
+{
+
+<div class="shop-head">
+    <div class="shop-head-bg" style="background-image: url(@(Model.ShopLogo));"></div>
+    <div class="shop-head-inner">
+        <img class="shop-logo" src="@(Model.ShopLogo)" />
+        <div class="shop-name">@(Model.ShopName)</div>
+    </div>
+</div>
+}
+@if (NeedDistributionWeiXinShare==true)
+{
+    <input type="hidden" id="hasdistributionshare" name="hasdistributionshare" value="1" />
+    <script>
+	var winxinShareArgs = {
+        success: function () {
+
+		},
+        error: function () {
+
+		},
+		share: {
+		    title: '@(Model.ShopName)',
+		    desc: '@(Model.ShopName)，精选好货，集您所需',
+		    link: '@(Context.Request.Host.ToString())',
+		    imgUrl: '@(Model.ShopLogo)',
+            success: function (res) {
+
+		    }
+		}
+	};
+    </script>
+    @Html.Partial("_WeiXinShare")
+}

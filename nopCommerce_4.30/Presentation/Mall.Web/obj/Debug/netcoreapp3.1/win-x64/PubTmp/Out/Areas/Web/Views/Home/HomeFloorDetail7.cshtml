@@ -1,0 +1,91 @@
+﻿@model Mall.Web.Areas.Web.Models.HomeFloorModel
+@using Mall.Web.Framework;
+@{
+    var floor = Model;
+    Mall.Web.Areas.Web.Models.HomeFloorModel.WebFloorProductLinks defaultModel = new Mall.Web.Areas.Web.Models.HomeFloorModel.WebFloorProductLinks()
+    {
+        ImageUrl = string.Empty,
+        Url = "#"
+    };
+}
+<!--楼层样式7-->
+<div class="floor floor-seven clearfix">
+    <div class="floor-seven-hd">
+        <h3>@floor.Name</h3>
+        <ul>
+            <li class="active">@floor.DefaultTabName<s></s></li>
+            @foreach (var tab in floor.Tabs)
+            {
+                <li class="">@tab.Name<s></s></li>
+            }
+        </ul>
+    </div>
+    <div class="floor-seven-top clearfix">
+        <div class="fst-left">
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftOne,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftOne,defaultModel).ImageUrl" /></a>
+        </div>
+        <div class="fst-mid ">
+            <div class="fst-img-show tab-right current">
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleOne,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleOne,defaultModel).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleTwo,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleTwo,defaultModel).ImageUrl" /></a>
+                <a class="fst-m-spe" href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleThree,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleThree,defaultModel).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFour,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFour,defaultModel).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFive,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFive,defaultModel).ImageUrl" /></a>
+                <a class="fst-m-spe" href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleSix,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleSix,defaultModel).ImageUrl" /></a>
+            </div>
+            <!--TAB-->
+            @foreach (var tab in floor.Tabs)
+            {
+                <div class="tab-pro-show tab-right" style="display:none;">
+                    <ul>
+                        @foreach (var item in tab.Detail)
+                        {
+                            <li>
+                                <div>
+                                    <p><a href="/Product/Detail/@item.ProductId">@item.Name</a></p>
+                                    <span>￥@item.Price <s>￥</s></span>
+                                </div>
+                                <a href=""><img class="lazyload" src="Areas/Web/Images/integra-bg.png" data-url="@Mall.Core.MallIO.GetProductSizeImage(item.ImagePath, 1, (int)Mall.CommonModel.ImageSize.Size_150)"></a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+        <div class="fst-right">
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.ROne,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.ROne,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RTwo,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RTwo,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RThree,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RThree,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RFour,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RFour,defaultModel).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RFive,defaultModel).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RFive,defaultModel).ImageUrl" /></a>
+        </div>
+    </div>
+    <div class="floor-seven-bottom clearfix">
+        <div class="fsb-img-show tab-right current">
+            <ul>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.BottomOne,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.BottomTwo,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.BottomThree,defaultModel).ImageUrl" />
+                </li>
+            </ul>
+        </div>
+        <div class="fsb-pro-show tab-right">
+            <ul>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.BottomOne,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.BottomTwo,defaultModel).ImageUrl" />
+                </li>
+                <li>
+                    <img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.BottomThree,defaultModel).ImageUrl" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

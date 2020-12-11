@@ -1,0 +1,105 @@
+﻿@model Mall.Web.Areas.Admin.Models.DistributorManagementModel
+@{
+    ViewBag.Title = "Manage";
+}
+<style>
+    .choose-right ul i { display: none; }
+</style>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>销售员管理</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>销售员分享出去的页面，其他人通过此页面注册为商城的新会员，即成为了销售员的下级会员，上下级关系进行绑定。后续此下级会员购买任何参与分销的商品，销售员都可以从中获得一级佣金。该下级会员也申请成为销售员后，也可以继续发展下级会员，新的下级会员则为第一个销售员的二级会员。</span></li>
+				<li><span>上级销售员为平台的，即该销售员是自由注册申请的，不是任何人的下级。</span></li>
+				<li><span>平台可以调整销售员的上级归属，但只能调给上级为平台的销售员。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline" id="from_search">
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员名</label>
+                <input class="form-control input-ssm" type="text" id="MemberName" name="MemberName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">小店名称</label>
+                <input class="form-control input-ssm" type="text" id="ShopName" name="ShopName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">销售员等级</label>
+                <select class="form-control input-ssm" id="GradeId" name="GradeId">
+                    <option>所有</option>
+                    @foreach (var item in Model.Grades)
+                    {
+                        <option  value="(item.Id)">(item.GradeName)</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline" for="">上一级销售员</label>
+                <input class="form-control input-ssm" type="text" id="SuperiorMemberName" name="SuperiorMemberName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">申请时间</label>
+                <input class="form-control input-ssm" type="text" id="StartTime" name="StartTime">
+                <label class="label-inline" style="width:20px;">-</label>
+                <input class="form-control input-ssm" type="text" id="EndTime" name="EndTime">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">状态</label>
+                <select class="form-control input-ssm" id="Status" name="status">
+                    <option>所有</option>
+                    <option value="1">待审核</option>
+                    <option value="2">已审核</option>
+                    <option value="3">已拒绝</option>
+                    <option value="4">已清退</option>
+                </select>
+            </div>
+            <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜 索</button></div>
+        </form>
+    </div>
+
+
+    <table id="list" class="table"></table>
+
+    <div class="tabel-operate hidden" id="operatebox">
+        <select id="batOperateSel" class="btn btn-default btn-ssm" style="width: 90px;">
+            <option value="0">批量操作</option>
+            <option value="1">批量审核</option>
+            <option value="2">批量清退</option>
+            <option value="3">批量恢复</option>
+        </select>
+
+        <a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a>
+    </div>
+
+    <div id="ChangeSuperDlgTmp" class="dln" style="display:none">
+        <div class="choose-search clearfix">
+        	<p class="help-default">注意：调整上级只能调给上级为平台的销售员，由其他人发展来的销售员不在下方列表显示。</p>
+            <span class="fl">当前销售员名称：<span id="spn_membername"></span></span>
+            <span class="fr">当前所属上级：<span id="spn_supername"></span></span>
+        </div>
+        <div class="choose-search">
+            <div class="form-group">
+                <label class="label-inline" for="">搜索销售员</label>
+                <input class="form-control input-ssm" type="text" name="searchMemberName" id="searchMemberName">
+            </div>
+            <button type="button" class="btn btn-primary btn-ssm" id="btnSearchTop" name="btnSearchTop">搜索</button>
+        </div>
+        <table id="DistributorSuperGrid" class="table table-bordered"></table>
+    </div>
+</div>
+<input type="hidden" name="maxLevel" id="maxLevel" value="@(Model.DistributionMaxLevel)" />
+<input type="hidden" name="levelName1" id="levelName1" value="@(Model.SiteSetting.DistributorRenameMemberLevel1)" />
+<input type="hidden" name="levelName2" id="levelName2" value="@(Model.SiteSetting.DistributorRenameMemberLevel2)" />
+<input type="hidden" name="levelName3" id="levelName3" value="@(Model.SiteSetting.DistributorRenameMemberLevel3)" />
+<script src="~/Areas/Admin/Scripts/DistributorManagement.js"></script>

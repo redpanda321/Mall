@@ -1,0 +1,91 @@
+﻿@model Mall.Entities.ProductInfo
+@{
+    ViewBag.Title = "ProductImport";
+}
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+
+<div class="container Sclear-F">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>数据采集</a></li>
+        <li><a href="ImportManage">数据包导入</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>  温馨提示：<br />导入的商品最多只能有三类规格，多余三类的商品规格将会丢失;导入的商品规格值超过平台设置的数量，多余的规格值也将会丢失；<br />天猫/淘宝做了反爬取技术，请不要过于频繁进行操作，否则此功能将会被封锁；<br/>另外商城必须为https域名，否则可能无法成功抓取天猫/淘宝的商品信息；</span></h5>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="red">*</span>选择导入平台分类：</label>
+            <div class="col-sm-5">
+                <select id="category1" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+                <select id="category2" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+                <select id="category3" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="red">*</span>选择商家分类：</label>
+            <div class="col-sm-3">
+                <select id="sellercategory1" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+                <select id="sellercategory2" class="form-control input-sm select-sort">
+                    <option>分类</option>
+                </select>
+            </div>
+            <div class="col-sm-4"><input type="button" value="新增" class="btn btn-primary" id="btnAddSellerCategory" style="height:30px;" /></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">品牌：</label>
+            <div class="col-sm-5">
+                <select id="selectBrand" class="form-control input-sm select-sort">
+                    <option>请选择品牌</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for=""><span class="red">*</span>运费模板：</label>
+            <div class="col-sm-3">
+                @Html.DropDownList("freightTemp", (IEnumerable<SelectListItem>)ViewBag.FreightTemplates, new
+           {
+               @class = "form-control input-sm j_freightTemp-select-sort",
+               id = "freightTemplate"
+           })
+            </div>
+            <div class="col-sm-4"><input type="button" value="新增" class="btn btn-primary" id="btnAddTemplate" style="height:30px;" /></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="red">*</span>淘宝/天猫链接：</label>
+            <div class="col-sm-7">
+                <div class="j_link clearfix mb10">
+                    <input type="text" class="form-control input-sm j_linkurl fl" name="link" placeholder="请输入淘宝/天猫商品详情网址，例如：https://detail.tmall.com/item.htm?id=40827166031" style="width: 92%;" />
+                    <a class="del-url fr mt10" style=" cursor: pointer;display:none">删除</a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+            	<a class=" j_addUrl mr20"  style="cursor: pointer;"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp; 添加</a>
+            	<span class="help-default" style="display:inline">最多一次添加5个网址，所有导入的商品都会进入到草稿箱</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-primary" id="btnSpider" value="导入商品" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="spiderResult" class="dln">
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-1"><div class="prg-cont rad-prg" id="indicatorContainer"></div></div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-6 col-sm-offset-1 mt40">正在导入第<span class="j_current red">0</span>条，共<span class="j_total">0</span>条</div>
+    </div>
+</div>
+<script src="~/Areas/SellerAdmin/Scripts/radialIndicator.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ProductImport.js"></script>

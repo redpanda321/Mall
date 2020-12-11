@@ -1,0 +1,42 @@
+using Autofac;
+using Mall.Core;
+using Mall.Strategy.Cache;
+using Mall.Strategy.IO;
+using Nop.Core.Configuration;
+using Nop.Core.Infrastructure;
+using Nop.Core.Infrastructure.DependencyManagement;
+
+namespace Mall.Web.Infrastructure
+{
+    /// <summary>
+    /// Dependency registrar
+    /// </summary>
+    public class DependencyRegistrar : IDependencyRegistrar
+    {
+        /// <summary>
+        /// Register services and interfaces
+        /// </summary>
+        /// <param name="builder">Container builder</param>
+        /// <param name="typeFinder">Type finder</param>
+        /// <param name="config">Config</param>
+        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
+        {
+
+            // Cache
+            builder.RegisterType<AspNetCache>().As<ICache>().InstancePerLifetimeScope();
+
+            // IO
+            builder.RegisterType<AspNetIO>().As<IMallIO>().InstancePerLifetimeScope();
+
+
+        }
+
+        /// <summary>
+        /// Order of this dependency registrar implementation
+        /// </summary>
+        public int Order
+        {
+            get { return 1; }
+        }
+    }
+}

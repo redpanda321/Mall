@@ -1,0 +1,5 @@
+﻿{
+  "DataProvider": "sqlserver",
+  "DataConnectionString": "Data Source=localhost\\SQLEXPRESS;Database=shop43;user=sa;password=liuhuaheQQ!@#123;Integrated Security=False;Persist Security Info=True;Trusted_Connection=False;MultipleActiveResultSets=True;",
+  "RawDataSettings": {}
+}

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="LimitOrderHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mall.CommonModel\Mall.CommonModel.csproj" />
+    <ProjectReference Include="..\Mall.Core\Mall.Core.csproj" />
+    <ProjectReference Include="..\Mall.DTO\Mall.DTO.csproj" />
+    <ProjectReference Include="..\Mall.Entities\Mall.Entities.csproj" />
+    <ProjectReference Include="..\Mall.IService\Mall.IService.csproj" />
+    <ProjectReference Include="..\Mall.ServiceProvider\Mall.ServiceProvider.csproj" />
+  </ItemGroup>
+
+</Project>

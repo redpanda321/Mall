@@ -1,0 +1,118 @@
+﻿@model Mall.Web.Areas.Mobile.Models.GiftsDetailModel
+    @{
+        ViewBag.Title = "礼品详情";
+        ViewBag.ShowAside = 3;//显示浮动菜单栏、回到顶部按钮
+    }
+    <div class="container">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                @foreach (var item in Model.Images)
+                {
+                <div class="swiper-slide"><a href=""><img src="@(item)"></a></div>
+                }
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="gift-info">
+            <h3 class="gift-title">@(Model.GiftName)</h3>
+            <div class="gift-price">
+                <span><em>@(Model.NeedIntegral)</em>积分</span>
+                <s class="nothrough">市场价:￥@(Model.GiftValue)</s>
+                <i>@(Model.NeedGradeName)</i>
+            </div>
+            <div class="gift-count">
+                <span>数量</span>
+                <div class="buy-num">
+                    <i class="minus">-</i><input type="number" id="buy-num" value="1" /><i class="plus">+</i>
+                </div>
+                <p>已兑 @(Model.SumSales) 件<br /> @if (Model.LimtQuantity > 0) { <text>限兑 </text>@(Model.LimtQuantity)<text> 件</text><br /> }剩余 @(Model.StockQuantity) 件<input type="hidden" id="stockProduct" value="@(Model.StockQuantity)" /></p>
+            </div>
+            <div class="gift-txt">
+                <p>有效期至 @(Model.EndDate.ToString("yyyy-MM-dd HH:mm:ss"))</p>
+            </div>
+        </div>
+        <div class="gift-more"><span>上拉查看更多</span></div>
+        <div class="goods-img clearfix">
+            @Html.Raw(Model.Description)
+        </div>
+    </div>
+    <div class="gift-bottom">
+        @if (Model.CanBuy)
+        {
+        <a class="gift-btn" id="OrderNow">我要兑换</a>
+        }
+        else
+        {
+            <a class="gift-btn disabled">@(Model.CanNotBuyDes)</a>
+        }
+    </div>
+<script type="text/javascript">
+    var giftid = '@(Model.Id)';
+</script>
+
+    <script src="/Areas/Mobile/Templates/Default/Scripts/swiper.min.js?v=20183030"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            autoplay: 4000,
+            speed: 500,
+            autoplayDisableOnInteraction: false
+        });
+
+        $(function () {
+        	var buyNum=$('#buy-num');
+        	$('.buy-num .minus').click(function () {
+                if (parseInt(buyNum.val()) > 1) {
+                    buyNum.val(parseInt(buyNum.val()) - 1);
+                    checkBuyNum();
+                }
+            });
+            $('.buy-num .plus').click(function () {
+                buyNum.val(parseInt(buyNum.val()||0) + 1);
+                checkBuyNum();
+            });
+        	
+            $("#buy-num").blur(function () {
+                checkBuyNum();
+            });
+
+            //兑换
+            $("#OrderNow").click(function () {
+                var dis = $(this).hasClass('disabled');
+                if (dis) return;
+                if (parseInt(buyNum.val()) > parseInt($("#stockProduct").val())) {
+                    $.dialog.errorTips('不能大于库存数量');
+                    buyNum.val(1);
+                    return false;
+                }
+                checkBuyNum();
+                var num = $("#buy-num").val();
+                checkLogin(window.location.href, function () {
+                    $.post('/' + areaName+'/Gifts/CanBuy', { id: giftid, count: num }, function (result) {
+                        if (result.success == true) {
+                            location.href = "/" + areaName+"/Gifts/SubmitOrder/" + giftid + "?count=" + num;
+                        } else {
+                            $.dialog.errorTips(result.msg);
+                        }
+                    });
+                });
+            });
+        });
+
+        function checkBuyNum() {
+            var num = 0;
+            var result = true;
+            try {
+                num = parseInt($("#buy-num").val());
+            } catch (ex) {
+                num = 0;
+            }
+            if (num < 1) {
+                $.dialog.errorTips('购买数量有误');
+                $('#buy-num').val(1);
+                result = false;
+            }
+            return result;
+        }
+    </script>

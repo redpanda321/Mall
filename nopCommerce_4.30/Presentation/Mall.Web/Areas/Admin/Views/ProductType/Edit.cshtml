@@ -1,0 +1,127 @@
+﻿@model Mall.Entities.TypeInfo
+
+@using Mall.CommonModel
+@using Mall.Web.Areas.Admin.Helper
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script src="~/Areas/Admin/Scripts/ProductType.js"></script>
+
+<div class="container clear-o">
+    <ul class="breadcrumb clearfix">
+
+        <li><a>类型列表</a></li>
+        <li><a>@(Model.Id==0?"添加": "编辑")类型</a></li>
+
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>商品类型：商品类型是用来管理属性集合的，包括有品牌、属性、规格。当商品分类关联了某个类型后，这个分类下的商品就拥有了这些品牌、属性、规格。</span></li>
+			</ul>
+		</div>
+	</div>
+    <form action="./SaveModel" method="post" class="form-horizontal" id="typeForm" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">类型名称：</label>
+            <div class="col-sm-7">
+                <input type="text" value="@Model.Name" name="Name" id="typeName" class="form-control input-sm" maxlength="40" />
+                <span class="field-validation-error" id="typeNameTip"></span>
+                <span style="display:none;" id="nameErrorMsg" class="help-default cor-red"><span>名称不能为空</span></span>
+                <input type="hidden" name="Id" value="@Model.Id" id="Id"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">关联品牌：</label>
+            <div class="col-sm-9 brand-letter" id="id_tab">
+              
+            </div>
+            <div class="col-sm-9 brand-group">
+                <div class="checkbox-group">
+                </div>
+                <div id="id_s" class="choose-brand">
+                	<span>已选择：</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">属性：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered typeTable">
+                    <thead>
+                        <tr>
+                            <th width="30%">属性名</th>
+                            <th width="50%">属性值</th>
+                            <th width="20%" class="td-operate">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.AttributeInfo==null || Model.AttributeInfo.Count==0)
+                        {
+                            <tr id="nonDataContainer">
+                                <td width="100%" class="text-center" colspan="3">
+                                    <h6>没有任何属性信息</h6>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            int index = 0;
+                            foreach (var item in Model.AttributeInfo)
+                            {
+                                
+                                var attrName = "Attributes[" + index.ToString() + "].Name";
+                                var attrValue = "Attributes[" + index.ToString() + "].Value";
+                                var attrId = "Attributes[" + index.ToString() + "].Id";
+                                var attrIsMulti = "Attributes[" + index.ToString() + "].IsMulti";
+                                index++;
+                                <tr class="currentRow">
+                                    <td width="30%">
+                                        <input class="attrId" type="hidden" value="@item.Id" name="@attrId" />
+                                        <input class="attrIsMulti" name="@attrIsMulti" type="hidden" value="@item.IsMulti.ToString()" />
+                                        <input class="attrName" name="@attrName" type="hidden" value="@item.Name" />
+                                        <span class="spanAttrName">@item.Name</span>
+                                    </td>
+                                    <td width="50%">
+                                        <input class="attrValue" name="@attrValue" type="hidden" value="@item.AttrValue" />
+                                        <span class="spanAttrValue clearo1 overflow-ellipsis" title="@item.AttrValue">@item.AttrValue</span>
+                                    </td>
+                                    <td width="20%" class="td-operate"><span class="btn-a"><a class="attrEdit">编辑</a><a class="attrDelete">删除</a></span></td>
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+                <a class="add-atrr"><span class="glyphicon glyphicon-plus-sign"></span>新增一个属性</a>
+                <span class="help-default ml15">您可添加多个商品属性，商品属性作为前端筛选条件同时也会在商品详情页上显示</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">规格：</label>
+            <div class="col-sm-9 type">
+                <div class="type-list" id="divColor">
+                    @Html.GenerateSpecification(Model, SpecificationType.Color)
+                </div>
+                <div class="type-list" id="divSize">
+                    @Html.GenerateSpecification(Model, SpecificationType.Size)
+                </div>
+                <div class="type-list" id="divVersion">
+                    @Html.GenerateSpecification(Model, SpecificationType.Version)
+                </div>
+                <p class="help-block">勾选的规格才会在商家发布商品，选择此类型对应的分类时显示出来；建议3个规格全选，否则商家导入多规格商品时，会显示不全；平台设置的默认值，商家在发布商品时是可以修改名称的（不会影响平台数据）</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" onclick="subForm();" class="btn btn-primary" value="保 存" />
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,108 @@
+﻿@model List<Mall.Web.Areas.SellerAdmin.Models.ShopCategoryModel>
+@{
+    ViewBag.Title = "Management";
+}
+<script src="~/Areas/SellerAdmin/Scripts/Category.js"></script>
+<style type="text/css">
+	.topbtn {
+	    margin: 20px;
+	}
+	.topbtn a {
+	    text-decoration: none;
+	    margin-right: 30px;
+	}
+</style>
+
+<div class="container Sclear-C">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a value="0" class="addCategory">新增</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>可以在分类后设置排序值，数值越小排序越靠前。</span></li>
+                <li><span>“√”则表示在前台会显示出来，“×”表示前台不显示出来，直接点击图标就可以切换两者的状态。</span></li>
+                <li class="mark-info"><span>注意最多有二级分类，并且分类下有商品时无法删除该分类。</span></li>
+            </ul>
+        </div>
+    </div>
+	<div class="topbtn">
+        <a class="add-business" id="btnlevel1" href="Management?isAll=0"><span class="glyphicon glyphicon-plus-sign"></span>折叠</a>
+        <a class="add-business" id="btnlevelAll" href="Management?isAll=1"><span class="glyphicon glyphicon-minus-sign"></span>展开</a>
+    </div>
+    
+    <table class="table category_table mt20">
+        <thead>
+            <tr>
+                @*<th width="1"></th>*@
+                <th class="Sclear-C2">分类名称</th>
+                <th class="Sclear-C2">排序</th>
+                <th class="Sclear-C2">是否显示</th>
+                <th class="td-operate Sclear-C1">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (null == Model || Model.Count() == 0)
+            {
+                <tr>
+                    <td class="tac" colspan="3"><h2 class="none-data Sclear-C3">没有任何分类</h2></td>
+                </tr>
+            }
+            else
+            {
+                var mainCate = Model.Where(e => e.Depth == 1);
+                foreach (var category in mainCate)
+                {
+
+                     <tr class="level-1">
+                            @*<td width="1"></td>*@
+                            <td class="Sclear-C5">
+                                <span class="glyphicon glyphicon-plus-sign"></span><input type="hidden" class="hidden_id" value="@category.Id" /><input class="text-name" type="text" value="@category.Name" categoryId="@category.Id" />
+                                @*<input class="text-order" type="text" value="@category.DisplaySequence" />*@
+                            </td>
+                            <td class="Sclear-C5">
+                                <input class="text-order" type="text" value="@category.DisplaySequence" categoryId="@category.Id" />
+                            </td>
+                            <td style="text-align:center">
+                                <span class="btn-a">
+                                    @if (category.IsShow)
+                                    {<a categoryId="@category.Id" IsShow="1" class="j_isshow">√</a>}
+                                    else
+                                    {<a categoryId="@category.Id" IsShow="0" class="j_isshow">×</a>}
+                                </span>
+                            </td>
+                            <td class="td-operate Sclear-C4">
+                                <span class="btn-a">
+                                    <a class="addCategory" value="@category.Id">新增下级</a><a class="delete-classify" categoryId="@category.Id">删除</a>
+                                </span>
+                            </td>
+                        </tr>
+                     
+                        var curSecondCates = Model.Where(e => e.ParentCategoryId == category.Id);
+                        foreach (var item in curSecondCates)
+                        {
+                        <tr class="level-2">
+                            <td><s class="line" style="margin-left:50px">├─────</s><input class="hidden_id" type="hidden" value="@item.Id">
+                            <input class="text-name" type="text" value="@item.Name" categoryId="@item.Id" />
+                            </td>
+                            <td class="Sclear-C5"><input class="text-order" type="text" value="@item.DisplaySequence" categoryId="@item.Id" /></td>
+                            <td style="text-align:center">
+                            <span class="btn-a">
+                                @if (item.IsShow)
+                                {<a categoryId="@item.Id" IsShow="1" class="j_isshow">√</a>}
+                                else
+                                {<a categoryId="@item.Id" IsShow="0" class="j_isshow">×</a>}
+                                    </span>
+                            </td>
+                            <td class="td-operate"><span class="btn-a"><a class="delete-classify" categoryId="@item.Id">删除</a></span></td>
+                        </tr>
+                        }
+                      }
+                 
+            }
+        </tbody>
+    </table>
+</div>

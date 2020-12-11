@@ -1,0 +1,4 @@
+C:\S\nopCommerce_4.30_dev\Libraries\Mall.API\obj\Debug\netcoreapp3.1\Mall.API.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.30_dev\Libraries\Mall.API\obj\Debug\netcoreapp3.1\Mall.API.csproj.CoreCompileInputs.cache
+C:\S\nopCommerce_4.30_dev\Libraries\Mall.API\obj\Debug\netcoreapp3.1\Mall.API.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.30_dev\Libraries\Mall.API\obj\Debug\netcoreapp3.1\Mall.API.AssemblyInfo.cs

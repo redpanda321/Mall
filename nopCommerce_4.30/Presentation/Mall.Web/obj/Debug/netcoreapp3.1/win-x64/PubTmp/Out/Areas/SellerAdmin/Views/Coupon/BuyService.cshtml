@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "购买优惠券服务";
+}
+
+<script src="~/Scripts/v.js"></script>
+<style>.tip span {width:470px;}</style>
+<div class="container">
+    <input type="hidden" id="isAvailable" value="@ViewBag.Available" />
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class=""><a href="@Url.Action("Management")">所有优惠券</a></li>
+        @if ((bool)ViewBag.Available)
+        {
+            <li class=""><a href="@Url.Action("Add")">添加优惠券</a></li>
+        }
+        <li class="active"><a>购买服务</a></li>
+        
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>点击“购买服务”按钮可以开通或续费套餐。相关费用会在店铺的余额中扣除。</span></li>
+				<li><span>优惠券总共分为三种领取方式：店铺首页-在商城、店铺、门店首页可以进行领取的优惠券；积分兑换-积分商城中需要使用积分才能兑换的优惠券；主动发放-平台进行活动时发放的优惠券，例如新人礼包、刮刮卡、大转盘等。</span></li>
+				<li><span>所有端都支持优惠券活动。</span></li>
+			</ul>
+		</div>
+	</div>
+    <form id="form1" action="@Url.Action("BuyService")" method="post">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @if (null != ViewBag.EndDate)
+                {
+                    <label class="col-sm-2 control-label" for="">服务到期时间：</label>
+                    <b class="pl20 lh30">@(new HtmlString(ViewBag.EndDate))</b>
+                    <span class="help-default pl20 lh30">每月您需要支付<b class="red"> @ViewBag.Price.ToString("f2") </b> 元，相关费用会在店铺的账期结算中扣除</span>
+                }
+                else
+                {
+                    <label class="col-sm-2 control-label" for=""></label>
+                    <span class="red pl20">您未购买优惠券服务</span>
+                    <span class="help-default pl20 lh30">每月您需要支付 @ViewBag.Price.ToString("f2") 元 </span>
+                }
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">购买数量：</label>
+                <div class="col-sm-8"><input class="form-control input-sm input-int-num " type="text" id="range" name="month" data-price="@ViewBag.Price.ToString("f2")"  data-lastbuyprice="@ViewBag.LastBuyPrice.ToString("f2")" style="width:105px; display:inline-block" /> &nbsp; 月</div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="display:none" id="submit" />
+                <div class="col-sm-3 col-sm-offset-2"><button id="btnSave" type="button" class="btn btn-primary btn-sm color-f">确认购买</button></div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#range").focus();
+    });
+
+    var price = $("#range").data("price");
+    var lastbuyprice = $("#range").data("lastbuyprice");
+    var isavailable = $("#isAvailable").val();
+
+    $('#btnSave').click(function () {
+        var month = $("#range").val();
+        if (isNaN(month) || parseInt(month) < 1 || parseInt(month)>12) {
+            return false;//它只能在1-12范围内，如不符合它已验证，则不弹窗，不让它下面操作处理；
+        }
+        if (price == 0) {
+            if (parseInt(month) > 6 || parseInt(month) < 0) {
+                $.dialog.errorTips("当前以0元购买服务，只能购买1~6个月，且不能叠加购买!");
+                return false;
+            }
+        }
+        if (isavailable && lastbuyprice == 0 && price == 0) {
+            $.dialog.errorTips("上次以0元购买服务，未到期前，不能再次购买");
+            return false;
+        }
+        if (month.length > 0 && month <= 12) {
+            var totalPrice = month * price;
+            $.dialog.confirm('您确定花费' + totalPrice.toFixed(2) + '元购买' + parseInt(month) + '个月优惠券服务吗？', function () {
+                $('#submit').click();
+            });
+        }
+    })
+
+
+    var a = v({
+        form: 'form1',
+        ajaxSubmit: true,
+        beforeSubmit: function () {
+            loadingobj = showLoading();
+        },
+        afterSubmit: function (data) {// 表单提交成功回调
+            loadingobj.close();
+            var d = data;
+            if (d.success) {
+                $.dialog.succeedTips("提交成功！", function () {
+                    window.location.reload();
+                }, 0.3);
+            } else {
+                $.dialog.errorTips(data.msg, '', 3);
+            }
+        }
+    });
+    if (price == 0) {
+        a.add(
+            {
+                target: 'range',
+                empty: true,
+                ruleType: 'uint&&(value>0)&&(value<=6)',// v.js规则验证
+                error: '当前以0元购买服务，只能购买1~6个月，且不能叠加购买!'
+            });
+    } else {
+        a.add(
+            {
+                target: 'range',
+                empty: true,
+                ruleType: 'uint&&(value>0)&&(value<=12)',// v.js规则验证
+                error: '只能为数字，且只能是1到12之间的整数!'
+            });
+    }
+</script>

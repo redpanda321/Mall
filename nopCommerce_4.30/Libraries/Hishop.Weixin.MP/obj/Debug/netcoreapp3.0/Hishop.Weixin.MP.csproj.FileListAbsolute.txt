@@ -1,0 +1,8 @@
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\bin\Debug\netcoreapp3.0\Hishop.Weixin.MP.deps.json
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\bin\Debug\netcoreapp3.0\Hishop.Weixin.MP.dll
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\bin\Debug\netcoreapp3.0\Hishop.Weixin.MP.pdb
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\obj\Debug\netcoreapp3.0\Hishop.Weixin.MP.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\obj\Debug\netcoreapp3.0\Hishop.Weixin.MP.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\obj\Debug\netcoreapp3.0\Hishop.Weixin.MP.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\obj\Debug\netcoreapp3.0\Hishop.Weixin.MP.dll
+C:\S\nopCommerce_4.20\Libraries\Hishop.Weixin.MP\obj\Debug\netcoreapp3.0\Hishop.Weixin.MP.pdb

@@ -1,0 +1,969 @@
+﻿@model Mall.Web.Areas.SellerAdmin.Models.ProductCreateModel
+
+@{
+    var isEdit = ViewBag.IsEdit == true;
+    bool canLadder = (bool)ViewBag.CanLadder;
+    var curft = Model.FreightTemplates.FirstOrDefault(d => d.Id == Model.FreightTemplateId);
+    if (!Model.Volume.HasValue)
+    {
+        Model.Volume = 0;
+    }
+    if (!Model.Weight.HasValue)
+    {
+        Model.Weight = 0;
+    }
+    var isApplyHint = (Model.CategoryGroups == null || Model.CategoryGroups.Count <= 0) ? true : false;//经营分类申请提示
+}
+<style>
+	.pro-info-right .col-sm-10 .radio-inline+.radio-inline{
+		margin-left: 20px;
+	}
+	.open-tips.Sclear-P46{
+        display: inline-block;
+    	margin-top: -4px;
+	}
+	.open-tips.Sclear-P46 i{
+		margin-top: 0;
+    	position: relative;
+		  
+	}
+	.container.Sclear-B .checkbox-inline{
+		margin-right: 0;
+	}
+</style>
+<div class="container Sclear-B">
+    <div class="form-horizontal @(isApplyHint ? "" : "hidden")" style="text-align:center;font-size:14px;">
+        <div style="color: #494e52;padding-top: 200px;">目前店铺还没有可经营的分类</div>
+        <div style="padding-top:10px;"><a href="/SellerAdmin/BussinessCategory/Apply">申请经营分类</a></div>
+    </div>
+    <ul class="choose-step @(!isApplyHint ? "" : "hidden")">
+        <li class="step step1 @(isEdit ? "" : "active")">
+            step.1 &nbsp;&nbsp;&nbsp;选择商品分类
+            <span class="border"></span>
+            <span class="border-n Sclear-P32"></span>
+        </li>
+        <li class="step step2 @(isEdit ? "active" : "")">
+            step.2 &nbsp;&nbsp;&nbsp;编辑基本信息
+            <span class="border"></span>
+            <span class="border-n Sclear-P32"></span>
+        </li>
+        <li class="step step3">step.3 &nbsp;&nbsp;&nbsp;编辑商品详情</li>
+
+    </ul>
+
+    <div class="form-horizontal step step1 publish-step1 @(isEdit?"hidden":"") @(!isApplyHint ? "" : "hidden")" tep>
+        <div id="categoryDiv">
+            @{var categoryHtml = new List<string>();
+
+                Action<List<Mall.Web.Areas.SellerAdmin.Models.CategoryGroup>, int, long?> fun = null;
+
+                fun = (list, depth, pid) =>
+                {
+                    if (categoryHtml.Count == depth)
+                    {
+                        categoryHtml.Add("");
+                    }
+
+                    var lis = "";
+                    foreach (var item in list)
+                    {
+                        lis += string.Format("<li{0} id=\"{1}\"{2} path=\"{3}\" typeId=\"{4}\" supportVirtualProduct=\"{6}\">{5}</li>", depth > 0 ? " class=\"hidden\"" : "", item.Id, pid.HasValue ? " pid=\"" + pid.Value + "\"" : "", item.Path, item.TypeId, item.Name, item.SupportVirtualProduct ? 1 : 0);
+                        if (item.SubCategorys != null && item.SubCategorys.Count > 0)
+                        {
+                            fun(item.SubCategorys, depth + 1, item.Id);
+                        }
+                    }
+
+                    categoryHtml[depth] += lis;
+                };
+
+                if (Model.CategoryGroups != null && Model.CategoryGroups.Count > 0)
+                {
+                    fun(Model.CategoryGroups, 0, null);
+                }
+
+                foreach (var item in categoryHtml)
+                {
+                    <div class="pub-inline">
+                        <ul>
+                            @Html.Raw(item)
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+
+        <span class="btn btn-default step Sclear-P71" step="step2">下一步</span>
+    </div>
+
+    <div class="form-horizontal step step2 @(isEdit ? "" : "hidden")" id="release-pro">
+        <div class="pro-info clearfix">
+            <div class="pro-info-left col-sm-2">商品信息</div>
+            <div class="pro-info-right col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>平台分类：</label>
+                    <div class="col-sm-10">
+                        @Html.HiddenFor(p => p.CategoryId, new
+                        {
+                            id = "categoryId"
+                        })
+                        <input type="hidden" id="sourceCategoryId" value="@Model.CategoryId"/>
+                        <span id="selectCategoryPath" class="lh30 h30 inline-block"></span>
+                        <a style="margin-left:15px;cursor:pointer" class="btn step" step="step1">编辑</a>
+                    </div>
+                </div>
+                <div class="form-group j_productType" style="display:none">
+                    <label class="col-sm-2 control-label" for="">商品类型：</label>
+                    <div class="col-sm-6">
+                        <label class="radio-inline" for="type1" style="@Html.Raw(Model.ProductType==0?"":"display:none")"><input type="radio" value="0" name="ProductType" id="type1" @Html.Raw(Model.ProductType == 0 ? "checked" : "")/><label for="type1">实物商品</label></label>
+                        <label class="radio-inline" for="type2" style="@Html.Raw(Model.ProductType==1?"":"display:none")"><input type="radio" value="1" name="ProductType" id="type2" @Html.Raw(Model.ProductType == 1 ? "checked" : "")/><label for="type2">虚拟商品</label></label>
+                        @Html.HiddenFor(p => p.ProductType, Model.ProductType)
+                        <p class="open-tips help-block">(发布后不能修改)</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">品牌：</label>
+                    <div class="col-sm-10">
+                        <select class="form-control input-sm w250" id="brand" name="BrandId">
+                            <option value="0">请选择品牌</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>商品名称：</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(p => p.ProductName, new
+                        {
+                            @class = "form-control input-sm w350"
+                        })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">广告词：</label>
+                    <div class="col-sm-4">
+                        <textarea class="form-control input-sm w350" name="ShortDescription" rows="5" cols="20">@(Model.ShortDescription)</textarea>
+                    </div>
+                </div>
+                @if (canLadder)
+                {
+                    <div class="form-group j_ladder_1">
+                        <label class="col-sm-2 control-label" for="">阶梯批发：</label>
+                        <div class="col-sm-10">
+                            <div class="onoffswitch">
+                                @if (Model.IsOpenLadder)
+                                {
+                                    <input type="checkbox" name="IsOpen" class="onoffswitch-checkbox" id="ckbLadder" checked>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="IsOpen" class="onoffswitch-checkbox" id="ckbLadder">
+                                }
+                                <label class="onoffswitch-label" for="ckbLadder">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                            <span class="open-tips Sclear-P46" style="display:inline"><i></i>开启后可设置不同数量级下商品单价，同一个商品下所有规格的定价变成相同</span>
+                        </div>
+                    </div>
+                    <div class="form-group ladder j_ladder_2 @(Model.IsOpenLadder ? "" : "hidden")">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8">
+                            <table class="table table-bordered sku" id="LadderPrices">
+                                <thead>
+                                    <tr>
+                                        <th width="60%">起购量</th>
+                                        <th width="30%">产品单价</th>
+                                        <th width="10%">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="catePriceBody">
+                                    @if (Model.LadderPrices != null && Model.LadderPrices.Any())
+                                    {
+                                        for (int i = 0; i < Model.LadderPrices.Count(); i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    起购量<input class="form-control input-sm pro-num valid" data-val="true"
+                                                              data-val-number="字段 MaxBath 必须是一个数字。" data-val-required="请输入购买数量" id="MinBath@i"
+                                                              min="1" name="Prices[@i].MinBath" type="text" value="@Model.LadderPrices[i].MinBath" />以上
+                                                </td>
+                                                <td>
+                                                    <input class="form-control price valid" data-val="true"
+                                                           data-val-number="字段 Price 必须是一个数字。" data-val-required="请输入产品单价"
+                                                           id="SalePrice@i" min="0.01"
+                                                           name="Prices[@i].Price" type="text" value="@Model.LadderPrices[i].Price" />元
+                                                </td>
+                                                <td><span class="del" style="cursor:pointer; ">删除</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                起购量<input class="form-control input-sm pro-num valid" data-val="true"
+                                                          data-val-number="字段 MaxBath 必须是一个数字。" data-val-required="请输入购买数量" id="MinBath0"
+                                                          min="1" name="Prices[0].MinBath" type="text" value="0" />以上
+                                            </td>
+                                            <td>
+                                                <input class="form-control price valid" data-val="true"
+                                                       data-val-number="字段 SalePrice 必须是一个数字。" data-val-required="请输入产品单价"
+                                                       id="Price" min="0.01"
+                                                       name="Prices[0].Price" type="text" value="0.01" />元
+                                            </td>
+                                            <td><span class="del" style="cursor:pointer; ">删除</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <a style="cursor: pointer;display: inline-block;margin:8px 0 20px 0px;text-decoration:none;" id="createLadderPrices">
+                                <span class="glyphicon glyphicon-plus-sign" style="margin-right:10px;"></span>增加批发阶梯
+                            </a>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>商城价：</label>
+                    <div class="col-sm-2">
+                        @{
+                            var htmlAttributes = new Dictionary<string, object>();
+                            htmlAttributes.Add("id", "txtMallPrice");
+                            htmlAttributes.Add("class", "form-control input-sm w120 inline price");
+                            htmlAttributes.Add("onchange", "$('#skuExs_salePrice').val(this.value)");
+                            htmlAttributes.Add("min", "0.01");
+                            if (Model.HasSKU)
+                            {
+                                htmlAttributes.Add("readonly", "readonly");
+                            }
+                        }
+                        @Html.TextBoxFor(p => p.MinSalePrice, htmlAttributes)
+                    </div>
+                    <div class="col-sm-2"><span class="Sclear-P40">元 (精确到0.01)</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">市场价：</label>
+                    <div class="col-sm-2">
+                        @Html.TextBoxFor(p => p.MarketPrice, new
+                        {
+                            @class = "form-control input-sm w120 price"
+                        })
+                    </div>
+                    <div class="col-sm-2"><span class="Sclear-P40">元 (精确到0.01)</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>库存：</label>
+                    <div class="col-sm-10">
+                        @{
+                            var stockAttributes = new Dictionary<string, object>();
+                            stockAttributes.Add("id", "txtStock");
+                            stockAttributes.Add("class", "form-control input-sm w120 input-int-num");
+                            stockAttributes.Add("onchange", "$('#skuExs_stock').val(this.value)");
+                            if (Model.HasSKU)
+                            {
+                                stockAttributes.Add("readonly", "readonly");
+                            }
+                        }
+                        @Html.TextBoxFor(p => p.Stock, stockAttributes)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>商品货号：</label>
+                    <div class="col-sm-10">
+                        @{
+                            htmlAttributes = new Dictionary<string, object>();
+                            htmlAttributes.Add("class", "form-control input-sm w120");
+                        }
+                        @Html.TextBoxFor(p => p.ProductCode, htmlAttributes)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>计量单位：</label>
+                    <div class="col-sm-2">
+                        @{
+                            htmlAttributes = new Dictionary<string, object>();
+                            htmlAttributes.Add("class", "form-control input-sm w120");
+                            htmlAttributes.Add("id", "txtMeasureUnit");
+                        }
+                        @Html.TextBoxFor(p => p.MeasureUnit, htmlAttributes)
+                    </div>
+                    <div class="col-sm-6"><span class="Sclear-P40">单位名称不能带数字，例如可填写：件、克、个、KG等</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>限购数：</label>
+                    <div class="col-sm-2">
+                        @{
+                            htmlAttributes = new Dictionary<string, object>();
+                            htmlAttributes.Add("class", "form-control input-sm w120 inline input-int-num");
+                            htmlAttributes.Add("id", "txtMaxBuyCount");
+                        }
+                        @Html.TextBoxFor(p => p.MaxBuyCount, htmlAttributes)
+                    </div>
+                    <div class="col-sm-6"><span class="Sclear-P40">单个ID最多购买数量，0表示不限制</span></div>
+                </div>
+
+                <div class="form-group safestock @(Model.HasSKU?"hidden":"")">
+                    <label class="col-sm-2 control-label" for="">警戒库存：</label>
+                    <div class="col-sm-10">
+                        @{
+                            htmlAttributes = new Dictionary<string, object>();
+                            htmlAttributes.Add("class", "form-control input-sm w120 input-int-num");
+                            htmlAttributes.Add("id", "txtSafeStock");
+                            htmlAttributes.Add("onchange", "$('#skuExs_safeStock').val(this.value)");
+                        }
+                        @Html.TextBoxFor(p => p.SafeStock, htmlAttributes)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>商家分类：</label>
+                    <div class="col-sm-8 goodscate">
+                        <table class="table table-bordered" id="tableCategory">
+                            <thead>
+                                <tr><th>需要关联的分类</th><th class="td-operate">操作</th></tr>
+                            </thead>
+                            <tbody id="cateBody">
+                                @*
+        @helper categorySelect(long? defaultId)
+        {
+        <tr>
+            <td>
+                <select name="GoodsCategory">
+                    <option value="0">请选择</option>
+                    @{
+                        var dic = new Dictionary<long, string>();
+                        for (int i = 0; i < Model.ShopCategorys.Count; i++)
+                        {
+                            var item = Model.ShopCategorys[i];
+                            var isParent = item.ParentCategoryId == 0;
+                            var key = isParent ? item.Id : item.ParentCategoryId;
+                            var html = string.Format("<option value='{0}'{1}>{2}{3}</option>", item.Id, defaultId.HasValue && item.Id == defaultId.Value ? " selected" : "", isParent ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;", item.Name);
+
+                            if (dic.ContainsKey(key))
+                            {
+                                html = isParent ? html + dic[key] : (dic[key] + html);
+                            }
+                            dic[key] = html;
+                        }
+                    }
+                    @Html.Raw(string.Join("", dic.Values.ToArray()))
+                </select>
+            </td>
+            <td><span class="del" style="cursor:pointer; ">删除</span></td>
+        </tr>
+        }
+                                *@
+
+
+                                @if (Model.GoodsCategory != null && Model.GoodsCategory.Length > 0)
+                                {
+                                    foreach (var item in Model.GoodsCategory)
+                                    {
+
+                                        @*
+                 Model.DefaultId = item;
+                // categorySelect(item)
+                                     Html.Partial("_CategorySelect", Model);
+
+                                        *@
+                                        //////////////////
+
+                                        <tr>
+                                            <td>
+                                                <select name="GoodsCategory">
+                                                    <option value="0">请选择</option>
+                                                    @{
+
+
+                                                        long defaultId = 0;
+                                                        var dic = new Dictionary<long, string>();
+                                                        for (int i = 0; i < Model.ShopCategorys.Count; i++)
+                                                        {
+                                                            defaultId = item;
+                                                            var item1 = Model.ShopCategorys[i];
+                                                            var isParent = item1.ParentCategoryId == 0;
+                                                            var key = isParent ? item1.Id : item1.ParentCategoryId;
+                                                            var html = string.Format("<option value='{0}'{1}>{2}{3}</option>", item1.Id, (item1 != null) && item1.Id == defaultId ? " selected" : "", isParent ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;", item1.Name);
+
+                                                            if (dic.ContainsKey(key))
+                                                            {
+                                                                html = isParent ? html + dic[key] : (dic[key] + html);
+                                                            }
+                                                            dic[key] = html;
+                                                        }
+                                                    }
+                                                    @Html.Raw(string.Join("", dic.Values.ToArray()))
+                                                </select>
+                                            </td>
+                                            <td><span class="del" style="cursor:pointer; ">删除</span></td>
+                                        </tr>
+
+
+                                        ////////////////////////
+
+                                    }
+                                }
+                                else
+                                {
+                                    @*
+             Model.DefaultId = null;
+            categorySelect(null)
+            Html.Partial("_CategorySelect", Model);*@
+                                    ////////////////////
+                                    <tr>
+                                        <td>
+                                            <select name="GoodsCategory">
+                                                <option value="0">请选择</option>
+                                                @{
+
+
+                                                    long defaultId = 0;
+                                                    var dic = new Dictionary<long, string>();
+                                                    for (int i = 0; i < Model.ShopCategorys.Count; i++)
+                                                    {
+                                                        defaultId = 0;
+                                                        var item1 = Model.ShopCategorys[i];
+                                                        var isParent = item1.ParentCategoryId == 0;
+                                                        var key = isParent ? item1.Id : item1.ParentCategoryId;
+                                                        var html = string.Format("<option value='{0}'{1}>{2}{3}</option>", item1.Id, (item1 != null) && item1.Id == defaultId ? " selected" : "", isParent ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;", item1.Name);
+
+                                                        if (dic.ContainsKey(key))
+                                                        {
+                                                            html = isParent ? html + dic[key] : (dic[key] + html);
+                                                        }
+                                                        dic[key] = html;
+                                                    }
+                                                }
+                                                @Html.Raw(string.Join("", dic.Values.ToArray()))
+                                            </select>
+                                        </td>
+                                        <td><span class="del" style="cursor:pointer; ">删除</span></td>
+                                    </tr>
+
+                                    /////////////////////
+                                }
+
+
+
+                            </tbody>
+                        </table>
+                        <a style="cursor: pointer; display: inline-block; margin: 8px 0 20px 0px; text-decoration: none;" id="createCategory">
+                            <span class="glyphicon glyphicon-plus-sign" style="margin-right: 10px;"></span>增加关联分类
+                        </a>
+                        <input name="goodscateValid" goodscaterequired="true" style="width:0;border:0;padding:0" @*用于验证*@ />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pro-info clearfix">
+            <div class="pro-info-left col-sm-2">商品属性</div>
+            <div class="pro-info-right col-sm-10 pro-attr-right">
+                <div class="form-group spec hidden">
+                    <label class="col-sm-2 control-label" for="">开启规格：</label>
+                    <div class="col-sm-10">
+                        <input type="hidden" id="CurrentJoinActive" value="@(Model.CurrentJoinActive)" />
+                        <div class="onoffswitch">
+                            @if (Model.HasSKU)
+                            {
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox @(!string.IsNullOrWhiteSpace(Model.CurrentJoinActive)?"disabled":"")" id="ckbSpecifications" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox  @(!string.IsNullOrWhiteSpace(Model.CurrentJoinActive)?"disabled":"")" id="ckbSpecifications">
+                            }
+                            <label class="onoffswitch-label  @(!string.IsNullOrWhiteSpace(Model.CurrentJoinActive)?"disabled":"")" for="ckbSpecifications">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        @if (Model.HasSKU && string.IsNullOrWhiteSpace(Model.CurrentJoinActive))
+                        {
+                            <a id="changeSpecification" style="display:inline;cursor:pointer;">修改规格</a>
+                        }
+                        else
+                        {
+                            <a class="hidden" id="changeSpecification" style="display:inline;cursor:pointer;">修改规格</a>
+                        }
+
+                        <span class="open-tips Sclear-P46"><i></i>开启规格后可根据规格设置不同的价格、库存及主图</span>
+                    </div>
+                </div>
+                <div class="form-group spec hidden j_spec">
+                    <label class="col-sm-2 control-label" for="">商品规格：</label>
+                    <div class="col-sm-10" id="skusDiv">
+                        @if (Model.HasSKU)
+                        {
+                            var hasVersion = Model.SKUExs.Any(p => !string.IsNullOrWhiteSpace(p.Version));
+                            var hasColor = Model.SKUExs.Any(p => !string.IsNullOrWhiteSpace(p.Color));
+                            var hasSize = Model.SKUExs.Any(p => !string.IsNullOrWhiteSpace(p.Size));
+                            var colspan = 0;
+                            colspan += (hasVersion ? 1 : 0) + (hasColor ? 1 : 0) + (hasSize ? 1 : 0);
+
+                            var imgTableData = Model.SKUExs.Where(p => p.ColorId > 0).GroupBy(p => p.ColorId).Select(p => new
+                            {
+                                p.Key,
+                                Value = p.FirstOrDefault()
+                            });
+                            if (imgTableData.Any())
+                            {
+                                <table class="table table-bordered img">
+                                    <thead>
+                                        <tr>
+                                            <th class="j_FirstAliasName"><label name="Color_Alias_Img"></label></th>
+                                            <th>
+                                                图片（可不上传，建议尺寸700*700）
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in imgTableData)
+                                        {
+                                            <tr id="1_@item.Key" data-name="Color" data-value="@item.Value.Color">
+                                                <td class="j_colorName">@item.Value.Color</td>
+                                                <td class="table-img-file">
+                                                    <div class="upload_pic" data-src="@Mall.Core.MallIO.GetImagePath(item.Value.ShowPic)?r=@(new Random().Next())" >
+                                                        <input type="hidden" value="@Mall.Core.MallIO.GetImagePath(item.Value.ShowPic)" />
+                                                    </div>
+                                                    @if (string.IsNullOrWhiteSpace(item.Value.ShowPic))
+                                                    {
+                                                        <a class="hidden reset pic">删除</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="reset pic">删除</a>
+                                                    }
+                                                    <input class="upload pic" type="button" value="选择文件" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+
+                            <div class="form-inline batch-attr-setting text-right">
+                                <div class="form-group">
+                                    <label class="label-inline w75">批量设置:</label>
+                                    <input class="form-control input-sm w95 openladder @(Model.IsOpenLadder ? "hidden" : "")" placeholder="商城价" for="SalePrice" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control input-sm w95" placeholder="库存" for="Stock" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control input-sm w95 input-int-num" placeholder="警戒库存" for="SafeStock" />
+                                </div>
+                                <div class="form-group">
+                                    <span class="btn btn-default">确定</span>
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered sku mt20">
+                                <thead>
+                                    <tr>
+                                        @if (hasVersion)
+                                        {
+                                            <th><label name="Version_Alias"></label></th>
+                                        }
+                                        @if (hasColor)
+                                        {
+                                            <th><label name="Color_Alias"></label></th>
+                                        }
+                                        @if (hasSize)
+                                        {
+                                            <th><label name="Size_Alias"></label></th>
+                                        }
+                                        <th class="openladder @(Model.IsOpenLadder ? "hidden" : "")"><span class="red">*</span>商城价</th>
+                                        <th><span class="red">*</span>库存</th>
+                                        <th>警戒库存</th>
+                                        <th>货号</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (var i = 0; i < Model.SKUExs.Length; i++)
+                                    {
+                                        var sku = Model.SKUExs[i];
+                                        <tr version="@sku.Version" color="@sku.Color" size="@sku.Size">
+                                            @if (!string.IsNullOrWhiteSpace(sku.Version))
+                                            {
+                                                <td>
+                                                    <label>@sku.Version</label>
+                                                    <input name="SKUExs[@i].Version" type="hidden" value="@sku.Version">
+                                                    <input name="SKUExs[@i].VersionId" type="hidden" value="@sku.VersionId">
+                                                </td>
+                                            }
+                                            @if (!string.IsNullOrWhiteSpace(sku.Color))
+                                            {
+                                                <td>
+                                                    <label>@sku.Color</label>
+                                                    <input name="SKUExs[@i].Color" type="hidden" value="@sku.Color">
+                                                    <input name="SKUExs[@i].ColorId" type="hidden" value="@sku.ColorId">
+                                                </td>
+                                            }
+                                            @if (!string.IsNullOrWhiteSpace(sku.Size))
+                                            {
+                                                <td>
+                                                    <label>@sku.Size</label>
+                                                    <input name="SKUExs[@i].Size" type="hidden" value="@sku.Size">
+                                                    <input name="SKUExs[@i].SizeId" type="hidden" value="@sku.SizeId">
+                                                </td>
+                                            }
+                                            <td class="openladder @(Model.IsOpenLadder ? "hidden" : "")">
+                                                @Html.TextBoxFor(p => p.SKUExs[i].SalePrice, new { @class = "form-control", onchange = "SKUSalePriceChange(this)" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(p => p.SKUExs[i].Stock, new { @class = "form-control input-int-num", onchange = "SKUStockChange(this)" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(p => p.SKUExs[i].SafeStock, new { @class = "form-control input-int-num" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(p => p.SKUExs[i].Sku, new { @class = "form-control pro-num", onblur= "validSku()" })
+                                                <input name="SKUExs[@i].ShowPic" type="hidden" value="@sku.ShowPic">
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+                <div class="form-group" id="attrDivParent">
+                    <label class="col-sm-2 control-label" for="">商品属性：</label>
+                    <div class="col-sm-10" id="attrDiv">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pro-info clearfix j_virtualProductSet" style="@Html.Raw(Model.Id>0&&Model.ProductType==1?"":"display:none")">
+            <div class="pro-info-left col-sm-2">虚拟商品设置</div>
+            <div class="pro-info-right col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>设置商品有效期：</label>
+                    <div class="col-sm-10">
+                    		<input style="margin-right: 6px;vertical-align: text-bottom;margin-top: 4px;" type="radio" value="false" name="ValidityType" id="validityType1" @Html.Raw(Model.ValidityType ? "" : "checked") @Html.Raw(Model.Id > 0 ? "disabled" : "") /><label class="mr20" for="validityType1">长期有效</label>
+                    		<input class="mr10" style="vertical-align: text-bottom;margin-top: 4px;" type="radio" value="true" name="ValidityType" id="validityType2" @Html.Raw(Model.ValidityType ? "checked" : "") @Html.Raw(Model.Id > 0 ? "disabled" : "") /><label class="mr20" for="validityType2">自定义日期</label>
+
+                        <label>
+                            @Html.TextBoxFor(p => p.StartDate, new
+                             {
+                                 @class = "form-control input-sm w100 start_datetime input-inline",
+                                 disabled = "disabled"
+                             })至
+                            @Html.TextBoxFor(p => p.EndDate, new
+                           {
+                               @class = "form-control input-sm w100 end_datetime input-inline",
+                               disabled = "disabled"
+                           })
+                            </label>
+
+                            <p class="open-tips help-block">
+                                (发布后不可修改；举例：某湖南大剧院门票1月1日至1月20日有效,此时间段内可下单可使用，1月1日前可下单但无法使用，
+                                1月20后不可下单且无法使用)
+                            </p>
+</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>退款设置：</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline" for="refundType2"><input type="radio" @Html.Raw(Model.Id > 0 ? "disabled" : "") value="2" name="SupportRefundType" id="refundType2" @Html.Raw(Model.SupportRefundType == Mall.Entities.ProductInfo.SupportVirtualRefundType.SupportAnyTime ? "checked" : "") @Html.Raw(Model.Id == 0 ? "checked" : "") /><label for="refundType2">@Html.Raw(Model.ValidityType ? "过期和未过期前都可退" : "支持退款")</label></label> 
+                            <label class="radio-inline" for="refundType1" style="@Html.Raw(Model.ValidityType?"":"display:none" )"><input type="radio" @Html.Raw(Model.Id > 0 ? "disabled" : "") value="1" name="SupportRefundType" id="refundType1" @Html.Raw(Model.SupportRefundType == Mall.Entities.ProductInfo.SupportVirtualRefundType.SupportValidity ? "checked" : "")/><label for="refundType1">未过期前可退款</label></label> 
+                            <label class="radio-inline" for="refundType3"><input type="radio" @Html.Raw(Model.Id > 0 ? "disabled" : "") value="3" name="SupportRefundType" id="refundType3" @Html.Raw(Model.SupportRefundType == Mall.Entities.ProductInfo.SupportVirtualRefundType.NonSupport ? "checked" : "") /><label for="refundType3">不支持退款</label></label>
+                            <p class="open-tips help-block j_refund" style="@Html.Raw(Model.ValidityType?"":"display:none")">
+                                (过期可退，系统会自动发起退款)
+                            </p>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>核销码生效时间：</label>
+                    <div class="col-sm-10">
+                        <label for="effectiveType1" class="radio-inline"><input type="radio" value="1" name="EffectiveType" id="effectiveType1" @Html.Raw(Model.EffectiveType == Mall.Entities.ProductInfo.VirtualProductEffectiveType.Immediately ? "checked" : "") @Html.Raw(Model.Id == 0 ? "checked" : "") /><label for="effectiveType1">立即生效</label></label>
+                        <label for="effectiveType2" class="radio-inline"><input type="radio" value="2" name="EffectiveType" id="effectiveType2" @Html.Raw(Model.EffectiveType == Mall.Entities.ProductInfo.VirtualProductEffectiveType.AfterPayment ? "checked" : "") /><label for="effectiveType2">付款完成</label></label>
+                        <label class="mr10" style="vertical-align: -webkit-baseline-middle;">
+                            @Html.TextBoxFor(p => p.Hour, new
+                       {
+                           @class = "form-control input-number w40 input-inline",
+                           maxlength = 6,
+                           onkeyup = @"(this.v = function () { this.value = this.value.replace(/[^\d]/g,''); }).call(this)"
+                       })小时后生效
+                            </label>
+
+                        <label for="effectiveType3" class="radio-inline"><input type="radio" value="3" name="EffectiveType" id="effectiveType3" @Html.Raw(Model.EffectiveType == Mall.Entities.ProductInfo.VirtualProductEffectiveType.Morrow ? "checked" : "") /><label for="effectiveType3">次日生效</label></label> 
+</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">使用须知：</label>
+                    <div class="col-sm-4">
+                        @Html.TextAreaFor(p => p.UseNotice, new
+                   {
+                       @class = "form-control input-sm w350",
+                       placeholder = "请填写重要的使用信息，最多100个字",
+                       maxlength = 100
+                   })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">用户信息项：</label>
+                    <div class="col-sm-10 form-inline">
+                        @if (Model.VirtualProductItemInfo != null && Model.VirtualProductItemInfo.Count() > 0)
+                        {
+                            for (int i = 0; i < Model.VirtualProductItemInfo.Length; i++)
+                            {
+                                <div class="j_item clearfix mb10">
+                                    <input type="text" class="form-control input-sm w75 j_item_info" value="@Model.VirtualProductItemInfo[i].Name" name="VirtualProductitemInfo[@i].Name" maxlength="10" />
+                                    @Html.DropDownList("VirtualProductitemInfo[" + i + "].Type", ((IEnumerable<SelectListItem>)Mall.Entities.ProductInfo.VirtualProductItemType.Text.ToSelectList(false)).Select(a => new SelectListItem() { Value = a.Value, Text = a.Text, Selected = sbyte.Parse(a.Value) == (sbyte)Model.VirtualProductItemInfo[i].Type }).ToList(), new { @class = "form-control input-sm j_itemType w115" })
+                                    <div class="checkbox-inline">
+                                        <input type="checkbox" value="@Html.Raw(Model.VirtualProductItemInfo[i].Required?true:false)" id="Required" class="j_required" @Html.Raw(Model.VirtualProductItemInfo[i].Required ? "checked" : "") name="VirtualProductitemInfo[@i].Required" />必填
+                                        <a class="del-item mt10 ml5" style="cursor:pointer;">删除</a>
+                                        <span class="open-tips Sclear-P46" style="display:inline">
+                                            @(i != 0 ? "" : "(勾选必填后，前端买家提交订单时必须填写，否则无法提交订单)")
+                                        </span><br />
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="j_item clearfix mb10" style="@Html.Raw(Model.Id==0?"":"display:none")">
+                                <input type="text" class="form-control input-sm w75 j_item_info" value="" name="VirtualProductitemInfo[0].Name" maxlength="10" />
+                                <select class="form-control input-sm w115 j_itemType" id="VirtualProductItemType" name="VirtualProductitemInfo[0].Type">
+                                    <option value="1">文本格式</option>
+                                    <option value="2">日期</option>
+                                    <option value="3">时间</option>
+                                    <option value="4">身份证</option>
+                                    <option value="5">数字格式</option>
+                                    <option value="6">图片</option>
+                                </select>
+                                <div class="checkbox-inline">
+                                    <input type="checkbox" value="false" id="Required" class="j_required" name="VirtualProductitemInfo[0].Required" />必填<a class="del-item mt10 ml5" style="cursor:pointer;">删除</a>
+                                    <span class="open-tips Sclear-P46" style="display:inline">
+                                        (勾选必填后，前端买家提交订单时必须填写，否则无法提交订单)
+                                    </span>
+
+                                    </div>
+                                         
+                                    <br />
+                                </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a class="j_addItem mr20" style="cursor: pointer;"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp; 添加字段</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pro-info clearfix j_freightTemplates"  style="@Html.Raw(Model.ProductType==1?"display:none":"")">
+            <div class="pro-info-left col-sm-2">物流信息</div>
+            <div class="pro-info-right col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>运费模板：</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(p => p.FreightTemplateId, Model.FreightTemplates.Select(ft => new SelectListItem()
+                        {
+                            Selected = Model.FreightTemplateId == ft.Id,
+                            Value = ft.Id.ToString(),
+                            Text = ft.Name + (ft.ValuationMethod == Mall.CommonModel.ValuationMethodType.Weight ? "【按重量】" : (ft.ValuationMethod == Mall.CommonModel.ValuationMethodType.Bulk ? "【按体积】" : ""))
+                        }), "请选择运费模板", new
+                        {
+                            @class = "input-sm w260"
+                        })
+                        <a style="cursor: pointer;display: inline-block;margin:8px 0 20px 0px;text-decoration:none;" id="addFreightTemplate">
+                            <span class="glyphicon glyphicon-plus-sign" style="margin-right:10px;"></span>新增运费模版
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group" id="divVolume">
+                    <label for="" class="col-sm-2 control-label"><span class="red">*</span>体积(M<sup>3</sup>)：</label>
+                    <div class="col-sm-4">
+                        @{
+                            htmlAttributes = new Dictionary<string, object>();
+                            htmlAttributes.Add("class", "form-control input-sm w120");
+                            htmlAttributes.Add("id", "txtMeasureUnit");
+                        }
+                        @Html.TextBoxFor(p => p.Volume, htmlAttributes)
+                    </div>
+                </div>
+                <div class="form-group" id="divWeight">
+                    <label for="" class="col-sm-2 control-label"><span class="red">*</span>重量(kg)：</label>
+                    <div class="col-sm-4">
+                        @{
+                            htmlAttributes = new Dictionary<string, object>();
+                            htmlAttributes.Add("class", "form-control input-sm w120");
+                            htmlAttributes.Add("id", "txtMeasureUnit");
+                        }
+                        @Html.TextBoxFor(p => p.Weight, htmlAttributes)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="txtCategoryPath" name="CategoryPath" type="hidden" value="@(Model.CategoryPath)" />
+        <input id="txtTypeId" name="TypeId" type="hidden" value="@(Model.TypeId)" />
+        @{var hasSKU = Model.SKUExs != null && Model.SKUExs.Length > 0;}
+        <input id="skuExs_salePrice" name="SKUExs[0].SalePrice" type="hidden" value="@(hasSKU ? Model.SKUExs[0].SalePrice : 0)" />
+        <input id="skuExs_costPrice" name="SKUExs[0].CostPrice" type="hidden" value="@(hasSKU ? Model.SKUExs[0].CostPrice : 0)" />
+        <input id="skuExs_stock" name="SKUExs[0].Stock" type="hidden" value="@(hasSKU ? Model.SKUExs[0].Stock : 0)" />
+        <input id="skuExs_safeStock" name="SKUExs[0].SafeStock" type="hidden" value="@(hasSKU ? Model.SKUExs[0].SafeStock : 0)" />
+        <input type="hidden" id="HasSKU" value="@(Model.HasSKU ? 1 : 0)" />
+        <input type="hidden" id="ColorAlias" name="ColorAlias" value="@Model.ColorAlias" />
+        <input type="hidden" id="SizeAlias" name="SizeAlias" value="@Model.SizeAlias" />
+        <input type="hidden" id="VersionAlias" name="VersionAlias" value="@Model.VersionAlias" />
+        <input type="hidden" id="VideoPath" name="VideoPath" value="@Model.VideoPath" />
+        <input type="hidden" id="ShopDisplaySequence" name="ShopDisplaySequence" value="@Model.ShopDisplaySequence" />
+        <input type="hidden" id="productId" value="@Model.Id"/>
+        <div class="pro-detail-btn clearfix">
+            <span class="btn btn-default step" step="step1">上一步</span>
+            <span class="btn btn-default step needValid fr Sclear-P71" step="step3">下一步</span>
+        </div>
+    </div>
+
+    <div class="form-horizontal step step3 hidden" id="release-detail">
+        <div class="pro-info clearfix">
+            <div class="pro-info-left col-sm-2">详情描述</div>
+            <div class="pro-info-right col-sm-10 pro-attr-right">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>主图：</label>
+                    <div class="col-sm-10 pics">
+                        @{
+                                Func<int,bool, string> getImagePath = (i,thumb) =>
+                                {
+                                    if (Model.Pics != null && Model.Pics.Length > i)
+                                        return Model.Pics[i];
+
+                                    if (string.IsNullOrEmpty(Model.ImagePath))
+                                        return null;
+
+                                    if (Mall.Core.MallIO.ExistFile(Model.RelativePath + string.Format("/{0}.png", i + 1)))
+                                    {
+                                        if (thumb)
+                                        {//缩略图,默认50
+                                            return string.Format("{0}/{1}_50.png?r={2}", Model.ImagePath, i + 1, new Random().Next());
+                                        }
+                                        return string.Format("{0}/{1}.png?r={2}", Model.ImagePath, i + 1, new Random().Next());
+                                    }
+                                    else
+                                        return null;
+                                };
+                            }
+                        <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(0,true)')"><input type="hidden" name="Pics[0]" value="@getImagePath(0,false)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                        <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(1,true)')"><input type="hidden" name="Pics[1]" value="@getImagePath(1,false)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                        <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(2,true)')"><input type="hidden" name="Pics[2]" value="@getImagePath(2,false)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                        <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(3,true)')"><input type="hidden" name="Pics[3]" value="@getImagePath(3,false)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+                        <div class="product pic"><div class="upload_pic" style="background-image:url('@getImagePath(4,true)')"><input type="hidden" name="Pics[4]" value="@getImagePath(4,false)" /></div><span class="upload pic btn">上传图片</span><i class="del hide">x</i></div>
+
+                        <input name="picsValid" picrequired="true" style="width:0;border:0;padding:0" @*用于验证*@ />
+                        <div class="Sclear-P66"><i class="light-0"></i>主图至少上传一张，建议尺寸：700*700，支持gif、png、jpg、jpeg格式，大小不超过2M</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">主图视频：</label>
+                    <div class="col-sm-10 pics" style="margin-bottom:10px;">
+                        <div class="product pic"><div class="upload_video"><input type="hidden" name="" value="" /></div><span class="upload video btn">+添加视频</span><i class="del hide">x</i></div>
+                        <div class="graph j_graph" style="display:none">
+                            <strong id="bar" style="width:1%;">1%</strong>
+                        </div>
+                        <div class="Sclear-P66" style="color:#6b6c6e"><i class="light-0"></i>视频时长建议9-30秒，视频大小不超过 30 MB，建议宽高比16:9，支持的视频格式MP4</div>
+                        <div class="preview" style="@Html.Raw(string.IsNullOrWhiteSpace(Model.VideoPath)?"display:none":"" )">
+                            <video class="lib-video j_preview" controls="controls" width="320" height="240" poster="@getImagePath(0,false)" src="@Model.VideoPath" type="video/mp4"></video>
+                        </div>
+                        <a style="cursor:pointer;@Html.Raw(string.IsNullOrWhiteSpace(Model.VideoPath)?"display:none":"" )" class="j_delvideo">删除视频</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>商品描述：</label>
+
+                    <div class="col-sm-10 des">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a style="padding:8px 20px; cursor: pointer;">PC端</a></li>
+                            <li class="mdes"><a style="padding:8px 20px; cursor: pointer;">移动端</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <script id="desContainer" name="Description.Description" type="text/plain" style="width:100%; height:250px;">
+                                    @if (Model.Description != null && !string.IsNullOrEmpty(Model.Description.Description))
+                                    {
+                                        @*@Html.Raw(Model.Description.Description)*@
+                                    }
+                                </script>
+                            </div>
+                            <div class="tab-pane">
+                                <script id="mdesContainer" name="Description.MobileDescription" type="text/plain" style="width:100%; height:250px;">
+                                    @if (Model.Description != null && !string.IsNullOrEmpty(Model.Description.MobileDescription))
+                                    {
+                                        @*@Html.Raw(Model.Description.MobileDescription)*@
+                                    }
+                                </script>
+                            </div>
+                            <div style="display:none">
+                                <textarea id="oldDes" disabled>@(Model.Description != null ? Model.Description.Description : "")</textarea>
+                                <textarea id="oldMobileDes" disabled>@(Model.Description != null ? Model.Description.MobileDescription : "")</textarea>
+                            </div>
+                        </div>
+                        <input name="des" desrequired="true" style="width:0;border:0;padding:0" @*用于验证*@ />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">版式：</label>
+                    <div class="col-sm-5">
+                        <select class="form-control input-sm" name="Description.DescriptionPrefixId">
+                            <option value="0">请选择顶部版式</option>
+                            @foreach (var item in Model.DescriptionTemplates)
+                            {
+                                if (item.Position == Mall.Entities.ProductDescriptionTemplateInfo.TemplatePosition.Top)
+                                {
+                                    if (Model.Description != null && item.Id == Model.Description.DescriptionPrefixId)
+                                    {
+                                        <option value="@item.Id" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-5">
+                        <select class="form-control input-sm" name="Description.DescriptiondSuffixId">
+                            <option value="0">请选择底部版式</option>
+                            @foreach (var item in Model.DescriptionTemplates)
+                            {
+                                if (item.Position == Mall.Entities.ProductDescriptionTemplateInfo.TemplatePosition.Bottom)
+                                {
+                                    if (Model.Description != null && item.Id == Model.Description.DescriptiondSuffixId)
+                                    {
+                                        <option value="@item.Id" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pro-detail-btn clearfix">
+            <span class="btn btn-default step" step="step2">上一步</span>
+            <input id="submit" class="btn btn-default Sclear-P71 fr" type="submit" value="发布商品" />
+            @if (!isEdit || Model.SaleStatus == Mall.Entities.ProductInfo.ProductSaleStatus.InDraft)
+            {
+                <input id="inDraft" class="btn btn-default  fr" type="submit" value="存入草稿箱" />}
+        </div>
+    </div>
+</div>
+
+<div class="hidden">
+    <div id="specificationsDiv"></div>
+    <input type="hidden" id="CurFTVM" name="CurFTVM" value="@(curft!=null?curft.ValuationMethod.GetHashCode():0)" />"
+</div>
+<input type="hidden" id="ColorAlias" name="ColorAlias" />
+<input type="hidden" id="SizeAlias" name="SizeAlias" />
+<input type="hidden" id="VersionAlias" name="VersionAlias" />

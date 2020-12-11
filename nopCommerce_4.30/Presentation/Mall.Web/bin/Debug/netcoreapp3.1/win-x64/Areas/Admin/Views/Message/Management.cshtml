@@ -1,0 +1,69 @@
+﻿@using Mall.Core;
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+ <script src="~/Areas/Admin/Scripts/MessageManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li value="" class="active"><a>管理</a></li>
+        @foreach (var messagePlugin in Model)
+        {
+            <li><a href="edit?pluginId=@(messagePlugin.pluginId)">@{@messagePlugin.name}配置</a></li>
+        }
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>消息模板主要用于需要操作或有必要通知的会员，商家信息。</span></li>
+				<li><span>消息可以以三种形式发送，邮件、短信、微信，管理员可以自由设定。</span></li>
+			</ul>
+		</div>
+	</div>
+
+    <h5 class="tips-top"><span class="help-default"><i></i>提示：第一次使用消息提示请先进行相关配置。短信消息需要先<a class="red" style="margin-left:5px;" target="_blank" href="http://sms.kuaidiantong.cn/Login.aspx">购买短信</a>。</span></h5>
+    <table class="table clear-v15">
+        <thead>
+            <tr >
+                <th style="text-align:center">消息类型</th>
+                @foreach (var messagePlugin in Model)
+                {
+                    <th style="text-align:center"> @messagePlugin.name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Mall.Core.EnumHelper.ToDescriptionDictionary<Mall.Core.Plugins.Message.MessageTypeEnum>())
+            {
+                
+                <tr style="text-align:center">
+                    <td>
+                       @d.Value
+                    </td>
+
+                    @{var flag = (Mall.Core.Plugins.Message.MessageTypeEnum)@d.Key;}
+                    @foreach (var messagePlugin in Model)
+                    {
+                        var status = messagePlugin.status as Dictionary<Mall.Core.Plugins.Message.MessageTypeEnum, Mall.Core.Plugins.Message.StatusEnum>;
+                        var curstate = status.Where(a => a.Key == flag).FirstOrDefault();
+                        var check = curstate.Value == Mall.Core.Plugins.Message.StatusEnum.Open;
+                        var disable = curstate.Value == Mall.Core.Plugins.Message.StatusEnum.Disable;
+                        <td style="text-align:center">
+                          
+                                <input type="checkbox" class="messagePlugin"  @Html.Raw(disable ? "style=\"display:none\"" : "") messagetype="@d.Key" pluginid="@messagePlugin.pluginId" @(@disable ? "disabled" : "") @(@check ? "checked" : "")>
+                           
+
+                            @*<div class="switch switch-mini" @Html.Raw(disable?"style=\"display:none\"":"")><input class="bootstrapSwitch" messagetype="@d.Key" pluginid="@messagePlugin.pluginId" type="checkbox" data-size="mini" @(@disable ? "disabled" : "") data-on-text="开启" @(@check ? "checked" : "") data-off-text="关闭" /></div>*@
+                        </td>
+                    }
+
+                </tr>
+                    
+                }
+                        
+
+        </tbody>
+    </table>
+
+</div>

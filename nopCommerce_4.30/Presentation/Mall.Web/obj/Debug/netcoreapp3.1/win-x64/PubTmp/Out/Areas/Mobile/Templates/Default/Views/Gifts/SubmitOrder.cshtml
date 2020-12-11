@@ -1,0 +1,89 @@
+﻿@model Mall.Web.Areas.Mobile.Models.GiftOrderConfirmPageModel
+@{
+    ViewBag.Title = "提交礼品订单";
+    ViewBag.ShowAside = 3;//显示浮动菜单栏、回到顶部按钮
+}
+<div class="container">
+	<div class="gift-address submit-cart">
+
+        @if (Model.ShipAddress != null)
+        {
+            <a href="@Url.Action("ChooseShippingAddress", "Order", new { area = "mobile" })?returnUrl=@HttpUtility.UrlEncode(Context.Request.GetDisplayUrl())" class="street-well" id="choiceAddr">
+            <h3>@(Model.ShipAddress.ShipTo)，@(Model.ShipAddress.Phone)</h3>
+            <p>@(Model.ShipAddress.RegionFullName) @(Model.ShipAddress.Address) @(Model.ShipAddress.AddressDetail)</p>
+            <i class="icon"></i>
+            <i class="glyphicon glyphicon-menu-right"></i>
+            </a>
+        }
+        else
+        {
+            <a class="street-well" id="choiceAddr" href="@Url.Action("ChooseShippingAddress", "Order", new { area = "mobile" })?isOrder=1&returnUrl=@HttpUtility.UrlEncode(Context.Request.GetDisplayUrl())">
+                <p>您还没有填写或更新收货地址<spa style="color:red">重新选择</spa></p>
+            </a>
+        @*<p>暂无可用的收货地址，请重新选择</p>
+        <i class="glyphicon glyphicon-menu-right"></i>*@
+        }
+</div>
+	
+@foreach (var item in Model.GiftList)
+{
+	<div class="gift-item">
+		<img src="@Mall.Core.MallIO.GetProductSizeImage(item.ImagePath, 1, (int)Mall.CommonModel.ImageSize.Size_150)" />
+		<p>@item.GiftName</p>
+		<span>@item.SaleIntegral<em>积分</em><br/>× @item.Quantity</span>
+	</div>
+}
+</div>
+<div class="gift-bottom">
+	<p class="gift-bot-txt">兑换<span>@(Model.GiftList.Sum(d => d.Quantity))</span>件礼品，<span>@(Model.TotalAmount)</span>积分</p>
+	<a class="btn-submit" id="submit">提交订单</a>
+</div>
+
+
+@Html.Hidden("shippingAddressId", (Model.ShipAddress == null ? "" : Model.ShipAddress.Id.ToString()))
+@Html.Hidden("giftid", Model.GiftList[0].GiftId)
+@Html.Hidden("count", Model.GiftList[0].Quantity)
+
+<script type="text/javascript">
+    $(function () {
+        bindSubmit();
+        window.localStorage.setItem('refer', location.href);
+    })
+    
+    //避免重复提交订单判断
+    var isSubmit = true;
+    function bindSubmit() {
+        $('#submit').click(function () {
+            if (!isSubmit) return;
+            isSubmit = false;
+            var loading = showLoading();
+
+            var giftid = $('#giftid').val();
+            var count = $('#count').val();
+            var recieveAddressId = $('#shippingAddressId').val();
+
+            recieveAddressId = parseInt(recieveAddressId);
+            recieveAddressId = isNaN(recieveAddressId) ? null : recieveAddressId;
+
+            if (!recieveAddressId) {
+                loading.close();
+                $.dialog.tips('请选择或新建收货地址');
+                isSubmit = true;
+            } else {
+                //提交订单
+                $.post('/' + areaName +'/Gifts/OrderSubmit', { id: giftid, regionId: recieveAddressId, count: count }, function (result) {
+                    if (result.success) {
+                        $.dialog.succeedTips("订单提交成功", function () {
+                            location.href = '/' + areaName + '/MyGifts/OrderList/?status=2';
+                        });                        
+                    }
+                    else {
+                        $.dialog.errorTips(result.msg);
+                        isSubmit = true;
+                    }
+                    loading.close();
+                });
+            }
+        });
+    }
+</script>

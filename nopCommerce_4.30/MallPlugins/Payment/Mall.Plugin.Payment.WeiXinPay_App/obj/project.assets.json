@@ -1,0 +1,100 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "Mall.WeiXinPaymentBase/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0",
+        "compile": {
+          "bin/placeholder/Mall.WeiXinPaymentBase.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Mall.WeiXinPaymentBase.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Mall.WeiXinPaymentBase/1.0.0": {
+      "type": "project",
+      "path": "../Mall.WeiXinPaymentBase/Mall.WeiXinPaymentBase.csproj",
+      "msbuildProject": "../Mall.WeiXinPaymentBase/Mall.WeiXinPaymentBase.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v2.2": [
+      "Mall.WeiXinPaymentBase >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Mall\\nopCommerce_4.30\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_App\\Mall.Plugin.Payment.WeiXinPay_App.csproj",
+      "projectName": "Mall.Plugin.Payment.WeiXinPay_App",
+      "projectPath": "C:\\Mall\\nopCommerce_4.30\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_App\\Mall.Plugin.Payment.WeiXinPay_App.csproj",
+      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+      "outputPath": "C:\\Mall\\nopCommerce_4.30\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_App\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp2.2"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
+          "projectReferences": {
+            "C:\\Mall\\nopCommerce_4.30\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj": {
+              "projectPath": "C:\\Mall\\nopCommerce_4.30\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp2.2": {
+        "targetAlias": "netcoreapp2.2",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Mall.WeiXinPaymentBase is not compatible with netcoreapp2.2 (.NETCoreApp,Version=v2.2). Project Mall.WeiXinPaymentBase supports: netcoreapp3.1 (.NETCoreApp,Version=v3.1)",
+      "libraryId": "Mall.WeiXinPaymentBase",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.2"
+      ]
+    }
+  ]
+}

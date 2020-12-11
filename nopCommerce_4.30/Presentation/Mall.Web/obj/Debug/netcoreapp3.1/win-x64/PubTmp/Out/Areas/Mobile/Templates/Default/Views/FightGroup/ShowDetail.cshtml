@@ -1,0 +1,118 @@
+﻿@model Mall.Web.Areas.Mobile.Models.FightGroupShowDetailModel
+@{
+    Layout = null;
+    var actdata = Model.ActiveData;
+}
+<div class="goods-info">
+    <div class="icon-share hide" id="dis-share">
+    	<i class="iconfonts icon-icon_-share"></i>
+        <div class="most hide" id="dis-maxbrokeragebox">最高赚 <span class="price" id="dis-maxbrokerage">￥0.00</span></div>
+    </div>
+    <div id="preheat"></div>
+    <div class="item">
+        <section class="merge-state-bar @(actdata.ActiveStatus == Mall.CommonModel.FightGroupActiveStatus.Ending?"merge-state-bar-disabled":"")">
+            <span class="text-@(Model.LimitedHourShowType == 2 ? "center" : "left")"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>成团时限：@(actdata.ShowHourOrMinute(actdata.LimitedHour.Value))</span>
+            @switch (Model.LimitedHourShowType)
+            {
+                case 1:
+                    <span class="text-right" id="showtimeout">活动截止：@(actdata.EndTime.ToString("yy.MM.dd"))</span>
+                    break;
+                case 3:
+                    @Html.Hidden("groupendsecond", (int)((Model.EndBuildGroupTime - DateTime.Now).TotalSeconds))
+                    <span class="text-right merge-state-time" id="showtimeout"></span>
+                    break;
+            }
+        </section>
+        <div class="goods-price">
+            @{
+                //string strPrice = actdata.MiniGroupPrice.ToString("f2");
+                string strPrice = string.Empty;
+                if (actdata.ActiveItems != null && actdata.ActiveItems.Count() > 0)
+                {
+                    decimal minPrice = actdata.ActiveItems.Min(t => t.ActivePrice);
+                    decimal maxPrice = actdata.ActiveItems.Max(t => t.ActivePrice);
+                    strPrice = minPrice < maxPrice ? (minPrice.ToString("f2") + " - " + maxPrice.ToString("f2")) : minPrice.ToString("f2");
+                }
+            }
+            <span class="merge-price-icon"><sub>￥</sub>@(strPrice)</span>
+            <s id="marketpricebox">￥@(Model.ProductMiniPriceByUser.ToString("f2"))</s>
+        </div>
+        <h4>@(actdata.ProductName)</h4>
+        <h5>@(actdata.ProductShortDescription)</h5>
+        <div class="salefreight" id="salefreight">
+            <span id="saleCountsSpan">销量 @(actdata.SaleVolume)@(actdata.MeasureUnit)</span>
+            <span>@(actdata.FreightStr)</span>
+            <span>@((actdata.FreightTemplate != null && !string.IsNullOrEmpty(actdata.FreightTemplate.SendTime)) ? (actdata.FreightTemplate.SendTime + "h内发货") : "")</span>
+        </div>
+    </div>
+    <div class="item promotion-wrap" id="divCoupon">
+        @Html.RenderAction("ShowPromotion", "VShop", new { id = actdata.ShopId, showcoupon = false, showfullsend = false })
+        @Html.RenderAction("ShowDepotAddress", "Product", new { ftid = actdata.FreightTemplateId })
+    </div>
+    @Html.RenderAction("ShowServicePromise", "Product", new { id = actdata.ProductId, actdata.ShopId })
+    @if (actdata.ActiveStatus == Mall.CommonModel.FightGroupActiveStatus.Ending)
+    {
+        <div class="merge-over-sign"></div>
+    }
+</div>
+<section class="merge-rule">活动规则：当您在@(actdata.ShowHourOrMinute(actdata.LimitedHour.Value))内成功邀请@(actdata.LimitedNumber)位好友参团，则火拼成功；若火拼失败，系统会自动将金额退还到预存款余额或原路退回。</section>
+
+@Html.Hidden("ets", (Model.EndBuildGroupTime - DateTime.Now).TotalSeconds)
+
+<script src="~/Areas/Mobile/Templates/Default/Scripts/FightGroupShowDetail.js?v=20183030"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<script src="~/Scripts/jquery.Mall.sku.js?v=20183030"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/FightGroupActiveDetail.js?v=20183030"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+@if (Model.LimitedHourShowType == 3)
+{
+    <script type="text/javascript">
+        $(function () {
+            // 倒计时
+            countDown($("#groupendsecond").val(), function (day, hour, minute, second) {
+                var thour = (day * 24) + hour;
+                if (thour < 9) {
+                    thour = "0" + thour;
+                }
+                var tshow = thour + "" + minute + "" + second;
+                if (parseInt(tshow, 10) <= 0) {
+                    window.location.reload();
+                }
+                var _arrtmp = tshow.split("");
+                var showhtml = "距结束";
+                for (var _i = 0; _i < _arrtmp.length; _i++) {
+                    showhtml += "<em>" + _arrtmp[_i] + "</em>";
+                }
+                $('#showtimeout').html(showhtml);
+            });
+        })
+    </script>
+}
+
+@if (Model.LimitedHourShowType == 1 && actdata.ActiveStatus == Mall.CommonModel.FightGroupActiveStatus.WillStart)
+{
+    <script type="text/javascript">
+        function fresh() {
+            var d = '@actdata.StartTime';
+            var endtime = new Date(d);
+            var nowtime = new Date();
+            var leftsecond = parseInt((endtime.getTime() - nowtime.getTime()) / 1000);
+            d = parseInt(leftsecond / 3600 / 24);
+            h = parseInt((leftsecond / 3600) % 24) + (d * 24);
+            m = parseInt((leftsecond / 60) % 60);
+            s = parseInt(leftsecond % 60);
+            d = d < 0 ? 0 : d;
+            h = h < 0 ? 0 : h;
+            m = m < 0 ? 0 : m;
+            s = s < 0 ? 0 : s;
+            var msg = "距开始还有" + h + "时" + m + "分" + s + "秒";
+            $('#showtimeout').html(msg);
+            if (leftsecond <= 0) {
+                clearInterval(sh);
+            }
+        }
+        fresh();
+        var sh;
+        sh = setInterval(fresh, 1000);
+    </script>
+}

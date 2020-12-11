@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Management";
+}
+@model Mall.Entities.CashDepositInfo
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script type="text/javascript">
+    var balance = @ViewBag.ShopAccountAmount;
+</script>
+<script src="~/Areas/SellerAdmin/Scripts/CashDeposit.js"></script>
+
+<div class="container Sclear-M5" id="divContainer">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>保证金管理</a></li>
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>保证金：平台可根据商城的一级分类设置经营该类目的商家应缴纳保证金，商家缴纳相应保证金后，可在商品详情页、店铺首页及订单列表页面出现消费者保障标识；</span></li>
+				<li><span>当商家同时经营多个一级类目时则按最高值缴纳；若平台开启七天无理由退换后，商品详情页面、店铺首页及订单列表页面将出现七天无理由退换货标识。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="form-horizontal">
+        <div class="form-group">
+
+            <label for="" class="col-sm-2 control-label">需缴纳保证金：</label>
+            <div class="col-sm-3 form-control-static">
+                <span id="needPayCashDeposit" needpay="@ViewBag.NeedPayCashDeposit">@ViewBag.NeedPayCashDeposit (元)</span>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label for="" class="col-sm-2 control-label">已缴纳保证金：</label>
+            <div class="col-sm-3 form-control-static">
+                @if (Model != null)
+                {
+                    <span>@Model.TotalBalance (元)</span>
+                }
+                else
+                {
+                    <span>0.00 (元)</span>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">当前余额：</label>
+            <div class="col-sm-3 form-control-static">
+                @if (Model != null)
+                {
+                    <span>@Model.CurrentBalance (元)</span>
+                }
+                else
+                {
+                    <span>0.00 (元)</span>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><a onclick="ShowCashDeposit()">去缴纳保证金</a></label>
+            <div class="col-sm-3" style="display:none" id="cashDeposit">
+                <input class="form-control input-sm" onkeyup="(this.v = function () { this.value = this.value.replace(/[^0-9-]+/, ''); }).call(this)" onblur="    this.v()" id="balance" type="text" style="display:inline-block; width:100px" /> (元) &nbsp; <button type="button" class="btn btn-primary btn-sm" onclick="Pay()">提交</button>
+            </div>
+        </div>
+        @if (Model != null)
+        {
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">保证金动向明细：</label>
+                <div class="col-sm-9">
+                    <table class="table table-bordered" id="shopDatagrid"></table>
+                </div>
+            </div>
+            <input type="hidden" value="@Model.Id" id="mid" />
+
+        }
+
+    </div>
+
+
+
+</div>
+
+
+<div class="dln" id="payMent">
+        <h5 class="subtit" style="margin-top:0;margin-bottom:20px;">请选择支付方式</h5>
+        <ul></ul>
+</div>
+

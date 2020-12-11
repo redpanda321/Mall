@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "门店设置";
+}
+
+@{
+    var autoAllotOrder = ViewBag.AutoAllotOrder==true;
+}
+<script src="~/Areas/SellerAdmin/Scripts/StoreSetting.js"></script>
+
+<div class="container Sclear-B">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">门店管理</a></li>
+        <li><a href="@Url.Action("Add")">新增门店</a></li>
+        <li class="active"><a>门店设置</a></li>
+        <li><a href="@Url.Action("DaDaConfig")">同城物流设置</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>门店只能由商家添加，但平台、商家都可以对门店进行冻结。</span></li>
+				<li class="mark-info"><span>注意：冻结门店后，门店商品都会下架。解冻后门店商品都需要重新上架。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="form-horizontal step step2">
+        <div class="pro-info clearfix">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">订单自动分配到门店：</label>
+                    <div class="col-sm-10">
+                        <div class="onoffswitch">
+                            @if (autoAllotOrder)
+                            {
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="ckbSpecifications" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="ckbSpecifications">
+                            }
+                            <label class="onoffswitch-label" for="ckbSpecifications">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        <span class="open-tips Sclear-P46" style="display:inline">开启时，系统根据用户的收货地址自动将订单匹配到相应的门店<br />若关闭，则订单由商家手动匹配</span>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

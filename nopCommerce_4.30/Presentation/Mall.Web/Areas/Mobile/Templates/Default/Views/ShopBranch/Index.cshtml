@@ -1,0 +1,138 @@
+﻿@using Mall.DTO
+@{
+    var shopBranch = ViewBag.ShopBranch as ShopBranch;
+    var shopCategory = ViewBag.ShopCategory as List<ShopCategory>;
+
+    var shopImages = string.IsNullOrWhiteSpace(shopBranch.ShopImages) ? "/Areas/Mobile/Templates/Default/Images/index-banner.png" : shopBranch.ShopImages;
+    ViewBag.Title = shopBranch.ShopBranchName;
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+}
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchs.css?v=20183030" rel="stylesheet" />
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchcarts.css?v=20183030" rel="stylesheet" />
+<div class="index container storeH" style="padding:0;">
+    @*<div class="index-address navigate-arrow" onclick="onMapClick(@shopBranch.Latitude,@shopBranch.Longitude,'@shopBranch.AddressDetail')">
+        @shopBranch.AddressDetail
+    </div>*@
+   <div class="head-top"> 
+   <div class="dingwei">
+        <div class="white-s"></div>
+        <div class="filter-bg"></div>
+        <div class="beijing"></div>
+        
+        <div id="storelogo" class="pic"><img src='@(string.IsNullOrEmpty(shopBranch.ShopImages)?"/Areas/Mobile/Templates/Default/Images/default-img.png":shopBranch.ShopImages)' onerror="this.onerror='';src='/Areas/Mobile/Templates/Default/Images/default-img.png'"></div>
+        <div class="plr11 ptb13 storeinfo clearfix" id="stores">
+            <div class="intro">
+                <div class="info">
+                    <h3>@shopBranch.ShopBranchName &nbsp;&nbsp;<a href="tel:@shopBranch.ContactPhone" id="WAPStoreHome_aTel" class="telphone"></a></h3>
+                    <div class="time">
+                    	营业时间：@shopBranch.StoreOpenStartTime.ToString(@"hh\:mm") - @shopBranch.StoreOpenEndTime.ToString(@"hh\:mm")
+                    	<!--<span class="commentscore"><span class="hdstars"><i class="hdstars-active" style="width:@(shopBranch.CommentScore/5*100)%"></i></span> @shopBranch.CommentScore</span>-->
+                    </div>
+                    <div class="gomap">@shopBranch.AddressDetail<a href="javascript:void(0);" onclick="onMapClick(@shopBranch.Latitude,@shopBranch.Longitude,'@shopBranch.AddressDetail')" class="locate-ic"></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="sales plr11" id="branchlist"></ul>
+    </div>
+    <script>
+    	$(function(){
+    		var top = $(".dingwei").height()+54;
+    		$(window).scroll(function(){
+    			var tops = $(document).scrollTop();
+    			
+//  			if(tops>=top){
+//  				$(".storeH .search").addClass("fixeds");
+//  				$(".index-category .categoryLeft").addClass("fixeds1");
+//  				console.log('添加');
+//  			}else if(tops<top){
+//  				$(".storeH .search").removeClass("fixeds");
+//  				$(".index-category .categoryLeft").removeClass("fixeds1");
+//  				console.log('删除');
+//  			}
+	
+    		})
+    		$("#searchtxt").focus(function(){
+    			$(".sbottom-btn").hide();
+    		});
+    		$("#searchtxt").blur(function(){
+    			$(".sbottom-btn").show();
+    		});
+    		$(".index-category").height($(document).height()-$(".categoryRight").offset().top-6);
+    	})
+    </script>
+    <span class="search plr11">
+        <form class="" action="" onsubmit="return false;">
+            <input type="search" placeholder="搜索店铺内商品" id="searchtxt" />
+            <i class="glyphicon glyphicon-search" id="searchBtn"></i>
+        </form>
+    </span>
+   
+    <div class="index-category">
+        <div class="categoryLeft" id="categoryLeft" tabindex="5000" style="overflow: hidden; outline: none;position:relative;">
+            <div style="position:absolute;width: 100%;">
+                <ul class="clearfix" id="typeList" style="height:100%;padding-bottom:50px;">
+                    <li class="cur hidden" id="-1">搜索结果</li>
+                    @for (int i = 0; i < shopCategory.Count; i++)
+                    {
+                        <li class="" id="@shopCategory[i].Id">@shopCategory[i].Name</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="categoryRight" id="categoryRight">
+            <div class="getCoupon-d hidden" id="couponlist">
+            </div>
+            <ul id="productlist"></ul>
+        </div>
+    </div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot_shopBranch.cshtml");}
+</div>
+
+<!--弹出规格开始-->
+<div class="mask hidden" id="pop-sku"></div>
+<!--弹出规格结束-->
+<!--弹出优惠券开始-->
+<div class='dialog' id="pop-coupon">
+    <div class='dialog-title'>
+        <div class='text'>领取优惠券</div>
+        <i class='dialog-close'></i>
+    </div>
+    <div class='dialog-content'>
+        <ul class='coupon-chooselist coupon-getlist' id="coupons"></ul>
+    </div>
+</div>
+<div class="cover" style="display:none;"></div>
+<!--弹出优惠券结束-->
+<!--结算上滑层开始-->
+<!--结算上滑层结束-->
+@Html.Hidden("bid", shopBranch.Id)
+@Html.Hidden("shopId", shopBranch.ShopId)
+@Html.Hidden("shopBranchId", shopBranch.Id)
+@Html.Hidden("hdQQMapKey", (string)ViewBag.QQMapKey)
+@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_Aside.cshtml");}
+
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script charset="utf-8" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Scripts/custom.js?v=20183030"></script>
+<script src="~/Scripts/iscroll.js?v=20183030"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/shopBranch.js?v=20183030"></script>
+<script>
+    var loading = showLoading();
+    var winxinShareArgs = {
+        success: function () {
+            loading.close();
+        },
+        error: function () {
+            loading.close();
+        },
+        share: {
+            title: '@(shopBranch.ShopBranchName)',
+		    desc: '精选好货，集您所需',
+		    imgUrl: '@(Mall.Core.MallIO.GetRomoteImagePath(string.IsNullOrEmpty(shopBranch.ShopImages)?"/Areas/Mobile/Templates/Default/Images/default-img.png":shopBranch.ShopImages))',
+		    success: function (res) {
+		    }
+		}
+	};
+</script>
+@Html.Partial("_WeiXinShare")

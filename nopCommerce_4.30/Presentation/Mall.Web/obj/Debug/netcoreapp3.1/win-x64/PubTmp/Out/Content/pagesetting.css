@@ -1,0 +1,13 @@
+/* CSS Document */
+
+.aside,.navbar{display: none;}
+.container{padding: 0!important;}
+body{overflow-x: auto;}
+.table .form-control{ display: inline-block; max-width: 260px;}
+.downlist{ position: relative; display: inline-block;}
+.downlist span{ cursor: pointer; position: relative; padding: 0 20px 0 10px;}
+.downlist span:after{ content: ''; position: absolute; border-top: 5px solid #999; border-left: 5px dashed transparent; border-right: 5px dashed transparent; right: 5px; top: 8px;}
+.downlist ul{ position: absolute; background: #fff; border: 1px solid #ddd; border-radius: 3px; padding: 5px; display: none; width: 110px; right: 0;}
+.downlist:hover ul{ display: block; z-index: 9999;}
+.downlist ul li{ line-height: 26px; cursor: pointer; padding: 0 5px;}
+.downlist ul li:hover{ background: #f0f0f0;}

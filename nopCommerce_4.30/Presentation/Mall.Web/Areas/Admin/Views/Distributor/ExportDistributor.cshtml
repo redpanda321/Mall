@@ -1,0 +1,32 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.Distribution.DistributorListDTO>
+@{int maxLevel = (Model != null && Model.Count() > 0) ? Model.First().DistributionMaxLevel : 0;}@*开启的分销级别*@
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>会员名</th>
+            <th>小店名称</th>
+            <th>销售员等级</th>
+            <th>上一级销售员</th>
+            <th>下级发展数</th>
+            <th>已结算佣金总额</th>
+            <th>状态</th>
+            <th>申请时间</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.MemberName</td>@*会员名*@
+            <td>@item.ShopName</td>@*小店名称*@
+            <td>@item.GradeName</td>@*销售员等级*@
+            <td>@item.SuperiorMemberName</td>@*上一级销售员*@
+            <td>@("一级会员数：" + item.SubNumber) @(maxLevel <= 1 ? "" : ",二级会员数：" + item.SubNumber2) @(maxLevel <= 2 ? "" : ",三级会员数：" + item.SubNumber3)</td>@*下级发展数*@
+            <td>@item.SettlementAmount</td>@*已结算佣金总额*@
+            <td>@(item.ShowDistributionStatus)</td>@*状态*@
+            <td>@item.ShowApplyTime </td>@*申请时间*@
+        </tr>
+        }
+    </tbody>
+</table>

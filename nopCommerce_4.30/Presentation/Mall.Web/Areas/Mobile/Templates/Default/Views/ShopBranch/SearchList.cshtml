@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "周边门店搜索";
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+}
+
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchs.css?v=20183030" rel="stylesheet" />
+
+<div class="storelist">
+    <div class="top-info1">
+        <span class="search" style="width:100%">
+            <form action="">
+                <input id="searchInput" type="search" placeholder="附近商家和商品" value="@Model" />
+                <i class="glyphicon glyphicon-search" id="searchBtn"></i>
+            </form>
+        </span>
+        
+    </div>
+	<div class="divMorenone" style="display: none;"></div>
+    <div class="store-container">
+        <!--<div><span></span></div>
+        <div>&nbsp;</div>-->
+        <div class="aroundStores-line">
+	        <a href="javascript:void(0)"><span>附近门店</span></a>
+	    </div>
+        <ul class="list-ul" id="store_list"></ul>
+    </div>
+</div>
+
+<div id="divMore" class="no_more" style="display:none" onclick="loadStoresData()">
+    加载更多...
+</div>
+<input type="hidden" id="hidLatitude" />
+<input type="hidden" id="hidLongitude" />
+@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_Aside.cshtml");}
+@Html.Hidden("hdQQMapKey", (string)ViewBag.QQMapKey)
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script charset="utf-8" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Scripts/custom.js?v=20183030"></script>
+<script src="/Scripts/swipe-template.js"></script>
+<script src="/Scripts/jquery.MallStorage.js?v=20183030"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/NearShopBranchSearch.js?v=20183030"></script>
+<script type="text/javascript">
+    var keyWords = '@Model';
+    var shopBranchIndexUrl = '@Url.Action("Index")';
+</script>

@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "ProductTypeManagement";
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/Admin/Scripts/ProductTypeManagement.js"></script>
+<div class="container clear-n" >
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active" id="showall"><a>管理</a></li>
+        <li><a href="./Edit?id=0">新增</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>商品类型：商品类型是用来管理属性集合的，包括有品牌、属性、规格。当商品分类关联了某个类型后，这个分类下的商品就拥有了这些品牌、属性、规格。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div id="typeToolBar">
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75">名称</label>
+                    <input class="form-control input-ssm" type="text" id="searchKeyWord">
+                </div>
+                <div class="form-group">
+                    <input type="button" value="搜 索" id="searchBtn" class="btn btn-primary btn-sm">
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="typeDatagrid" class="table mt5"></table>
+</div>
+

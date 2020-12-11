@@ -1,0 +1,1257 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <title>自定义首页</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/artdialog.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/inner-custom.css" rel="stylesheet" />
+    <link href="/Areas/Web/Content/style.css" rel="stylesheet" />
+    <style>
+    .left{ position: fixed; right: 20px; top: 10%; z-index: 100; width: 138px; border-radius: 14px; background-color: #f8f8f8; padding-bottom: 20px; border-top: 15px solid #495269;}
+    .left .tab{ position: relative; margin: 7px 0; cursor: pointer; line-height: 38px; border-bottom: 1px solid #fff;}
+    .left .tab:hover{ background-color: #f0f0f0;}
+    .left .tab span{ display: block; padding-left: 30px;}
+    .left .tab .second{ position: absolute; right: 100%; width: 100px; border: 1px solid #ccc; border-radius: 14px; padding: 5px; top: -80px;  display: none; background: #fff; line-height: 28px;}
+    .left .tab .second div{ border-bottom: 1px solid #f0f0f0; }
+    .left .tab .second div img{ display: none; position: absolute; right: 100px; top: 0; border: 4px solid #fff; border-radius: 8px; box-shadow: 0 0 10px #999; max-height: 500px; max-width: 1000px;}
+    .left .tab .second div:hover img{ display: block;}
+    .left .tab .second span{ padding-left: 15px;}
+    .left .tab .second div:hover{ background: #f0f0f0;}
+    .left .tab.floor:hover .second{ display: block;}
+    .bottom{ position: fixed; bottom: 0; width: 100%; text-align: center; padding: 8px 0; background-color: rgba(43, 54, 67, 0.8);}
+    .bottom button{ background-color: #5cb85c; margin: 0 10px; border: 1px solid #4cae4c; line-height: 30px; padding: 0 10px; border-radius: 3px; color: #fff;}
+    .bottom button:first-child{ background-color: #428bca; border-color: #357ebd;}
+    .preview-img div{ display: none; position: absolute;}
+    .preview-img:hover div{ display: block;}
+    .aui-custom{ left: 50% !important; top: 50% !important; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%);}
+    #edui_fixedlayer{ z-index: 999;}
+    .form-group label{margin-top: 5px;}
+    .downlist{position: relative; display: inline-block;}
+    .downlist span{cursor: pointer;position: relative;padding: 0 20px 0 10px;}
+    .downlist span:after{ content: ''; position: absolute; border-top: 5px solid #999; border-left: 5px dashed transparent; border-right: 5px dashed transparent; right: 5px; top: 8px;}
+    .downlist ul{ position: absolute; background: #fff; border: 1px solid #ddd; border-radius: 3px; padding: 5px; display: none; width: 110px; right: 0;z-index: 2;}
+    .downlist:hover ul{ display: block;}
+    .downlist ul li{ line-height: 26px; cursor: pointer; padding: 0 5px;}
+    .downlist ul li:hover{ background: #f0f0f0;}
+    .lg-view-img{display:none;}
+    .glyphicon-picture.active:hover .lg-view-img{ display: block;}
+    .dialog-form .upload-img .control-label{margin-top: 3px;}
+    .dialog-form button{ color: #fff; background-color: #4a93e2; padding: 3px 10px; border: 0; border-radius: 3px;outline: 0; position: relative; bottom: -2px;}
+    .dialog-form .help-default{font-size: 12px;}
+    .upload-img{position: static;}
+    input[type="radio"],input[type="checkbox"]{margin-top: 4px;}
+    .add-slide-btn{ border: 1px dashed #ddd; text-align: center; line-height: 32px; color: #333; font-size: 24px; cursor: pointer;}
+    .slide-list li.item{ border: 1px solid #ddd; margin-bottom: 5px;}
+    .slide-list a{cursor: pointer;}
+    .dialog-form .slide-list .form-group{padding: 5px 0;}
+    .dialog-form.limitedBuy .label-inline{width: 80px!important;margin-right: 10px!important;}
+    .dialog-form.limitedBuy .form-group{border-top: none;}
+    .dialog-form.limitedBuy button{margin-left: 15px;}
+    table{ font-size: 12px;}
+    input[type=range] {display: inline-block; width: 210px;  height: 30px; outline: none;}
+    .range-text{vertical-align: top; position: relative; top: 5px; margin-left: 10px;}
+    .choose-left{height: auto;}
+    #_productSelector tbody{font-size: 14px;}
+    </style>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+    @*<script src="https://cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>*@
+    <script src="/Scripts/jquery.vue.2.4.4.js"></script>
+    <script src="~/Scripts/CommonJS.js"></script>
+    <script src="/Scripts/ueditor/ueditor.config.js"></script>
+    <script src="/Scripts/ueditor/ueditor.all.min.js"></script>
+    <script src="/Scripts/jquery.nicescroll.min.js"></script>
+    <script src="/Scripts/jquery.artDialog.js"></script>
+    <script src="/Scripts/artDialog.iframeTools.js"></script>
+    <script src="/Scripts/jquery.MallDatagrid.js"></script>
+    <script src="/Scripts/jquery.MallLinkage.nocreate.js"></script>
+    <script src="/Scripts/jquery.productSelector2.js"></script>
+    <script src="/Scripts/jquery.specialSelector.js"></script>
+</head>
+<body>
+    <div>
+        <iframe id="iframeTemplate" src="@Url.Action("template",new { tName = @ViewBag.tName})" style="width:100%;min-height:600px;height:100%;border:none;"></iframe>
+    </div>
+    <input type="hidden" id="tid" name="tid" value="@ViewBag.tid" />
+    <div id="app">
+        <div id="tabs" class="left">
+            <template v-for="(first,i) in tabs">
+                <div class="tab" v-bind:class="first.name" name="first.name">
+                    <span v-bind:data-path="i">{{first.text}}</span>
+                    <div v-if="first.second" class="second" name="second">
+                        <div v-for="(second,j) in first.second" name="second.name">
+                            <img :src="'/images/floor_'+(second.style)+'.jpg'" />
+                            <span v-bind:data-path="i+'.second.'+j">{{second.text}}</span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div v-show="showDialog" v-on:click="showDialog=false" style="width: 100%; height: 100%; position: fixed; z-index: 98; top: 0px; left: 0px; overflow: hidden;">
+            <div style="height: 100%; background: rgb(0, 0, 0); opacity: 0.1;"></div>
+        </div>
+        <div v-show="showDialog" class="aui_state_lock aui-custom" style="position: fixed;z-index: 101; display: none;">
+            <div class="aui_outer">
+                <table class="aui_border">
+                    <tbody>
+                        <tr><td class="aui_nw"></td><td class="aui_n"></td><td class="aui_ne"></td></tr>
+                        <tr>
+                            <td class="aui_w"></td>
+                            <td class="aui_c">
+                                <div class="aui_inner">
+                                    <table class="aui_dialog">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="2" class="aui_header">
+                                                    <div class="aui_titleBar">
+                                                        <div class="aui_title" style="cursor: auto;">{{dialogTitle}}</div>
+                                                        <label class="aui_close" href="javascript:;" v-on:click="showDialog=false">×</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="aui_icon" style="display: none;"><div class="aui_iconBg" style="background: none;"></div></td>
+                                                <td class="aui_main">
+                                                    <div class="aui_content" style="padding: 10px; min-width: 420px;max-height: 700px;">
+                                                        <component v-bind:is="dialogView"></component>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" class="aui_footer">
+                                                    <div class="aui_buttons">
+                                                        <button class="aui_state_highlight" v-on:click="ok" type="button">确定</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="aui_e"></td>
+                        </tr>
+                        <tr><td class="aui_sw"></td><td class="aui_s"></td><td class="aui_se" style="cursor: se-resize;"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <button class="save">仅保存</button>
+        <button class="save use">保存并应用到首页</button>
+    </div>
+
+    <script id="dialog_advertisement" type="text/html" methods="upload,jumpLink">
+        <div class="dialog-form">
+            <div class="form-group upload-img clearfix">
+                <label class="col-sm-3 control-label fl" for="">显示图片</label>
+                <div :class="'glyphicon glyphicon-picture '+(img?'active':'')">
+                    <div class="lg-view-img" style="top: 20px;">
+                        <img :src="img">
+                    </div>
+                </div>
+                <button v-on:click="upload">选择文件</button>
+                <span class="help-default">1920*90</span>
+            </div>
+
+            <div class="form-group clearfix">
+                <label class="col-sm-3 control-label fl" for="">跳转链接</label>
+                <input class="form-control input-sm" type="text" id="url" v-model="url" v-if="linktype==2" />
+                <input class="form-control input-sm" type="text" id="url" v-model="url" v-else disabled />
+                <div class="downlist">
+                    <span>请选择</span>
+                    <ul>
+                        <li v-on:click="jumpLink('1')">选择商品</li>
+                        <li v-on:click="jumpLink('/IntegralMall')">积分商城</li>
+                        <li v-on:click="jumpLink('3')">PC专题</li>
+                        <li v-on:click="jumpLink('2')">自定义链接</li>
+                        <li v-on:click="jumpLink('/LimitTimeBuy/home')">限时抢购页</li>
+                        <li v-on:click="jumpLink('4')">商品分类</li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="form-group clearfix">
+                <label class="col-sm-3 control-label fl" for="">是否显示</label>
+                <label class="mr10 mb0 align-middle">
+                    <input type="radio" v-bind:value="false" v-model="hide" />显示
+                </label>
+                <label class="mb0 mb0 align-middle">
+                    <input type="radio" v-bind:value="true" v-model="hide" />不显示
+                </label>
+            </div>
+        </div>
+    </script>
+
+    <script id="dialog_search" type="text/html">
+        <div class="dialog-form">
+            <div class="form-group">
+                <label class="col-sm-4 control-label fl">输入框关键字</label>
+                <input class="form-control input-sm input-no-sp" v-model="keyWord" placeholder="多个关键字用英文逗号隔开" />
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label fl">热门关键字</label>
+                <input class="form-control input-sm input-no-sp" v-model="hotKeyWords" placeholder="多个关键字用英文逗号隔开" />
+                <div class="col-sm-6 col-sm-offset-3"><span class="help-default"> &nbsp; &nbsp; &nbsp; &nbsp; 多个热门关键字可用英文逗号隔开</span></div>
+            </div>
+        </div>
+    </script>
+    <script id="dialog_slide" type="text/html" methods="upload,select,jumpLink">
+        <div class="dialog-form">
+            <div class="form-group">
+                <label class="col-sm-3 control-label fl">展示方式</label>
+                <label class="mr10"><input type="radio" v-bind:value="1" v-model="displaymode" v-on:click="select(1)" />单图</label>
+                <label class="mr10"><input type="radio" v-bind:value="2" v-model="displaymode" v-on:click="select(2)" />双图</label>
+                <label class="mr10"><input type="radio" v-bind:value="3" v-model="displaymode" v-on:click="select(3)" />三图</label>
+                <label><input type="radio" v-bind:value="4" v-model="displaymode" v-on:click="select(4)" />四图</label>
+            </div>
+            <div class="form-group"><span class="help-default ml15">尺寸建议:单图1190*160px，双图590*160px，三图390*160px，四图290*160px</span></div>
+            <ul style="width: 550px;">
+                <li v-for="(item,index) in picturesdata">
+                    <div class="form-group upload-img clearfix">
+                        <label class="col-sm-3 control-label fl" for="">图片链接</label>
+                        <div :class="'glyphicon glyphicon-picture '+((item.img && item.img!='/images/default.png')?'active':'')">
+                            <div class="lg-view-img" style="top: 20px;">
+                                <img v-bind:src="item.img">
+                            </div>
+                        </div>
+                        <button v-on:click="upload(index)">选择文件</button>
+                        <input class="form-control input-sm" type="text" id="url" v-model="item.url" v-if="item.linktype==2" />
+                        <input class="form-control input-sm" type="text" id="url" v-model="item.url" v-else disabled />
+                        <div class="downlist">
+                            <span>请选择</span>
+                            <ul>
+                                <li v-on:click="jumpLink('1',index)">选择商品</li>
+                                <li v-on:click="jumpLink('/IntegralMall',index)">积分商城</li>
+                                <li v-on:click="jumpLink('3',index)">PC专题</li>
+                                <li v-on:click="jumpLink('2',index)">自定义链接</li>
+                                <li v-on:click="jumpLink('/LimitTimeBuy/home',index)">限时抢购页</li>
+                                <li v-on:click="jumpLink('4',index)">商品分类</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </script>
+    <script id="dialog_pictureads" type="text/html" methods="upload,select,del,up,down,jumpLink">
+        <div class="dialog-form">
+            <ul class="slide-list">
+                <li class="item" v-for="(item,index) in picturesdata">
+                    <div class="form-group upload-img clearfix">
+                        <label class="col-sm-3 control-label fl" for="">显示图片</label>
+                        <div :class="'glyphicon glyphicon-picture '+(item.img?'active':'')">
+                            <div class="lg-view-img" style="top: 20px;">
+                                <img v-bind:src="item.img">
+                            </div>
+                        </div>
+                        <button v-on:click="upload(index)">选择文件</button>
+                        <span class="help-default">1920*480</span>
+                        <label style="margin-left:60px;"><a v-on:click="up(index)" class="glyphicon glyphicon-arrow-up" title="上移"></a></label>
+                        <label><a v-on:click="down(index)" class="glyphicon glyphicon-arrow-down" title="下移"></a></label>
+                        <label><a v-on:click="del(index)" title="删除" class="glyphicon glyphicon-remove"></a></label>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="col-sm-3 control-label fl" for="">链接到：</label>
+                        <input class="form-control input-sm" type="text" id="url" value="/" v-model="item.url" v-if="item.linktype==2" />
+                        <input class="form-control input-sm" type="text" id="url" value="/" v-model="item.url" v-else disabled />
+                        <div class="downlist">
+                            <span>请选择</span>
+                            <ul>
+                                <li v-on:click="jumpLink('1',index)">选择商品</li>
+                                <li v-on:click="jumpLink('/IntegralMall',index)">积分商城</li>
+                                <li v-on:click="jumpLink('3',index)">PC专题</li>
+                                <li v-on:click="jumpLink('2',index)">自定义链接</li>
+                                <li v-on:click="jumpLink('/LimitTimeBuy/home',index)">限时抢购页</li>
+                                <li v-on:click="jumpLink('4',index)">商品分类</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="add-slide-btn"><a v-on:click="select()">+</a></div>
+        </div>
+    </script>
+    <script id="dialog_recommendproduct" type="text/html" methods="upload,jumpLink">
+        <div class="dialog-form">
+            <div class="form-group clearfix">
+                <label class="col-sm-3 control-label fl" for="">是否显示</label>
+                <label class="mr10 mb0 align-middle">
+                    <input type="radio" v-bind:value="true" v-model="hide" />显示
+                </label>
+                <label class="mb0 mb0 align-middle">
+                    <input type="radio" v-bind:value="false" v-model="hide" />不显示
+                </label>
+            </div>
+            <div class="form-group upload-img clearfix" v-if="hide==true">
+                <label class="col-sm-3 control-label fl" for="">上传图片</label>
+                <div :class="'glyphicon glyphicon-picture '+(img?'active':'')">
+                    <div class="lg-view-img" style="top: 20px;">
+                        <img v-bind:src="img">
+                    </div>
+                </div>
+                <button v-on:click="upload()">选择文件</button>
+                <span class="help-default">200*243</span>
+            </div>
+            <div class="form-group clearfix" v-if="hide==true">
+                <label class="col-sm-3 control-label fl" for="">跳转链接</label>
+                <input class="form-control input-sm" type="text" id="url" v-model="url" v-if="linktype==2" />
+                <input class="form-control input-sm" type="text" id="url" v-model="url" v-else disabled />
+                <div class="downlist">
+                    <span>请选择</span>
+                    <ul>
+                        <li v-on:click="jumpLink('1')">选择商品</li>
+                        <li v-on:click="jumpLink('/IntegralMall')">积分商城</li>
+                        <li v-on:click="jumpLink('3')">PC专题</li>
+                        <li v-on:click="jumpLink('2')">自定义链接</li>
+                        <li v-on:click="jumpLink('/LimitTimeBuy/home')">限时抢购页</li>
+                        <li v-on:click="jumpLink('4')">商品分类</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id="dialog_headadrecommendproduct" type="text/html" methods="upload,jumpLink">
+        <div class="dialog-form">
+            <div class="form-group upload-img clearfix">
+                <label class="col-sm-3 control-label fl" for="">上传图片</label>
+                <div :class="'glyphicon glyphicon-picture '+(img?'active':'')">
+                    <div class="lg-view-img" style="top: 20px;">
+                        <img v-bind:src="img">
+                    </div>
+                </div>
+                <button v-on:click="upload()">选择文件</button>
+                <span class="help-default">200*90</span>
+            </div>
+            <div class="form-group clearfix">
+                <label class="col-sm-3 control-label fl" for="">跳转链接</label>
+                <input class="form-control input-sm" type="text" id="url" v-model="url" v-if="linktype==2" />
+                <input class="form-control input-sm" type="text" id="url" v-model="url" v-else disabled />
+                <div class="downlist">
+                    <span>请选择</span>
+                    <ul>
+                        <li v-on:click="jumpLink('1')">选择商品</li>
+                        <li v-on:click="jumpLink('/IntegralMall')">积分商城</li>
+                        <li v-on:click="jumpLink('3')">PC专题</li>
+                        <li v-on:click="jumpLink('2')">自定义链接</li>
+                        <li v-on:click="jumpLink('/LimitTimeBuy/home')">限时抢购页</li>
+                        <li v-on:click="jumpLink('4')">商品分类</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="col-sm-3 control-label fl" for="">是否显示</label>
+                <label class="mr10 mb0 align-middle">
+                    <input type="radio" v-bind:value="true" v-model="hide" />显示
+                </label>
+                <label class="mb0 mb0 align-middle">
+                    <input type="radio" v-bind:value="false" v-model="hide" />不显示
+                </label>
+            </div>
+        </div>
+    </script>
+    <script id="dialog_logo" type="text/html" methods="upload">
+        <div class="dialog-form">
+            <div class="form-group upload-img clearfix">
+                <label class="col-sm-3 control-label fl" for="">Logo</label>
+                <div :class="'glyphicon glyphicon-picture '+(img?'active':'')">
+                    <div class="lg-view-img" style="top: 20px;">
+                        <img :src="img">
+                    </div>
+                </div>
+                <button v-on:click="upload">选择文件</button>
+                <span class="help-default">200*60</span>
+            </div>
+        </div>
+    </script>
+
+    <script id="dialog_blankLine" type="text/html">
+        <div class="dialog-form">
+            <div class="form-group clearfix">
+                <label class="col-sm-4 control-label fl" for="">空白高度：</label>
+                <input type="range" id="field-range" v-model="height" min="0" max="100" data-input-slider="2">
+                <span class="range-text">{{height}}px</span>
+                <!--<input class="form-control input-sm" v-model="height" />-->
+            </div>
+        </div>
+    </script>
+
+    <script id="dialog_customHtml" type="text/html" dialogOk="customDone">
+        <div class="textBox"></div>
+    </script>
+
+    <div class="editorEl" style="display: none;">
+        <textarea id="customEditor" style="width: 900px;overflow-x: hidden;"></textarea>
+    </div>
+
+
+    <script id="dialog_navigation" type="text/html" methods="iframeLoad" dialogOk="refreshNavigation">
+        <div class="dialog-form">
+            <iframe src="@Url.Action("management", "Navigation")" style="border:none;width:1230px;height:450px;" v-on:load="iframeLoad"></iframe>
+        </div>
+    </script>
+
+    <script id="dialog_category" type="text/html" methods="iframeLoad" dialogOk="refreshCategory">
+        <div class="dialog-form">
+            <iframe src="@Url.Action("HomeCategory", "PageSettings")" style="border:none;width:1230px;height:450px;" v-on:load="iframeLoad"></iframe>
+        </div>
+    </script>
+    <script id="dialog_limitedBuy" type="text/html" beforeCreate="init"  created="init" methods="select,next,prev,remove,go,isselected,search,showPageGo">
+        <div class="dialog-form limitedBuy">
+            <div class="aui_content" style="padding: 0px; width:800px">
+                <div id="_productSelector" class="goods-choose clearfix">
+                    <div class="choose-left">
+                        <div class="choose-search">
+                            <form class="form-inline custom-inline">
+                                <div class="form-group">
+                                    <label class="label-inline w75" for="">店铺</label>
+                                    <input class="form-control input-ssm" type="text" id="txtShopName" name="shopName" v-model="shopName">
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-inline w75" for="">商品名称</label>
+                                    <input class="form-control input-ssm" type="text" id="txtTitle" name="title" v-model="title">
+                                </div>
+                                <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton" v-on:click="search">搜 索</button></div>
+                            </form>
+                        </div>
+                        <table class="table table-bordered table-choose">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;padding-left:0px;padding-right:0px;width:220px;">商品名称</th>
+                                    <th style="text-align:center;padding-left:0px;padding-right:0px;width:200px;">店铺</th>
+                                    <th style="text-align:center;padding-left:0px;padding-right:0px;width:50px;">价格</th>
+                                    <th class="td-operate" style="text-align:center;padding-left:0px;padding-right:0px;width:auto;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in limitedBuyData.rows">
+                                    <td field="ProductName" style="width:220px;"><div style="text-align:left;" class="MallDatagrid-cell ">{{item.ProductName}}</div></td>
+                                    <td field="ShopName" style="width:200px;"><div style="text-align:center;" class="MallDatagrid-cell ">{{item.ShopName}}</div></td>
+                                    <td field="MinPrice" style="width:50px;"><div style="text-align:center;" class="MallDatagrid-cell ">{{item.MinPrice}}</div></td>
+                                    <td class="td-operate td-lg" field="operation" style="width:auto;">
+                                        <div style="text-align:center;" class="MallDatagrid-cell ">
+                                            <span class="btn-a">
+                                                <a v-if="isselected(item.Id)">已选择</a>
+                                                <a v-else class="good-check" v-on:click="select(index)">选择</a>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="table-bt clearfix">
+                            <div class="tabel-operate"></div>
+                            <div class="pager">
+                                <span class="active-page"><span v-if="totalPage>0">{{currentPage}}/{{totalPage}} 页，</span>共{{limitedBuyData.total}}条记录 </span>
+                                <a class="btn btn-default btn-ssm beforePageBtn" href="javascript:void(0);" v-bind:disabled="currentPage==1" v-on:click="prev" v-if="totalPage>0">上一页</a>
+                                <a class="btn btn-default btn-ssm afterPageBtn" href="javascript:void(0);" v-bind:disabled="currentPage==totalPage||totalPage==0" v-on:click="next" v-if="totalPage>0">下一页</a>
+                                <a class="btn btn-default btn-ssm jump-to" v-on:click="showPageGo" v-if="totalPage>0">指定跳转</a>
+                                <div class="tipic-dialog" v-show="isShowPage" style="display: block;">
+                                	<div class="page-jump">
+                                		<span>跳转到第<input class="pageNumberTxt input-int-num" type="text" name="" id="limitedDataPage">页</span>
+                                		<input type="button" class="btn btn-default btn-ssm pageJumpBtn" value="确定"  v-on:click="go(limitedDataPage.value)">
+                                	</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="choose-right" tabindex="5000" style="overflow: hidden; outline: none;">
+                        <ul class="clearfix">
+                            <li v-for="(item,index) in data.limiteData">
+                                <a href="javascript:;"><img v-bind:src="item.img"></a>
+                                <i v-on:click="remove(index)">×</i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="dialog_floor" type="text/html" methods="iframeLoad" dialogOk="saveFloorData">
+        <iframe v-bind:src="url+'?id='+data.id" style="border:none;width:1280px;height:580px;" id="iframeFloor" name="iframeFloor" v-on:load="iframeLoad"></iframe>
+    </script>
+
+    <script id="dialog_footerinfo" type="text/html">
+        <div class="dialog-form">
+        <div class="form-group">
+            <p>请在网站设置<a href="/Admin/ArticleCategory/management" target="_blank">文章分类</a>的“底部帮助”中新增或编辑下级分类</p>
+            <p>进行<a href="/Admin/Article/management" target="_blank">文章管理</a>或<a href="/Admin/Article/Add?cid=1" target="_blank">新增文章</a></p>
+            </div>
+        </div>
+    </script>
+    <script>
+        var _window;
+        var _saveUrl = '@Url.Action("save")';
+        var _getNavigationUrl = '@Url.Action("get", "navigation")';
+        var _getCategoriesUrl = '@Url.Action("GetCategories")';
+        var _getLimitTimeBuyUrl = '@Url.Action("list","LimitTimeBuy")';
+        var _brands, _getBrandsUrl = '@Url.Action("getBrands")';
+        var editor=UE.getEditor('customEditor');
+
+        window._data = @Html.Raw(Model);
+        window._addNewItem = function () { };
+        window._dialogOk = function () { };
+        window._getDocument = function () { };
+        window._floorSave=function(){};
+        window._categorId=0;
+        window._tid=$("#tid").val();
+        function setEditor(){
+            if(!$('.textBox').html()){
+                $('.editorEl').appendTo($('.textBox')).show();
+                editor.setHeight(450);
+            }
+            var addTime=setInterval(function(){
+                if(!$('.textBox').html()){
+                    $('.editorEl').appendTo($('.textBox')).show();
+                }else{
+                    clearInterval(addTime);
+                    setTimeout(function(){
+                        editor.setContent(_componentData.clickCoverData.content);
+                    },300);
+                }
+            },200);
+            setTimeout(function(){
+                editor.setContent(_componentData.clickCoverData.content);
+                editor.setHeight(450);
+            },300);
+        };
+
+        function saveEditor(){
+            if($('.textBox').html()){
+                $('.editorEl').hide().appendTo($('body'));
+            }
+        }
+
+        $.get(_getBrandsUrl, function (result) { _brands = result });
+
+        var _filesOuterHTML;
+        var themeJson;
+        var iframeLoad = function () {
+            _window = window.frames[0].window;
+            $.ajaxSettings.async = false; 
+            _filesOuterHTML = LoadFile(['/areas/admin/content/pageSettings-template.css', '/areas/admin/scripts/pageSettings-template.js'], _window.document);
+            $.getJSON('/Admin/PageSettings/GetThemeSetting',{tid: '@ViewBag.tid'}, function (data) {
+                if (data != null) {
+                    themeJson=JSON.stringify(data);
+                    createLink(data);
+                }
+            });
+            noticeInit(_data);//模板编辑页加载时回显数据用
+        };
+
+        var iframe = document.getElementById("iframeTemplate");
+        if (iframe.attachEvent) {
+            iframe.attachEvent("onload", iframeLoad);
+        } else {
+            iframe.onload = iframeLoad;
+        }
+
+
+        window._vm = new Vue({
+            el: '#app',
+            data: {
+                tabs: _data.tabs,
+                showDialog: false,
+                dialogTitle:'',
+                dialogView: null
+            },
+            methods: {
+                ok: function () {
+                    this.showDialog = false;
+                    var method = $('#dialog_' + this.dialogView).attr('dialogOk');
+                    if (method)
+                        _componentData.methods[method]();
+
+                    _dialogOk();
+                }
+            }
+        });
+
+        //组件需要绑定的数据
+        window._componentData = $.extend({ navigation: {}, category: {}, news: [], clickCoverData: { data: null,picturesdata:null } }, JSON.parse(JSON.stringify(_data.vue)));
+        //所有组件需要用到的方法都定义在这个属性中
+        _componentData.methods = {
+            upload: function () {
+                var this_ = this;//this为当前组件
+                $.UploadPicToVisual({
+                    success: function (result) {
+                        this_.img = result;
+                    },
+                    error: function () {
+                        alert('上传图片失败');
+                    }
+                }).upload();
+            },
+            iframeLoad: function () {
+                //var doc = window.frames[2].document;
+                //$('.aside,.navbar', doc).hide();
+                //$('.container', doc).css('cssText', 'padding:0 !important;');
+                //$('body', doc).css('overflow-x', 'auto');
+            },
+            jumpLink:function(url){
+                var this_ = this;//this为当前组件
+                this_.linktype=1;//1=跳转链接，2=自定义链接
+                if(url=="0"){
+                    this_.url='/';
+                }else if(url=="1"){
+                    var selectids=[];
+                    $.productSelector.show(selectids, function (selectedProducts) {
+                        var ids = [];
+                        $.each(selectedProducts, function () {
+                            ids.push(this.id);
+                        });
+                        if(ids.length>1){
+                            $.dialog.errorTips("只能选择一个商品");
+                            return;;
+                        }
+                        this_.url='/product/detail/'+ids.join(",");
+                    },'admin',false);
+                }else if(url=="2"){
+                    this_.linktype=2;
+                    this_.url="/";
+                }else if(url=="3"){
+                    var selectids=[];
+                    $.specialSelector.show(selectids, function (selectedSpecials) {
+                        var ids = [];
+                        $.each(selectedSpecials, function () {
+                            ids.push(this.Id);
+                        });
+                        if(ids.length>1){
+                            $.dialog.errorTips("只能选择一个专题");
+                            return;;
+                        }
+                        this_.url='/topic/detail/'+ids.join(",");
+                    });
+                }else if(url=="4"){
+                    $.dialog({
+                        title: '选择分类',
+                        lock: true,
+                        content: '<iframe id="iframeCategory" src="/Admin/pageSettings/Categoryselect" style="border:none;width:1230px;height:450px;"></iframe>',
+                        padding: '0',
+                        ok: function () {
+                            this_.url='/Search/SearchAd?cid='+_categorId;
+                        },
+                        close: function () {
+                        }
+                    });
+                }else{
+                    this_.url=url;
+                }
+            },
+            refreshNavigation: refreshNavigation,
+            refreshCategory: refreshCategory,
+            saveFloorData: function(){
+                _floorSave(refreshFloorData,refreshPass);
+            },
+            limitedBuy: {
+                init: limitedBuyInit,
+                select: function (i) {
+                    var item = this.limitedBuyData.rows[i];
+                    this.data.limiteData = this.data.limiteData || [];
+                    if(this.data.limiteData.length>=5){
+                        $.dialog.errorTips("最多只能选择5个商品");
+                        return;
+                    }
+                    this.data.limiteData.push({
+                        stock: "1199",
+                        cost: item.MarketPrice, "price": item.MinPrice,
+                        url: "/LimitTimeBuy/Detail/" + item.Id,
+                        img: item.ProductImg,
+                        id: item.Id,
+                        productId:item.ProductId,
+                        status:1,
+                        isrend:0
+                    });
+                },
+                isselected: function (id) {
+                    if (this.data.limiteData) {
+                        for (var i = 0; i < this.data.limiteData.length; i++) {
+                            var item = this.data.limiteData[i];
+                            if (item.id == id)
+                                return true;
+                        }
+                    }
+
+                    return false;
+                },
+                remove: function (i) {
+                    this.data.limiteData.splice(i, 1);
+                },
+                next: function () {
+                    this.currentPage++;
+                    getLimitedBuyDataByPage(this.currentPage);
+                },
+                prev: function () {
+                    if (this.currentPage <= 1)
+                        return;
+
+                    this.currentPage--;
+                    getLimitedBuyDataByPage(this.currentPage);
+                },
+                go: function (pi) {
+                    if(this.totalPage>0&&pi>this.totalPage){
+                        return;
+                    }
+                    this.currentPage = pi;
+                    this.isShowPage=false;
+                    getLimitedBuyDataByPage(this.currentPage);
+                },
+                search:function(){
+                    this.currentPage=1;//每次搜索都重置页码
+                    getLimitedBuyDataByPage(this.currentPage);
+                },
+                showPageGo:function(){
+                	this.isShowPage=!this.isShowPage;
+                }
+            },
+            slide:{
+                select:function(index){
+                    this.picturesdata.length =index;
+                    for (var i = 0; i < this.picturesdata.length; i++) {
+                        if(!this.picturesdata[i]){
+                            Vue.set(this.picturesdata,i,{img: "",url: "/"});
+                        }
+                    }
+                },
+                upload: function (index) {
+                    var this_ = this;//this为当前组件
+                    $.UploadPicToVisual({
+                        success: function (result) {
+                            this_.picturesdata[index].img = result;
+                        },
+                        error: function () {
+                            $.dialog.errorTips('上传图片失败');
+                        }
+                    }).upload();
+                },
+                jumpLink:function(url,index){
+                    var this_ = this;//this为当前组件
+                    this_.picturesdata[index].linktype=1;//1=跳转链接，2=自定义链接
+                    if(url=="0"){
+                        this_.picturesdata[index].url='/';
+                    }else if(url=="1"){
+                        var selectids=[];
+                        $.productSelector.show(selectids, function (selectedProducts) {
+                            var ids = [];
+                            $.each(selectedProducts, function () {
+                                ids.push(this.id);
+                            });
+                            if(ids.length>1){
+                                $.dialog.errorTips("只能选择一个商品");
+                                return;;
+                            }
+                            this_.picturesdata[index].url='/product/detail/'+ids.join(",");
+                        },null,false);
+                    }else if(url=="3"){
+                        var selectids=[];
+                        $.specialSelector.show(selectids, function (selectedSpecials) {
+                            var ids = [];
+                            $.each(selectedSpecials, function () {
+                                ids.push(this.Id);
+                            });
+                            if(ids.length>1){
+                                $.dialog.errorTips("只能选择一个专题");
+                                return;;
+                            }
+                            this_.picturesdata[index].url='/topic/detail/'+ids.join(",");
+                        });
+                    }else if(url=="4"){
+                        $.dialog({
+                            title: '选择分类',
+                            lock: true,
+                            content: '<iframe id="iframeCategory" src="/Admin/pageSettings/Categoryselect" style="border:none;width:1230px;height:450px;"></iframe>',
+                            padding: '0',
+                            ok: function () {
+                                this_.picturesdata[index].url='/Search/SearchAd?cid='+_categorId;
+                            },
+                            close: function () {
+                            }
+                        });
+                    }else if(url=="2"){
+                        this_.picturesdata[index].linktype=2;
+                        this_.picturesdata[index].url="/";
+                    }else{
+                        this_.picturesdata[index].url=url;
+                    }
+                }
+            },
+            pictureads:{
+                select: function () {
+                    if (this.picturesdata.length >= 6) {
+                        $.dialog.errorTips("最多添加6张轮播图");
+                        return;
+                    }
+                    this.picturesdata.push({
+                        img: "/images/default.png",
+                        url: "",
+                        sort:""
+                    });
+                },
+                upload: function (index) {
+                    var this_ = this;//this为当前组件
+                    $.UploadPicToVisual({
+                        success: function (result) {
+                            this_.picturesdata[index].img = result;
+                        },
+                        error: function () {
+                            alert('上传图片失败');
+                        }
+                    }).upload();
+                },
+                jumpLink:function(url,index){
+                    var this_ = this;//this为当前组件
+                    this_.picturesdata[index].linktype=1;//1=跳转链接，2=自定义链接
+                    if(url=="0"){
+                        this_.picturesdata[index].url='/';
+                    }else if(url=="1"){
+                        var selectids=[];
+                        $.productSelector.show(selectids, function (selectedProducts) {
+                            var ids = [];
+                            $.each(selectedProducts, function () {
+                                ids.push(this.id);
+                            });
+                            if(ids.length>1){
+                                $.dialog.errorTips("只能选择一个商品");
+                                return;;
+                            }
+                            this_.picturesdata[index].url='/product/detail/'+ids.join(",");
+                        },null,false);
+                    }else if(url=="3"){
+                        var selectids=[];
+                        $.specialSelector.show(selectids, function (selectedSpecials) {
+                            var ids = [];
+                            $.each(selectedSpecials, function () {
+                                ids.push(this.Id);
+                            });
+                            if(ids.length>1){
+                                $.dialog.errorTips("只能选择一个专题");
+                                return;;
+                            }
+                            this_.picturesdata[index].url='/topic/detail/'+ids.join(",");
+                        });
+                    }else if(url=="4"){
+                        $.dialog({
+                            title: '选择分类',
+                            lock: true,
+                            content: '<iframe id="iframeCategory" src="/Admin/pageSettings/Categoryselect" style="border:none;width:1230px;height:450px;"></iframe>',
+                            padding: '0',
+                            ok: function () {
+                                this_.picturesdata[index].url='/Search/SearchAd?cid='+_categorId;
+                            },
+                            close: function () {
+                            }
+                        });
+                    }else if(url=="2"){
+                        this_.picturesdata[index].linktype=2;
+                        this_.picturesdata[index].url="/";
+                    }else{
+                        this_.picturesdata[index].url=url;
+                    }
+                },
+                del:function(index){
+                    var this_ = this;//this为当前组件
+                    this_.picturesdata.splice(index,1);
+                },
+                up:function(index){
+                    if(index-1>=0){
+                        var this_ = this;//this为当前组件
+                        var current=this_.picturesdata[index];//先保留当前项
+                        this_.picturesdata.splice(index,1); //将该项移除
+                        this_.picturesdata.splice(index - 1, 0, current); //从第0个位置开始插入
+                    }
+                },
+                down:function(index){
+                    var this_ = this;//this为当前组件
+                    var current=this_.picturesdata[index];//先保留当前项
+                    this_.picturesdata.splice(index,1); //将该项移除
+                    this_.picturesdata.splice(index +1, 0, current); //从第0个位置开始插入
+                }
+            },
+            customDone: function () {
+                _componentData.clickCoverData.content = editor.getContent();
+            }
+        };
+
+
+        //注册组件
+        for (var p in _componentData) {
+            registComponent(p);
+        }
+        for (var i = 0; i < _data.vue.news.length; i++) {
+            var value = _data.vue.news[i];
+            var name = value['name'];
+            if (name)
+                registComponent(name);
+        }
+
+        $('.left .tab').click(function (e) {
+            if ($.isFunction(window._addNewItem)) {
+                var $target = $(e.target);
+                var dataPath = $target.data("path")+'';
+                if (dataPath == null)
+                    return;
+
+                dataPath = dataPath.split('.');
+
+                var value = _data.tabs;
+                for (var i = 0; i < dataPath.length; i++) {
+                    value = value[dataPath[i]];
+                }
+                window._addNewItem(value);
+
+                var name = value['name'];
+                if (name)
+                    registComponent(name);
+            }
+        });
+
+        $('.bottom button.save').click(function () {
+            var use = $(this).hasClass('use');
+            var obj=document.getElementById("iframeTemplate").contentWindow;
+            var headerHtml=obj.document.getElementsByClassName("header");
+            var barHtml=obj.document.getElementsByClassName("nav-bar");
+            var foot=obj.document.getElementsByClassName("footer");
+            var resultHtml=$(headerHtml).prop("outerHTML")+$(barHtml).prop("outerHTML");
+            var footHtml=$(foot).prop("outerHTML");
+            var script="new Vue({el: '#content',data: jsonObj.vue,mounted:function(){ if ($.isFunction(window.refreshData))refreshData(this);}});";
+            _data.vue.otherInfo.ResultHtml=resultHtml;
+            _data.vue.otherInfo.FootHtml=footHtml;
+            _data.vue.otherInfo.Script=script;
+            _data.vue.otherInfo.jsonInfo="jsonObj";
+            _data.vue.otherInfo.ThemeJson=themeJson;
+            var param = {
+                use: use,
+                json: JSON.stringify(_data),
+                tname:'@ViewBag.tName',
+                name:'@ViewBag.name',
+                tid:'@ViewBag.tid',
+                variableName:"jsonObj",
+                script:script,
+                resultHtml:resultHtml,
+                footHtml:footHtml,
+                themeJson:themeJson,
+                keyword:_data.vue.search.keyWord,
+                hotKeyWords:_data.vue.search.hotKeyWords
+            };
+
+            //if (use) {
+            //	var innerHTML = window._getDocument();
+            //	param.html = '<html' + '>' + innerHTML.replace(/\s*\n\s*/g, '').replace(_filesOuterHTML, '') + '</' + 'html>';
+            //}
+
+            var loading = showLoading();
+            $.post(_saveUrl, param, function (result) {
+                loading.close();
+                $.dialog.succeedTips('保存成功！');
+            }).error(function () {
+                loading.close();
+                showLoading('保存出错', 2.5);
+            });
+        });
+
+        function registComponent(name) {
+            if (Vue.component(name))
+                return;
+
+            var templateId = '#dialog_' + name;//组件模板id约定为dialog_开头
+            var template = $(templateId);
+            if (template.length == 0)
+                return;
+
+            var methodSource = _componentData.methods[name] || {};
+            var methods, beforeCreate,created, methodNames = template.attr('methods'), beforeCreateName = template.attr('beforeCreate'),createdName= template.attr('created');
+            if (methodNames) {
+                methodNames = methodNames.split(',');
+                methods = {};
+
+                for (var i = 0; i < methodNames.length; i++) {
+                    var funName = methodNames[i];
+                    var fun = methodSource[funName];
+                    if ($.isFunction(fun))
+                        methods[funName] = fun;
+                    else
+                        methods[funName] = _componentData.methods[funName];
+                }
+            }
+            if (beforeCreateName) {
+                var fun = methodSource[beforeCreateName];
+                if ($.isFunction(fun))
+                    beforeCreate = fun;
+                else
+                    beforeCreate = _componentData.methods[beforeCreateName];
+            }
+            if (createdName) {
+                var fun = methodSource[createdName];
+                if ($.isFunction(fun))
+                    created = fun;
+                else
+                    created = _componentData.methods[createdName];
+            }
+
+            Vue.component(name, {
+                template: templateId,
+                data: function () {
+                    var temp = _componentData[_vm.dialogView];
+                    if (temp)
+                        return temp;
+
+                    return _componentData.clickCoverData;
+                },
+                methods: methods,
+                beforeCreate: beforeCreate,
+                created:created
+            });
+        }
+
+        function refreshFloorData(floorData) {
+            //将_floorData转换为模板绑定数据，不同的楼层模板使用不同的属性
+            //如：楼层样式一使用Tabs,imagePlace,等属性，但未使用imgright和imgleft属性，imgright和imgleft是楼层样式五使用的
+            //var floorData = window._floorData;
+            if (floorData == null)
+                return;
+
+            var vueData = _componentData.clickCoverData.data;
+
+            vueData.id = floorData.id;
+            vueData.defaultTabName = floorData.defaultTabName;
+            vueData.floorName = floorData.name;
+            vueData.floorSubName = floorData.subName;
+            vueData.brands = [];
+            if (floorData.brands) {
+                for (var i = 0; i < floorData.brands.length; i++) {
+                    var brand = floorData.brands[i];
+                    for (var j = 0; j < _brands.length; j++) {
+                        var item = _brands[j];
+                        if (brand.id == item.id)
+                            brand.src = item.logo;
+                    }
+                    vueData.brands.push(brand);
+                }
+            }
+            vueData.tabs = [];
+            if (floorData.tabs) {
+                for (var i = 0; i < floorData.tabs.length; i++) {
+                    var item = floorData.tabs[i];
+                    var tab = {};
+                    tab.name = item.name;
+                    tab.details = [];
+                    for (var j = 0; j < item.detail.length; j++) {
+                        tab.details.push({ saleStatus: 0, productId: item.detail[j].productId, name: '', image: '', price: '' });
+                    }
+                    vueData.tabs.push(tab);
+                }
+            }
+            vueData.imgPlace = [];
+            vueData.imgright = [];
+            vueData.imgleft = [];
+            vueData.scrolls = [];
+            vueData.images = [];
+            if (floorData.productLinks) {
+                for (var i = 0; i < floorData.productLinks.length; i++) {
+                    var item = floorData.productLinks[i];
+                    item = {
+                        src: item.name,
+                        url: item.url
+                    };
+
+                    vueData.imgPlace.push(item);
+                    if (i < 2)
+                        vueData.imgleft.push(item);
+                    else
+                        vueData.imgright.push(item);
+                    if (i < 4)
+                        vueData.scrolls.push(item);
+                    else
+                        vueData.images.push(item);
+                }
+            }
+            vueData.textLinks = [];
+            if (floorData.textLinks) {
+                for (var i = 0; i < floorData.textLinks.length; i++) {
+                    var item = floorData.textLinks[i];
+                    item = {
+                        name: item.name,
+                        url: item.url
+                    };
+                    vueData.textLinks.push(item);
+                }
+            }
+            vueData.products = [];
+            if (floorData.productModules) {
+                for (var i = 0; i < floorData.productModules.length; i++) {
+                    var item = floorData.productModules[i];
+                    vueData.products.push(
+						{
+						    saleStatus: 1,
+						    productId: item.productId,
+						    image: item.productImg,
+						    price: item.price,
+						    marketPrice: item.price,
+						    name: item.productName
+						});
+                }
+            }
+            vueData.commodityStyle=floorData.commodityStyle;
+            vueData.displayMode=floorData.displayMode;
+        }
+
+        function refreshPass(pass){
+            if(pass==0){
+                _vm.showDialog = true;
+            }
+        }
+        function refreshPassTheme(pass){
+            if(pass==0){
+                _vm.showDialog = true;
+            }
+        }
+        function refreshNavigation() {
+            $.get(_getNavigationUrl, function (result) {
+                if (result) {
+                    _data.vue.navigations.clear();
+                    for (var i = 0; i < result.length; i++) {
+                        var item = result[i];
+                        _data.vue.navigations.push(item);
+                    }
+                }
+            });
+        }
+
+        function refreshCategory() {
+            $.get(_getCategoriesUrl, function (result) {
+                if (result) {
+                    _data.vue.categories.clear();
+                    for (var i = 0; i < result.length; i++) {
+                        var item = result[i];
+                        _data.vue.categories.push(item);
+                    }
+                }
+            });
+        }
+
+        function noticeInit(obj){
+            $.post('/Home/GetNotice', function (result) {
+                if (result) {
+                    if(obj.vue.recommendproduct.data){
+                        obj.vue.recommendproduct.data.clear();
+                    }
+                    for (var i = 0; i < result.length; i++) {
+                        var item = result[i];
+                        obj.vue.recommendproduct.data.push(item);
+                    }
+                }
+            });
+        }
+
+        var limitedBuyData=[];
+        function limitedBuyInit() {
+            var data = _componentData.clickCoverData;
+            data.currentPage = 1;
+            data.pageSize = 7;
+            data.totalPage = 0;
+            data.shopName="";
+            data.title="";
+            data.isShowPage=false;
+
+            //if (limitedBuyData && limitedBuyData[1])
+            //    data.limitedBuyData = limitedBuyData[1];
+            //else {
+                data.limitedBuyData = { models: null };
+                getLimitedBuyDataByPage(1);
+            //}
+        }
+
+        function getLimitedBuyDataByPage(page) {
+            var data = _componentData.clickCoverData;
+            var loading = showLoading();
+            $.post(_getLimitTimeBuyUrl, { page: page, rows: data.pageSize,shopName:$.trim(data.shopName),productName:$.trim(data.title),status:2 }, function (result) {
+                loading.close();
+                data.limitedBuyData = result;
+                limitedBuyData[page] = result;
+                data.totalPage = Math.ceil(result.total / data.pageSize);
+            });
+        }
+
+        function LoadFile(files, document_) {
+            var outerHTML = '';
+            for (var i = 0; i < files.length; i++) {
+                var name = files[i];
+                var att = name.split('.');
+                var ext = att[att.length - 1].toLowerCase();
+                var isCSS = ext == "css";
+                var link;
+                if (isCSS)
+                    link = createCSS(name, document_);
+                else
+                    link = createScript(name, document_);
+
+                document_.getElementsByTagName("head")[0].appendChild(link);
+                outerHTML += link.outerHTML;
+            }
+
+            return outerHTML;
+        }
+
+        function createCSS(href, document_) {
+            var link = document_.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = href;
+            return link;
+        }
+
+        function createScript(src,document_) {
+            var link = document_.createElement('script');
+            link.src = src;
+            return link;
+        }
+        
+        function createLink(themeInfo) {
+            var themestyle=window.frames[0].window.document.getElementById("themestyle");
+            if(themestyle!=null){
+                window.frames[0].window.document.getElementsByTagName("head")[0].removeChild(themestyle);
+            }
+            var link = window.frames[0].window.document.createElement('style');
+            link.setAttribute("id","themestyle");  
+            var styleContent = '.categorys .mc { background-color: ' + themeInfo.classifiedsColor + ' ; }';
+            styleContent += '.right-side-menu, .right-side-menu li span { background-color: ' + themeInfo.frameColor + ' ; }';
+            styleContent += '.right-side-menu li span:before { border-left-color: ' + themeInfo.frameColor + '; }';
+            styleContent += '.nav-bar, .floor-hd h3, .floor-hd, .content .Limited-buy li .buy-it-now, .brand-attr ul.f-list li:hover, #plist.prebuy .list-h li:hover .lh-wrap, #plist.plist-n7 div.scale-img';
+            styleContent += '{ border-color: ' + themeInfo.secondaryColor + ' ; }';
+            styleContent += '.content .Limited-buy li .buy-it-now, #product-intro #name strong,.limited-home span.limi-img { color: ' + themeInfo.secondaryColor + ' ; }';
+
+            styleContent += '.content .Limited-buy li .buy-it-now:after,.ltcatebox .ltcate .curr { background-color: ' + themeInfo.secondaryColor + ' ; }';
+
+            styleContent += '.search-form .button, .categorys, .floor-nav li:hover, .floor-nav li.cur, .right-side-menu li:hover, .right-side-menu li.active, .right-side-menu li.side-cart em, ';
+            styleContent += '.right-side-menu li .side-point a, a.css3-btn, #summary .Mall-district li.cur a, #summary .Mall-district li:hover a, .integra-coupon ul li p a, ';
+            styleContent += '.integra-gift ul li .btn-buy, .integra-coupon ul li p a:hover,.slide .slide-controls .cur,.limited-home .inprogress-list li .tags, ';
+            styleContent += '.limited-home .inprogress-list li:hover .p-price,#choose-btns .btn a,button.aui_state_highlight,#comment .percent dd div,.btn-goshop_in, ';
+            styleContent += '.topic .topic-navbar,.topic-goods-Z .btn-buy:after,.topic-nav li.cur,.side-cart-c .side-bt input[type="button"],.cart-list-goods .s-num span { background-color: ' + themeInfo.mainColor + ' ; }';
+            styleContent += '.search-form, .choose .item a:hover, .choose .item a:active,.choose .selected a, .choose .selected a:visited, .district-hd span.cur,';
+            styleContent += '.district-hd,.limited-home .inprogress-list li:hover,#choose-btns #choose-btn-append a,.products-group .p-group-btn a,button.aui_state_highlight,.m3 .p-info s, ';
+
+            styleContent +='.topic-goods-Z .btn-buy,#filter-limit .stock-search .text-stock-search,.nav li._banner.cur{ border-color: '+themeInfo.mainColor+' ; }';
+            styleContent +=' .right .tab .curr, .right .tab .curr a b, .address-choose.active:before { border-top-color: '+themeInfo.mainColor+' ; }';
+            
+            styleContent += '.choose .selected b,#choose-btns #choose-btn-append a,.products-group .p-group-btn a,.m3 .fore1 .p-info s,.integra-left ul li i,.topic-goods-Z .btn-buy';
+            styleContent += '{color: ' + themeInfo.mainColor + ' ;}';
+            styleContent += 'a:hover, .red, .top .top-link a, .hot-search a.active, .nav li.cur a, .nav li:hover a, .categorys .item dd a:hover, .search-form ul li:hover, .floor-hd ul li.active, ';
+            styleContent += '.footer-service dl a:hover, #refilter .item h3 a.curr, .crumb ul.select-value li a, .prop-attrs .v-fold .f-list a:hover, .prop-attrs .v-fold .f-list a.curr, .pagin .text i, ';
+            styleContent += '.crumb .total-p strong, .right .tab .curr, #product-detail .tab .curr a, #comments-list .tab .curr a, #consult .tab .curr a, .choose #choose-result, ';
+            styleContent += '.district-hd span.cur, .seller-link a, #tab-services a, .detail-correction a, .detail-list a, #summary a, .p-comm a, ';
+            styleContent += '#id_comment_btn li.active a, .product-left a:hover,#filter-limit .order .curr a, #filter-limit .order .curr a:visited,.floor .content-right-tab li h3 a:hover, ';
+            styleContent += '.content-left table a:hover,#comment .rate strong,.inte-user-info h3 span { color: ' + themeInfo.writingColor + ' ; }';
+            link.innerHTML = styleContent;
+            window.frames[0].window.document.getElementsByTagName("head")[0].appendChild(link);
+        }
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+﻿@{
+    var CheckDate = (ViewBag.Available != null) ? ((bool)ViewBag.Available) : false;
+}
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        @if (CheckDate)
+        {
+            <li class=""><a href="#" onclick="isad( '@Url.Action("Add")' )">添加代金红包</a></li>
+        }
+        <li><a href="@Url.Action("BuyService")">服务购买</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>对点击“购买服务”按钮可以开通或续费套餐。相关费用会在店铺的余额中扣除。</span></li>
+                <li><span>代金红包：会员下单后，支付金额达到设置的门槛，会员即可获得一个红包（下单时作为优惠券使用），并且可以进行分享裂变。</span></li>
+                <li><span>目前仅微信端、小程序、APP支持代金红包活动。</span></li>
+            </ul>
+        </div>
+    </div>
+    @if (CheckDate)
+    {
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">状态</label>
+                    <select class="form-control input-ssm" id="searchState">
+                        <option value="0">全部</option>
+                        <option value="3">未开始</option>
+                        <option value="1">进行中</option>
+                        <option value="2">失效</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">名称</label>
+                    <input type="text" class="form-control input-ssm" id="searchName" value="" />
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btnSearch" class="btn btn-primary btn-sm">搜索</button>
+                </div>
+            </form>
+        </div>
+
+        <table class="table" id="list"></table>
+    }
+    else
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未购买代金红包服务或者服务已到期，<a href="./BuyService">现在购买</a></p>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        loadGrid();
+
+        $("#btnSearch").click(function () {
+            $("#list").MallDatagrid('reload', { name: $("#searchName").val(), state: $("#searchState").val() })
+        })
+    })
+
+    function isad(href) {
+        $.post("/SellerAdmin/ShopBonus/isadd", {}, function (data) {
+            if (data) {
+                location.href = href;
+            }
+            else {
+                $.dialog.tips('一个时间段只能新增一个随机红包！');
+            }
+        });
+    }
+
+    function loadGrid() {
+        $("#list").MallDatagrid({
+            url: './list',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "Id",
+            pageSize: 20,
+            pageNumber: 1,
+            queryParams: { name: $("#searchName").val(), state: $("#searchState").val() },
+            toolbar: /*"#goods-datagrid-toolbar",*/'',
+            columns:
+            [[
+                { field: "Name", title: "活动名称" },
+                {
+                    field: "RandomAmountStart", title: "随机范围", formatter: function (value, row, index) {
+                        return row.RandomAmountStart + " - " + row.RandomAmountEnd;
+                    }
+                },
+                {
+                    field: "UseState", title: "使用条件", formatter: function (value, row, index) {
+                        if (row.UseState == 2) {
+                            return "满" + row.UsrStatePrice + "元";
+                        }
+                        return "无";
+                    }
+                },
+                {
+                    field: "BonusDateEnd", title: "有效日期", formatter: function (value, row, index) {
+                        return row.BonusDateStartStr + " - " + row.BonusDateEndStr;
+                    }
+                },
+                {
+                    field: "DateStart", title: "活动时间", formatter: function (value, row, index) {
+                        return row.DateStartStr + " - " + row.DateEndStr;
+                    }
+                },
+                //{ field: "ReceiveCount", title: "领取数量" },
+                {
+                    field: "IsInvalid", title: "状态", formatter: function (value, row, index) {
+                        var dateNow = new Date();
+
+                        if (new Date(Date.parse(row.DateEndStr + " 23:59:59")) > dateNow && new Date(Date.parse(row.DateStartStr)) < dateNow && row.IsInvalid == false) {
+                            return "正在进行";
+                        }
+                        else {
+                            if (row.IsInvalid) {
+                                return "失效";
+                            }
+                            else if (dateNow < new Date(Date.parse(row.DateStartStr))) {
+                                return "未开始";
+                            }
+                            else {
+                                return "已过期";
+                            }
+                        }
+                    }
+                },
+                {
+                    field: "operation", operation: true, title: "操作", formatter: function (value, row, index) {
+                        var html = "";
+                        html += '<span class="btn-a"><a href="/SellerAdmin/ShopBonus/Detail/' + row.Id + '">详情</a></span>';
+
+                        var str = row.DateEndStr + ' 23:59:59';
+                        str = str.replace(/-/g, "/");
+                        var enddate = new Date(str);
+
+                        if (new Date() > enddate) {
+                            return html;
+                        }
+
+                        if (!row.IsInvalid || row.StartTime > new Date()) {
+                            html += '<span class="btn-a"><a href="/SellerAdmin/ShopBonus/Edit/' + row.Id + '">编辑</a></span>';
+                        }
+                        if (!row.IsInvalid) {
+                            html += '<span class="btn-a"><a onclick="invalid(' + row.Id + ' , ' + row.IsInvalid + ');">失效</a></span>';
+                        }
+
+                        return html;
+                    }
+                }
+            ]]
+        });
+    }
+
+    function invalid(id, isInvalid) {
+        if (isInvalid) {
+            $.dialog.tips('此活动已失效!');
+            return;
+        }
+
+        $.dialog.confirm('您确定要失效此活动？', function () {
+            var loading = showLoading();
+            $.post("/SellerAdmin/ShopBonus/Invalid", { id: id }, function (data) {
+                if (data) {
+                    $.dialog.tips('已成功失效此活动');
+                    var pageNo = $("#list").MallDatagrid('options').pageNumber;
+                    $("#list").MallDatagrid('reload', { pageNumber: pageNo });
+                    loading.close();
+                }
+                else {
+                    $.dialog.tips('执行失效操作失败');
+                }
+            })
+        })
+    }
+</script>

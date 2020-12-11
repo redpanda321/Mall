@@ -1,0 +1,108 @@
+﻿@model NopCommerce.Api.SampleApplication.Models.AccessModel
+
+@{
+    Layout = "Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+
+        var clientId = '@Model.UserAccessModel.ClientId';
+        var clientSecret = '@Model.UserAccessModel.ClientSecret';
+
+        $("#refresh-token-button").click(function () {
+            
+            var refreshToken = $("#refresh-token")[0].innerText;
+            $.get('@Url.RouteUrl("RefreshAccessToken", null, Request.Url.Scheme)', {
+
+                refreshToken: refreshToken,
+                clientId: clientId,
+                clientSecret: clientSecret,
+                serverUrl: $('#serverUrl').val()
+
+            }, function(data) {
+
+                var json = JSON.parse(data);
+
+                if (json) {
+
+                    $("#access-token").text(json.access_token);
+                    $("#refresh-token").text(json.refresh_token);
+                    $("#expires-in").text(json.expires_in);
+                }
+            });
+        });
+    });
+
+</script>
+
+<div>
+    <h2>Access Data</h2>
+    @using (Html.BeginRouteForm("Submit", FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>
+                    <label for="serverUrl">Server url</label>
+                </td>
+                <td>
+                    <input name="serverUrl" type="text" id="serverUrl" value="@Model.UserAccessModel.ServerUrl" style="width:400px"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="clientId">Client Id</label>
+                </td>
+                <td>
+                    <input name="clientId" type="text" id="clientId" value="@Model.UserAccessModel.ClientId" style="width:400px"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="clientSecret">Client Secret</label>
+                </td>
+                <td>
+                    <input name="clientSecret" type="text" id="clientSecret" value="@Model.UserAccessModel.ClientSecret" style="width:400px"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="redirectUrl">Redirect Url</label>
+                </td>
+                <td>
+                    <input name="redirectUrl" type="text" id="redirectUrl" value="@Url.RouteUrl("GetAccessToken", null, Request.Url.Scheme)" readonly="readonly" value="@Model.UserAccessModel.RedirectUrl" style="width:400px"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Get Access Token"/>
+                    <button type="button" id="refresh-token-button">Refresh Access Token</button>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<div>
+    <h2>Authorization Data</h2>
+    <div>
+        <h4>Access Token</h4>
+        <p id="access-token">@Model.AuthorizationModel.AccessToken</p>
+    </div>
+    <div>
+        <h4>Refresh Token</h4>
+        <p id="refresh-token">@Model.AuthorizationModel.RefreshToken</p>
+    </div>
+    <div>
+        <h4>Access Token Expires In Seconds</h4>
+        <p id="expires-in">@Model.AuthorizationModel.ExpiresIn</p>
+    </div>
+    <div>
+        <h4>Token Type</h4>
+        <p>@Model.AuthorizationModel.TokenType</p>
+    </div>
+</div>
+
+@Html.RouteLink("Get Customers", "GetCustomers")

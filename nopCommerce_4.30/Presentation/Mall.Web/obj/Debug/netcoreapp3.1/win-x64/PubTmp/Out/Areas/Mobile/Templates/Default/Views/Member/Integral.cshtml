@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "我的积分";
+}
+<div class="container myorder-L">
+    <div class="integral-use-hd">
+		<h3><span id="availableIntegrals"></span><i>分</i></h3>
+		<a class="" id="integralOrder" href="../MyGifts/OrderList">礼品兑换记录</a>
+	</div>
+	<ul class="integral-use-list" id="List"></ul>
+
+    <div class="loading hide" id="autoLoad"><span></span></div>
+</div>
+<script type="text/javascript">
+    var pageNo = 1;
+    var pageSize = 15;
+
+    $(function () {
+        loadIntegrals();
+    });
+
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+
+        if (scrollTop + windowHeight >= scrollHeight) {
+            $('#autoLoad').removeClass('hide');
+            loadIntegrals(++pageNo);
+        }
+    });
+
+    function changeIntegralType(itype) {
+        pageNo = 1;
+        loadIntegrals();
+    }
+
+    function loadIntegrals() {
+        if (pageNo == 1) {
+            var loading = showLoading();
+            $('#List').html("");
+        }
+        var url = '/' + areaName + '/Member/GetIntegralRecord';
+        $.post(url, { pageNo: pageNo, pageSize: pageSize }, function (result) {
+            $('#autoLoad').addClass('hide');
+            $("#availableIntegrals").html(result.availableIntegrals);
+            if (result.data.Data.length > 0) {
+                var str = '';
+                $.each(result.data.Data, function (i, item) {
+                	str+="<li class='border-bot'><h3>" + item.ShowType;
+                	
+                    if (item.ReMark.indexOf('订单') > -1) {
+                        if (item.ShowType == "取消订单") {
+                            str += "<span>（" + item.ReMark.substring(item.ReMark.indexOf("订单号"), item.ReMark.length) + "）</span>";
+                        } else {
+                            str += "<span>（" + item.ReMark + "）</span>";
+                        }
+                    } else if (item.TypeId == "11" || item.TypeId == "2") {
+                        str += "<span>（" + item.ReMark + "）</span>";
+                    }
+                    str+="</h3><p>" + item.RecordDate + "</p>";
+			    	str+="<em>"+(item.Integral>=0?"+":"") + item.Integral + "</em></li>";
+                });
+                $('#List').append(str);
+            }
+            else {
+                $('#autoLoad').html('没有更多明细了').removeClass('hide');
+            }
+            if (pageNo == 1)
+                loading.close();
+        });
+    }
+</script>
+

@@ -1,0 +1,248 @@
+﻿@model Mall.Web.Areas.Admin.Models.RechargePresentRuleModel
+    @{ 
+        var onerule = Model.Rules.FirstOrDefault();
+        if (onerule == null)
+        {
+            onerule = new Mall.DTO.RechargePresentRule();
+        }
+        Mall.DTO.RechargePresentRule _ruleItem;
+    }
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<style type="text/css">
+    #btnAddRule { margin-top:20px;display:inline-block;}
+</style>
+
+<div class="container clear-v42">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>充值赠送配置</a></li>
+    </ul>
+    <h5 class="tips-top">
+        <span class="help-default"><i></i>注意事项：</span>
+        <span class="help-default">1、充值赠送能够帮助平台实现“充XX元送XX元”的营销方案</span>
+        <span class="help-default">2、充值赠送部分的成本由平台承担，请谨慎使用此活动，可能存在商家变相套现的风险；</span>
+        <span class="help-default">3、开启充值赠送活动后，<span class="red">个人用户将会在参加过一次此活动后永久关闭提现功能；</span></span>
+    </h5>
+
+    @*
+
+        @using (Ajax.BeginForm("SaveRechargePresentRule", "Marketing", null
+           , new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }
+           , new { @class = "form-horizontal", id = "ruleform" }))
+    *@
+
+    <form asp-controller="Marketing" asp-action="SaveRechargePresentRule" , data-ajax-begin="beginPost" ,data-ajax-success="successPost" data-ajax-method="POST" class="custom-inline" id="ruleform">
+
+
+        {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">开启充值赠送：</label>
+            <div class="col-sm-4">
+                @Html.HiddenFor(model => model.IsEnable)
+                <input type="checkbox" id="sw_IsEnable" @(Model.IsEnable ? "checked" : "")>
+
+            </div>
+            <div class="col-sm-3">
+                @Html.ValidationMessageFor(model => model.IsEnable, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group rulebox" @(Model.IsEnable ? "" : "style=\"display:none;\"")>
+            <label class="col-sm-2 control-label" for=""><b style="color:red;">*</b>充值赠送规则：</label>
+            <div class="col-sm-6"><span class="help-default">充值项最多可设置9项，充值金额设置不能相同，充值金额和赠送金额最高设置99999</span></div>
+        </div>
+        <div class="form-group rulebox" @(Model.IsEnable ? "" : "style=\"display:none;\"")>
+            <label for="" class="col-sm-2 control-label"></label>
+            <div class="col-sm-9">
+                <table id="tbl-rule-present" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th width="250" style="text-align:center">充值金额</th>
+                            <th width="300" style="text-align:center">赠送</th>
+                            <th width="100" style="text-align:center">操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr class="" style="text-align:center" level="0">
+                            <td><span class="level">1</span></td>
+                            <td>
+                                <input class="text-order txt-num" data-val="true" data-val-number="充值金额必须是一个数字。" data-val-range="错误的充值金额" data-val-range-max="99999" data-val-range-min="1" data-val-required="请填写活动库存" id="Rules_0_ChargeAmount" name="Rules[0].ChargeAmount" type="text" value="@(onerule.ChargeAmount>0?onerule.ChargeAmount.ToString():"")" onkeyup="inputOnlyNumber(this);" /> 元
+                            </td>
+                            <td>
+                                <input class="text-order txt-num" data-val="true" data-val-number="赠送金额必须是一个数字。" data-val-range="错误的赠送金额" data-val-range-max="99999" data-val-range-min="1" data-val-required="请填写活动库存" id="Rules_0_PresentAmount" name="Rules[0].PresentAmount" type="text" value="@(onerule.PresentAmount>0?onerule.PresentAmount.ToString():"")" onkeyup="inputOnlyNumber(this);" />  元
+                            </td>
+                            <td></td>
+                        </tr>
+                        @for (var i = 1; i < Model.Rules.Count; i++)
+                        {
+                            {
+                                _ruleItem = Model.Rules[i];
+                            }
+                            <tr class="" style="text-align:center" level="@(i)">
+                                <td><span class="level">@(i+1)</span></td>
+                                <td>
+                                    <input class="text-order txt-num iChargeAmount" data-val="true" data-val-number="充值金额必须是一个数字。" data-val-range="错误的充值金额" data-val-range-max="99999" data-val-range-min="1" data-val-required="请填写活动库存" id="Rules_@(i)_ChargeAmount" name="Rules[@(i)].ChargeAmount" type="text" onkeyup="inputOnlyNumber(this);" value="@(_ruleItem.ChargeAmount)" /> 元
+                                </td>
+                                <td>
+                                    <input class="text-order txt-num iPresentAmount" data-val="true" data-val-number="赠送金额必须是一个数字。" data-val-range="错误的赠送金额" data-val-range-max="99999" data-val-range-min="1" data-val-required="请填写活动库存" id="Rules_@(i)_PresentAmount" name="Rules[@(i)].PresentAmount" type="text" onkeyup="inputOnlyNumber(this);" value="@(_ruleItem.PresentAmount)" />  元
+                                </td>
+                                <td><a href="javascript:void(0);" class="remove-rule">删除</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.HiddenFor(d => d.RulesJson)
+                <a href="javascript:void(0);" id="btnAddRule" @Html.Raw(Model.Rules.Count >= 9 ? "style=\"display:none;\"" : "")>添加充值项</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="btsubmit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+        }
+    </form>
+</div>
+<script  type="text/template" id="ruletmp">
+    <tr class="" style="text-align:center" level="{{level}}">
+        <td><span class="level">{{index}}</span></td>
+        <td>
+            <input class="text-order txt-num iChargeAmount" data-val="true" data-val-number="充值金额必须是一个数字。" data-val-range="错误的充值金额" data-val-range-max="99999" data-val-range-min="1" data-val-required="请填写活动库存" id="Rules_{{level}}_ChargeAmount" name="Rules[{{level}}].ChargeAmount" type="text" onkeyup="inputOnlyNumber(this);" /> 元
+        </td>
+        <td>
+            <input class="text-order txt-num iPresentAmount" data-val="true" data-val-number="赠送金额必须是一个数字。" data-val-range="错误的赠送金额" data-val-range-max="99999" data-val-range-min="1" data-val-required="请填写活动库存" id="Rules_{{level}}_PresentAmount" name="Rules[{{level}}].PresentAmount" type="text" onkeyup="inputOnlyNumber(this);" />  元
+        </td>
+        <td><a href="javascript:void(0);" class="remove-rule">删除</a></td>
+    </tr>
+</script>
+<input type="hidden" value="@Url.Action("RechargePresentRule", "Marketing")"  id="UASS"/>
+<input type="hidden" value="@(Model.IsEnable.ToString().ToLower())" id="MITT" />
+<input type="hidden" value="@(Model.Rules.Count>0?Model.Rules.Count:1)" id="CurrentLevel" />
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    // JavaScript source code
+
+    var btsubmit;
+    var loading;
+    var rule_talbe;
+    var maxlevel = 9;
+    function changeDisabled(state) {
+        var inputs = $(".edititem input");
+        if (state.toLowerCase() == "true") {
+            reValidator();
+            $(".rulebox").show();
+            inputs.removeAttr("disabled");
+        } else {
+            delValidator();
+            $(".rulebox").hide();
+            inputs.attr("disabled", "true");
+        }
+    };
+
+
+    $(function () {
+        var rule_talbe = $("#tbl-rule-present");
+        $('input[type="checkbox"]').onoff();
+        btsubmit = $("#btsubmit");
+        var d_isenable = $("#IsEnable");
+        changeDisabled($("#MITT").val());
+
+        $('input#sw_IsEnable').change(function () {
+            var _this = $(this),
+                state = _this[0].checked;
+
+            changeDisabled(state.toString());
+            d_isenable.val(state);
+            _this.onoff('state', state);
+
+        });
+
+        rule_talbe.on("click", ".remove-rule", function () {
+            var _t = $(this);
+            var _c = _t.parents("tr[level]");
+            _c.remove();
+            
+            var trs = rule_talbe.find("tr[level]");
+            trs.each(function (i) {
+                var _trt = $(this);
+                _trt.attr("level", i);
+                _trt.find(".level").text(i + 1);
+                _trt.find(".iChargeAmount").attr("id","Rules_"+i+"_ChargeAmount");
+                _trt.find(".iChargeAmount").attr("name", "Rules[" + i + "].ChargeAmount");
+                _trt.find(".iPresentAmount").attr("id", "Rules_" + i + "_PresentAmount");
+                _trt.find(".iPresentAmount").attr("name", "Rules[" + i + "].PresentAmount");
+            })
+            reValidator();
+            $("#CurrentLevel").val(trs.length);
+            $("#btnAddRule").show();
+        });
+
+        $("#btnAddRule").click(function () {
+            var _t = $(this);
+            var CurrentLevel = parseInt($("#CurrentLevel").val());
+            if (CurrentLevel >= maxlevel) {
+                _t.hide();
+                return;
+            }
+            var trdata = $("#ruletmp").html();
+            trdata = trdata.replace(/\{\{level\}\}/g, CurrentLevel);
+            trdata = trdata.replace(/\{\{index\}\}/g, CurrentLevel + 1);
+            rule_talbe.append($(trdata));
+            reValidator();
+            CurrentLevel = CurrentLevel + 1;
+            $("#CurrentLevel").val(CurrentLevel);
+            if (CurrentLevel >= maxlevel) {
+                _t.hide();
+            }
+        });
+    });
+
+    function reValidator() {
+        //重置数据验证
+        delValidator();
+        $.validator.unobtrusive.parse(document);
+    }
+
+    function delValidator() {
+        $("#ruleform").removeData("validator").removeData("unobtrusiveValidation");
+    }
+
+    var isposting = false;
+    function beginpost() {
+        if (isposting) {
+            $.dialog.tips("数据提交中...");
+            return false;
+        }
+        isposting = true;
+        btsubmit.text("提交中...");
+        loading = showLoading();
+    }
+
+    function successpost(data) {
+        isposting = false;
+        btsubmit.text("保 存");
+        loading.close();
+        if (data.success == true) {
+            $.dialog.tips("配置充值赠送规则成功", function () {
+                window.location.href = $("#UASS").val();//数据提交成功页面跳转
+            });
+        } else {
+            $.dialog.errorTips(data.msg);
+        }
+    }
+
+    function inputOnlyNumber(d) {
+        d.value = d.value.replace(/[^\d]/g, '');
+    }
+</script>

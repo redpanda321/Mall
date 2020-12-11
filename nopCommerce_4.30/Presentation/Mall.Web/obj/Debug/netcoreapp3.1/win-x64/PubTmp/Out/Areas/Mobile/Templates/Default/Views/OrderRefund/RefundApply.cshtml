@@ -1,0 +1,626 @@
+﻿@using Mall.Entities
+@model Mall.Web.Areas.Web.Models.RefundApplyModel
+@{
+    ViewBag.Title = "退款退货申请";
+    string errormsg = ViewBag.errormsg;
+    var orderVerificationCode = ViewBag.orderVerificationCode as List<OrderVerificationCodeInfo>;
+}
+
+@{
+    long MaxRGDNumber = (long)Model.MaxRefundGoodsNumber;
+    decimal MaxRefundAmount = (decimal)Model.MaxRefundAmount;
+    var OrderData = Model.OrderInfo;
+    long? OrderItemId = (long?)Model.OrderItemId;
+    int RefundType = 0;
+    bool isRefundOrder = (OrderItemId == null);    //是否为整笔订单退款
+    if (Model != null)
+    {
+        if (Model.RefundMode == Mall.Entities.OrderRefundInfo.OrderRefundMode.OrderRefund)
+        {
+            isRefundOrder = true;
+        }
+        if (Model.RefundMode == Mall.Entities.OrderRefundInfo.OrderRefundMode.ReturnGoodsRefund)
+        {
+            RefundType = 2;
+        }
+        else
+        {
+            RefundType = 1;
+        }
+    }
+    if (isRefundOrder)
+    {
+        RefundType = 1;
+    }
+    var isVirtual = (int)ViewBag.IsVirtual;
+    var virtualProductInfo = ViewBag.VirtualProductInfo as Mall.Entities.VirtualProductInfo;
+}
+<input type="hidden" name="maxNumber" value="@(MaxRGDNumber)" />
+<input type="hidden" name="maxPrice" value="@(MaxRefundAmount.ToString("F2"))" />
+<input type="hidden" name="refGoodsPrice" id="refGoodsPrice" value="@(Model.RefundGoodsPrice)">
+<div class="container refundbg">
+    <div class="refund edit-con">
+        <form id="form1" action="@Url.Action("RefundApply")" method="post">
+            <input type="hidden" name="OrderId" value="@(OrderData.Id)" />
+            <input type="hidden" name="OrderItemId" value="@(OrderItemId)" />
+            <input type="hidden" name="RefundType" value="@RefundType" />
+            <input type="hidden" name="Reason" id="Reason" value="" />            
+            @Html.Hidden("Id", (Model.RefundId.HasValue ? Model.RefundId.Value : 0))
+            @if (orderVerificationCode != null && orderVerificationCode.Count > 0)
+            {
+                <div class="vericode">
+                    <div class="info">
+                        <h3 class="title">核销码</h3>
+                        @if (virtualProductInfo != null)
+                        {
+                            if (virtualProductInfo.ValidityType)
+                            {
+                                <p>有效期 @virtualProductInfo.StartDate.Value.ToString("yyyy-MM-dd") ~ @virtualProductInfo.EndDate.Value.ToString("yyyy-MM-dd")</p>
+                            }
+                            else
+                            {
+                                <p>长期有效</p>
+                            }
+                        }
+                    </div>
+                    <ul>
+                        @foreach (var item in orderVerificationCode)
+                        {
+                            <li>
+                                <i class="check-custom active j_verificationCode" code="@item.VerificationCode"></i>
+                                <span>核销码 @(orderVerificationCode.IndexOf(item) + 1)</span>
+                                <span>@System.Text.RegularExpressions.Regex.Replace(item.VerificationCode, @"(\d{4})", "$1 ")</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+            <div class="group-line">
+                <div class="line arrow" onclick="selectway('refundtype',this)">
+                    <label>售后类型</label>
+                    <input type="text" disabled="disabled" placeholder="请选择售后类型" value="">
+                </div>
+                <div class="line" id="ReturnGoodsBox" style="display:none">
+                    <label>退货数量</label>
+                    @Html.TextBox("ReturnQuantity", MaxRGDNumber, new Dictionary<string, object>() { { "class", "ipt" }, { "placeholder", "最多" + MaxRGDNumber + "件" } })
+                </div>
+                <div class="line">
+                    <label>退款金额</label>
+                    @{
+                        var amounthtmlattr = new Dictionary<string, object>() {
+                               { "class", "ipt" },{ "placeholder", "最多" + MaxRefundAmount.ToString("f2")+"元" } };
+                        if (isRefundOrder || isVirtual == 1)
+                        {
+                            amounthtmlattr.Add("disabled", "");
+                        }
+                    }
+                    @Html.TextBox("Amount", MaxRefundAmount.ToString("F2"), amounthtmlattr)
+                    <span style="display: none;">最多<i>￥2.00</i></span>
+                </div>
+                <div class="line arrow" onclick="selectway('paytype',this)">
+                    <label>退款方式</label>
+                    <input type="text" disabled="disabled" placeholder="请选择退款方式" value="">
+                </div>
+                <input type="hidden" name="RefundPayType" value="@((int)Mall.Entities.OrderRefundInfo.OrderRefundPayType.BackCapital)" />
+                @if (!string.IsNullOrEmpty(Model.ReturnGoodsAddress))
+                {
+                    <div class="line arrow" id="returnGoodsAddress" style="display:none" onclick="selectway('goods',this)">
+                        <label>退货方式</label>
+                        <input type="text" disabled="disabled" placeholder="请选择退货方式" value="">
+                    </div>
+                }
+                <div class="line arrow" onclick="selectway('refundreason',this)">
+                    <label>退款理由</label>
+                    <input type="text" disabled="disabled" placeholder="请选择售后理由" value="">
+                </div>
+                <div class="line">
+                    <label>退款说明</label>
+                    @Html.TextArea("ReasonDetail", Model.RefundReasonDetail, new Dictionary<string, object>() {
+                   { "class", "textarea-item" },
+                   { "data-check", "0" },
+                   { "placeholder", "请填写退款说明" }})
+                </div>
+            </div>
+            <div class="group-line">
+                <div class="line">
+                    <label>联系人</label>
+                    @Html.TextBox("ContactPerson", (string)Model.ContactPerson, new Dictionary<string, object>() {
+                               { "class", "ipt" },
+                               {"maxlength","20"},
+                               { "data-check", "0" },
+                               { "placeholder", "请填写联系人姓名" }})
+                </div>
+                <div class="line">
+                    <label>联系电话</label>
+                    @Html.TextBox("ContactCellPhone", (string)Model.ContactCellPhone, new Dictionary<string, object>() {
+                               { "class", "ipt" },
+                               {"maxlength","20"},
+                               { "data-check", "0" },
+                               { "placeholder", "请填写联系人电话" }})
+                </div>
+            </div>
+
+            @*<h5>售后类型：</h5>
+                  <div class="refund-select">
+                      @if (isVirtual == 0)
+                      {
+                          <p name="iRefundType">
+                              <span @(RefundType == 1 ? "class=active" : string.Empty)>仅退款</span>
+                              <i id="refundMoney" value="1" class='glyphicon glyphicon-ok' @(RefundType == 0 || RefundType == 2 ? "style=display:none;" : string.Empty)></i>
+                          </p>  if (OrderData.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitReceiving || OrderData.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.Finish)
+                          {
+                              if (!isRefundOrder)
+                              {
+                                  <p name="iRefundType"><span @(RefundType == 2 ? "class=active" : string.Empty)>退款退货</span><i id="refundGoodsMoney" value="2" class='glyphicon glyphicon-ok' @(RefundType == 0 || RefundType == 1 ? "style=display:none;" : string.Empty)></i></p>
+                              }
+                          }
+                      }
+                      else
+                      {
+                          <p name="iRefundType">
+                              <span @(RefundType == 1 ? "class=active" : string.Empty)>仅退款</span>
+                              <i id="refundMoney" value="1" class='glyphicon glyphicon-ok' @(RefundType == 0 || RefundType == 2 ? "style=display:none;" : string.Empty)></i>
+                          </p>
+                      }
+                  </div>
+
+                  <div id="ReturnGoodsBox" style="display:none;">
+                      <h5>退货数量：</h5>
+                      @Html.TextBox("ReturnQuantity", MaxRGDNumber, new Dictionary<string, object>() { { "class", "ipt" }, { "placeholder", "最多" + MaxRGDNumber + "件" } })
+                  </div>
+                  <span style="display: none;">最多<i>2</i>件</span>
+                  <h5>退款金额：</h5>
+                  @{
+                      var amounthtmlattr = new Dictionary<string, object>() {
+                                     { "class", "ipt" },{ "placeholder", "最多" + MaxRefundAmount.ToString("f2")+"元" } };
+                      if (isRefundOrder)
+                      {
+                          amounthtmlattr.Add("disabled", "");
+                      }
+                  }
+                  @Html.TextBox("Amount", MaxRefundAmount.ToString("F2"), amounthtmlattr)
+                  <span style="display: none;">最多<i>￥2.00</i></span>
+
+                  <h5>退款理由：</h5>
+                  @Html.DropDownList("Reason", Model.RefundReasons, new Dictionary<string, object>() {
+                             { "class", "textarea-item" },
+                             { "data-check", "0" }})
+
+                  <h5>退款说明：</h5>
+                  @Html.TextArea("ReasonDetail", Model.RefundReasonDetail, new Dictionary<string, object>() {
+                             { "class", "textarea-item" },
+                             { "data-check", "0" }})
+
+
+
+                  <h5>联系人：</h5>
+                  @Html.TextBox("ContactPerson", (string)Model.ContactPerson, new Dictionary<string, object>() {
+                                     { "class", "ipt" },
+                                     {"maxlength","20"},
+                                     { "data-check", "0" } })
+                  <h5>联系电话：</h5>
+                  @Html.TextBox("ContactCellPhone", (string)Model.ContactCellPhone, new Dictionary<string, object>() {
+                                     { "class", "ipt" },
+                                     {"maxlength","20"},
+                                     { "data-check", "0" } })
+                  <h5>退款方式：</h5>
+                  <div class="refund-select">
+                      <p name="iRefundPayType"><span class="active">退款到预存款账户</span><i id="BackCapital" value="@((int)Mall.Entities.OrderRefundInfo.OrderRefundPayType.BackCapital)" class='glyphicon glyphicon-ok'></i></p>
+                      @if (Model.BackOut == 1)
+                      {
+                          <p name="iRefundPayType"><span>退款原路返回</span><i id="BackOut" value="@((int)Mall.Entities.OrderRefundInfo.OrderRefundPayType.BackOut)" class='glyphicon glyphicon-ok' style="display:none"></i></p>
+                      }
+                      <input type="hidden" name="RefundPayType" value="@((int)Mall.Entities.OrderRefundInfo.OrderRefundPayType.BackCapital)" />
+                  </div>
+                  @if (!string.IsNullOrEmpty(Model.ReturnGoodsAddress))
+                  {<div id="returnGoodsAddress" style="display:none;">
+                      <h5>退货方式：</h5>
+                      <div class="refund-select">
+                          <span class="active">送货到店 退货点：@Model.ReturnGoodsAddress</span>
+                      </div>
+                  </div>
+                }*@
+
+            <h5>退款凭证：</h5>
+            <div>
+                <div class="comment-photo clearfix">
+                    @if (ViewBag.WeiXin == true)
+                    {
+                        <div class="wx-img-wrap pull-left" id="UploadPlace"></div>
+                        <div class="img-upload-btn pull-left" id="WXimages" onclick="UploadWXImage()"><i class="glyphicon glyphicon-camera"></i></div>
+                    }
+                    else
+                    {
+                        <div class="pic-upload" id="CertImg"></div>
+                    }
+                </div>
+                <p style="padding-top:5px;color: #979797;">最多上传3张图片，每张不超过3M</p>
+                <input type="hidden" id="CertPic1" name="CertPic1" value="@(Mall.Core.MallIO.GetImagePath(Model.CertPic1))" />
+                <input type="hidden" id="CertPic2" name="CertPic2" value="@(Mall.Core.MallIO.GetImagePath(Model.CertPic2))" />
+                <input type="hidden" id="CertPic3" name="CertPic3" value="@(Mall.Core.MallIO.GetImagePath(Model.CertPic3))" />
+                <input type="hidden" id="IsWxUpload" name="IsWxUpload" value="false" />
+                <input type="hidden" id="VerificationCodeIds" name="VerificationCodeIds" value="" />
+            </div>
+            <p class="ipt02">
+                <input type="submit" id="bt-submit" value="确定提交" />
+                <a class="btn btn-default" onclick="history.back()">取消</a>
+            </p>
+        </form>
+    </div>
+    <div class="cover"></div>
+    <div class="actionsheet">
+        <ul id="refundtype">
+            @if (isVirtual == 0)
+            {
+                <li value="1">仅退款</li>
+                if (OrderData.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitReceiving || OrderData.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.Finish)
+                {
+                    if (!isRefundOrder)
+                    {
+                        <li class="@(RefundType == 2 ? "active" : string.Empty)" value="2">退款退货</li>
+                    }
+                }
+            }
+            else
+            {
+                <li value="1">仅退款</li>
+            }
+        </ul>
+        <ul id="paytype">
+            <li value="@((int)Mall.Entities.OrderRefundInfo.OrderRefundPayType.BackCapital)">退款到预存款账户</li>
+            @if (Model.BackOut == 1)
+            {
+                <li value="@((int)Mall.Entities.OrderRefundInfo.OrderRefundPayType.BackOut)">退款原路返回</li>
+            }
+
+        </ul>
+        <ul id="goods">
+            @if (!string.IsNullOrEmpty(Model.ReturnGoodsAddress))
+            {
+                <li value="送货到店 退货点：@Model.ReturnGoodsAddress">
+                    送货到店 退货点：@Model.ReturnGoodsAddress
+                </li>
+            }
+        </ul>
+        <ul id="refundreason">
+            @if (Model.RefundReasons != null && Model.RefundReasons.Count > 0)
+            {
+                foreach (var item in Model.RefundReasons)
+                {
+                    <li value="@item.Value">@item.Text</li>
+                }
+            }
+        </ul>
+        <div class="quit" onclick="closeSheet()">取消</div>
+    </div>
+</div>
+
+<input type="hidden" id="errormsg" value="@(errormsg)" />
+
+
+<script src="~/Scripts/v.js?v=20183030"></script>
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+
+@if (ViewBag.WeiXin != true)
+{
+    <script>
+        $(function () {
+            $("#CertImg").MallUpload({
+                imagesCount: 3,
+                imgFieldName: "RefundCertPic",
+                maxSize: 3,
+                canDel: true,
+                isMobile: true
+            })
+        });
+    </script>
+}
+@if (ViewBag.WeiXin == true)
+{
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        $(function() {
+            var AppId = '@ViewBag.ShareArgs.AppId'; // 必填，公众号的唯一标识
+            var Timestamp = @ViewBag.ShareArgs.Timestamp; // 必填，生成签名的时间戳
+            var NonceStr = '@ViewBag.ShareArgs.NonceStr'; // 必填，生成签名的随机串
+            var Signature = '@ViewBag.ShareArgs.Signature'; // 必填，签名，见附录1
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: AppId, // 必填，公众号的唯一标识
+                timestamp: Timestamp, // 必填，生成签名的时间戳
+                nonceStr: NonceStr, // 必填，生成签名的随机串
+                signature: Signature, // 必填，签名，见附录1
+                jsApiList: ['chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+        });
+        function UploadWXImage() {
+            var length = $("#UploadPlace .upload-img-box img").length;
+            if(length == 3) {
+                $.dialog.errorTips("最多只能选择三张图片！");
+                return;
+            }
+            var num = 3 - length;
+            wx.chooseImage({
+                count: num, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function(res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var i = 0,
+                        len = localIds.length;
+                    function UploadOneImage() {
+                        wx.uploadImage({
+                            localId: localIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function(res) {
+                                var serverId = res.serverId; // 返回图片的服务器端ID
+                                var html = "<div  class='upload-img-box'>";
+                                html += '<img width="50" height="50" src="' + localIds[i] + '" style="margin-right:8px;position:relative;" data-serverid="' + serverId + '"/>';
+                                html += '<span class="glyphicon glyphicon-minus-sign" onclick="Remove(this)"style="position:relative;top:-55px;left:43px;font-size:13px;color:#d50014;"></span>';
+                                html += '<input type="hidden" class="hiddenImgSrc" value="' + serverId + '" name="RefundCertPic">';
+                                html += '</div>';
+                                $("#UploadPlace").append(html);
+                                $("#IsWxUpload").val("true");
+                                i++;
+                                if(i < len)
+                                    UploadOneImage(localIds[i]);
+                            }
+                        });
+                    }
+                    UploadOneImage();
+                }
+            });
+        }
+        function Remove(obj) {
+            $(obj).parent().remove();
+        }
+    </script>
+}
+
+<script type="text/javascript">
+    $(".refund-select span").click(function () {
+        $('i', $(this).parent().parent()).hide();
+        $('span', $(this).parent().parent()).removeClass('active');
+        $(this).next(".glyphicon-ok").toggle();
+        if ($(this).hasClass("active")) {
+            //$(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        };
+    });
+
+    function TipsError() {
+        var errmsg = $("#errormsg").val();
+        if (errmsg.length > 0) {
+            $.dialog.tips(errmsg, function () {
+                history.go(-1);//返回
+            });
+        }
+    }
+
+
+    var isLoading = false;
+
+    var maxNumber = $(':input[name=maxNumber]').val(),
+        maxPrice = $(':input[name=maxPrice]').val();
+
+    $(function () {
+        //$("#Reason").focus();
+        TipsError();
+        var maxRefundAmount = parseFloat(maxPrice);
+        $("#ReturnQuantity").on("keyup", function () {
+            var refGoodsPrice = $("#refGoodsPrice").val();
+            refGoodsPrice = parseFloat(refGoodsPrice);
+            var rnum = $(this).val();
+            rnum = parseInt(rnum);
+            maxNumber = parseInt(maxNumber);
+            if (refGoodsPrice > 0 && rnum > 0) {
+                var ram = (rnum * refGoodsPrice).toFixed(2);
+                ram = parseFloat(ram);
+                maxPrice = parseFloat(maxPrice);
+                if (rnum >= maxNumber) {
+                    ram = maxPrice;
+                }
+                if (ram > maxPrice) {
+                    ram = maxPrice;
+                }
+                $("#Amount").val(ram);
+                maxRefundAmount = ram;
+            }
+        });
+        $("#Amount").on("keyup",function(){
+            if(parseFloat($(this).val()) > maxRefundAmount){
+                $(this).val(maxRefundAmount);
+            }
+        });
+        $(".j_verificationCode").click(function(){
+            var _this=$(this);
+            if(_this.hasClass('active')){
+                _this.removeClass('active');
+            }else{
+                _this.addClass('active');
+            }
+            var refGoodsPrice = $("#refGoodsPrice").val();
+            refGoodsPrice = parseFloat(refGoodsPrice);
+            var rnum= $("div.vericode .active").length;
+            var ram = (rnum * refGoodsPrice).toFixed(2);
+            ram = parseFloat(ram);
+            maxPrice = parseFloat(maxPrice);
+            if (rnum >= maxNumber) {
+                ram = maxPrice;
+            }
+            if (ram > maxPrice) {
+                ram = maxPrice;
+            }
+            $("#Amount").val(ram);
+        });
+        if('@isVirtual'==1){
+            $("#Amount").bind("keyup", function () {
+                var _value=parseFloat($(this).val());
+                var refGoodsPrice = $("#refGoodsPrice").val();
+                var rnum= $("div.vericode .active").length;
+                var ram = (rnum * refGoodsPrice).toFixed(2);
+                ram = parseFloat(ram);
+                maxPrice = parseFloat(maxPrice);
+                if (rnum >= maxNumber) {
+                    ram = maxPrice;
+                }
+                if (ram > maxPrice) {
+                    ram = maxPrice;
+                }
+                if(_value>ram){
+                    $(this).val(ram);
+                    $(this).attr("placeholder","最多"+ram+"元");
+                }
+            });
+        }
+    });
+    var loadingobj;
+    var a = v({
+        form: 'form1',
+        beforeSubmit: function () {
+            var a = $('#Amount').val();
+            if ((+a) > (+maxPrice)) {
+                $.dialog.errorTips("退款金额不能超过" + maxPrice, '', 3);
+                return false;
+            }
+            var refundType=$("#refundtype li.active").attr("value");
+            if(typeof(refundType)=="undefined"){
+                $.dialog.errorTips('请选择售后类型', '', 3);
+                return false;
+            }
+            var refundPayType=$("#paytype li.active").attr("value");
+            if(typeof(refundPayType)=="undefined"){
+                $.dialog.errorTips("请选择退款方式", '', 3);
+                return false;
+            }
+            
+            var reson = $("#refundreason").find("li.active").html();
+            if (!reson || typeof (reson) == "undefined" || reson =="选择售后理由"){
+                $.dialog.errorTips("请选择售后理由", '', 3);
+                return false;
+            }
+            $("#Reason").val(reson);
+
+            if (refundType== 2) {
+                var a = $('#ReturnQuantity').val();
+                if ((+a) > (+maxNumber)) {
+                    $.dialog.errorTips('不能超过' + maxNumber + '件或者只能为数字!', '', 3);
+                    return false;
+                }
+            }
+            var regPerson = /^[\u4E00-\u9FA5A-Za-z0-9_\ ]{1,20}$/i;
+            if (!regPerson.test($('#ContactPerson').val())) {
+                $.dialog.errorTips("联系人不能包含非法字符！", '', 3);
+                return false;
+            }
+            var regTel = /([\d]{11}$)|(^0[\d]{2,3}-?[\d]{7,8}$)/;
+            if (!regTel.test($('#ContactCellPhone').val())) {
+                $.dialog.errorTips("联系电话格式不对,请检查！", '', 3);
+                return false;
+            }
+
+            var arr = new Array();
+            $.each($('div.vericode .active'), function (i) {
+                arr[i] = $(this).attr("code");
+            });
+            if('@isVirtual'==1){
+                if(arr.length==0){
+                    $.dialog.errorTips("请选择退款核销码", '', 3);
+                    return false;
+                }
+            }
+            var vals = arr.join(",");
+            $("#VerificationCodeIds").val(vals);
+
+            if (isLoading) { return false; }
+            loadingobj = showLoading();
+            isLoading = true;
+            $("#bt-submit").val("提交中...");
+            var rpics = $("input[name='RefundCertPic']");
+            if (rpics.length > 0) {
+                $("#CertPic1").val("");
+                $("#CertPic2").val("");
+                $("#CertPic3").val("");
+                rpics.each(function (index) {
+                    var _t = $(this);
+                    $("#CertPic" + (index+1)).val(_t.val());
+                });
+            }
+        },
+        ajaxSubmit: true,
+        afterSubmit: function (data) {// 表单提交成功回调
+            isLoading = false;
+            loadingobj.close();
+            $("#bt-submit").val("提交");
+            if (data.success) {
+                $.dialog.succeedTips("提交成功！", function () {
+                    window.location.href = "/@(CurrentAreaName)/OrderRefund/RefundList";
+                }, 3);
+            } else {
+                $.dialog.errorTips(data.msg, '', 3);
+            }
+        }
+    });
+
+    $("#refundtype li").click(function(){
+        var  rtype = $(this).attr('value');
+        $("input[name='RefundType']").val(rtype);
+        ChangeRefundType(rtype);
+    });
+    //$("p[name='iRefundType']").click(function () {
+    //    var _t = $('i', this);
+    //    rtype = _t.attr('value');
+    //    if ($('i', this).css('display') != 'none')
+    //        $("input[name='RefundType']").val(rtype);
+    //    ChangeRefundType(rtype);
+    //});
+
+    $("#paytype li").click(function(){
+        var  rtype = $(this).attr('value');
+        $("input[name='RefundPayType']").val(rtype);
+    });
+    //$("p[name='iRefundPayType']").click(function () {
+    //    var _t = $('i', this);
+    //    rtype = _t.attr('value');
+    //    if ($('i', this).css('display') != 'none')
+    //        $("input[name='RefundPayType']").val(rtype);
+    //});
+
+    function ChangeRefundType(v) {
+        var rgbox = $("#ReturnGoodsBox");
+        if (v == 2) {
+            rgbox.show();
+            $('#returnGoodsAddress').show();
+        } else {
+            rgbox.hide();
+            $('#returnGoodsAddress').hide();
+        }
+
+    }
+    ChangeRefundType(@(RefundType));
+
+    function selectway(type,obj){
+        $(".actionsheet ul").hide();
+        $(".actionsheet #"+type).show();
+        $(".actionsheet").addClass('active');
+        $(".cover").show();
+        obj = $(obj).find('input');
+        selectClick(type,obj);
+    }
+    function closeSheet(){
+        $(".actionsheet").removeClass('active');
+        $(".cover").hide();
+    }
+    function selectClick(type,obj){
+        $(".actionsheet #"+type+" li").click(function(){
+            var parent=$(this).parent("ul");
+            parent.find("li").removeClass("active");
+            $(this).addClass("active");
+            $(".actionsheet #"+type).hide();
+            closeSheet();
+            $(obj).val($(this).html());
+        });
+    }
+</script>

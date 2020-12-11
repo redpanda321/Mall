@@ -1,0 +1,14 @@
+﻿
+
+<script>
+	var winxinShareArgs = {
+		share: {
+			title: '与你分享一个很给力的@(Model.Name)',
+			desc: '超值特惠,尽在@(Model.Name)',
+			link: location.href,
+			imgUrl: '@Mall.Core.MallIO.GetRomoteImagePath(Model.TopImage)'
+		}
+	};
+</script>
+
+@Html.Partial("_WeiXinShare")

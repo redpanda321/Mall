@@ -1,0 +1,240 @@
+﻿@model Mall.DTO.Order
+@{
+    ViewBag.Title = "物流查询";
+}
+<style>
+    .map-box { height: 320px; }
+    .container,body{background-color: #fff;}   
+</style>
+<button id="btnBackApplet" onclick="onBackApplet()">返回小程序</button>
+<div class="container">
+    <div class="list-group">
+        <div class="list-group-item"><span> 运单号码：@(Model.ShipOrderNumber == null ? string.Empty : Model.ShipOrderNumber) </span><br><span>物流公司：@(Model.ExpressCompanyName == null ? string.Empty : Model.ExpressCompanyName) </span> <a name=""></a></div>
+        <div class="list-group-item" id="expressDetail">
+            正在加载...
+        </div>
+        <div class="qqmapbox">
+            <div class="map-box" id="qqmapcontainer"></div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="@Model.OrderId" id="hidOrderId" />
+<input type="hidden" value="@Model.ExpressCompanyName" id="expressCompanyName" />
+<input type="hidden" value="@Model.ShipOrderNumber" id="shipOrderNumber" />
+<input type="hidden" id="hidIsShowDadaGIS" value="@(Model.DeliveryType== Mall.CommonModel.DeliveryType.CityExpress?1:0)" />
+<input type="hidden" id="hidUserLatlng" value="@(Model.ReceiveLatitude+","+Model.ReceiveLongitude)" />
+<input type="hidden" id="hidStoreLatlng" value="@(ViewBag.StoreLat+","+ViewBag.StoreLng)" />
+<input type="hidden" id="hidBaseURL" value="@(Mall.Web.Framework.CurrentUrlHelper.CurrentUrl())" />
+<script type="text/javascript" charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+<script type="text/javascript">
+	$( function ()
+	{
+	    //$( '.bonus' ).height( $( '.bonus' ).width() * 39 / 28 )
+	    if(window.__wxjs_environment === 'miniprogram'){
+	        $("#btnBackApplet").show();
+	    }
+	    else{
+	        $("#btnBackApplet").hide();
+	    }
+	} );
+	function onBackApplet(){
+	    wx.miniProgram.navigateBack();
+	}
+</script>
+<script>
+
+    var expressCompanyName = $('#expressCompanyName').val();
+    var shipOrderNumber = $('#shipOrderNumber').val();
+    var IsShowDadaGIS = $("#hidIsShowDadaGIS").val();
+
+    if (IsShowDadaGIS != 1) {
+        $.post('/common/ExpressData/search',
+            { expressCompanyName: expressCompanyName, shipOrderNumber: shipOrderNumber },
+            function (expressData) {
+                if (expressData.success &&expressData.data.length>0) {
+                    var html = '<ul class="goods_interflow">';
+                    $.each(expressData.data, function (i, data) {
+                        var style = '';
+                        if (!i) {
+                            style = ' class="active"';
+                        }
+                        html += ' <li>\
+                             <i ' + style + '></i>\
+                             <p>' + data.content + '</p>\
+                             <p>' + data.time + '</p>\
+                                  <hr />\
+                         </li>';
+                    });
+                    html += '</ul>';
+                    $('#expressDetail').html(html);
+                }
+                else {
+                    //$('#expressDetail').html('<label class="red">' + (expressData.msg?expressData.msg:'') + '</label>');
+                    if (expressCompanyName.indexOf('顺丰') == 0) {
+                        $('#expressDetail').html('<h4>暂无物流信息，请稍后再试；<a class="fr blue" href="http://www.sf-express.com/mobile/cn/sc/dynamic_function/waybill/waybill_query_info.html?billno=' + shipOrderNumber + '">顺丰官网查询<i class="glyphicon glyphicon-menu-right"></i></a></h4><br/><p>如有信息推送不及时，请前往物流官网查询！</p>')
+                    } else {
+                        $('#expressDetail').html('<h4>暂无物流信息，请稍后再试；<a class="fr blue" href="https://m.kuaidi100.com/result.jsp?nu=' + shipOrderNumber + '">快递100查询<i class="glyphicon glyphicon-menu-right"></i></a></h4><br/><p>如有信息推送不及时，请前往物流官网查询！</p>')
+                    }
+                }
+            }
+        );
+    } else {
+
+        var baseurl = $("#hidBaseURL").val();
+        var map, dadaStatus, riderTips = "", riderDistance = "", targetLatlng;
+        var userlatlng = $("#hidUserLatlng").val(), storelatlng = $("#hidStoreLatlng").val();
+        var canShowMap = $("#hidIsShowDadaGIS").val() == "1";
+        var userlat, userlng, storelat, storelng, riderlat, riderlng;
+        if (userlatlng.length > 0 && userlatlng.indexOf(",") >= 0) {
+            userlat = parseFloat(userlatlng.split(",")[0]);
+            userlng = parseFloat(userlatlng.split(",")[1]);
+        }
+        if (storelatlng.length > 0 && storelatlng.indexOf(",") >= 0) {
+            storelat = parseFloat(storelatlng.split(",")[0]);
+            storelng = parseFloat(storelatlng.split(",")[1]);
+        }
+        canShowMap = canShowMap && !isNaN(userlat) && !isNaN(userlng) && !isNaN(storelat) && !isNaN(storelng);
+
+        if (canShowMap) {
+            initShowMap();
+        }
+
+        function initShowMap() {
+            //处理骑手信息
+            $.ajax({
+                type: "get",
+                url: "/common/ExpressData/searchDada",
+                data: { orderid: $("#hidOrderId").val() },
+                dataType: "json",
+                success: function (data) {
+                    if (data && data.status == "success" && data.result) {
+                        dadaStatus = data.result.statusCode;
+                        var loginfo = data.result.statusMsg;
+                        if (dadaStatus == 2) {
+                            canShowMap = canShowMap && true;
+                            riderTips = "距商家";
+                            targetLatlng = storelatlng;
+                        }
+                        if (dadaStatus == 3) {
+                            canShowMap = canShowMap && true;
+                            riderTips = "距客户";
+                            targetLatlng = userlatlng;
+                        }
+                        if (dadaStatus == 2 || dadaStatus == 3 || dadaStatus == 4) {
+                            loginfo += "<br>骑手：" + data.result.transporterName + "," + data.result.transporterPhone;
+                        }
+                        $("#expressDetail").html(loginfo);
+                        if (canShowMap) {
+                            riderlat = parseFloat(data.result.transporterLat);
+                            riderlng = parseFloat(data.result.transporterLng);
+                            if (dadaStatus == 4) {
+                                riderlat = userlat;
+                                riderlng = userlng;
+                            }
+                            if (!isNaN(riderlat) && !isNaN(riderlng)) {
+                                $.ajax({
+                                    type: "get",
+                                    url: "/common/ExpressData/GetDistance",
+                                    data: { fromLatLng: targetLatlng, endLatLng: riderlat + "," + riderlng },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        if (data) {
+                                            if (data.result > 1000) {
+                                                riderDistance = (data.result / 1000).toFixed(2) + "KM";
+                                            } else {
+                                                riderDistance = data.result.toFixed(2) + "M"
+                                            }
+                                            $("#divlogisticsInfo").hide();
+                                            initMap(getMiddelNumber(userlat, riderlat), getMiddelNumber(userlng, riderlng), data.result);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    else {
+                        if (data.status == "fail") {
+                            ShowMsg(data.msg);
+                        }
+                    }
+                }
+            });
+        }
+
+        function initMap(lat, lng, distance) {
+            var zoom = 14;
+            if (distance > 4000) {
+                zoom = 13;
+            }
+            if (distance > 40000) {
+                zoom = 11;
+            }
+            if (distance < 1000) {
+                zoom = 15;
+            }
+            var center = new qq.maps.LatLng(lat, lng);
+            map = new qq.maps.Map(document.getElementById('qqmapcontainer'), {
+                center: center,
+                zoom: zoom
+            });
+            addMapMarker(map, new qq.maps.LatLng(userlat, userlng), "客户", baseurl + "/images/icon_map_my.png", 32, 40);
+            addMapMarker(map, new qq.maps.LatLng(storelat, storelng), "门店", baseurl + "/images/icon_map_store.png", 32, 40);
+            if (dadaStatus == 2 || dadaStatus == 3) {
+                addMapMarker(map, new qq.maps.LatLng(riderlat, riderlng), riderTips + riderDistance, baseurl + "/images/icon_map_rider.png", 40, 50);
+            }
+            addReloadBtn(map);
+        }
+        function addReloadBtn(map) {
+            var controlDiv = document.createElement("div");
+            controlDiv.style.padding = "3px";
+            controlDiv.style.backgroundColor = "#FFFFFF";
+            controlDiv.style.border = "1px solid #666";
+            controlDiv.style.margin = "0 10px 30px 0";
+
+            controlDiv.index = 1;//设置在当前布局中的位置
+            controlDiv.innerHTML = "<img src='" + baseurl + "/images/posi-icon1.png' width='16'>&nbsp;重新加载";
+            controlDiv.onclick = function () {
+                initShowMap();
+            };
+            map.controls[qq.maps.ControlPosition.BOTTOM_RIGHT].push(controlDiv);
+        }
+        function addMapMarker(map, latlng, tips, tipsicon, w, h) {
+            var marker = new qq.maps.Marker({
+                title: tips,
+                position: latlng,
+                map: map,
+            });
+            var anchor = new qq.maps.Point(w / 2, h),
+                 size = new qq.maps.Size(w, h),
+                 origin = new qq.maps.Point(0, 0),
+                 markerIcon = new qq.maps.MarkerImage(
+             tipsicon,
+             size,
+             origin,
+             anchor
+           );
+            var label = new qq.maps.Label({
+                position: latlng,
+                map: map,
+                content: tips,
+                style: { color: "#f00", fontSize: "12px", fontWeight: "bold", boxshadow: "3px 4px 3px #aaa" },
+                offset: new qq.maps.Size(-16, h > 40 ? -73 : -62)
+            });
+            marker.setIcon(markerIcon);
+        }
+        function getMiddelNumber(one, two) {
+            var _tmp;
+            if (one > two) {
+                _tmp = two;
+                two = one;
+                one = _tmp;
+            }
+            _tmp = (two - one) / 2;
+            return one + _tmp;
+        }
+    }
+
+
+</script>

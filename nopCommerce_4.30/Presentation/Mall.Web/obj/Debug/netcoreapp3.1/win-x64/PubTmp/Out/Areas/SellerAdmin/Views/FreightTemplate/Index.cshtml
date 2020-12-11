@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "为指定城市设置运费";
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/FreightTemplate.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix" id="ulMenu">
+        <strong>运费模版设置</strong>
+        <li class="active"><a id="btnManage" >管理</a></li>
+        <li ><a id="btnAdd" href="Add">新增</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>计价方式为按重量/按体积的运费模板，在商品发布时需要填写商品的重量/体积。</span></li>
+				<li class="mark-info"><span>注意：正在使用中的运费模板不允许删除。</span></li>
+			</ul>
+		</div>
+	</div>
+    <table class="table Sclear-I" id="list"></table>
+</div>
+
+

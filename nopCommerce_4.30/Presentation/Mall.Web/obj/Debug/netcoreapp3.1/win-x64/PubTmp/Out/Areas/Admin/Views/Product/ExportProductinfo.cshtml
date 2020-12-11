@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Mall.Web.Areas.Admin.Models.Product.ProductModel>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>商品</th>
+            <th>店铺</th>
+            <th>销售状态</th>
+            <th>平台分类</th>
+            <th>品牌</th>
+            <th>商品货号</th>
+
+            <th>商家分类</th>
+            <th>商品类型</th>
+            <th>审核状态</th>
+            <th>审核备注</th>
+            <th>发布时间</th>
+            <th>市场价</th>
+            <th>计量单位</th>
+            <th>运费模板</th>
+            <th>商城价</th>
+            <th>总库存</th>
+            <th>是否开启规格</th>
+            <th>规格信息</th>
+            <th>价格</th>
+            <th>库存</th>
+            <th>规格货号</th>
+            <th>是否开启阶梯批发</th>
+            <th>阶梯价</th>
+            <th>虚拟商品有效期</th>
+            <th>是否支持退款</th>
+            <th>核销码生效期</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            int rowcount = 1;
+            if (item.SKUInfo != null && item.HasSKU)
+            {
+                rowcount = item.SKUInfo.Count();
+            }
+            <tr>
+                <td rowspan='@rowcount'>@item.name</td>
+                <td rowspan='@rowcount'>@item.shopName</td>
+                <td rowspan='@rowcount'>@item.state</td>
+                <td rowspan='@rowcount'>@item.categoryName</td>@*平台分类*@
+                <td rowspan='@rowcount'>@item.brandName</td>
+                <td rowspan='@rowcount'>@item.productCode</td>
+
+                <td rowspan='@rowcount'>@item.ShopCategoryName</td>@*商家分类*@
+                <td rowspan='@rowcount'>@item.ProductTypeName</td>@*商品类型*@
+                <td rowspan='@rowcount'>@item.AuditStatusText</td>@*审核状态*@
+                <td rowspan='@rowcount'>@item.AuditReason</td>@*审核备注*@
+                <td rowspan='@rowcount'>@item.AddedDate</td>@*发布时间*@
+                <td rowspan='@rowcount'>@item.MarketPrice</td>@*市场价*@
+                <td rowspan='@rowcount'>@item.MeasureUnit</td>@*计量单位*@
+                <td rowspan='@rowcount'>@item.FreightTemplateName</td>@*运费模板*@
+                <td rowspan='@rowcount'>@item.price.ToString("F2")</td>@*商城价*@
+                <td rowspan='@rowcount'>@item.SKUInfo.Sum(r => r.Stock)</td>@*总库存*@
+                <td rowspan='@rowcount'>@(item.HasSKU ? "是" : "否")</td>@*是否开启规格*@
+                @if (item.HasSKU && @rowcount >= 1)
+                {
+                    <td>@item.SKUInfo.First().Color @item.SKUInfo.First().Size @item.SKUInfo.First().Version</td>@*规格信息*@
+                    <td>@item.SKUInfo.First().SalePrice.ToString("F2")</td>@*价格*@
+                    <td>@item.SKUInfo.First().Stock</td>@*库存*@
+                    <td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.SKUInfo.First().Sku</td>@*规格货号*@
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                }
+                <td rowspan='@rowcount'>@(item.IsOpenLadder ? "是" : "否")</td>@*是否开启阶梯批发*@
+                <td rowspan='@rowcount'>
+                    @if (item.IsOpenLadder && item.ProductLadderPrice != null)
+                    {
+                        string strLadderPriceText = string.Empty;
+                        int ladderlength = item.ProductLadderPrice.Count();
+                        <table>
+                            @for (int i = 0; i < ladderlength; i++)
+                            {
+                                var ladderInfo = item.ProductLadderPrice[i];
+                                var strLadder = string.Empty;
+                                if ((i + 1) != ladderlength)
+                                {
+                                    strLadder = string.Format("起购量{0}至{1} 产品单价：{2}", ladderInfo.MinBath, ladderInfo.MaxBath, ladderInfo.Price);
+                                }
+                                else
+                                {
+                                    strLadder = string.Format("起购量{0}以上 产品单价：{1}", ladderInfo.MinBath, ladderInfo.Price);
+                                }
+                                <tr><td>@strLadder</td></tr>
+                            }
+                        </table>
+                    }
+                </td>@*阶梯价*@
+                <td rowspan='@rowcount'>@(item.VirtualProduct == null ? "" : (!item.VirtualProduct.ValidityType ? "长期有效" : item.VirtualProduct.StartDate + "-" + item.VirtualProduct.EndDate))</td>@*虚拟商品有效期*@
+                <td rowspan='@rowcount'>@(item.VirtualProduct == null ? "" : (Mall.Application.ProductManagerApplication.GetSupportRefundTypeText(item.VirtualProduct.SupportRefundType)))</td>@*退款*@
+                <td rowspan='@rowcount'>@(item.VirtualProduct == null ? "" : (Mall.Application.ProductManagerApplication.GetEffectiveTypeText(item.VirtualProduct.EffectiveType, item.VirtualProduct.Hour)))</td>@*核销码生效期*@
+            </tr>
+            if (item.HasSKU && item.SKUInfo.Count() >= 2)
+            {
+                int index = 1;
+                foreach (var skuitem in item.SKUInfo)
+                {
+                    if (index >= 2)
+                    {
+                        <tr>
+                            <td>@skuitem.Color @skuitem.Size @skuitem.Version</td>
+                            <td>@skuitem.SalePrice.ToString("F2")</td>
+                            <td>@skuitem.Stock</td>
+                            <td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@skuitem.Sku</td>
+                        </tr>
+                    }
+                    index++;
+                }
+            }
+        }
+    </tbody>
+</table>

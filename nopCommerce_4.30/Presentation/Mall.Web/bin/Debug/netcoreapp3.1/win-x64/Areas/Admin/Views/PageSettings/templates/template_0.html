@@ -1,0 +1,1135 @@
+﻿<!DOCTYPE html>
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+    <meta charset="utf-8" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <meta property="wb:webmaster" content="13b21966c78f011e" />
+    <meta property="Generator" content="3.3-KB33001" />
+    <script src="https://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+    <title></title>
+    <link href="/Areas/Web/Content/common.css?v=20183030" rel="stylesheet" />
+    <link href="/Areas/Web/Content/style.css?v=20183030" rel="stylesheet" />
+    <link href="/Areas/Web/Content/WebLoginPlug.css" rel="stylesheet" />
+    <link href="/Areas/Web/Content/WebAlertPlug.css" rel="stylesheet" />
+    <link href="/Areas/Web/Content/artdilog.css" rel="stylesheet" />
+    <link href="/Content/Public/plugins/jbox/jbox-min.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="/Areas/Web/Scripts/web.js?v=20183030"></script>
+    <script src="/Areas/Web/Scripts/userInfo.js?v=20183030"></script>
+    <script src="/Areas/Web/Scripts/home.js?v=20183030"></script>
+    <script src="/Scripts/JumpPlatForm.js"></script>
+    <script src="/Scripts/jquery.cookie.js"></script>
+    <script src="/Scripts/CommonJS.js?v=20183030"></script>
+    <script src="/Scripts/jQuery.mouseDelay.min.js"></script>
+    <script src="/Scripts/jquery.scrollLoading.min.js"></script>
+    <script src="/Scripts/jquery.nicescroll.min.js"></script>
+    <script src="/Areas/Web/Scripts/jQuery.Web.Alert.js"></script>
+    <script src="/Areas/Web/Scripts/jQuery.Web.Login.js"></script>
+    <script src="/Scripts/jquery.artDialog.js"></script>
+    <script src="/Areas/Web/Scripts/artDialog.iframeTools.js"></script>
+    <script src="/Areas/Web/Scripts/head.js"></script>
+    <script src="/Scripts/bootstrap.autocomplete.js?v=20183030"></script>
+    <script src="/Areas/Web/Scripts/home.coupon.js?v=20183030"></script>
+    <script src="/Areas/Web/Scripts/headdata.js?v=20183030"></script>
+    <!--<script src="https://cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>-->
+    <script src="/Scripts/jquery.vue.2.4.4.js"></script>
+    <script src="/Content/Public/plugins/jbox/jquery.jbox-min.js?v=20183030"></script>
+    <script>
+        var advertisementImagePath = '';
+        var advertisementUrl = '';
+        if (advertisementImagePath != '') {
+            $(function () {
+                var div = $('<div id="adv_div"><a href="' + advertisementUrl + '" style="background-image: url(' + advertisementImagePath + ');"></a><div class="close">关闭</div></div>');
+                var div2 = $('<div id="adv_div"><a href="' + advertisementUrl + '"><img src="' + advertisementImagePath + '"></a><div class="close">关闭</div></div>');
+                $('body').prepend(div);
+                $('img', div2).load(function () {
+                    div.height(90);
+                });
+                $('.close', div).click(function () {
+                    div.remove();
+                });
+            });
+        }
+
+        $(function () {
+            loadFoot();//加载底部信息
+        });
+    </script>
+</head>
+<body>
+    <div id="content">
+        <div class="top template-node template-nodel" name="advertisement" updown="0" t-title="顶部广告栏编辑">
+            <div style="height:90px;overflow:hidden" v-if="advertisement.hide==false">
+                <a v-bind:href="advertisement.url"><img v-bind:src="advertisement.img" /></a>
+            </div>
+            <div style="height:90px;overflow:hidden;display:none" class="j_hideAd" v-else></div>
+        </div>
+        <div class="top">
+            <div class="j_nopointer template-node template-nodel warp cl" name="" updown="0" t-title="头部信息">
+                <span class="top-link">
+                    您好，欢迎来到 <em class="s-name j_name"></em>
+                    <a href="/userCenter/home">去买家中心</a>
+
+                </span>
+                <ul class="login-regin" id="loginUser">
+                    <li class="L-line"> <a href="/Login">请登录</a></li>
+                    <li> <a href="/Register">免费注册</a></li>
+                </ul>
+
+                <ul class="quick_list">
+
+                    <li class="sitemap dropdown">
+                        <span class="outline"></span>
+                        <span class="blank"></span>
+                        <a href="/UserCenter/home" class="j_myname"><b></b></a>
+
+                        <div class="dropdown-menu">
+                            <ol>
+                                <li><a href="/UserOrder">已买到的商品</a></li>
+                                <li><a href="/productConcern">我关注的商品</a></li>
+                                <li><a href="/shopConcern">我关注的店铺</a></li>
+                            </ol>
+                        </div>
+                    </li>
+                    <li><em class="shopping-cart"></em><a target="_blank" href="/cart/cart?returnUrl=%2f">购物车<em><span id="shopping-amount"></span></em>件</a></li>
+                    <li class="moblie-qrcode dropdown">
+
+						<span class="outline"></span>
+						<span class="blank"></span>
+						<a href="javascript:void(0)">微信端</a>
+						<div class="dropdown-menu">
+							<img src="/Storage/Plat/Site/qrCode.png" width="90" height="90" />
+						</div>
+					</li>
+                    <li class="app-qrcode dropdown service j_app" style="display:none">
+                        <span class="outline"></span>
+                        <span class="blank"></span>
+                        <a href="javascript:void(0)">APP</a>
+                        <div class="dropdown-menu">
+                            <img width="90" height="90" src="" /><!--Base64显示-->
+                            <h3>扫描二维码</h3>
+                            <p>下载手机客户端</p>
+                        </div>
+                    </li>
+                    <li class="service dropdown">
+                        <span class="outline"></span>
+                        <span class="blank"></span>
+                        <a href="/SellerAdmin">卖家中心<b></b></a>
+
+                        <div class="dropdown-menu">
+                            <ol>
+                                <li><a href="/SellerAdmin">商家入驻</a></li>
+                                <li><a href="/SellerAdmin/order/management">已卖出商品</a></li>
+                                <li><a href="/SellerAdmin/product/create">发布商品</a></li>
+                                <li><a href="/SellerAdmin/product/management">管理商品</a></li>
+
+                            </ol>
+                        </div>
+                    </li>
+                    <li class="service dropdown">
+                        <span class="outline"></span>
+                        <span class="blank"></span>
+                        <a href="javascript:void(0)">客户中心<b></b></a>
+
+                        <div class="dropdown-menu">
+                            <ol>
+                                <li><a href="/Article/Category">帮助中心</a></li>                                
+                                <li><a href="/OrderComplaint">投诉中心</a></li>
+                            </ol>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script src="/Areas/Web/Scripts/topInfo.js"></script>
+        <div class="header">
+            <div class="search-bar cl">
+                <div class="logo j_logo"><a href="/" target="_blank"><img src="" alt="Mall" /></a></div>
+
+                <div class="top-head-ad template-node template-nodel" name="headadrecommendproduct" updown="0" t-title="头部小广告">
+                    <a :href="headadrecommendproduct.url" v-if="headadrecommendproduct.hide==true"><img class="lazyload" src="/images/default.png" :data-url="headadrecommendproduct.img" width="200" height="90" /></a>
+                </div>
+
+                <div class="search template-node template-nodel" name="search" updown="0" t-title="搜索设置">
+                    <div class="search-form cl">
+                        <ul>
+                            <li>商品</li>
+                            <li>店铺</li>
+                        </ul>
+                        <label>商品</label>
+                        <input type="text" id="searchBox" class="text" :placeholder="search.keyWord" />
+                        <input type="button" id="searchBtn" class="button" value="搜索" />
+                    </div>
+                    <div class="hot-search">
+                        <a onclick="location.href=encodeURI( $(this).attr('url'))" v-bind:url="'/search/searchAd?keywords='+search.hotKeyWords" v-bind:keyword="search.hotKeyWords"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-content">
+                <div class="categorys">
+                    <div class="cate-all"><a>全部商品分类</a><b></b></div>
+                    <div class="category">
+                        <div class="mc template-node template-nodel" name="category" updown="0" t-title="商城分类设置">
+                            <template v-for="(category,i) in categories">
+                                <div class="item">
+                                    <span>
+                                        <h3>
+                                            <template v-for="(item,index) in category.top">
+                                                <i class="icon">
+                                                    <img v-if="item.icon" :src="item.icon">
+                                                </i>
+                                                <span v-if="index>0">、</span>
+                                                <a :href="'/Search/SearchAd?cid='+(!isNaN(item.categoryId)?item.categoryId:item.id)" target="_blank">{{item.name}}</a>
+                                            </template>
+                                        </h3>
+                                    </span>
+                                    <div class="category-details">
+                                        <div class="subitem">
+                                            <p>
+                                                <template v-for="(item,index) in category.top">
+                                                    <span v-if="index>0">、</span>
+                                                    <a :href="'/Search/SearchAd?cid='+(!isNaN(item.categoryId)?item.categoryId:item.id)" target="_blank">{{item.name}}</a>
+                                                </template>
+                                            </p>
+
+                                            <dl v-for="(item,index) in category.group" :class="index==0?'first':''">
+                                                <dt><a :href="'/Search/SearchAd?cid='+item.parent.id" target="_blank">{{item.parent.name}}</a></dt>
+                                                <dd>
+                                                    <em v-for="c in item.items">
+                                                        <a :href="'/Search/SearchAd?cid='+c.id" target="_blank">{{c.name}}</a>
+                                                    </em>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div class="cate-right">
+                                            <h5>推荐品牌</h5>
+                                            <ul>
+                                                <li v-for="(item,j) in category.brands">
+                                                    <a v-bind:data-path="'categories.'+i+'.brands.'+j" :href="'/Search/SearchAd?b_id='+item.id" :title="item.name" target="_blank" v-if="item.status==1" v-bind:id="item.id" class="categorybrands need-refresh">
+                                                        <img class="lazyload" src="/images/default.png" :data-url="item.logo" :alt="item.name" />
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav cl template-node template-nodel" name="navigation" updown="0" t-title="导航条设置">
+                    <li class="_banner" id="homePage" index=""><a href="/">首页</a></li>
+                    <template v-for="item in navigations">
+                        <li class="_banner" v-if="item.status==1" :index="item.url"><a :target="item.enableDelete==1?'_blank':''" :href="item.url">{{item.name}}</a></li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+
+        <div class="right-side">
+            <div class="right-side-menu">
+                <ul class="menu-top">
+                    <li data-tag="user">
+                        <i class="user" id="right_userCenter"><s></s></i>
+                        <span>个人中心</span>
+                    </li>
+                    <s></s>
+                    <li data-tag="cart" arrow class="side-cart" id="right_cart">
+                        <i class="cart"><s></s></i>
+                        <p>购物车</p>
+                        <em>0</em>
+                    </li>
+                    <s></s>
+                    <li data-tag="asset" arrow id="right_asset">
+                        <i class="asset"><s></s></i>
+                        <span>资产中心</span>
+                        <div class="side-point">
+                            该店铺可领优惠券<br />
+                            <a>立即领取</a>
+                        </div>
+                    </li>
+                    <li data-tag="at-goods" arrow id="right_goods">
+                        <i class="at-goods"><s></s></i>
+                        <span>关注商品</span>
+                    </li>
+                    <li data-tag="history" arrow id="right_history">
+                        <i class="history"><s></s></i>
+                        <span>浏览历史</span>
+                    </li>
+
+                    <li data-tag="customer" id="right_customer">
+                        <s></s><i class="customer"><b></b><em>客服</em></i>
+                        <span></span>
+                    </li>
+                </ul>
+                <ul class="menu-bot">
+                    <li>
+                        <i class="go-top"></i>
+                        <span>返回顶部</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="side-content">
+                <div class="side-cart-c">
+                    <div class="side-bd">
+                        <input type="hidden" value="2" id="hidAuditStatus" />
+                        <input type="hidden" value="1" id="hidSaleStatus" />
+                        <div class="cart-top">
+                            <label><input type="checkbox" name="s-checkAll" checked />全选</label>
+                            <a href="/cart/cart?returnUrl=%2f" title="">查看全部</a>
+                        </div>
+                        <div class="cart-list">
+                            <ul id="side-cart-list"></ul>
+                        </div>
+                    </div>
+                    <div class="side-bt">
+                        <div class="cart-total">
+                            <span class="total-money">￥<em id="s-total-money">0</em></span>
+                            <span class="total-num">已选<em id="s-total-num">0</em>件</span>
+                        </div>
+                        <input type="button" id="toSubmitOrder" value="购物车结算">
+                    </div>
+                </div>
+
+                <div class="side-asset-c">
+                    <div class="side-hd">
+                        <a class="side-close" title="关闭">>></a>
+                        <a href="/UserCenter?url=/userCoupon&tar=userCoupon" target="_blank">资产中心</a>
+                    </div>
+                    <div class="side-bd" id="userCouponList">
+                        <div class="side-asset-total cl">
+                            <div>
+                                <span id="memberIntegral">0</span>
+                                <p>我的积分</p>
+                            </div>
+                            <div>
+                                <span id="mycouponcount">0</span>
+                                <p>优惠券</p>
+                            </div>
+                        </div>
+                        <div class="side-asset-list" id="myCouponList">
+
+                            <p>已领取的优惠券</p>
+                            <ul></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-atgoods-c">
+                    <div class="side-hd">
+                        <a class="side-close" title="关闭">>></a>
+                        <a href="/UserCenter?url=/productConcern&tar=productConcern" target="_blank">关注商品</a>
+                    </div>
+                    <div class="side-bd">
+                        <ul class="side-goods-list cl" id="memberConcern"></ul>
+                    </div>
+                </div>
+                <div class="side-history-c">
+                    <div class="side-hd">
+                        <a class="side-close" title="关闭">>></a>
+                        <a href="javascript:void(0)" target="_blank">浏览历史</a>
+                    </div>
+                    <div class="side-bd">
+                        <ul class="side-goods-list cl" id="userBrowsingProducts"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="isLogin" value="false" />
+        <div class="first-screen cl">
+            <div class="slide-box">
+                <div name="pictureads" id="slide" class="template-node template-nodel" updown="0" t-title="轮播图">
+                    <ul class="slide-items">
+                        <template v-for="(item,index) in pictureads.picturesdata">
+                            <li :class="index==0?'active':''">
+                                <a :href="item.url" target="_blank" v-bind:style="{backgroundImage: 'url(' +item.img+ ')'}"></a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+                <div class="small-banner">
+                    <div class="template-node template-nodel" name="recommendproduct" t-title="公告栏" updown="0" style="height:486px;">
+                        <div class="notice jl-notice" v-if="recommendproduct.hide==true">
+                            <h2><a v-bind:href="recommendproduct.cid" target="_blank" v-if="recommendproduct.hide==true">商城公告</a></h2>
+                            <div class="content">
+                                <ul class="notice-items">
+                                    <template v-for="item in recommendproduct.data">
+                                        <li>
+                                            <a v-bind:href="item.url" target="_blank">{{item.title}}</a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="banner-separator"></div>
+                        <a v-bind:href="recommendproduct.url" target="_blank" v-if="recommendproduct.hide==true"><img class="lazyload" src="/images/default.png" :data-url="recommendproduct.img" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="floors">
+                <template v-for="(item,news_index) in news">
+                    <div v-if="item.name=='limitedBuy'" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="Limited-buy">
+                            <h5> <s></s></h5>
+                            <ul>
+                                <li v-for="(v,j) in item.data.limiteData" :data-path="'news.'+news_index+'.data.limiteData.'+j" :data-id="v.productId" class="limitime need-refresh" v-if="v.status==1">
+                                    <span class="num-p">
+                                        <b class="b1">仅余</b>
+                                        <em v-for="n in v.stock">{{n}}</em>
+                                        <b class="b2">件</b>
+                                    </span>
+                                    <a class="limi-img" :href="v.url" target="_blank"><img class="lazyload" src="/images/default.png" :data-url="v.img" width="230" height="230"></a>
+                                    <span class="limi-name">{{v.productName}}</span>
+                                    <span class="old-p"><span v-if="v.cost>0">原价<s>{{v.cost}}</s></span><span v-else><s></s></span></span>
+                                    <span class="now-p">RMB<b>{{v.price}}</b></span>
+                                    <a class="buy-it-now" :href="v.url" target="_blank">立即抢购</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==1" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floor">
+                            <div class="floor-hd">
+                                <h3 class="title">{{item.data.floorName}}</h3>
+                                <ul class="right-link">
+                                    <li class="active">{{item.data.defaultTabName}}</li>
+                                    <li v-for="tab in item.data.tabs">{{tab.name}}</li>
+                                </ul>
+                            </div>
+                            <div class="floor-bd">
+                                <div class="floor-content cl">
+                                    <div class="Content1 clearfix">
+                                        <div class="content-left">
+                                            <div class="bg-img ani-img">
+                                                <a :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a>
+                                            </div>
+                                            <div class="cata-flo">
+                                                <ul class="cl">
+                                                    <li v-for="link in item.data.textLinks"><a :href="link.url" target="_blank">{{link.name}}</a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="content-brand">
+                                                <b class="prev"></b>
+                                                <b class="next"></b>
+                                                <div class="brand-A">
+                                                    <div class="brandA-wrap">
+                                                        <div class="scroll-A">
+                                                            <ul>
+                                                                <li v-for="brand in item.data.brands" class="ani-img"><a target="_blank" :title="brand.name" :href="'/Search/SearchAd?b_id='+brand.id"><img class="lazyload" src="/images/default.png" :data-url="brand.src" /></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="content-right-box">
+                                            <ul class="content-right-img">
+                                                <li class="fore1 ani-img"><a :href="item.data.imgPlace[1].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[1].src" /></a></li>
+                                                <li class="fore2 ani-img"><a :href="item.data.imgPlace[2].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[2].src" /></a></li>
+                                                <li class="fore3 ani-img"><a :href="item.data.imgPlace[3].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[3].src" /></a></li>
+                                                <li class="fore4 ani-img"><a :href="item.data.imgPlace[4].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[4].src" /></a></li>
+                                                <li class="fore5 ani-img"><a :href="item.data.imgPlace[5].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[5].src" /></a></li>
+                                            </ul>
+                                            <ul class="content-right-tab" style="display:none" v-for="(tab,i) in item.data.tabs">
+                                                <li v-for="(pro,j) in tab.details" class="product need-refresh" v-show="pro.saleStatus==1" :data-path="'news.'+news_index+'.data.tabs.'+i+'.details.'+j" :data-id="pro.productId">
+                                                    <div class="p-img">
+                                                        <a :href="'/Product/Detail/'+pro.productId" target="_blank"><img class="lazyload" :src="pro.image" :data-url="pro.image"></a>
+                                                    </div>
+
+                                                    <p>￥<span>{{pro.price}}</span></p>
+                                                    <h3><a :href="'/Product/Detail/'+pro.productId" target="_blank">{{pro.name}}</a></h3>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <ul class="Content2 clearfix">
+                                        <li class="ani-img"><a :href="item.data.imgPlace[6].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[6].src" /></a></li>
+                                        <li class="big ani-img"><a :href="item.data.imgPlace[7].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[7].src" /></a></li>
+                                        <li class="ani-img"><a :href="item.data.imgPlace[8].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[8].src" /></a></li>
+                                        <li class="ani-img"><a :href="item.data.imgPlace[9].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[9].src" /></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==2" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floorB floor">
+                            <div class="floorB-hd">
+                                <h3 class="title">{{item.data.floorName}}</h3>
+                            </div>
+                            <div class="floor-show-area">
+                                <div class="t-show ani-img"><a :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a></div>
+                                <div class="b-show clearfix">
+                                    <a class="ani-img" v-for="(img,index) in item.data.imgPlace" v-if="index" :href="img.url"><img class="lazyload" src="/images/default.png" :data-url="img.src" /></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==3" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floorA  floor clearfix">
+                            <div class="floorA-hd">
+                                <h3 class="title">{{item.data.floorName}}</h3>
+                                <ul class="right-link">
+                                    <li class="active">{{item.data.defaultTabName}}</li>
+                                    <li v-for="tab in item.data.tabs">{{tab.name}}</li>
+                                </ul>
+                            </div>
+                            <div class="left-show clearfix">
+                                <div class="section showA ani-img"><a :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a></div>
+                            </div>
+                            <div class="floorA-right">
+                                <div class="right-img-show clearfix tab-right current">
+                                    <div class="right-show-wrap clearfix">
+                                        <div class="section showB">
+                                            <a class="ani-img" :href="item.data.imgPlace[1].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[1].src" /></a>
+                                            <a class="ani-img" :href="item.data.imgPlace[6].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[6].src" /></a>
+                                        </div>
+                                        <div class="section showC">
+                                            <a class="ani-img" :href="item.data.imgPlace[2].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[2].src" /></a>
+                                            <a class="ani-img" :href="item.data.imgPlace[3].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[3].src" /></a>
+                                            <a class="ani-img" :href="item.data.imgPlace[7].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[7].src" /></a>
+                                            <a class="ani-img" :href="item.data.imgPlace[8].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[8].src" /></a>
+                                        </div>
+                                    </div>
+                                    <div class="right-hot clearfix">
+                                        <h3>热销推荐</h3>
+                                        <ul>
+                                            <li><a class="ani-img" :href="item.data.imgPlace[4].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[4].src" /></a></li>
+                                            <li><a class="ani-img" :href="item.data.imgPlace[5].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[5].src" /></a></li>
+                                            <li><a class="ani-img" :href="item.data.imgPlace[9].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[9].src" /></a></li>
+                                            <li><a class="ani-img" :href="item.data.imgPlace[10].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[10].src" /></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="right-tab-pro clearfix tab-right" v-for="(tab,i) in item.data.tabs">
+                                    <ul>
+                                        <li v-for="(pro,j) in tab.details" class="product need-refresh" v-show="pro.saleStatus==1" :data-path="'news.'+news_index+'.data.tabs.'+i+'.details.'+j" :data-id="pro.productId">
+                                            <a class="ani-img" :href="'/Product/Detail/'+pro.productId"><img class="lazyload" :src="pro.image" :data-url="pro.image" /></a>
+                                            <div>
+                                                <span>￥{{pro.price}}</span>
+                                                <p><a :href="'/Product/Detail/'+pro.productId">{{pro.name}}</a></p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==4" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floorC floor">
+                            <div class="t-show"><a class="ani-img" :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a></div>
+                            <div class="b-pro">
+                                <ul class="clearfix">
+                                    <li v-for="(pro,i) in item.data.products" class="product need-refresh" v-show="pro.saleStatus==1" :data-path="'news.'+news_index+'.data.products.'+i" :data-id="pro.productId">
+                                        <a class="ani-img" :href="'/Product/Detail/'+pro.productId"><img class="lazyload" :src="pro.image" :data-url="pro.image"></a>
+                                        <div>
+                                            <span><i>￥{{pro.price}}</i><s v-if="pro.marketPrice>0">￥{{pro.marketPrice}}</s></span>
+                                            <p><a :href="'/Product/Detail/'+pro.productId">{{pro.name}}</a></p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==5" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="content_m floor floor">
+                            <div class="content_mtop">
+                                <b class="title">{{item.data.floorName}}</b><em>{{item.data.floorSubName}}</em>
+                                <ul class="right-link">
+                                    <li v-for="link in item.data.textLinks"><a target="_blank" :href="link.url">{{link.name}}</a></li>
+                                </ul>
+                            </div>
+                            <div class="content_mcont">
+                                <div class="content_mcontl">
+                                    <div v-for="img in item.data.imgleft" class="ani-img"><a target="_blank" :href="img.url"><img class="lazyload" src="/images/default.png" :data-url="img.src" /></a></div>
+                                </div>
+
+                                <div class="content_mcontc">
+                                    <div v-for="img in item.data.imgright" class="ani-img"><a target="_blank" :href="img.url"><img class="lazyload" src="/images/default.png" :data-url="img.src" /></a></div>
+                                </div>
+                                <div class="content_mcontr">
+                                    <div class="content_mcontrtop">推荐品牌</div>
+                                    <ul>
+                                        <li v-for="brand in item.data.brands" class="ani-img"><a target="_blank" :title="brand.name" :href="'/Search/SearchAd?b_id='+brand.id"><img class="lazyload" src="/images/default.png" :data-url="brand.src" /></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==6" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floor5 floor">
+                            <div class="floor5-hd">
+                                <span class="title">{{item.data.floorName}}</span>
+                                <ul class="right-link">
+                                    <li class="active">{{item.data.defaultTabName}}</li>
+                                    <li v-for="tab in item.data.tabs">{{tab.name}}</li>
+                                </ul>
+                            </div>
+                            <div class="floor-bd">
+                                <div class="floor-content cl">
+                                    <div class="content-left5">
+                                        <div class="slide">
+                                            <ul class="cl" style="width: 1600px;">
+                                                <li v-for="scroll in item.data.scrolls" class="ani-img"><a target="_blank" :href="scroll.url"><img class="lazyload" src="/images/default.png" :data-url="scroll.src" /></a></li>
+                                            </ul>
+                                        </div>
+                                        <ul class="text-links cl">
+                                            <li v-for="link in item.data.textLinks"><a :href="link.url" target="_blank">{{link.name}}</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="content-right-box">
+                                        <ul class="content-right-img tab-right" style="display:block">
+                                            <li v-for="(img, index) in item.data.images" :class="'ani-img fore'+(index+1)"><a target="_blank" :href="img.url"><img class="lazyload" src="/images/default.png" :data-url="img.src" /></a></li>
+                                        </ul>
+                                        <ul class="content-right-goods tab-right" v-for="(tab,i) in item.data.tabs">
+                                            <li v-for="(pro,j) in tab.details" v-bind:class="'fore'+(j+1)" class="product need-refresh" v-show="pro.saleStatus==1" :data-path="'news.'+news_index+'.data.tabs.'+i+'.details.'+j" :data-id="pro.productId">
+                                                <div class="p-img">
+                                                    <a class="ani-img" target="_blank" :href="'/Product/Detail/'+pro.productId">
+                                                        <img class="lazyload" :src="pro.image" :data-url="pro.image">
+                                                    </a>
+                                                </div>
+                                                <h3><a target="_blank" :href="'/Product/Detail/'+pro.productId">{{pro.name}}</a></h3>
+                                                <p>￥<span>{{pro.price}}</span></p>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="content-brand5">
+                                        <ul class="cl">
+                                            <li v-for="brand in item.data.brands" class="ani-img"><a target="_blank" :title="brand.name" :href="'/Search/SearchAd?b_id='+brand.id"><img class="lazyload" src="/images/default.png" :data-url="brand.src" /></a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==7" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floor floor-six clearfix">
+                            <div class="floor-six-hd">
+                                <h3 class="title">{{item.data.floorName}}</h3>
+                                <ul class="right-link">
+                                    <li class="active">{{item.data.defaultTabName}}<s></s></li>
+                                    <li v-for="tab in item.data.tabs" class="">{{tab.name}}<s></s></li>
+                                </ul>
+                            </div>
+
+                            <div class="floor-six-left clearfix">
+                                <div class="fsl-a cl">
+                                    <a class="ani-img" :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[1].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[1].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[2].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[2].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[3].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[3].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[4].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[4].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[5].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[5].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[6].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[6].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[7].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[7].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[8].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[8].src" /></a>
+                                </div>
+                                <div class="fsl-b ani-img">
+                                    <a :href="item.data.imgPlace[11].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[11].src" /></a>
+                                </div>
+                            </div>
+                            <div class="floor-six-right clearfix">
+                                <div class="right-img-show clearfix tab-right current">
+                                    <div class="fsr-a">
+                                        <a class="ani-img" :href="item.data.imgPlace[9].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[9].src" /></a>
+                                        <a class="special-a ani-img" :href="item.data.imgPlace[10].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[10].src" /></a>
+                                        <a class="ani-img" :href="item.data.imgPlace[12].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[12].src" /></a>
+                                        <a class="ani-img" :href="item.data.imgPlace[13].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[13].src" /></a>
+                                        <a class="ani-img" :href="item.data.imgPlace[14].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[14].src" /></a>
+                                    </div>
+                                    <div class="fsr-b ani-img">
+                                        <a :href="item.data.imgPlace[15].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[15].src" /></a>
+                                    </div>
+                                </div>
+                                <div v-for="(tab,i) in item.data.tabs" class="right-tab-pro clearfix tab-right" style="display:none;">
+                                    <ul>
+                                        <li v-for="(pro,j) in tab.details" class="product need-refresh" v-show="pro.saleStatus==1" :data-path="'news.'+news_index+'.data.tabs.'+i+'.details.'+j" :data-id="pro.productId">
+                                            <a class="ani-img" :href="'/Product/Detail/'+pro.productId"><img class="lazyload" :src="pro.image" :data-url="pro.image"></a>
+                                            <div>
+                                                <span>￥{{pro.price}}</span>
+                                                <p><a :href="'/Product/Detail/'+pro.productId">{{pro.name}}</a></p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==8" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floor floor-seven clearfix">
+                            <div class="floor-seven-hd">
+                                <h3 class="title">{{item.data.floorName}}</h3>
+                                <ul class="right-link">
+                                    <li class="active">{{item.data.defaultTabName}}</li>
+                                    <li v-for="tab in item.data.tabs" class="">{{tab.name}}</li>
+                                </ul>
+                            </div>
+                            <div class="floor-seven-top clearfix">
+                                <div class="fst-left ani-img">
+                                    <a :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a>
+                                </div>
+                                <div class="fst-mid ">
+                                    <div class="fst-img-show tab-right current">
+                                        <a class="ani-img" :href="item.data.imgPlace[1].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[1].src" /></a>
+                                        <a class="ani-img" :href="item.data.imgPlace[2].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[2].src" /></a>
+                                        <a class="fst-m-spe ani-img" :href="item.data.imgPlace[3].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[3].src" /></a>
+                                        <a class="ani-img" :href="item.data.imgPlace[4].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[4].src" /></a>
+                                        <a class="ani-img" :href="item.data.imgPlace[5].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[5].src" /></a>
+                                        <a class="fst-m-spe ani-img" :href="item.data.imgPlace[6].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[6].src" /></a>
+                                    </div>
+                                    <div v-for="(tab,i) in item.data.tabs" class="tab-pro-show tab-right" style="display:none;">
+                                        <ul>
+                                            <li v-for="(pro,j) in tab.details" class="product need-refresh" v-show="pro.saleStatus==1" :data-path="'news.'+news_index+'.data.tabs.'+i+'.details.'+j" :data-id="pro.productId">
+                                                <a class="ani-img" :href="'/Product/Detail/'+pro.productId"><img class="lazyload" :src="pro.image" :data-url="pro.image"></a>
+                                                <div>
+                                                    <p><a :href="'/Product/Detail/'+pro.productId">{{pro.name}}</a></p>
+                                                    <span>￥{{pro.price}} <s v-if="pro.marketPrice>0">￥{{pro.marketPrice}}</s></span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="fst-right">
+                                    <a class="ani-img" :href="item.data.imgPlace[7].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[7].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[8].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[8].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[9].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[9].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[10].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[10].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[11].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[11].src" /></a>
+                                </div>
+                            </div>
+                            <div class="floor-seven-bottom clearfix">
+                                <div class="fsb-img-show tab-right current">
+                                    <ul>
+                                        <li class="ani-img"><a :href="item.data.imgPlace[12].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[12].src" /></a></li>
+                                        <li class="ani-img"><a :href="item.data.imgPlace[13].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[13].src" /></a></li>
+                                        <li class="last ani-img"><a :href="item.data.imgPlace[14].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[14].src" /></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==9" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="floor floor-eight clearfix">
+                            <div class="floor-eight-hd">
+                                <h3 class="title">{{item.data.floorName}}</h3>
+                                <ul class="right-link">
+                                    <li v-for="link in item.data.textLinks"><a :href="link.url">{{link.name}}</a></li>
+                                </ul>
+                            </div>
+                            <div class="floor-eight-top">
+                                <div class="fet-left">
+                                    <a class="fet-left-a ani-img" :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a>
+                                    <a class="fet-left-b ani-img" :href="item.data.imgPlace[1].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[1].src" /></a>
+                                </div>
+                                <div class="fet-mid">
+                                    <a class="fet-mid-spe ani-img" :href="item.data.imgPlace[2].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[2].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[3].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[3].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[4].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[4].src" /></a>
+                                </div>
+                                <div class="fet-right">
+                                    <a class="ani-img" :href="item.data.imgPlace[5].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[5].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[6].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[6].src" /></a>
+                                    <a class="ani-img" :href="item.data.imgPlace[7].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[7].src" /></a>
+                                </div>
+                            </div>
+                            <div class="floor-eight-bottom">
+                                <a class="ani-img" :href="item.data.imgPlace[8].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[8].src" /></a>
+                                <a class="ani-img" :href="item.data.imgPlace[9].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[9].src" /></a>
+                                <a class="ani-img" :href="item.data.imgPlace[10].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[10].src" /></a>
+                                <a class="ani-img" :href="item.data.imgPlace[11].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[11].src" /></a>
+                                <a class="ani-img" :href="item.data.imgPlace[12].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[12].src" /></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==10" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="Brand-shop">
+                            <h3 class="title" v-if="item.data.displayMode==2">{{item.data.floorName}}</h3> &nbsp;
+                            <div class="floor-scroll-btn" v-show="item.data.displayMode==2" :data-num="(item.data.commodityStyle==1?5:4)" data-index="0">
+                                <span data-type="prev" class="disabled"><</span>
+                                <span data-type="next">></span>
+                            </div>
+                        </div>
+
+                        <div :class="(item.data.displayMode==2?'floor-warp':'')">
+                            <ul class="floor-ten floor clearfix">
+                                <li v-for="(pro,i) in item.data.products" v-bind:style="'width:'+(100/(item.data.commodityStyle==1?5:4))+'%'" class="product need-refresh" v-show="pro.saleStatus==1" :data-path="'news.'+news_index+'.data.products.'+i" :data-id="pro.productId">
+                                    <a :href="'/Product/Detail/'+pro.productId" class="p-img"><img class="lazyload" :src="pro.image" :data-url="pro.image"></a>
+                                    <div>
+                                        <p v-if="item.data.showName"><a v-bind:href="'/Product/Detail/'+pro.productId">{{pro.name}}</a></p>
+                                        <span>￥{{pro.price}}<s v-if="pro.marketPrice">￥{{pro.marketPrice}}</s></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==11" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="Brand-shop">
+                            <div class="BD-content">
+                                <div class="BD-left ani-img">
+                                    <a :href="item.data.imgPlace[0].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[0].src" /></a>
+                                </div>
+                                <div class="BD-mid">
+                                    <b class="bd-prev"></b>
+                                    <b class="bd-next"></b>
+                                    <div class="BD-wrap">
+                                        <div class="scroll-wrap">
+                                            <div class="scroll-brand clearfix" v-for="page in Math.ceil(item.data.brands.length/12)">
+                                                <ul>
+                                                    <li v-for="brand in item.data.brands.slice((page-1)*12,(page-1)*12+12)" class="ani-img"><a v-bind:href="'/Search/SearchAd?b_id='+brand.id" v-bind:title="brand.name"><img class="lazyload" src="/images/default.png" :data-url="brand.src" /></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="BD-right ani-img">
+                                    <a v-bind:href="item.data.imgPlace[1].url"><img class="lazyload" src="/images/default.png" :data-url="item.data.imgPlace[1].src" /></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="item.name=='floor'&&item.style==12" class="template-node" v-bind:class="item.name" :name="item.name" :index="news_index" :t-title="item.text">
+                        <div class="content_re">
+                            <div class="content_recont">
+                                <!--<h3 class="title">{{item.data.floorName}}</h3>-->
+                                <ul>
+                                    <li v-for="img in item.data.imgPlace" class="ani-img"><a :href="img.url" target="_blank"><img class="lazyload" src="/images/default.png" :data-url="img.src"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="item.name=='slide'" class="template-node" v-bind:class="item.name" v-bind:name="item.name" v-bind:index="news_index" v-bind:id="news_index" v-bind:t-title="item.text">
+                        <ul class="images-module">
+                            <li :style="'width:' +(100/item.displaymode)+'%'" v-for="pro in item.picturesdata" class="ani-img"><a v-bind:href="pro.url" target="_blank"><img class="lazyload" src="/images/default.png" :data-url="pro.img"></a></li>
+                        </ul>
+                    </div>
+                    <div v-if="item.name=='customHtml'" class="template-node" v-bind:class="item.name" v-bind:name="item.name" v-bind:index="news_index" v-bind:t-title="item.text">
+                        <div class="custom-html" v-html="item.content"></div>
+                    </div>
+                    <div v-if="item.name=='blankLine'" class="template-node" v-bind:class="item.name" v-bind:name="item.name" v-bind:index="news_index" v-bind:t-title="item.text">
+                        <div :style="{height:item.height+'px'}"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <!--楼层定位导航-->
+        <div class="floor-nav" :style="'margin-top:-'+news.filter(function(t){return (t.name=='floor'&&t.data!=undefined&&t.data.floorName!='')}).length*31/2+'px'">
+            <ul>
+                <template v-for="(item,index) in news.filter(function(t){return (t.name=='floor'&&t.data!=undefined&&t.data.floorName!='')})">
+                    <li v-bind:class="index==0?'cur':''"><a><span>{{item.data.floorName}}</span><em>{{index+1}}F</em></a></li>
+                </template>
+            </ul>
+        </div>
+
+        <div class="j_nopointer footer" id="j_footer">
+            <div class="site-footerimg j_footerimg"><img src="/images/default.png" width="1190" height="100" /></div>
+            <div class="warpa">
+                <div class="footer-service cl">
+                    <div class="fc-logo j_logo">
+                        <img name="logo" src="" style="max-height:50px;_height:50px;" />
+                    </div>
+                    <div class="template-node template-nodel fc-left clearfix j_fore" name="footerinfo" isfooter="1" updown="0" t-title="底部信息">
+                    </div>
+                    <div class="qrcode">
+                        <img class="lazyload j_qrcode" src="/Storage/Plat/Site/qrCode.png" />
+                        <h3>扫码关注</h3>
+                        <p class="j_sitename"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <div class="warp j_warp">
+                </div>
+            </div>
+        </div>
+        <div class="j_flowScript"></div>
+        <script>
+            (function () {
+                var data = null;
+                if (data) {
+                    var callback;
+                    if (data.goBack == true)
+                        callback = function () { history.go(-1); };
+                    var fun;
+                    if (data.type == -1)
+                        fun = 'errorTips';
+                    else if (data.type == 0)
+                        fun = 'alert';
+                    else if (data.type == 1)
+                        fun = 'alertTips';
+                    else if (data.type == 2)
+                        fun = 'succeedTips';
+                    if (fun)
+                        $.dialog[fun](data.message, callback, data.time);
+                }
+            })();
+        </script>
+    </div>
+
+    <script>
+        var curshopid = couponsUrl = canCouponsUrl = null;
+
+        $(document).ready(function () {
+            loadLoginUserInfo();
+            loadUserCoupons();
+        });
+
+        function refreshData(vueData) {
+            initHotSearch(vueData);
+            loadTheme();//加载主题颜色配置
+            refreshProduct(vueData);
+            refreshLimitimed(vueData);
+            refreshNotice(vueData);//动态加载后台公告数据不需要读取模板数据
+            refreshCategoryBrands(vueData);
+            $(".lazyload").scrollLoading();
+        }
+
+        //因为商品可能会被修改名称或价格，所以需要在Vue完成渲染之后刷新
+        function refreshProduct(vueData) {
+            var products = [];
+            var ids = [];
+            $('.product.need-refresh').each(function () {
+                var $this = $(this);
+                var dataPath = $this.attr('data-path');
+                dataPath = dataPath.split('.');
+                var data = vueData;
+                for (var i = 0; i < dataPath.length; i++) {
+                    data = data[dataPath[i]];
+                }
+                var id = $this.attr('data-id');
+                ids.push(id);
+                products.push({ id: id, data: data });
+            });
+
+            if (ids.length == 0)
+                return;
+            $.post('/home/GetProducts', { ids: ids }, function (datas) {
+                for (var i = 0; i < products.length; i++) {
+                    var product = products[i];
+                    for (var j = 0; j < datas.length; j++) {
+                        var data = datas[j];
+                        if (product.id == data.id) {
+                            product.data.image = data.imagePath + '/1.png';
+                            product.data.saleStatus = data.saleStatus;
+                            product.data.price = data.minSalePrice;
+                            product.data.marketPrice = data.marketPrice;
+                            product.data.name = data.productName;
+                        }
+                    }
+                }
+            });
+        }
+
+        //限时购商品与
+        function refreshLimitimed(vueData) {
+            var products = [];
+            var ids = [];
+            $('.limitime.need-refresh').each(function () {
+                var $this = $(this);
+                var dataPath = $this.attr('data-path');
+                dataPath = dataPath.split('.');
+                var data = vueData;
+                for (var i = 0; i < dataPath.length; i++) {
+                    data = data[dataPath[i]];
+                }
+                var id = $this.attr('data-id');//商品ID
+                ids.push(id);
+                products.push({ id: id, data: data });
+            });
+            if (ids.length == 0)
+                return;
+            $.post('/home/GetLimitedProducts', { ids: ids }, function (datas) {
+                for (var i = 0; i < products.length; i++) {
+                    var product = products[i];
+                    for (var j = 0; j < datas.length; j++) {
+                        var data = datas[j];
+                        if (Number(product.id) == Number(data.productId)) {
+                            product.data.productName = data.productName;
+                            product.data.price = data.minPrice;
+                            product.data.stock = data.count.toString();//这里可能会超出js内定义的长度
+                            product.data.status = 1;
+                            product.data.isrend = 1;
+                        }
+                    }
+                }
+                for (var i = 0; i < products.length; i++) {
+                    if (products[i].data.isrend == 0) {
+                        products[i].data.status = 0;
+                    }
+                }
+            });
+        }
+
+		function loadFoot() {
+		    $.post('/Home/GetFootNew', function (data) {
+		        if (data != null) {
+		            var content = '';
+		            $(".j_sitename").html(data.siteName + '官方微信');
+		            $(".j_qrcode").attr("src", data.qrCode);
+		            $(".j_warp").html(data.pageFoot);
+		            $.each(data.pageFootService, function (i, info) {
+		                var c = '<dl class="fore'+(i+1)+'">';
+		                c += '<dt><strong>' + info.cateogryName + '</strong></dt>';
+		                c += '<dd>';
+		                for (var i = 0; i < info.list.length; i++) {
+		                    c += '<p><a href="/Article/Details/' + info.list[i].id + ' " target="_blank" rel="nofollow">' + info.list[i].title + '</a></p>';
+		                }
+		                c += '</dd>';
+		                c += '</dl>';
+		                content += c;
+		            });
+		            var cover = $(".j_fore .template-cover");
+		            if (cover.length > 0) {
+		                cover.before(content);
+		            } else {
+		                $(".j_fore").html(content);
+		            }
+		            $(".j_logo img").attr("src", data.logo+'?r='+new Date().getMilliseconds());
+		            $(".j_myname").html("我的" + data.siteName);
+		            $(".j_name").html(data.siteName + "！");
+		            $(".j_footerimg img").attr("src", data.pcBottomPic);
+		            if (data.appCanDownload) {
+		                $(".j_app").show();
+		                $(".j_app").find("img").attr("src", data.appqr);
+		            }
+		        }
+		    });
+		}
+	    
+		function loadTheme()
+		{
+		    $.post('/Home/GetThemeSettingJson', function (data) {
+		        if (data != null) {
+		            createLink(data);
+		        }
+		    });
+		}
+
+        function createLink(themeInfo) {
+            var themestyle = document.getElementById("themestyle");
+            if (themestyle != null) {
+                document.getElementsByTagName("head")[0].removeChild(themestyle);
+            }
+            var link = document.createElement('style');
+            link.setAttribute("id", "themestyle");
+            var styleContent = '.categorys .mc { background-color: ' + themeInfo.classifiedsColor + ' ; }';
+            styleContent += '.right-side-menu, .right-side-menu li span { background-color: ' + themeInfo.frameColor + ' ; }';
+            styleContent += '.right-side-menu li span:before { border-left-color: ' + themeInfo.frameColor + '; }';
+            styleContent += '.nav-bar, .floor-hd h3, .floor-hd, .content .Limited-buy li .buy-it-now, .brand-attr ul.f-list li:hover, #plist.prebuy .list-h li:hover .lh-wrap, #plist.plist-n7 div.scale-img,.floor .title';
+            styleContent += '{ border-color: ' + themeInfo.secondaryColor + ' ; }';
+            styleContent += '.content .Limited-buy li .buy-it-now, #product-intro #name strong,.limited-home span.limi-img { color: ' + themeInfo.secondaryColor + ' ; }';
+
+            styleContent += '.content .Limited-buy li .buy-it-now:after,.ltcatebox .ltcate .curr,.floor .right-link li.active:after { background-color: ' + themeInfo.secondaryColor + ' ; }';
+
+            styleContent += '.search-form .button, .categorys, .floor-nav li:hover, .floor-nav li.cur, .right-side-menu li:hover, .right-side-menu li.active, .right-side-menu li.side-cart em, ';
+            styleContent += '.right-side-menu li .side-point a, a.css3-btn, #summary .Mall-district li.cur a, #summary .Mall-district li:hover a, .integra-coupon ul li p a, ';
+            styleContent += '.integra-gift ul li .btn-buy, .integra-coupon ul li p a:hover,.slide .slide-controls .cur,.limited-home .inprogress-list li .tags, ';
+            styleContent += '.limited-home .inprogress-list li:hover .p-price,#choose-btns .btn a,button.aui_state_highlight,#comment .percent dd div,.btn-goshop_in, ';
+            styleContent += '.topic .topic-navbar,.topic-goods-Z .btn-buy:after,.topic-nav li.cur,.side-cart-c .side-bt input[type="button"],.cart-list-goods .s-num span { background-color: ' + themeInfo.mainColor + ' ; }';
+            styleContent += '.search-form, .choose .item a:hover, .choose .item a:active,.choose .selected a, .choose .selected a:visited, .district-hd span.cur,';
+            styleContent += '.district-hd,.limited-home .inprogress-list li:hover,#choose-btns #choose-btn-append a,.products-group .p-group-btn a,button.aui_state_highlight,.m3 .p-info s, ';
+
+            styleContent += '.topic-goods-Z .btn-buy,#filter-limit .stock-search .text-stock-search,.nav li._banner.cur{ border-color: ' + themeInfo.mainColor + ' ; }';
+            styleContent += ' .right .tab .curr, .right .tab .curr a b, .address-choose.active:before { border-top-color: ' + themeInfo.mainColor + ' ; }';
+
+            styleContent += '.choose .selected b,#choose-btns #choose-btn-append a,.products-group .p-group-btn a,.m3 .fore1 .p-info s,.integra-left ul li i,.topic-goods-Z .btn-buy';
+            styleContent += '{color: ' + themeInfo.mainColor + ' ;}';
+            styleContent += 'a:hover, .red, .top .top-link a, .hot-search a.active, .nav li.cur a, .nav li:hover a, .categorys .item dd a:hover, .search-form ul li:hover, .floor-hd ul li.active, ';
+            styleContent += '.footer-service dl a:hover, #refilter .item h3 a.curr, .crumb ul.select-value li a, .prop-attrs .v-fold .f-list a:hover, .prop-attrs .v-fold .f-list a.curr, .pagin .text i, ';
+            styleContent += '.crumb .total-p strong, .right .tab .curr, #product-detail .tab .curr a, #comments-list .tab .curr a, #consult .tab .curr a, .choose #choose-result, ';
+            styleContent += '.district-hd span.cur, .seller-link a, #tab-services a, .detail-correction a, .detail-list a, #summary a, .p-comm a, ';
+            styleContent += '#id_comment_btn li.active a, .product-left a:hover,#filter-limit .order .curr a, #filter-limit .order .curr a:visited,.floor .content-right-tab li h3 a:hover, ';
+            styleContent += '.content-left table a:hover,#comment .rate strong,.inte-user-info h3 span,.floor .right-link li a:hover, .floor .right-link li.active a, .floor .right-link li.active { color: ' + themeInfo.writingColor + ' ; }';
+            link.innerHTML = styleContent;
+            document.getElementsByTagName("head")[0].appendChild(link);
+        }
+
+        function refreshNotice(vueData) {
+            if (vueData.recommendproduct.hide == true) {//只有当模板里面开启了显示，才加载公告数据
+                $.post('/Home/GetNotice', function (result) {
+                    if (result) {
+                        if (vueData.recommendproduct.data) {
+                            vueData.recommendproduct.data.clear();
+                        }
+                        vueData.recommendproduct.cid = "/Article/Category/1";
+                        for (var i = 0; i < result.length; i++) {
+                            var item = result[i];
+                            vueData.recommendproduct.data.push(item);
+                            if (i == 0) {
+                                vueData.recommendproduct.cid = "/Article/Category/" + item.cid;
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initHotSearch(vueData) {
+            var hotSearch = vueData.search.hotKeyWords;
+            if (hotSearch != '' && typeof (hotSearch) != "undefined") {
+                var arrHot = hotSearch.split(',');
+                if (arrHot.length > 0) {
+                    var content = '';
+                    for (var i = 0; i < arrHot.length; i++) {
+                        var link = "location.href=encodeURI($(this).attr('url'))";
+                        content += '<a  onclick="' + link + '" url="/search/searchAd?keywords=' + arrHot[i] + '" keyword="' + arrHot[i] + '">' + arrHot[i] + '</a>';
+                    }
+                    $(".hot-search").html(content);
+                }
+            }
+        }
+
+        function refreshCategoryBrands(vueData) {
+            var result = vueData.categories;
+            if (result.length == 0) {
+                return;
+            }
+            var brands = [];
+            $('.categorybrands.need-refresh').each(function () {
+                var $this = $(this);
+                var id = $this.attr('id');//品牌ID
+                var dataPath = $this.attr('data-path');
+                dataPath = dataPath.split('.');
+                var data = vueData;
+                for (var i = 0; i < dataPath.length; i++) {
+                    data = data[dataPath[i]];
+                }
+                brands.push({ id: id, data: data });
+            });
+            $.post('/home/GetBrands', {}, function (datas) {
+                for (var i = 0; i < brands.length; i++) {
+                    var brand = brands[i];
+                    for (var j = 0; j < datas.length; j++) {
+                        var data = datas[j];
+                        if (Number(brand.id) == Number(data.id)) {
+                            brand.data.logo = data.brandLogo + '?r=' + new Date().getMilliseconds();
+                            brand.data.name = data.brandName;
+                            brand.data.status = 1;
+                            brand.data.isrend = 1;
+                        }
+                    }
+                }
+                for (var i = 0; i < brands.length; i++) {
+                    if (brands[i].data.isrend == 0) {
+                        brands[i].data.status = 0;
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

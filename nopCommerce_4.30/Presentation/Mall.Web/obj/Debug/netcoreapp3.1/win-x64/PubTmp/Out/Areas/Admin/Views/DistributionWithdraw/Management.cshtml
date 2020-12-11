@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "分销提现管理";
+}
+<style>
+    .choose-right ul i { display: none; }
+</style>
+<div class="container Sclear-N2 ">
+    @Html.Partial("tabs", 1)
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline" id="from_search">
+            <div class="form-group">
+                <label class="label-inline w75" for="">分销员账号</label>
+                <input class="form-control input-ssm" type="text" id="membername" name="membername">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">小店名称</label>
+                <input class="form-control input-ssm" type="text" id="shopName" name="shopName">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+
+    <div class="table-head-l">
+        <div id="orderOperate"><a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a></div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#searchBtn").click(function () { query(); });
+        query();
+    });
+
+    function query() {
+        var search = $("#from_search").inputToJson();
+        $("#list").MallDatagrid({
+            url: './list',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            pageSize: 10,
+            queryParams: search,
+            operationButtons: "#orderOperate",
+            columns:
+            [[
+                { field: "memberName", title: '销售员账号' },
+                { field: "shopName", title: '小店名称' },
+                { field: "settlementAmount", title: '累积结算佣金', sort: true},
+                { field: "noSettlementAmount", title: '待结算佣金', sort: true },
+                { field: "balance", title: '可提现金额',  sort: true },
+                { field: "freezeAmount", title: '冻结金额',  },
+                { field: "withdrawalsAmount", title: '已提现金额',  sort: true },
+                {
+                    field: "option", title: '操作', formatter: function (value, row, index) {
+                        return '<a href="./details?id={0}">提现记录</a>'.format(row.memberId);
+                    }
+                }
+            ]]
+        });
+    }
+
+    //导出
+    function ExportExecl() {
+        var membername = $("#membername").val();
+        var shopName = $("#shopName").val();
+
+        var href = "/Admin/DistributionWithdraw/ManagementExportToExcel?membername={0}&shopName={1}"
+            .format(membername, shopName);
+
+        $("#aExport").attr("href", href);
+    }
+</script>

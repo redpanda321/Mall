@@ -1,0 +1,262 @@
+﻿@using Mall.Core;
+@model Mall.Web.Areas.SellerAdmin.Controllers.OrderController.SendGoodMode
+
+<script src="~/Areas/SellerAdmin/Scripts/OrderSendGoods.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="./Management">订单列表</a></li>
+        <li class="active">
+            @{var num = Model.Orders.Count();}
+            @if (num > 1)
+            {
+                <a>批量发货</a>
+            }
+            else
+            {
+                if (num > 0)
+                {
+                    if (string.IsNullOrWhiteSpace(Model.Orders[0].ShipOrderNumber))
+                    {
+                        <a>订单发货</a>
+                    }
+                    else
+                    {
+                        <a>修改运单号</a>
+                    }
+                }
+                else
+                {
+                    <a>订单发货</a>
+                }
+            }
+        </li>
+    </ul>
+
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">发货方式</label>
+            </div>
+            <div class="form-group"><label><input type="radio" name="sendGoodType" id="sendGoodType1" checked value="1" />需要物流</label></div>
+            <div class="form-group"><label><input type="radio" name="sendGoodType" id="sendGoodType2" value="0" />无需物流</label></div>
+        </form>
+        <form class="form-inline custom-inline" id="batSendGood">
+            <div class="form-group">
+                <label class="label-inline w75" for="">物流公司</label>
+                <select class="form-control input-xs" id="batWLCompany">
+                    @foreach (var logisticsCompany in Model.LogisticsCompanies)
+                    {
+                        <option value="@logisticsCompany.Name">@logisticsCompany.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">起始单号</label>
+                <input id="batWLStartNumber" class="form-control input-ssm input-int-num" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="btnBatWLNumber">确 定</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr style="text-align:center;">
+                <th>订单号</th>
+                <th>收货人</th>
+                <th>收货地址</th>
+                <th>快递</th>
+                <th>快递单号</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td class="cssOrderId" data-id="@order.Id">@order.Id</td>
+                    <td>@order.ShipTo</td>
+                    <td><span class="overflow-ellipsis" style="width:500px">@order.RegionFullName @order.Address</span></td>
+                    <td>
+                        <select class="form-control input-xs cssCompanyName">
+                            @foreach (var logisticsCompany in Model.LogisticsCompanies)
+                            {
+                                if (logisticsCompany.Name == order.ExpressCompanyName)
+                                {
+                                    <option selected>@logisticsCompany.Name</option>
+                                }
+                                else
+                                {
+                                    <option>@logisticsCompany.Name</option>
+                                }
+                            }
+                        </select>
+                    </td>
+                    <td><input class="form-control input-xs cssShipOrderNumber" type="text" value="@order.ShipOrderNumber"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (num > 1)
+    {
+        <button id="btnSendGood" type="button" class="btn btn-primary mt20 fr">批量发货</button>
+    }
+    else if (num > 0)
+    {
+        if (string.IsNullOrEmpty(Model.Orders.First().ShipOrderNumber))
+        {
+            <button id="btnSendGood" type="button" class="btn btn-primary mt20 fr">订单发货</button>
+        }
+        else
+        {
+            <button id="btnSendGood" type="button" class="btn btn-primary mt20 fr">保存</button>
+        }
+    }
+
+</div>
+<input type="hidden" id="getexnumurl" value="@(Url.Action("GetBatOrderShipNumber"))" />
+<script type="text/javascript">
+    $("#sendGoodType2").click(function () {
+        $("#batSendGood").hide();
+        $("select.cssCompanyName").attr('disabled','disabled')
+        $("input.cssShipOrderNumber").attr('disabled','disabled')
+    });
+    $("#sendGoodType1").click(function () {
+        $("#batSendGood").show();
+        $("select.cssCompanyName").removeAttr('disabled')
+        $("input.cssShipOrderNumber").removeAttr('disabled')
+    });
+
+    $("#btnBatWLNumber").click(function () {
+        var snum = $("#batWLStartNumber").val();
+        if (snum.length < 1) {
+            $.dialog.errorTips("请填写起始单号!");
+            return;
+        }
+        if (CheckSendGoods()) {
+            var loading = showLoading();
+            //远程取单号
+            $.post($("#getexnumurl").val(), { count: $('.cssOrderId').length, cname: $("#batWLCompany").val(), snum: snum }, function (result) {
+                loading.close();
+                if (result.success) {
+                    var cson = $(".cssShipOrderNumber");
+                    var cscn = $(".cssCompanyName");
+                    cscn.val($("#batWLCompany").val());
+                    console.log(result);
+                    $(".cssShipOrderNumber").each(function (index, item) {
+                        var _t = $(this);
+                        _t.val(result.data[index]);
+                    });
+                }
+                else
+                    $.dialog.errorTips("获取批量单号失败，请检测您的起始单号!");
+            });
+        }
+    });
+    $("#batWLStartNumber").keydown(function (e) {
+        if (e.keyCode == 13) {
+            $("#btnBatWLNumber").click();
+            return false;
+        }
+    });
+    function CheckSendGoods() {
+        var need = $("input[name='sendGoodType']:checked").val();
+        if (need == 1) {
+            var selectArray = $(".iselect_one");
+            var orderNumberArray = $(".txt-orderNumber");
+            for (var i = 0; i < selectArray.length; i++) {
+                var selectVal = $(selectArray[i]).val();
+                if (selectVal == "") {
+                    $.dialog.errorTips("请选择快递公司！");
+                    $(selectArray[i]).focus();
+                    return false;
+                }
+            }
+
+            for (var i = 0; i < orderNumberArray.length; i++) {
+                var orderNumber = $.trim($(orderNumberArray[i]).val());
+                if (orderNumber == "") {
+                    $.dialog.errorTips("请输入快递单号！");
+                    $(orderNumberArray[i]).focus();
+                    return false;
+                }
+            }
+
+        }
+        return true;
+    }
+
+
+    function CheckShipNumber() {
+        var no = $("#batWLStartNumber").val();
+        if ($("#batWLCompany").val() == "") {
+            $.dialog.errorTips("请先选择物流公司！");
+            return false;
+        }
+        if ($("#batWLStartNumber").val() == "") {
+            $.dialog.errorTips("请填写起始单号！");
+            return false;
+        }
+        var end = no.substr(no.length - 1, 1);
+        if (!is_num(end)) {
+            $.dialog.errorTips("请输入正确的快递单号！");
+            return false;
+        }
+        else if ($("#dropExpressComputerpe").val().toLowerCase == "邮政ems" && !isEMSNo(no)) {
+            $.dialog.errorTips("请输入正确的EMS单号！");
+            return false;
+        }
+        else if ($("#dropExpressComputerpe").val() == "顺丰快递" && !isSFNo(no)) {
+            $.dialog.errorTips("请输入正确的顺丰单号EMS单号！");
+            return false;
+        }
+        return true;
+    }
+
+    function isSFNo(no) {
+
+        if (!is_num(no) || no.length != 12) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function is_num(str) {
+        var pattrn = /^[0-9]+$/;
+        if (pattrn.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function isEMSNo(no) {
+        if (no.length != 13) {
+            return false;
+        }
+
+        if (getEMSLastNum(no) == no.substr(10, 1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function getEMSLastNum(no) {
+        var v = new Number(no.substr(2, 1)) * 8;
+        v += new Number(no.substr(3, 1)) * 6;
+        v += new Number(no.substr(4, 1)) * 4;
+        v += new Number(no.substr(5, 1)) * 2;
+        v += new Number(no.substr(6, 1)) * 3;
+        v += new Number(no.substr(7, 1)) * 5;
+        v += new Number(no.substr(8, 1)) * 9;
+        v += new Number(no.substr(9, 1)) * 7;
+        v = 11 - v % 11;
+        if (v == 10)
+            v = 0;
+        else if (v == 11)
+            v = 5;
+        return v.toString();
+    }
+
+</script>

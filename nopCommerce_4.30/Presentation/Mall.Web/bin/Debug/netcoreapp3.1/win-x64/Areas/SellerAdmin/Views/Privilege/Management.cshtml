@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "权限组管理";
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/privilegeManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>权限组</a></li>
+        <li><a href="./add">添加权限组</a></li>
+       
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>该页面展示了所有平台的权限分组。</span></li>
+                <li><span>可手动添加权限组，分配商城菜单权限，请谨慎操作。</span></li>
+            </ul>
+        </div>
+    </div>
+    <table class="table Sclear-M6 " id="list"></table>
+</div>

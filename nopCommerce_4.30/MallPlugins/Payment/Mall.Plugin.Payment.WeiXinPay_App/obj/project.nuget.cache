@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "uPilzoSuzcuR/uYLySg++1Y24yIr1Chp1/0P+pQFfNDMrd1hNvqIYh5mR8HlaFsPfkNZYrQiZ7fBb9te/ZUf7w==",
+  "success": false,
+  "projectFilePath": "C:\\Mall\\nopCommerce_4.30\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_App\\Mall.Plugin.Payment.WeiXinPay_App.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Mall.WeiXinPaymentBase is not compatible with netcoreapp2.2 (.NETCoreApp,Version=v2.2). Project Mall.WeiXinPaymentBase supports: netcoreapp3.1 (.NETCoreApp,Version=v3.1)",
+      "libraryId": "Mall.WeiXinPaymentBase",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.2"
+      ]
+    }
+  ]
+}

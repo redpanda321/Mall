@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Management";
+    var CheckDate = (ViewBag.Available != null) ? ((bool)ViewBag.Available) : false;
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/CouponManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class="active"><a>所有优惠券</a></li>
+        @if (CheckDate)
+        {
+            <li><a href="@Url.Action("Add")">新增优惠券</a></li>
+        } 
+        <li class=""><a href="@Url.Action("BuyService")">服务购买</a></li>
+        
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>点击“购买服务”按钮可以开通或续费套餐。相关费用会在店铺的余额中扣除。</span></li>
+				<li><span>优惠券总共分为三种领取方式：店铺首页-在商城、店铺、门店首页可以进行领取的优惠券；积分兑换-积分商城中需要使用积分才能兑换的优惠券；主动发放-平台进行活动时发放的优惠券，例如新人礼包、刮刮卡、大转盘等。</span></li>
+				<li><span>所有端都支持优惠券活动。</span></li>
+			</ul>
+		</div>
+	</div>
+    @if (CheckDate)
+    {
+        <div class="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">搜优惠券</label>
+                    <input type="text" id="CouponName" maxlength="20"  class="form-control input-ssm">
+                </div>
+                <div class="form-group">
+                    <button id="searchBtn" class="btn btn-primary btn-sm" type="button">搜 索</button>
+                </div>
+            </form>
+        </div>
+    }
+    @if (!CheckDate)
+    {	
+		<div class="form-horizontal">
+			<div class="form-group">
+				<p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未购买优惠券服务或者服务已到期，<a href="./BuyService">现在购买</a></p>
+			</div>
+		</div>
+    }
+    else
+    {
+        <div>
+            <table class="table" id="list"></table>
+        </div>
+    }
+</div>
+<input type="hidden" value="@DateTime.Now.Date" id="DTND" />

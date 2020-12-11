@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "领取记录";
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li class="active"><a>领取记录</a></li>
+        <li class=""><a href="@Url.Action("Add")">添加优惠券</a></li>
+        <li class=""><a href="@Url.Action("BuyService")">购买服务</a></li>
+   
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>点击“购买服务”按钮可以开通或续费套餐。相关费用会在店铺的余额中扣除。</span></li>
+				<li><span>优惠券总共分为三种领取方式：店铺首页-在商城、店铺、门店首页可以进行领取的优惠券；积分兑换-积分商城中需要使用积分才能兑换的优惠券；主动发放-平台进行活动时发放的优惠券，例如新人礼包、刮刮卡、大转盘等。</span></li>
+				<li><span>所有端都支持优惠券活动。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div>
+        <table class="table" id="list"></table>
+    </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            //订单表格
+            $("#list").MallDatagrid({
+                url: '../GetReceivers/@ViewBag.Id',
+                nowrap: false,
+                rownumbers: true,
+                NoDataMsg: '没有找到符合条件的记录',
+                border: false,
+                fit: true,
+                fitColumns: true,
+                pagination: true,
+                idField: "Id",
+                pageSize: 15,
+                pagePosition: 'bottom',
+                pageNumber: 1,
+                queryParams: {},
+                columns:
+                [[
+                    { field: "Id", title: 'Id', hidden: true, width: 150 },
+                    {
+                        field: "CouponSN", title: "优惠码", width: 220, align: "center",
+                    },
+                     {
+                         field: "Price", title: "价值", width: 60, align: "center",
+                     },
+                    { field: "CreateTime", title: "创建时间", width: 90, align: "center" },
+                    { field: "ReceviceTime", title: "领取时间", width: 90, align: "center" },
+                    { field: "Recever", title: "领取人", width: 90, align: "center" },
+                    { field: "UsedTime", title: "使用时间", width: 90, align: "center" },
+                     {
+                         field: "OrderId", title: "订单ID", width: 90, align: "center",
+                         formatter: function (value, row, index) {
+                             var html = "";
+                             if(row.OrderId!=null)
+                                 html = '<a href="@Url.Action("Detail", "Order")/'+row.OrderId+'">' + row.OrderId + '</a>';
+                             return html;
+                         }
+                     },
+                    { field: "Status", title: "状态", width: 80, align: "center" },
+                ]]
+            });
+        });
+    </script>

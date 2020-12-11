@@ -1,0 +1,88 @@
+﻿@model Mall.DTO.ShopBranch
+@{
+    ViewBag.Title = "门店列表";
+}
+
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.Mall.Region.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopBranchManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>门店列表</a></li>
+        <li class="shopbranchtags"><a href="@Url.Action("Tags")">门店标签设置</a></li>
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>门店标签：平台可设置标签来帮助会员筛选门店，商家添加门店时可以打上某门店标签。平台编辑周边门店页面时可以导航过去，显示标签所关联的本市所有门店。</span></li>
+				<li style="color: red;"><span style="color: red;">注意：冻结门店后，门店商品都会下架。解冻后，门店商品需要重新上架。</span></li>
+			</ul>
+		</div>
+	</div>
+
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group" filter normal audit saleoff>
+                <label class="label-inline w75" for="">门店名称</label>
+                <input class="form-control input-ssm" type="text" id="shopBranchName">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">联系人</label>
+                <input class="form-control input-ssm" type="text" id="contactUser">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">门店标签</label>                      
+                @Html.DropDownListFor(s => s.ShopBranchTagId, ((IEnumerable<SelectListItem>)ViewBag.ShopBranchTags),
+                                               new { @class = "form-control input-ssm", id = "ShopBranchTagId" })
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">商家名称</label>                
+                @Html.DropDownListFor(s => s.ShopId, ((IEnumerable<SelectListItem>)ViewBag.Shops),
+                                               new { @class = "form-control input-ssm", id = "ShopId" })
+            </div>
+
+
+            <div class="form-group">
+                <label class="label-inline w75" for="">门店区域</label>
+                <div id="area-selector" class="inline-block wauto"></div>
+                @Html.Hidden("AddressId")
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton" style="top:0">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table class="table mt5" id="shopDatagrid">
+        <div class="tabel-operate" id="batchSetTags">
+            <button type="button" class="btn btn-default btn-ssm" onclick="batchSetTags()">批量设置标签</button>
+        </div>
+    </table>
+</div>
+
+
+
+<div class="dialog-form" id="setTagsform" style="display:none">
+    <div class="form-group" id="TagsDiv" style="max-width:400px;">
+        @foreach(var item in ((IEnumerable<SelectListItem>)ViewBag.ShopBranchTags)){
+            if (item.Value != "0") { 
+                <div style="display:block; margin-right:20px; float:left;">
+                    <input type="checkbox" id="chkTags@(item.Value)" name="chkTags" value="@item.Value" /><label for="chkTags@(item.Value)">@(item.Text)</label>
+                </div>
+        }
+       }</div>
+    <input type="hidden" id="txtShopId" name="ShopId">
+</div>
+
+<div class="dialog-form" id="storesLink-form" style="display:none">
+    <div class="form-group">
+        <span class="sign-t"><i class="red">*</i>&nbsp;&nbsp;推广链接：</span>
+        <input class="form-control input-ssm" type="text" id="referralsLink" style="width:300px" />
+    </div>
+    <div class="form-group">
+        <span class="sign-t">&nbsp;&nbsp;&nbsp;二维码：</span>
+        <img id="imgsrc" type="img" width="150" />
+    </div>
+</div>

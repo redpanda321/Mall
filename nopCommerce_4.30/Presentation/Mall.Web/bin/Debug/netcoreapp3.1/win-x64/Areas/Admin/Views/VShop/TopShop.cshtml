@@ -1,0 +1,69 @@
+﻿@using System.Linq;
+@model Mall.Entities.VShopInfo
+@{ 
+    var extends = ViewBag.Extends as List<Mall.Entities.VShopExtendInfo>;
+
+}
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        
+        <li><a href="./VShopManagement">微店列表</a></li>
+        <li><a href="./HotVShop">热门微店管理</a></li>
+        <li class="active"><a>主推微店管理</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>微店是商家店铺在微信端、APP端的一种展示形式，平台设置为主推/热门的微店，在微店列表上会优先进行展示。</span></li>
+				<li class="mark-info"><span>注意：即使商家没有开通微店，也可以正常售卖商品。</span></li>
+			</ul>
+		</div>
+	</div>
+    <table class="table mt20" style="margin-top:20px;">
+        <thead>
+            <tr >
+                <th style="text-align:center;">微店名称</th>
+                <th style="text-align:center;">添加时间</th>
+                <th style="text-align:center;">创建时间</th>
+                <th style="text-align:center;">进店浏览量</th>
+                <th style="text-align:center;">购买量</th>
+                <th style="text-align:center;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                <tr style="text-align:center">
+                    <td>@Model.Name</td>
+                    <td>@extends.FirstOrDefault().AddTime</td>
+                    <td>@Model.CreateTime</td>
+                    <td>@Model.VisitNum</td>
+                    <td>@Model.buyNum</td>
+                    <td>
+                        <span class="btn-a">
+                            <a class="good-setTopshow" onclick="ReplaceHotVShop(@Model.Id)">替换</a> <a class="good-check" onclick="DeleteTopShow(@Model.Id)">置为普通</a>
+                        </span>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr><td style="text-align:center;" colspan="6"><h2 class="none-data">没有找到符合条件的数据</h2></td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="replace-HotVShop" style="display:none">
+    <div class="choose-search" style="border:none">
+        <div class="form-group">
+            <label class="label-inline" for="">微店名称</label>
+            <input class="form-control input-ssm" type="text" id="titleKeyword" style="width:200px;">
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-ssm" id="searchReplaceVShopButton">搜索</button>
+    </div>
+    <table class="table table-bordered table-choose" id="repaceList"></table>
+</div>
+<script src="~/Areas/Admin/Scripts/TopVShop.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>

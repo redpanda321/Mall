@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Yuantong\Mall.Plugin.Express.Yuantong.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Yuantong\Mall.Plugin.Express.Yuantong.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Yuantong\Mall.Plugin.Express.Yuantong.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yuantong\obj\Debug\Mall.Plugin.Express.Yuantong.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yuantong\obj\Debug\Mall.Plugin.Express.Yuantong.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yuantong\obj\Debug\Mall.Plugin.Express.Yuantong.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yuantong\obj\Debug\Mall.Plugin.Express.Yuantong.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yuantong\obj\Debug\Mall.Plugin.Express.Yuantong.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yuantong\obj\Debug\Mall.Plugin.Express.Yuantong.pdb

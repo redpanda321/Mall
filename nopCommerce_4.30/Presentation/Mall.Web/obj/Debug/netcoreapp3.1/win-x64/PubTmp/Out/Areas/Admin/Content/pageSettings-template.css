@@ -1,0 +1,54 @@
+﻿.right-side {
+	display:none;
+}
+/*.floor,.Brand-shop {
+    padding-top: 20px;
+}*/
+
+.template-node {
+	position: relative;
+}
+
+	.template-node .template-cover {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0,0.1);
+		z-index: 99;
+	}
+    .template-node:not(.j_nopointer) .template-cover{
+        cursor:pointer ;
+	}
+
+		.template-node .template-cover label {
+			display: none;
+			position: absolute;
+			right: 0;
+			top: 0;
+			color: white;
+			cursor: pointer;
+			background: #000;
+		    padding: 5px 10px;
+		    border-radius: 3px;
+		}
+		.template-node .template-cover label.j_down{
+			right: 55px;
+		}
+		.template-node .template-cover label.j_up{
+			right: 110px;
+		}
+		.template-node .template-cover label.disabled{
+			background:#999;
+			color: #ddd;
+    		cursor: not-allowed;
+		}
+
+		.template-node .template-cover:hover {
+			background-color: rgba(0, 0, 0,0.5);
+		}
+
+			.template-node:not(.template-nodel) .template-cover:hover label {
+				display: block;
+			}

@@ -1,0 +1,219 @@
+﻿
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>    var val = "@Context.Request.Query["status"]";</script>
+<script src="~/Areas/SellerAdmin/Scripts/productManagement.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+@{  var shopCategorys = (List<Mall.DTO.ShopCategory>)ViewBag.ShopCategorys;
+    var freightTemplates = (List<Mall.DTO.FreightTemplate>)ViewBag.FreightTemplates;
+}
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active" type="onSale" value="1"><a>销售中</a></li>
+        <li type="unAudit" value="1,3"><a>待审核</a></li>
+        <li type="inStock" value="2"><a>仓库中</a></li>
+        <li type="saleOff" value="4"><a>违规下架</a></li>
+        <li type="inDraft" value="3"><a>草稿箱</a></li>
+
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>设置的商品推荐会显示在PC端商品详情页底部。未设置商品推荐时会默认推荐同分类下商品。</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group" filter normal audit saleoff>
+                <label class="label-inline w75" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="searchBox">
+            </div>
+            <div class="form-group" filter audit>
+                <label class="label-inline w75" for="">审核状态</label>
+                <select class="form-control input-ssm" name="auditState">
+                    <option value="">全部</option>
+                    <option value="1">待审核</option>
+                    <option value="3">未通过</option>
+                </select>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">商品货号</label>
+                <input class="form-control input-ssm" type="text" id="productCode">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">商品分类</label>
+                <select id="category1" class="form-control input-ssm">
+                    <option value="0">请选择</option>
+                    @{
+                        var dic = new Dictionary<long, string>();
+                        for (int i = 0; i < shopCategorys.Count; i++)
+                        {
+                            var item = shopCategorys[i];
+                            var isParent = item.ParentCategoryId == 0;
+                            var key = isParent ? item.Id : item.ParentCategoryId;
+                            var html = string.Format("<option value='{0}'>{1}{2}</option>", item.Id, isParent ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;", item.Name);
+
+                            if (dic.ContainsKey(key))
+                            {
+                                html = isParent ? html + dic[key] : (dic[key] + html);
+                            }
+                            dic[key] = html;
+                        }
+                    }
+                    @Html.Raw(string.Join("", dic.Values.ToArray()))
+                </select>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">品牌</label>
+                <input class="form-control input-ssm" type="text" id="brandBox" autocomplete="off">
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">开始日期</label>
+                <input class="form-control input-ssm start_datetime" type="text">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">结束日期</label>
+                <input class="form-control input-ssm end_datetime" type="text">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline w75" for="">运费模板</label>
+                <select id="freightTemplates" class="form-control input-ssm">
+                    <option>请选择</option>
+                    @foreach (var item in freightTemplates)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group fg-stock" filter normal>
+                <div class="checkbox">
+                    <label class="font14"><input type="checkbox" @(Context.Request.Query["isSafeStock"] == "true" ? "checked" : "")> 显示警戒库存商品</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">商品类型</label>
+                <select id="productType" class="form-control input-ssm">
+                    <option value="-1">请选择</option>
+                    <option value="0">实物商品</option>
+                    <option value="1">虚拟商品</option>
+                </select>
+            </div>
+            <div class="form-group fg-stock">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+    <div class="tabel-operate hidden" id="saleOff">
+        <a class="btn btn-danger btn-ssm" id="batchDelete">批量删除</a>
+        <a class="btn btn-default btn-ssm" id="batchSaleOff" style="display:none">下架</a>
+        <a class="btn btn-default btn-ssm" id="batchOnSale" style="display:none">上架</a>
+        <a class="btn btn-default btn-ssm" id="overSafeStock">批量设置警戒库存</a>
+        <select id="batchSetting" class="btn btn-default btn-ssm">
+            <option value="0">批量操作</option>
+            <option value="1">批量设置运费模板</option>
+            <option value="2">调整库存</option>
+            <option value="3">调整商城/市场价</option>
+        </select>
+        <a class="btn btn-default btn-ssm" id="associateTemplate">关联版式</a>
+        <a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a>
+    </div>
+    <div class="tabel-operate hidden keep" id="productSelectorBtns">
+        <a id="selectAll" class="btn btn-default btn-ssm" href="javascript:void(0);">批量选择</a>
+    </div>
+</div>
+
+<div style="display:none" id="publish">
+    <wb:publish action="publish" id="wb_publisher"></wb:publish>
+</div>
+<div class="form-group" id="weixinQrCode" style="display:none">
+    <img id="QrCode" />
+</div>
+<input type="hidden" value="@ViewBag.AuditOnOff" id="VBAO" />
+<div class="dialog-form" id="batchSettingFreightTemplate" style="display:none">
+    <div class="form-group">
+        <label class="font14" for="">运费模板：</label><select id="selectFreightTemplate" class="form-control input-sm w350">
+            <option>请选择运费模板</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="font14">注意：这里只列出所选商品可以批量设置的运费模板，建议筛选出同运费<br />模板的商品，再去批量设置成另外的运费模板</label>
+    </div>
+</div>
+<div class="dialog-form" id="batchSettingStock" style="display:none;height:500px; position: relative;overflow-x: hidden;overflow-y: scroll;">
+    <div class="form-group">
+        <label>将原库存改为：</label>
+        <input class="form-control input-ssm input-number" type="text" id="sourceStock" style="width: 80px;" maxlength="6" onkeyup="value = value.replace(/[^\-?\d]/g, '')" />
+        <input type="button" value="确定" class="btn btn-primary" id="btnSaveSourceStock" style="height:30px;margin-right:20px;" />
+        <label>将原库存增加(输入负数为减少)：</label>
+        <input class="form-control input-ssm input-number" type="text" id="updateStock" style="width: 80px;" maxlength="6" onkeyup="value = value.replace(/[^\-?\d]/g, '')" />
+        <input type="button" value="确定" class="btn btn-primary" id="btnSaveNewStock" style="height:30px;" />
+    </div>
+    <table class="table table-bordered table-choose">
+        <thead>
+            <tr>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:50px;">货号</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:650px;">商品</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:50px;">库存</th>
+            </tr>
+        </thead>
+        <tbody class="j_productResult"></tbody>
+    </table>
+</div>
+<div class="dialog-form" id="batchSettingPrice" style="display:none;height:500px;width:900px; position: relative;overflow-x: hidden;overflow-y: scroll;">
+    <div class="form-group">
+        <label>直接调价：</label>
+        <select id="select1" class="form-control input-sm w90">
+            <option value="1">商城价</option>
+            <option value="2">市场价</option>
+        </select>=
+        <input class="form-control input-ssm input-number" type="text" id="price1" style="width: 80px;" onkeyup="value = (value.match(/\d+(\.\d{0,2})?/) || [''])[0]" />
+        <input type="button" value="确定" class="btn btn-primary" id="btnSavePrice1" style="height:30px;margin-right:20px;" />
+        <label>公式调价：</label>
+        <select id="select2" class="form-control input-sm w90">
+            <option value="1">商城价</option>
+            <option value="2">市场价</option>
+        </select>=
+        <select id="select3" class="form-control input-sm w90">
+            <option value="1">商城价</option>
+            <option value="2">市场价</option>
+        </select>
+        <select id="select4" class="form-control input-sm w90">
+            <option value="1">+</option>
+            <option value="2">-</option>
+        </select>
+        <input class="form-control input-ssm input-number" type="text" id="price2" style="width: 80px;" onkeyup="value = (value.match(/\d+(\.\d{0,2})?/) || [''])[0]" />
+        <input type="button" value="确定" class="btn btn-primary" id="btnSavePrice2" style="height:30px;" />
+    </div>
+    <table class="table table-bordered table-choose">
+        <thead>
+            <tr>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:50px;">货号</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:650px;">商品</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:50px;">市场价</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:50px;">商城价</th>
+            </tr>
+        </thead>
+        <tbody class="j_productResult2"></tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.nav-tabs-custom li').each(function () {
+            if ($(this).attr("type") == val) {
+                $(this).trigger("click");
+            }
+        });
+    });
+</script>

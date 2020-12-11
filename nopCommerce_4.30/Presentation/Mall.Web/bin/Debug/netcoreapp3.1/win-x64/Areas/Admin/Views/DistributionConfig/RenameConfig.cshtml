@@ -1,0 +1,313 @@
+﻿@model Mall.Web.Areas.Admin.Models.Distribution.DistributionConfigRenameConfigModel
+@{
+
+}
+<style type="text/css">
+    .form-control.input-validation-error, .form-control-static .input-validation-error { border: #f00 1px solid; }
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("BaseConfig")">基本设置</a></li>
+        <li><a href="@Url.Action("PageConfig")">页面设置</a></li>
+        <li class="active"><a href="@Url.Action("RenameConfig")">分销关键字重命名</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>平台可在此设置分销功能的基本设置。平台开启分销后，商家可以添加分销商品并设置分佣比例，并且佣金由商家承担。（此部分佣金将会在平台与商家之间结算时，从商家应结佣金中扣除）</span></li>
+                <li><span>为规避可能存在的风险，平台可以重命名分销员的小店菜单名称。</span></li>
+            </ul>
+        </div>
+    </div>
+    @using (Html.BeginForm("SaveRenameConfig", "DistributionConfig", FormMethod.Post))
+    {
+        <div class="form-horizontal form-pt0 clearfix">
+            <h3 class="table-hd">分销关键字重命名</h3>
+            <div class="distributionTemplate">
+            	<div class="distribution">
+				    <div class="shop-top">
+				        <div class="info">
+				            <img>
+				            <div class="right">
+				                <div class="name">
+				                    <h3>官方小店</h3>
+				                    <span class="icon-grade">普通</span>
+				                </div>
+				                    <p>再获得<span>10</span>元<i id="rn_DistributorRenameBrokerage">@(Model.DistributorRenameBrokerage)</i>升级为<span>钻石</span></p>
+				            </div>
+				        </div>
+				        <div class="shop-share" id="rn_DistributorRenameSpreadShop">@(Model.DistributorRenameSpreadShop)</div>
+				    </div>
+				    <div class="asset-addup clearfix">
+				        <div class="item">
+				            <div class="h3"><div>￥</div>4.80</div>
+				            <div class="p">未结算</div>
+				        </div>
+				        <div class="item">
+				            <div class="h3"><div>￥</div>0.00</div>
+				            <div class="p">历史赚取</div>
+				        </div>
+				        <div class="item">
+				            <div class="h3"><div>￥</div>767.00</div>
+				            <div class="p">可提现</div>
+				        </div>
+				    </div>
+				    <div class="groupp-middle">
+				        <div class="list-grouppp">
+				            <a href="javascript:void(0)">
+				                <span class="iconfonts icon-icon_-weidian"></span><div class="list" id="rn_DistributorRenameMarket">@(Model.DistributorRenameMarket)</div>
+				                <span class="glyphicon glyphicon-menu-right"></span>
+				            </a>
+				        </div>
+				        <div class="list-grouppp" style="border:none;">
+				            <a href="javascript:void(0)">
+				                <span class="iconfonts icon-icon_-xiaodiandingdan"></span><div class="list" id="rn_DistributorRenameShopOrder">@(Model.DistributorRenameShopOrder)</div>
+				                <span class="glyphicon glyphicon-menu-right"></span>
+				            </a>
+				        </div>
+				        <div class="list-grouppp">
+				            <a href="javascript:void(0)">
+				                <span class="iconfonts icon-icon_-wodeyongjin"></span><div class="list" id="rn_DistributorRenameMyBrokerage">@(Model.DistributorRenameMyBrokerage)</div>
+				                <span class="glyphicon glyphicon-menu-right"></span>
+				            </a>
+				        </div>
+				        <div class="list-grouppp" style="border:none;">
+				            <a href="javascript:void(0)">
+				                <span class="iconfonts icon-icon_-wodexiaji"></span><div class="list" id="rn_DistributorRenameMySubordinate">@(Model.DistributorRenameMySubordinate)</div>
+				                <span class="glyphicon glyphicon-menu-right"></span>
+				            </a>
+				        </div>
+				        <div class="list-grouppp">
+				            <a href="javascript:void(0)">
+				                <span class="iconfonts icon-icon_-xiaodianshezhi"></span><div class="list" id="rn_DistributorRenameShopConfig">@(Model.DistributorRenameShopConfig)</div>
+				                <span class="glyphicon glyphicon-menu-right"></span>
+				            </a>
+				        </div>
+				    </div>
+				</div>
+            </div>
+            <div class="fr w550" id="rn-input-box">
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">我要开店重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameOpenMyShop)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">我的小店重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameMyShop)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">推广小店重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameSpreadShop)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">佣金重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameBrokerage)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">分销市场重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameMarket)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">小店订单重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameShopOrder)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">我的佣金重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameMyBrokerage)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">我的下级重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameMySubordinate)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">一级会员重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameMemberLevel1)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">二级会员重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameMemberLevel2)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">三级会员重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameMemberLevel3)
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label" for="">小店设置重命名：</label>
+	                <div class="col-sm-3 form-control-static">
+	                    @Html.TextBoxFor(model => model.DistributorRenameShopConfig)
+	                </div>
+	            </div>
+	
+	            <div class="form-group">
+	                <div class="col-sm-offset-2 col-sm-10">
+	                    <input type="button" onclick="Post()" id="Save" class="btn btn-primary" value="保 存">
+	                    <input type="button" onclick="Reset()" id="Save" class="btn btn-primary" value="恢复默认">
+	                </div>
+	            </div>
+	        </div>
+        </div>
+    }
+</div>
+
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#rn-input-box input").on("blur", function () {
+            var prefix = "rn_";
+            var _t = $(this);
+            var id = _t.attr("id");
+            var _tb = $("#" + prefix + id);
+            if (_tb.length > 0) {
+                _tb.html(_t.val());
+            }
+            checkInput();
+        });
+    });
+    function checkInput() {
+        $('input[data-val="true"]').removeClass("input-validation-error");
+        var haserror = false;
+        var errorlength = 8;
+        var txt = $("#DistributorRenameOpenMyShop").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameOpenMyShop").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameMyShop").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameMyShop").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameSpreadShop").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameSpreadShop").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameBrokerage").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameBrokerage").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameMarket").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameMarket").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameShopOrder").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameShopOrder").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameMyBrokerage").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameMyBrokerage").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameMySubordinate").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameMySubordinate").addClass("input-validation-error");
+        }
+        txt = $("#DistributorRenameMemberLevel1").val();
+        if (txt.length < 1 || txt.length > 4) {
+            haserror = true;
+            errorlength = 4;
+            $("#DistributorRenameMemberLevel1").addClass("input-validation-error");
+            $.dialog.tips('您输入的信息有误，一级会员重命名选项最多只能输入4个字符！');
+            return;
+        }
+        txt = $("#DistributorRenameMemberLevel2").val();
+        if (txt.length < 1 || txt.length > 4) {
+            haserror = true;
+            errorlength = 4;
+            $("#DistributorRenameMemberLevel2").addClass("input-validation-error");
+            $.dialog.tips('您输入的信息有误，二级会员重命名选项最多只能输入4个字符！');
+            return;
+        }
+        txt = $("#DistributorRenameMemberLevel3").val();
+        if (txt.length < 1 || txt.length > 4) {
+            haserror = true;
+            errorlength = 4;
+            $("#DistributorRenameMemberLevel3").addClass("input-validation-error");
+            $.dialog.tips('您输入的信息有误，三级会员重命名选项最多只能输入4个字符！');
+            return;
+        }
+        txt = $("#DistributorRenameShopConfig").val();
+        if (txt.length < 1 || txt.length > 8) {
+            haserror = true;
+            errorlength = 8;
+            $("#DistributorRenameShopConfig").addClass("input-validation-error");
+        }
+        return haserror;
+    }
+    function Post() {
+        haserror = checkInput();
+        if (haserror) {
+            $.dialog.tips('您输入的信息有误，重命名选项最多只能输入8个字符！');
+            return;
+        }
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: '/Admin/DistributionConfig/SaveRenameConfig',
+            data: $("form").serialize(),
+            success: function (data) {
+                loading.close();
+                if (data.success)
+                    $.dialog.tips('保存成功！');
+                else
+                    $.dialog.tips('保存失败！' + data.msg);
+            }
+        });
+    }
+
+    function Reset() {
+        $("#DistributorRenameOpenMyShop").val("我要开店");
+        $("#DistributorRenameMyShop").val("官方小店");
+        $("#DistributorRenameSpreadShop").val("推广小店");
+        $("#DistributorRenameBrokerage").val("佣金");
+        $("#DistributorRenameMarket").val("分销市场");
+        $("#DistributorRenameShopOrder").val("小店订单");
+        $("#DistributorRenameMyBrokerage").val("我的佣金");
+        $("#DistributorRenameMySubordinate").val("我的下级");
+        $("#DistributorRenameMemberLevel1").val("一级会员");
+        $("#DistributorRenameMemberLevel2").val("二级会员");
+        $("#DistributorRenameMemberLevel3").val("三级会员");
+        $("#DistributorRenameShopConfig").val("小店设置");
+        $("#rn-input-box input").trigger("blur");
+    }
+</script>

@@ -1,0 +1,15 @@
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\bin\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.deps.json
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\bin\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.dll
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\bin\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.pdb
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\bin\Debug\netcoreapp2.2\Mall.Core.dll
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\bin\Debug\netcoreapp2.2\Nop.Core.dll
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\bin\Debug\netcoreapp2.2\Mall.Core.pdb
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\bin\Debug\netcoreapp2.2\Nop.Core.pdb
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Strategies\Cache\AspNetCache\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Strategies\Cache\AspNetCache\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Strategies\Cache\AspNetCache\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.pdb
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\obj\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\obj\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\obj\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\obj\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.dll
+C:\S\nopCommerce_4.20\Strategies\Cache\Mall.Strategy.Cache.AspNetCache\obj\Debug\netcoreapp2.2\Mall.Strategy.Cache.AspNetCache.pdb

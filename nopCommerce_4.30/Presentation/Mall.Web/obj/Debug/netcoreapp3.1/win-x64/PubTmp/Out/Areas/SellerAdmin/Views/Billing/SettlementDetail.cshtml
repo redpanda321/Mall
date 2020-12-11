@@ -1,0 +1,50 @@
+﻿@using Mall.Core;
+@model Mall.DTO.OrderSettlementDetail
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a>已结算订单</a></li>
+        <li class="active"><a>结算金额明细</a></li>
+    </ul>
+    <div class="tips-top-single mt20">
+        <span class="tips-top-single-icon">结算金额 = 订单实付金额 + 积分抵扣金额  - 平台佣金 - 分销佣金 - 退款金额 </span>
+    </div>
+    <table id="list" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>类型</th>
+                <th>金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>订单实付金额</td>
+                <td>@Model.OrderAmount</td>
+            </tr>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>积分抵扣金额</td>
+                <td>@Model.IntegralDiscount.ToString("f2")</td>
+            </tr>
+            <tr>
+                <td>@(string.IsNullOrWhiteSpace(Model.OrderRefundTime) ? Model.OrderPayTime : Model.OrderRefundTime)</td>
+                <td>平台佣金</td>
+                <td>@Model.PlatCommission</td>
+            </tr>
+            <tr>
+                <td>@(string.IsNullOrWhiteSpace(Model.OrderRefundTime) ? Model.OrderPayTime : Model.OrderRefundTime)</td>
+                <td>分销佣金</td>
+                <td>@Model.DistributorCommission</td>
+            </tr>
+            @if (!string.IsNullOrEmpty(Model.OrderRefundTime)) {
+                <tr>
+                    <td>@Model.OrderRefundTime</td>
+                    <td>退款金额</td>
+                    <td>@Model.RefundAmount</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

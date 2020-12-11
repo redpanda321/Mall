@@ -1,0 +1,141 @@
+﻿@model Mall.DTO.MarketServiceModel
+@{
+    ViewBag.Title = "购买拼团服务";
+}
+<script src="~/Scripts/v.js"></script>
+<style>.tip span {width: 470px;}</style>
+<div class="container">
+    <input type="hidden" id="isExpired" value="@Model.IsExpired" />
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class=""><a href="@Url.Action("Index")">活动列表</a></li>
+        @if (!Model.IsExpired)
+        {
+            <li class=""><a href="@Url.Action("AddActive")">新增满额减</a></li>
+        }
+        <li class="active"><a>购买服务</a></li>
+
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>对点击“购买服务”按钮可以开通或续费套餐。相关费用会在店铺的余额中扣除。</span></li>
+                <li><span>所有端都支持满额减活动。</span></li>
+                <li class="mark-info"><span>注意：同一商品只能参加一个满额减活动。</span></li>
+            </ul>
+        </div>
+    </div>
+    <form id="form1" action="@Url.Action("BuyMarketService")" method="post">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @if (Model.IsBuy)
+                {
+                    DateTime endtime = Model.EndTime.Value;
+                    string strTime = string.Format("{0} 年 {1} 月 {2} 日", endtime.Year, endtime.Month, endtime.Day);
+                    if (endtime < DateTime.Now)
+                    {
+                        strTime = string.Format("<font class=\"red\">{0} 年 {1} 月 {2} 日</font> (您的满额减服务已经过期)", endtime.Year, endtime.Month, endtime.Day);
+                    }
+                    <label class="col-sm-2 control-label" for="">服务到期时间：</label>
+                    <b class="pl20 lh30">@(new HtmlString(strTime))</b>
+                    <span class="help-default pl20 lh30">每月您需要支付<b class="red"> @Model.Price.ToString("f2") </b> 元，相关费用会在店铺的账期结算中扣除</span>
+                }
+                else
+                {
+                    <label class="col-sm-2 control-label" for=""></label>
+                    <span class="red pl20">您未购买满额减服务</span>
+                    <span class="help-default pl20 lh30">每月您需要支付 @Model.Price.ToString("f2") 元</span>
+                }
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">购买数量：</label>
+                <div class="col-sm-8"><input class="form-control input-sm" type="text" id="range" name="month" data-price="@Model.Price.ToString("f2")" data-lastbuyprice="@Model.LastBuyPrice.ToString("f2")" style="width:105px; display:inline-block" /> &nbsp; 月</div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="display:none" id="submit" />
+                <div class="col-sm-3 col-sm-offset-2"><button id="btnSave" type="button" class="btn btn-primary btn-sm color-f">确认购买</button></div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var range = $("#range");
+        range.focus();
+        range.on("keydown", function (e) {
+            var keyCode = e.keyCode;
+            if (keyCode >= 96 && keyCode <= 105) return true;
+            if (keyCode >= 48 && keyCode <= 57) return true;
+            if (keyCode == 13 || keyCode == 9 || keyCode == 8 || keyCode == 46) return true;
+            if (keyCode == 37 || keyCode == 39) return true;
+            return false;
+        });
+    });
+    var price = $("#range").data("price");
+    var lastbuyprice = $("#range").data("lastbuyprice");
+    var isexpired = $("#isExpired").val();
+
+    $('#btnSave').click(function () {
+        var month = $("#range").val();
+        if (isNaN(month) || parseInt(month) < 1 || parseInt(month) > 12) {
+            return false;//它只能在1-12范围内，如不符合它已验证，则不弹窗，不让它下面操作处理；
+        }
+        if (price == 0) {
+            if (parseInt(month) > 6 || parseInt(month) < 0) {
+                $.dialog.errorTips("当前以0元购买服务，只能购买1~6个月，且不能叠加购买!");
+                return false;
+            }
+        }
+        if (!isexpired && lastbuyprice == 0 && price == 0) {
+            $.dialog.errorTips("上次以0元购买服务，未到期前，不能再次购买");
+            return false;
+        }
+        if (month.length > 0 && month <= 12) {
+            var totalPrice = month * price;
+            $.dialog.confirm('您确定花费' + totalPrice.toFixed(2) + '元购买' + parseInt(month) + '个月满额减服务吗？', function () {
+                $('#submit').click();
+            });
+        }
+    })
+
+
+
+    var a = v({
+        form: 'form1',
+        ajaxSubmit: true,
+        beforeSubmit: function () {
+            loadingobj = showLoading();
+        },
+        afterSubmit: function (data) {// 表单提交成功回调
+            loadingobj.close();
+            var d = data;
+            if (d.success) {
+                $.dialog.succeedTips("提交成功！", function () {
+                    window.location.reload();
+                }, 0.3);
+            } else {
+                $.dialog.alert(data.msg, '', 3);
+            }
+        }
+    });
+    if (price == 0) {
+        a.add(
+            {
+                target: 'range',
+                empty: true,
+                ruleType: 'uint&&(value>0)&&(value<=6)',// v.js规则验证
+                error: '当前以0元购买服务，只能购买1~6个月，且不能叠加购买!'
+            });
+    }
+    else {
+        a.add(
+            {
+                target: 'range',
+                empty: true,
+                ruleType: 'uint&&(value>0)&&(value<=12)',// v.js规则验证
+                error: '只能为数字，且只能是1到12之间的整数!'
+            });
+    }
+</script>

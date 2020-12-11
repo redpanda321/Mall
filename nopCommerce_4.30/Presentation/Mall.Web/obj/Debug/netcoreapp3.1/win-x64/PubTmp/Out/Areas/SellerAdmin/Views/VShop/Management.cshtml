@@ -1,0 +1,157 @@
+﻿@model Mall.Entities.VShopInfo
+@{ 
+    var shop = ViewBag.Shop as Mall.DTO.Shop;
+}
+
+<meta property="wb:webmaster" content="13b21966c78f011e" />
+<script src="https://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/VShopManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>微店</a></li>
+
+        @if (Model != null)
+        {
+            <li><a href="editvshop?shopId=@Model.ShopId" id="btnUpd">店铺信息管理</a></li>
+            @*<li><a href="/Selleradmin/VTemplate/VHomepage">店铺首页配置</a></li>*@
+        }
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>开启后，用户可以在微信端、小程序端、APP端浏览商家的微店页面。</span></li>
+                <li class="mark-info"><span>注意：即使商家没有开通微店，也可以正常售卖商品。</span></li>
+            </ul>
+        </div>
+    </div>
+    @if (Model == null)
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未开设自己的微店，<a href="EditVShop?shopId=@ViewBag.ShopId">现在开设</a></p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">店铺名称:</label>
+                <div class="col-sm-3 form-control-static">@Model.Name</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">当前状态:</label>
+                <div class="col-sm-3 form-control-static" id="divIsOpen">@(Model.IsOpen?"已开启":"已关闭")</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">创建时间:</label>
+                <div class="col-sm-3 form-control-static">@Model.CreateTime.ToString("yyyy-MM-dd")</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">浏览数:</label>
+                <div class="col-sm-3 form-control-static">@Model.VisitNum</div>
+            </div>
+            @*<div class="form-group">
+                    <label class="col-sm-2 control-label" for="">购买数:</label>
+                    <div class="col-sm-3 form-control-static">@Model.buyNum</div>
+                </div>*@
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">店铺二维码:</label>
+                <div class="col-sm-3"><img style="width: 150px;margin: -11px;" src="@ViewBag.QRCode" /></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">微店预览:</label>
+                <div class="col-sm-3 form-control-static"><a class="glyphicon glyphicon-eye-open view-mobile-shop" title="预览微店" style="font-size:18px;text-decoration: none; cursor:pointer;"></a></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="" style="color:red !important;">开启微店：</label>
+                <div class="col-sm-2 IsOpenWithdrawCheck"><span><input type="checkbox" name="IsOpen" id="IsOpen" @(Model.IsOpen ? "checked" : "")></span></div>
+                <div class="col-sm-8"><span class="help-default">关闭后将不在微信端、wap端、小程序端和APP端前台展示出来</div>
+            </div>
+            <div class="form-group">
+
+                <label class="col-sm-2 control-label">分享到： </label>
+
+                @*//  <wb:share-button type="button" count="n" addition="simple" title="这家店铺很不错哦" pic="http://@Context.Request.Url.Host@ViewBag.QRCode" url="http://@Request.Url.Host/shop/home/@Model.ShopId"></wb:share-button>*@
+
+                <div class="col-sm-3 form-control-static">
+                    <a href="javascript:void(0);" onclick="Share('sina')" title="分享到新浪微博"><img src="/Images/weibo.png" /></a>
+                    <a href="javascript:void(0);" onclick="Share('qq')" title="分享到QQ空间"><img src="/Images/qzone.png" /></a>
+                </div>
+
+            </div>
+
+            @*<div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-1"><a class="btn btn-primary btn-sm" href="editvshop?shopId=@Model.ShopId">编辑店铺信息</a></div>
+
+                </div>*@
+        </div>
+    }
+
+</div>
+@if (Model != null)
+{
+    <div class="mobile-dialog">
+        <iframe name="mobile-iframe" frameborder="0" scrolling="auto" src="@Url.Action("detail", "vshop", new { Area = "Mobile", id = Model.Id,sv=true })"></iframe>
+    </div>
+}
+<div class="cover"></div>
+@if (Model != null)
+{
+    <script type="text/javascript">
+    @{
+        var url = Mall.Web.Framework.CurrentUrlHelper.CurrentUrlNoPort();
+        url+="/shop/home/"+Model.ShopId;
+       }
+
+        var qzoneurl = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=";
+        var sinaurl = "http://service.weibo.com/share/share.php?source=bookmark&url=";
+        var currenturl = encodeURIComponent('@url');
+        function Share(target) {
+            var url = "";
+            switch (target) {
+                case "qq":
+                    url = qzoneurl + currenturl + '&pics=' + '@ViewBag.QRCode' + '&summary=' + ' ' + '&title=' + '这家店不错哟！' + '&desc=' + '@shop.ShopName';
+                    break;
+                case "sina":
+                    url = sinaurl + currenturl + '&pic=' + '@ViewBag.QRCode' + '&title=' + '这家店不错哟！' + '@shop.ShopName' + '&searchPic=true';
+                    break;
+            }
+            window.open(url);
+        }
+
+    $(function () {
+        $('#IsOpen').onoff();
+
+        $("#IsOpen").click(function () {
+            var isShow = $(this).is(":checked");
+            if (!isShow) {
+                $.dialog.confirm("您确定要关闭微店吗？\r\n关闭后将不在微信端、wap端、小程序端和APP端前台展示出来！", function () {
+                    SetOpen();
+                });
+            } else {
+                SetOpen();
+            }
+            return false;
+        });
+    });
+        function SetOpen() {
+            var loading = showLoading();
+            $.post('/Selleradmin/VShop/SetVshopOpen', null, function (result) {
+                loading.close();
+                if (result.success) {
+                    $("#IsOpen").prop("checked", result.isOpen);
+                    $("#divIsOpen").html(result.isOpen ? "已开启" : "已关闭");
+                }
+                else {
+                    $.dialog.alert("操作失败:" + result.msg);
+                }
+            });
+        }
+    </script>
+    }

@@ -1,0 +1,132 @@
+﻿@model Mall.Web.Areas.SellerAdmin.Models.DistributionDefaultBrokerageModel
+@{
+    ViewBag.Title = "DefaultCommissionSet";
+}
+
+
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<div class="container Sclear-N1">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="@Url.Action("Management")">分销商品设置</a></li>
+        <li class="active"><a>默认佣金比例设置</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+                <li><span>平台开启分销功能后，商家可以添加商品参与分销活动。根据平台开启的级数来设置每级的佣金比例。</span></li>
+                <li><span>销售员获得的佣金和商品最终价格有关，佣金的计算在商品抵扣了满额减和优惠券之后。</span></li>
+                <li><span>此部分佣金由商家承担，在平台和商家之间结算时，系统将从商家应结金额中扣除。</span></li>
+			</ul>
+		</div>
+	</div>
+    <h5 class="tips-top"><span class="help-default"><i></i>  说明：商品添加到分销列表后若不单独设置，则使用默认分佣比例</span></h5>
+
+    <div class="form-horizontal">
+
+        @*
+        @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }))
+        *@
+        <form asp-controller="" asp-action="" , data-ajax-begin="beginPost" ,data-ajax-success="successPost" data-ajax-method="POST">
+
+            {
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><span class="red">*</span>一级佣金比例：</label>
+                <div class="col-sm-8">
+                    <input class="input-sm" style="width:50px;" value="@(Model.BrokerageRate1.ToString("F1"))" maxlength="4" type="text" id="BrokerageRate1" name="BrokerageRate1"
+                           data-val="true" data-val-number="一级佣金比例必须是一个数字。" data-val-range="最高分佣比值需在 0.1% ~ @(Model.DistributionMaxBrokerageRate)% 之间" data-val-range-max="@(Model.DistributionMaxBrokerageRate)"
+                           data-val-range-min="0.1" data-val-required="请填写一级佣金比例" data-val-regex="最高分佣比值需在0.1%-@(Model.DistributionMaxBrokerageRate)%之间" data-val-regex-pattern="^(100|(\d{1,2}(\.\d){0,1}))$" onkeyup="value=value.replace(/[^\d.]/g,'')">
+                    &nbsp;%
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="field-validation-valid help-default cor-red" data-valmsg-for="BrokerageRate1" data-valmsg-replace="true"></span>
+                    <span class="help-default">最多一位小数（A邀请了B，B后续消费A所能获得的佣金）</span>
+                </div>
+            </div>
+            if (Model.DistributionMaxLevel > 1)
+            {
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><span class="red">*</span>二级佣金比例：</label>
+                <div class="col-sm-8">
+                    <input class="input-sm" style="width:50px;" value="@(Model.BrokerageRate2.ToString("F1"))" maxlength="4" type="text" id="BrokerageRate2" name="BrokerageRate2"
+                           data-val="true" data-val-number="二级佣金比例必须是一个数字。" data-val-range="最高分佣比值需在 0.1% ~ @(Model.DistributionMaxBrokerageRate)% 之间" data-val-range-max="@(Model.DistributionMaxBrokerageRate)"
+                           data-val-range-min="0.1" data-val-required="请填写二级佣金比例" data-val-regex="最高分佣比值需在0.1%-@(Model.DistributionMaxBrokerageRate)%之间" data-val-regex-pattern="^(100|(\d{1,2}(\.\d){0,1}))$" onkeyup="value=value.replace(/[^\d.]/g,'')">
+                    &nbsp;%
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="field-validation-valid help-default cor-red" data-valmsg-for="BrokerageRate2" data-valmsg-replace="true"></span>
+                    <span class="help-default">最多一位小数（A邀请的会员B后续发展了其它会员C，C消费时，A所能获得的佣金）</span>
+                </div>
+            </div>
+            }
+            if (Model.DistributionMaxLevel > 2) {
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""><span class="red">*</span>三级佣金比例：</label>
+                <div class="col-sm-8">
+                    <input class="input-sm" style="width:50px;" value="@(Model.BrokerageRate3.ToString("F1"))" maxlength="4" type="text" id="BrokerageRate3" name="BrokerageRate3"
+                           data-val="true" data-val-number="三级佣金比例必须是一个数字。" data-val-range="最高分佣比值需在 0.1% ~ @(Model.DistributionMaxBrokerageRate)% 之间" data-val-range-max="@(Model.DistributionMaxBrokerageRate)"
+                           data-val-range-min="0.1" data-val-required="请填写三级佣金比例" data-val-regex="最高分佣比值需在0.1%-@(Model.DistributionMaxBrokerageRate)%之间" data-val-regex-pattern="^(100|(\d{1,2}(\.\d){0,1}))$" onkeyup="value=value.replace(/[^\d.]/g,'')">
+                    &nbsp;%
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="field-validation-valid help-default cor-red" data-valmsg-for="BrokerageRate3" data-valmsg-replace="true"></span>
+                    <span class="help-default">最多一位小数（A邀请的会员B后续发展了会员C，C又发展了会员D，D消费时，A所能获得的佣金）</span>
+                </div>
+            </div>
+            }
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary" id="btsubmit">保 存</button>
+                </div>
+            </div>
+            }
+        </form>
+    </div>
+</div>
+
+
+<input type="hidden" name="maxBrokerageRate" id="maxBrokerageRate" value="@(Model.DistributionMaxBrokerageRate)" />
+<input type="hidden" name="maxLevel" id="maxLevel" value="@(Model.DistributionMaxLevel)" />
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script type="text/javascript">
+    var btsubmit;
+    var loading;
+    var isposting = false;
+
+    $(function () {
+        btsubmit = $("#btsubmit");
+    });
+
+    function beginpost() {
+        if (isposting) {
+            $.dialog.tips("数据提交中...");
+            return false;
+        }
+        isposting = true;
+        btsubmit.text("提交中...");
+        loading = showLoading();
+    }
+
+    function successpost(data) {
+        isposting = false;
+        btsubmit.text("保 存");
+        loading.close();
+        if (data.success == true) {
+            $.dialog.tips("设置默认佣金比例成功！"
+                //, function () {window.location.reload();//数据提交成功页面跳转}
+            );
+        } else {
+            $.dialog.errorTips(data.msg);
+        }
+    }
+</script>
+
+@if (!Model.IsConfigRight)
+{
+    <script type="text/javascript">
+        $(function () {
+            $.dialog.errorTips("佣金比例不能为0，且总和需小于"+@(Model.DistributionMaxBrokerageRate)+"！");
+        });
+    </script>
+}

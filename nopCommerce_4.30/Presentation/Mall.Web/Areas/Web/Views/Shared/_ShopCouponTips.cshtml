@@ -1,0 +1,12 @@
+﻿@if (((bool?)TempData["isShopPage"]) == true)
+{
+    var curshopid = TempData["CurShopId"];
+    var getcouponurl = "/Shop/PostShopCoupons/" + curshopid;
+    var getcancouponurl = "/Shop/PostCanUseShopCoupons/" + curshopid;
+
+    <script type="text/javascript">
+        curshopid = "@(curshopid)";
+        couponsUrl = "@(getcouponurl)";
+        canCouponsUrl = "@(getcancouponurl)";
+    </script>
+}

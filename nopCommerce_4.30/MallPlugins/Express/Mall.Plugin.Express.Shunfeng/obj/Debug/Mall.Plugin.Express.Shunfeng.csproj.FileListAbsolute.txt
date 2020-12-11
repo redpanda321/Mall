@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shunfeng\Mall.Plugin.Express.Shunfeng.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shunfeng\Mall.Plugin.Express.Shunfeng.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shunfeng\Mall.Plugin.Express.Shunfeng.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shunfeng\obj\Debug\Mall.Plugin.Express.Shunfeng.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shunfeng\obj\Debug\Mall.Plugin.Express.Shunfeng.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shunfeng\obj\Debug\Mall.Plugin.Express.Shunfeng.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shunfeng\obj\Debug\Mall.Plugin.Express.Shunfeng.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shunfeng\obj\Debug\Mall.Plugin.Express.Shunfeng.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shunfeng\obj\Debug\Mall.Plugin.Express.Shunfeng.pdb

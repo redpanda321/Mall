@@ -1,0 +1,17 @@
+
+
+
+ 记录时间：2018-11-16 16:52:49,912 
+日志级别：  ERROR 
+出错类：Mall.Web.Framework.UserCookieEncryptHelper.Decrypt  
+错误描述：解密用户标识Cookie出错，Cookie密文：2Qst77eRVO5LvmXfgwQJzZ6a5JejOyF/ggJwW0kjsl8GcF9XDAPsTj19ju5B82LknNgRlJAV0e2KRL5RWQjCxA== 
+
+System.Security.Cryptography.CryptographicException: 填充无效，无法被移除。
+   在 System.Security.Cryptography.RijndaelManagedTransform.DecryptData(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount, Byte[]& outputBuffer, Int32 outputOffset, PaddingMode paddingMode, Boolean fLast)
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.FlushFinalBlock()
+   在 System.Security.Cryptography.CryptoStream.Dispose(Boolean disposing)
+   在 System.IO.Stream.Close()
+   在 System.IO.Stream.Dispose()
+   在 Mall.Core.Helper.SecureHelper.AESDecrypt(String decryptStr, String decryptKey)
+   在 Mall.Web.Framework.UserCookieEncryptHelper.Decrypt(String userIdCookie, String role, Boolean checkexpire) 位置 D:\我的项目\Mall3.3\src\Mall.Web.Framework\UserCookieEncryptHelper.cs:行号 69

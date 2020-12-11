@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "入驻协议APP转跳";
+}
+<link href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/custom.css?v=20183030" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+
+<script>
+    $(function () {
+        showLoading();
+    });
+    document.addEventListener("plusready", function () {
+        var appuserkey = plus.storage.getItem('appuserkey');
+        if (appuserkey == "" || appuserkey == null) {
+            gotoAPP();
+        } else {
+            location.href = "/m-wap/shopregister/step1";
+        }
+    });
+    function gotoAPP() {
+        var targetView2 = plus.webview.getWebviewById("web-show.html") || plus.webview.getWebviewById("web-show");
+        mui.fire(targetView2, 'gologin');
+    }
+</script>

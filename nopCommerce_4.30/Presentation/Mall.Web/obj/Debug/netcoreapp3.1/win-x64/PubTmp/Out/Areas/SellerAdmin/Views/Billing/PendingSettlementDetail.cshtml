@@ -1,0 +1,59 @@
+﻿@using Mall.Core;
+@model Mall.DTO.OrderSettlementDetail
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a>待结算订单</a></li>
+        <li class="active"><a>结算金额明细</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>平台可以设置与各商家的结算周期，每个结算周期都会生成一个结算账单，账单会对这个周期内所有“已完成”且过了售后维权期的订单进行结算。</span></li>
+				<li><span>计算公式：平台应结金额 = 订单实付金额 + 积分抵扣金额 - 平台抽佣 - 分销佣金 - 退款金额。</span></li>
+			</ul>
+		</div>
+	</div>
+	<div class="tips-top-single mt20">
+        <span class="tips-top-single-icon">结算金额 = 订单实付金额 + 积分抵扣金额  - 平台佣金 - 分销佣金 - 退款金额 </span>
+    </div>
+    <table id="list" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>类型</th>
+                <th>金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>订单实付金额</td>
+                <td>@Model.OrderAmount.ToString("f2")</td>
+            </tr>
+            <tr>
+                <td>@Model.OrderPayTime</td>
+                <td>积分抵扣金额</td>
+                <td>@Model.IntegralDiscount.ToString("f2")</td>
+            </tr>
+            <tr>
+                <td>@(string.IsNullOrWhiteSpace(Model.OrderRefundTime)?Model.OrderPayTime:Model.OrderRefundTime)</td>
+                <td>平台佣金</td>
+                <td>@Model.PlatCommission</td>
+            </tr>
+            <tr>
+                <td>@(string.IsNullOrWhiteSpace(Model.OrderRefundTime) ? Model.OrderPayTime : Model.OrderRefundTime)</td>
+                <td>分销佣金</td>
+                <td>@Model.DistributorCommission</td>
+            </tr>
+            @if (!string.IsNullOrEmpty(Model.OrderRefundTime)) {
+                <tr>
+                    <td>@Model.OrderRefundTime</td>
+                    <td>退款金额</td>
+                    <td>@Model.RefundAmount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

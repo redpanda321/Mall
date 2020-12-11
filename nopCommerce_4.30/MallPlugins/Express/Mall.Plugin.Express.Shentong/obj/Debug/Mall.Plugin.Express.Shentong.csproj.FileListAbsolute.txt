@@ -1,0 +1,13 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shentong\Data\2010111771175.jpg
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shentong\Data\config.xml
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shentong\Data\logo.png
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shentong\plugin.config
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shentong\Mall.Plugin.Express.Shentong.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shentong\Mall.Plugin.Express.Shentong.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Shentong\Mall.Plugin.Express.Shentong.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shentong\obj\Debug\Mall.Plugin.Express.Shentong.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shentong\obj\Debug\Mall.Plugin.Express.Shentong.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shentong\obj\Debug\Mall.Plugin.Express.Shentong.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shentong\obj\Debug\Mall.Plugin.Express.Shentong.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shentong\obj\Debug\Mall.Plugin.Express.Shentong.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Shentong\obj\Debug\Mall.Plugin.Express.Shentong.pdb

@@ -1,0 +1,27 @@
+﻿// JavaScript source code
+$(function () {
+    $("#list").MallDatagrid({
+        url: "./List",
+        singleSelect: true,
+        pagination: false,
+        NoDataMsg: '没有找到符合条件的数据',
+        idField: "Id",
+        pageSize: 15,
+        pageNumber: 1,
+        queryParams: {},
+        columns:
+        [[
+
+            { field: "Id", title: "Id", hidden: true },
+            { field: "ShopName", title: "店铺名称", width: 400, align: "left" },
+            { field: "StartDate", title: "开始时间", width: 260, sort: true },
+            { field: "EndDate", title: "结束时间", width: 260, align: "right", sort: true }
+        ]]
+    });
+    $('#searchButton').click(function (e) {
+        searchClose(e);
+        var shopName = $.trim($('#txtShopName').val());
+        $("#list").MallDatagrid('reload', { shopName: shopName });
+    });
+
+});

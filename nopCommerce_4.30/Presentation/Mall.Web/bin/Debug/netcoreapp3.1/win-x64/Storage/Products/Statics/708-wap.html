@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>&#x5546;&#x54C1;&#x8BE6;&#x60C5;</title>
+	<script>
+		(function() {
+			var baseFontSize = 100;
+			var baseWidth = 320;
+			var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+			var innerWidth = Math.max(Math.min(clientWidth, 480), 320);
+
+			var rem = 100;
+
+			if (innerWidth > 362 && innerWidth <= 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.9);
+			}
+
+			if (innerWidth > 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.84);
+			}
+
+			window.__baseREM = rem;
+			document.querySelector('html').style.fontSize = rem + 'px';
+		}());
+	</script>
+	<link rel="stylesheet" href="/Content/bootstrap.min.css">
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/custom.css">
+	
+	<script src="/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="/Scripts/CommonJS.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/custom.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/buylib.js"></script>
+	<script src="/Scripts/imitateRequire.js"></script>
+	<script>
+		imitateRequireJS.addJsFile([{
+			group: 'common',
+			fileNames: [
+				{ nickName: 'jquery.artDialog', fileName: 'jquery.artDialog.js' },
+				{ nickName: 'artDialog', fileName: 'artDialog.iframeTools.js', depends: ['jquery.artDialog'] },
+			]
+		}]);
+	</script>
+</head>
+<body>
+	<!--_Base start-->
+	<script>
+		var areaName = 'm-Wap';
+		var MAppType = '';
+	</script>
+	<input type="hidden" id="gid" value="708" />
+<input type="hidden" id="categoryId" value="11" />
+<input type="hidden" id="has" value="1" />
+<div id="J_shop_att"></div>
+<div class="container container-z">
+    <div class="detail-hd">
+        <div id="slides">
+        </div>
+    </div>
+    <a class="dis-info-a bt_share" id="dis-brokerage-box" style="display:none;">赚<span id="dis-brokerage">00.00</span>元</a>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <div id="preheat"></div>
+            <div class="item">
+                <div class="goods-price" id="jd-price">
+                    <span id="jd-saleprice"></span>
+                    <s>￥500.00</s>
+                </div>
+                <h4>ONLY&#x6625;&#x5B63;&#x65B0;&#x54C1;&#x7EAF;&#x68C9;&#x4FEE;&#x8EAB;&#x9AD8;&#x8170;&#x9542;&#x7A7A;&#x857E;&#x4E1D;&#x8FDE;&#x8863;&#x88D9;&#x5973;L|116307501 021&#x5976;&#x767D; 155/76A/XS</h4>
+                <h5></h5>
+            </div>
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                        <li class="promotion-coupon spec-arrow" style="display:none;" onclick="showPortfolio()">
+                            <a href="javascript:;">
+                                <span id="activespan"><i class="coupon-tip">促销优惠</i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="productColloCation"></div>
+                <div class="goods-address" id="showDeportAddress">
+                </div>
+
+                <ul class="ensary j_ensary">
+            <li class="flex-center"><i>消费者保障</i></li> </ul>
+<input data-val="true" data-val-required="The Int64 field is required." id="shopId" name="shopId" type="hidden" value="1" />
+<input data-val="true" data-val-required="The Int64 field is required." id="productId" name="productId" type="hidden" value="708" />
+
+            </div>
+        </div>
+        <div class="item detail-comment j_storesInfo product-store-title" style="display:none">
+            <div class="goods-comment">
+                <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1>
+                <p class="j_storeAddress"></p>
+                <a class="j_storelist btn btn-default"></a>
+            </div>
+        </div>
+        <div class="item detail-comment">
+            <div class="detail-comment-hd">
+                商品评价
+                <span class="detail-comment-num">0</span>
+            </div>
+            <div id="productCommentShow">
+            </div>
+            <div class="detail-comment-ft">
+                <a class="btn btn-default" href="../ProductComment?pId=708&commentType=0">查看全部评价</a>
+            </div>
+        </div>
+
+
+        <div class="item shop-wrap">
+    <div class="shop-hd">
+        <div class="shop-logo"><img src="/Storage/Shop/1/VShop/201702141734365302700.png"></div>
+        <h4 class="j_shopName">&#x5B98;&#x65B9;&#x81EA;&#x8425;&#x5E97;</h4>
+        <div class="shop-hd-info">
+            <span>宝贝数<strong>7</strong></span>
+            <span>关注人数<strong>3</strong></span>
+        </div>
+    </div>
+    <ul class="shop-bd clearfix">
+        <li>商品：<strong>5.00</strong></li>
+        <li>发货：<strong>5.00</strong></li>
+        <li>服务：<strong>5.00</strong></li>
+    </ul>
+    <div class="shop-ft clearfix">
+        <span><a class="btn btn-default" id="bt_govshop" href="/m-Wap/vshop/detail/10" vshopid="10">进入店铺</a></span>
+        <span><a class="btn btn-default " id="addShopFavorite" shopid="1">关注</a></span>
+    </div>
+</div>
+<input type="hidden" id="shopId" name="shopId" value="1" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/ShowShopScore.js"></script>
+
+
+        <div id="productColloCation">
+        </div>
+            <div class="item details-link">
+        <a href="javascript:void(0)" id="showmoreprodesc"><span>查看更多详情</span></a>
+    </div>
+    <div class="goods-img clearfix" id="prodesccon"></div>
+    <div id="autoLoad" class="loading"></div>
+<input id="gid_desc" name="gid_desc" type="hidden" value="708" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductShowProductDescription.js"></script>
+<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+        <div class="right" style="display:none;background:#fff">
+            <div class="relation-title text-center"><span>猜你喜欢</span></div>
+            <div id="relationProducts" class="clearfix">
+                <template>
+                    <a class="relation-pro clearfix" href="/Mobile/Product/detail/{{id}}">
+                        <div class="relation-pro-img">
+                            <img src="{{imagePath}}" />
+                        </div>
+                        <p class="relation-pro-price"><i>￥</i>{{minSalePrice}}</p>
+                        <p class="relation-pro-name">{{productName}}</p>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="s-actionBar-container">
+    <div id="s-actionbar" class="action-bar">
+        <div class="cell tocart icon-cart-c">
+            购物车
+            <a href="/m-Wap/Cart/Cart?returnUrl=http%3A%2F%2Fwww.weiyou7.com%2Fm-wap%2FProduct%2FDetails%2F708%3Fnojumpfg%3D1"></a>
+            <span class="plus-one">1</span>
+        </div>
+    </div>
+</section>
+<input type="hidden" id="proDesc" value="&lt;p&gt;&lt;img alt=&quot;&quot; class=&quot;&quot; src=&quot;/Storage/Shop/1/Products/708/remark/a9600b96df7c43f8a8950c904eac618f.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;img alt=&quot;&quot; class=&quot;&quot; src=&quot;/Storage/Shop/1/Products/708/remark/3ca901c79f4048e3ba1579fc0e384bd3.jpg&quot; width=&quot;730&quot; height=&quot;1046&quot;/&gt;&lt;/p&gt;&lt;p&gt;&#x672C;&#x6B3E;&#x66F4;&#x591A;&#x989C;&#x8272;&#x9009;&#x62E9;&lt;/p&gt;&lt;p&gt;&lt;img alt=&quot;&quot; class=&quot;&quot; src=&quot;/Storage/Shop/1/Products/708/remark/b8907c3d2ece4f9fabccfa6f85461c03.jpg&quot; width=&quot;730&quot;/&gt;&lt;/p&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;&quot; width=&quot;146&quot;&gt;&#x9ED1;&#x8272;&lt;/td&gt;&lt;td style=&quot;&quot; width=&quot;146&quot;&gt;&#x5976;&#x767D;&lt;/td&gt;&lt;td style=&quot;&quot; width=&quot;146&quot;&gt;&#x6DF1;&#x7EA2;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204); padding-top: 30px;&quot; width=&quot;120&quot; valign=&quot;top&quot;&gt;&lt;p&gt;&#x642D;&#x914D;&#x7279;&#x70B9;&lt;/p&gt;&lt;/td&gt;&lt;td width=&quot;44&quot;&gt;&lt;br/&gt;&lt;/td&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204);&quot; width=&quot;566&quot;&gt;&#x9ED1;&#x8272;&#x2014;&#x589E;&#x6DFB;&#x795E;&#x79D8;&#x9177;&#x611F;&#x5473;&#x9053;&#x5976;&#x767D;&#x2014;&#x7B80;&#x7EA6;&#x81EA;&#x7136;&#x6E05;&#x65B0;&#x611F;&#x89C9;&#x6DF1;&#x7EA2;&#x2014;&#x6D0B;&#x6EA2;&#x6D6A;&#x6F2B;&#x6D3B;&#x529B;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;p&gt;&#x5C3A;&#x7801; &amp;nbsp; &lt;span style=&quot;font-size:14px; padding-left:20px;&quot;&gt;&#x5355;&#x4F4D;cm&lt;/span&gt;&lt;/p&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; align=&quot;center&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;&#x8EAB;&#x9AD8;/&#x51C0;&#x8170;&#x56F4;/&#x578B;&#x53F7;&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;&#x8863;&#x957F;&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;&#x80F8;&#x56F4;&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;&#x8170;&#x56F4;&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;&#x8896;&#x957F;&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;&#x80A9;&#x5BBD;&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;&#x81C0;&#x56F4;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;155/76A/XS&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;87&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;86&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;61/84&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;43&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;36.5&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;/&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;160/80A/S&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;88&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;88&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;63/86&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;44&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;37&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;/&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;165/84A/M&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;90&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;92&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;67/90&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;45&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;38&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;/&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;170/88A/L&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;92&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;96&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;71/94&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;46&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;39&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;/&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;175/92A/XL&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;93&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;100&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;75/98&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;47&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;40&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;/&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;175/96A/XXL&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;94&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;104&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;79/102&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;47&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;41&lt;/td&gt;&lt;td style=&quot;border-color: rgb(241, 241, 241);&quot; align=&quot;center&quot;&gt;/&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;font-size:24px; line-height:24px;&quot; width=&quot;120&quot;&gt;&#x5C3A;&#x7801;&#x53C2;&#x8003;&lt;/td&gt;&lt;td width=&quot;44&quot;&gt;&lt;br/&gt;&lt;/td&gt;&lt;td width=&quot;175&quot;&gt;&#x6A21;&#x7279;&#x8EAB;&#x9AD8;179&lt;/td&gt;&lt;td width=&quot;91&quot;&gt;&#x80F8;&#x56F4;82&lt;/td&gt;&lt;td width=&quot;103&quot;&gt;&#x81C0;&#x56F4;88&lt;/td&gt;&lt;td width=&quot;98&quot;&gt;&#x8170;&#x56F4;60&lt;/td&gt;&lt;td align=&quot;right&quot; width=&quot;99&quot;&gt;&#x7A7F;&#x7740;M&#x7801;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204); padding-top: 30px;&quot; width=&quot;120&quot; valign=&quot;top&quot;&gt;&lt;p&gt;&#x5546;&#x54C1;&#x4FE1;&#x606F;&lt;/p&gt;&lt;/td&gt;&lt;td width=&quot;44&quot;&gt;&lt;br/&gt;&lt;/td&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204);&quot; width=&quot;566&quot;&gt;&lt;p&gt;&#x8D27;&#x53F7;&#xFF1A;116307501&lt;/p&gt;&lt;p&gt;&#x6B3E;&#x540D;&#xFF1A;P GILL A LINE DRESS(LOVE)&lt;/p&gt;&lt;p&gt;&#x540A;&#x724C;&#x4EF7;&#xFF1A;&#xFFE5;899&lt;/p&gt;&lt;p&gt;&#x989C;&#x8272;&#xFF1A;&#x6DF1;&#x7EA2;&#x3001;&#x9ED1;&#x8272;&#x3001;&#x5976;&#x767D;&lt;/p&gt;&lt;p&gt;&#x7EE3;&#x82B1;&#x9762;&#x6599;&#xFF1A;&#x68C9;100%&lt;/p&gt;&lt;p&gt;&#x91CC;&#x6599;&#xFF1A;&#x68C9;100%&lt;/p&gt;&lt;p&gt;&#x6D17;&#x6DA4;&#x5EFA;&#x8BAE;&#xFF1A;30&#x5EA6;&#x6C34;&#x6E29;&#x4E0B;&#x6B63;&#x5E38;&#x624B;&#x6D17;&#xFF0C;&#x8BF7;&#x907F;&#x514D;&#x542B;&#x78B1;&#x6027;&#x7684;&#x6D17;&#x6DA4;&#x7528;&#x54C1;&#xFF0C;&#x53CD;&#x9762;&#x6D17;&#x6DA4;&#x3001;&#x4E0D;&#x5B9C;&#x7528;&#x529B;&#x62C9;&#x4F38;&#xFF0C;&#x907F;&#x514D;&#x9AD8;&#x6E29;&#x71A8;&#x70EB;&#x3002;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204); padding-top: 30px;&quot; width=&quot;120&quot; valign=&quot;top&quot;&gt;&lt;p&gt;&#x8BBE;&#x8BA1;&#x5356;&#x70B9;&lt;/p&gt;&lt;/td&gt;&lt;td width=&quot;44&quot;&gt;&lt;br/&gt;&lt;/td&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204);&quot; width=&quot;566&quot;&gt;&lt;p&gt;&#x25CF; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;padding-left:12px;&quot;&gt;&lt;/span&gt;&#x677E;&#x7D27;&#x6536;&#x8170;&#x8BBE;&#x8BA1;&lt;/p&gt;&lt;p&gt;&#x25CF; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;padding-left:12px;&quot;&gt;&lt;/span&gt;&#x9542;&#x7A7A;&#x857E;&#x4E1D;&#x8BBE;&#x8BA1;&lt;/p&gt;&lt;p&gt;&#x25CF; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;padding-left:12px;&quot;&gt;&#x80CC;&#x9762;&#x9542;&#x7A7A;&#x6C34;&#x6EF4;&#x6263;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204); padding-top: 30px;&quot; width=&quot;120&quot; valign=&quot;top&quot;&gt;&lt;p&gt;&#x5546;&#x54C1;&#x6307;&#x6570;&lt;/p&gt;&lt;/td&gt;&lt;td width=&quot;44&quot;&gt;&lt;br/&gt;&lt;/td&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204); padding-top: 30px;&quot; width=&quot;566&quot;&gt;&#x8584;&#x539A;&#x6307;&#x6570;&#x8F7B;&#x8584;&#x8584;&#x9002;&#x4E2D;&#x539A;&#x5B9E;&#x5F39;&#x6027;&#x6307;&#x6570;&#x65E0;&#x5F39;&#x5FAE;&#x5F39;&#x9002;&#x4E2D;&#x9AD8;&#x5F39;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; width=&quot;730&quot; style=&quot;width: 625px;&quot;&gt;&lt;tbody&gt;&lt;tr class=&quot;firstRow&quot;&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204); padding-top: 30px;&quot; width=&quot;120&quot; valign=&quot;top&quot;&gt;&lt;p&gt;&#x6E29;&#x99A8;&#x63D0;&#x793A;&lt;/p&gt;&lt;/td&gt;&lt;td width=&quot;44&quot;&gt;&lt;br/&gt;&lt;/td&gt;&lt;td style=&quot;border-top-color: rgb(204, 204, 204);&quot; width=&quot;566&quot;&gt;&lt;p&gt;&lt;span style=&quot;background-color:#ffe302;&quot;&gt;&#x8BF7;&#x7528;&#x4F4E;&#x6E29;&#x624B;&#x6D17;&#xFF0C;&#x8F7B;&#x8F7B;&#x62E7;&#x53BB;&#x6C34;&#x5206;&#xFF0C;&#x667E;&#x5728;&#x901A;&#x98CE;&#x5904;&#x9634;&#x5E72;&#xFF0C;&#x5207;&#x52FF;&#x5728;&#x9633;&#x5149;&#x4E2D;&#x66B4;&#x6652;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" />
+<input type="hidden" id="shopId" value="1" />
+<input type="hidden" id="couponUrl" value="/Mobile/coupon/ShopCouponList" />
+<input type="hidden" id="skuUrl" value="/api/Product/GetSKUInfo" />
+    <script>
+        var winxinShareArgs = {
+            share: {
+                title: 'ONLY&#x6625;&#x5B63;&#x65B0;&#x54C1;&#x7EAF;&#x68C9;&#x4FEE;&#x8EAB;&#x9AD8;&#x8170;&#x9542;&#x7A7A;&#x857E;&#x4E1D;&#x8FDE;&#x8863;&#x88D9;&#x5973;L|116307501 021&#x5976;&#x767D; 155/76A/XS',
+                desc: 'ONLY&#x6625;&#x5B63;&#x65B0;&#x54C1;&#x7EAF;&#x68C9;&#x4FEE;&#x8EAB;&#x9AD8;&#x8170;&#x9542;&#x7A7A;&#x857E;&#x4E1D;&#x8FDE;&#x8863;&#x88D9;&#x5973;L|116307501 021&#x5976;&#x767D; 155/76A/XS',
+                link: location.href,
+                imgUrl: 'http://www.weiyou7.com/Storage/Shop/1/Products/708/1_150.png',
+                success: null,
+                cancel: null,
+                fail: null,
+                complete: null,
+                trigger: null
+            }
+        };
+    </script>
+    <!--_WeiXinShare start-->
+    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+    <!--_WeiXinShare end-->
+<script src="https://map.qq.com/api/js?v=2.exp&key=56QBZ-R763U-UNTVS-B2AZF-EU7R7-LLFOQ&libraries=convertor" async></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js?key=56QBZ-R763U-UNTVS-B2AZF-EU7R7-LLFOQ" async></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script src="/Scripts/jquery.cookie.js"></script>
+<script src="/Scripts/jquery.slides.min.js"></script>
+<a class="WX-backtop"></a>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+	<div class="modul-popup">
+	    <div class="modul-popup-container sale-popup-container">
+	        <div class="sale-popup-header"></div>
+	        <div class="sale-popup-body">
+	            <div class="modul-scroll">
+	                <table class="sale-table" width="100%">
+	                        <tbody id="activeList">
+	                    	</tbody>
+	                </table>
+                </div>
+	        </div>
+	        <div class="sale-popup-footer">
+	            <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+
+<!--_Aside start-->
+<div id="_Aside_CustomServices">
+</div>
+<script src="/Areas/Mobile/Templates/Default/Scripts/_Aside.js"></script>
+
+    <div class="wx_aside">
+            <!-- 更多 -->
+            <a href="javascript:;" class="btn_more"></a>
+                <div class="wx_aside_item">
+                        <a href="/m-wap"><img src="/temp/201810170225284811350.png" style="width:25px;height:25px;" />Home</a>
+                        <a href="/m-wap/category"><img src="/temp/201810170226199645080.png" style="width:25px;height:25px;" />Good</a>
+                        <a href="/m-wap/cart/cart"><img src="/temp/201810170226412488170.png" style="width:25px;height:25px;" />Cart</a>
+                        <a href="/m-wap/member/center"><img src="/temp/201810170227011843730.png" style="width:25px;height:25px;" />Me</a>
+                </div>
+    </div>
+<!--_Aside end-->		<script src="/Scripts/jquery.nicescroll.min.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/_Base.js"></script>
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/artdialog.css">
+	<script src="/Scripts/jquery.artDialog.js"></script>
+	<script src="/Scripts/artDialog.iframeTools.js"></script>
+	<script src="/Scripts/jquery.cookie.js"></script>
+	<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+
+		
+
+		<script>
+		(function () {
+			var data= null;
+			if (data) {
+				var callback;
+				if (data.goBack == true)
+					callback = function () { history.go(-1); };
+				var fun;
+				if (data.type == -1)
+					fun='errorTips';
+				else if(data.type==0)
+					fun='alert';
+				else if (data.type == 1)
+					fun='alertTips';
+				else if (data.type == 2)
+					fun='succeedTips';
+				if(fun)
+					$.dialog[fun](data.message,callback,data.time);
+			}
+		})();
+</script>
+	<!--_Base end-->
+</body>
+</html>

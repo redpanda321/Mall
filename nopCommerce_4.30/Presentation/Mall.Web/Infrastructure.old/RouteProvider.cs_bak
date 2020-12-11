@@ -1,0 +1,193 @@
+﻿
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
+using Nop.Web.Framework.Mvc.Routing;
+
+namespace Mall.Web.Infrastructure
+{
+    /// <summary>
+    /// Represents provider that provided basic routes
+    /// </summary>
+    public partial class RouteProvider : IRouteProvider
+    {
+        #region Methods
+
+        /// <summary>
+        /// Register routes
+        /// </summary>
+        /// <param name="routeBuilder">Route builder</param>
+        public void RegisterRoutes(IRouteBuilder routeBuilder)
+        {
+            //reorder routes so the most used ones are on top. It can improve performance
+
+
+            //areas
+            //    routeBuilder.MapRoute(name: "areaRoute", template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+            //installer page
+
+            // routeBuilder.MapRoute("Agreement", "Web/Installer/Agreement",
+            //   new { controller = "Installer", action = "Agreement" });
+
+
+           
+
+
+
+
+
+            //area
+
+            routeBuilder.MapRoute(
+                        name: "areaRoute",
+                        template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+
+            //Web
+
+            routeBuilder.MapAreaRoute(
+                    name: "Web_default",
+                    areaName: "Web",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "home", action = "Index" }
+                );
+
+
+            //mobile
+            routeBuilder.MapAreaRoute(
+                    name: "Mobile_WXApi1",
+                    areaName: "Mobile",
+                    template: "m/WXApi/{id?}",
+                    defaults: new { controller = "WXApi", action = "Index" },
+                    constraints: new { id = @"\d*" }
+
+                );
+
+            routeBuilder.MapAreaRoute(
+                       name: "Mobile_WXApi",
+                       areaName: "Mobile",
+                       template: "m-{platform}/WXApi/{id?}",
+                       defaults: new { controller = "WXApi", action = "Index" },
+                       constraints: new { id = @"\d*" }
+                   );
+
+            routeBuilder.MapAreaRoute(
+                       name: "Mobile_default",
+                       areaName: "Mobile",
+                       template: "m-{platform}/{controller}/{action}/{id?}",
+                       defaults: new { controller = "Home", action = "Index" }
+                    );
+
+            routeBuilder.MapAreaRoute(
+                       name: "Mobile_default2",
+                       areaName: "Mobile",
+                       template: "m/{controller}/{action}/{id?}",
+                        defaults: new { controller = "Home", action = "Index", platform = "Mobile" }
+                    );
+
+            routeBuilder.MapAreaRoute(
+                        name: "Mobile_isshare",
+                        areaName: "Mobile",
+                        template: "m-{platform}/{controller}/{action}/{id?}/{isShare}",
+                        defaults: new { controller = "Home", action = "Index" }
+                   );
+
+
+            routeBuilder.MapAreaRoute(
+                        name: "Mobile_openid_isshare",
+                        areaName: "Mobile",
+                        template: "m-{platform}/{controller}/{action}/{id?}/{openId}/{isShare}",
+                        defaults: new { controller = "Home", action = "Index" }
+                   );
+
+
+
+            //SellerAdmin
+
+            routeBuilder.MapAreaRoute(
+                   name: "SellerAdmin_default",
+                   areaName: "SellerAdmin",
+                   template: "selleradmin/{controller}/{action}/{id?}",
+                   defaults: new { controller = "home", action = "Index" }
+                  );
+
+
+            //admin
+            routeBuilder.MapAreaRoute(
+                   name: "Admin_default",
+                   areaName: "Admin",
+                   template: "admin/{controller=home}/{action=Index}/{id?}");
+
+
+
+
+
+            //Common
+
+            routeBuilder.MapRoute(
+                        name: "Default",
+                        template: "common/{controller}/{action}/{id?}",
+                        defaults: new { controller = "Home", action = "Index" },
+                        constraints: null
+                    );
+
+
+            routeBuilder.MapRoute(
+                        name: "PayRoute",
+                        template: "common/site/pay",
+                        defaults: new { controller = "site", action = "pay" },
+                        constraints: null
+                    );
+
+
+            //api
+
+           
+            routeBuilder.MapRoute(
+                        name: "MiniApi",
+                        template: "miniprogapi/{controller}/{action}/{id?}",
+                       defaults: new { Controller = "Test", Action = "Get", defaultnamespace = "Mall.MiniProgAPI" }
+                    );
+
+
+
+            routeBuilder.MapRoute(
+                    name: "DefaultApi",
+                    template: "api/{controller}/{action}/{id?}",
+                    defaults: new { Controller = "Test", Action = "Get", defaultnamespace = "Mall.API" }
+                );
+
+
+            routeBuilder.MapRoute(
+                   name: "DefaultOpenApi",
+                   template: "openapi/Hishop.Open.Api.I{controller}.{action}/{id?}",
+                   defaults: new { controller = "OPATest", action = "Get", defaultnamespace = "Mall.OpenApi" }
+                   );
+
+
+         
+
+
+
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets a priority of route provider
+        /// </summary>
+        public int Priority
+        {
+            get { return 100; }
+        }
+
+        #endregion
+    }
+
+
+   
+
+
+}

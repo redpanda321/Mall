@@ -1,0 +1,86 @@
+﻿@model List<Mall.Web.Areas.Admin.Models.Product.CategoryModel>
+
+@{
+    ViewBag.Title = "分类管理";
+}
+<script src="~/Areas/Admin/Scripts/categoryJS.js"></script>
+<link href="~/Content/pagesetting.css" rel="stylesheet" />
+
+<div class="container">
+    <table class="table category_table">
+        <tbody>
+            @if (null == Model)
+            {
+
+                <tr style="text-align:center">
+                    <td style="text-align:center;" colspan="3"><h2 class="none-data">没有任何分类</h2></td>
+                </tr>}
+            else
+            {
+                var cookie = Context.Request.Cookies["CategoryHideItems"];
+                var cookieValue = "";
+                if (cookie != null && !string.IsNullOrEmpty(cookie))
+                {
+                    cookieValue = Uri.UnescapeDataString(cookie);
+                }
+
+                long temp;
+                var hideItems = cookieValue.Split(',').Where(p => long.TryParse(p, out temp)).Select(p => long.Parse(p)).ToArray();
+
+
+                @functions { 
+                public  void CreateTr(Mall.Web.Areas.Admin.Models.Product.CategoryModel category, long[] hideItems)
+                {
+                var hide = hideItems.Contains(category.Id);
+                var allChildHide = Model.Where(p => p.ParentCategoryId == category.Id).All(p => hideItems.Contains(p.Id));
+
+    <tr class="level-@category.Depth" cid="@category.Id" parentid="@category.ParentCategoryId" style="@(category.ParentCategoryId == 0 ? "" : "display:none")">
+        <td class="@(category.Depth == 3 ? "clear-m2" : "clear-e")">
+            @if (category.Depth == 2)
+            {
+                <s class="line clear-m4">└───</s>
+            }
+            @if (category.Depth == 3)
+            {
+                <s class="line clear-m3">├─── </s>
+            }
+            @if (category.Depth < 3)
+            {
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            }
+            <input type="hidden" class="hidden_id" value="@category.Id" />
+            <input type="hidden" class="hidden_depth" value="@category.Depth" />
+            <label class="text-name">@category.Name</label>
+        </td>
+        <td class="td-operate">
+            <span class="btn-a">
+                <a id="del_@category.Id" data-categoryid="@category.Id" categoryId="@category.Id" class="select-classify">选取</a>
+            </span>
+        </td>
+    </tr>
+                }
+
+            }
+
+
+            @foreach (var category in Model)
+            {
+                CreateTr(category, hideItems);
+            }
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    var id = 0;
+    $('.category_table').on('click', '.select-classify', function () {
+        id = $(this).attr("categoryId");
+        $(".select-classify").html("选取");
+        $(this).html("已选取");
+        //选取的某个商品分类
+        if (window.top) {
+            window.top._categorId = id;
+        }
+    });
+
+</script>

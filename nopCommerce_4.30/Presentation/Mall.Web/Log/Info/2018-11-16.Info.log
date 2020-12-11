@@ -1,0 +1,504 @@
+
+
+
+ 记录时间：2018-11-16 16:46:46,237 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,647 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,756 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_WAP.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,844 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.B2BUnionPay.B2BUnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,879 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.UnionPay.UnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,894 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,913 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,930 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_H5.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,964 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_Native.WeiXinPay 
+
+
+
+
+ 记录时间：2018-11-16 16:46:46,983 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_SmallProg.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:47:25,468 
+日志级别：  INFO  
+出错类：Mall.Web.MvcApplication.Application_End  
+错误描述：2018-11-16 16:47:25 -  http://localhost:32223/ 
+
+
+
+
+ 记录时间：2018-11-16 16:47:33,872 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,055 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,187 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_WAP.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,340 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.B2BUnionPay.B2BUnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,392 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.UnionPay.UnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,553 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,600 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,668 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_H5.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,736 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_Native.WeiXinPay 
+
+
+
+
+ 记录时间：2018-11-16 16:47:34,785 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_SmallProg.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:48:08,158 
+日志级别：  INFO  
+出错类：Mall.Web.MvcApplication.Application_End  
+错误描述：2018-11-16 16:48:08 -  http://localhost:32223/ 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,119 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,204 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,259 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_WAP.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,417 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.B2BUnionPay.B2BUnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,441 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.UnionPay.UnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,460 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,477 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,491 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_H5.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,505 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_Native.WeiXinPay 
+
+
+
+
+ 记录时间：2018-11-16 16:48:13,518 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_SmallProg.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,175 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,406 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,485 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_WAP.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,570 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.B2BUnionPay.B2BUnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,590 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.UnionPay.UnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,616 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,638 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,667 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_H5.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,687 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_Native.WeiXinPay 
+
+
+
+
+ 记录时间：2018-11-16 16:49:21,711 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_SmallProg.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:52:33,838 
+日志级别：  INFO  
+出错类：Mall.Web.MvcApplication.Application_End  
+错误描述：2018-11-16 16:52:33 -  http://localhost:32223 
+
+
+
+
+ 记录时间：2018-11-16 16:52:38,228 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:52:38,559 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:52:38,791 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_WAP.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:52:39,038 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.B2BUnionPay.B2BUnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:52:39,119 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.UnionPay.UnionPay 
+
+
+
+
+ 记录时间：2018-11-16 16:52:39,204 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:52:39,249 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:52:39,403 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_H5.Service 
+
+
+
+
+ 记录时间：2018-11-16 16:52:39,497 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_Native.WeiXinPay 
+
+
+
+
+ 记录时间：2018-11-16 16:52:39,544 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_SmallProg.Service 
+
+
+
+
+ 记录时间：2018-11-16 17:06:03,943 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay.Service 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,041 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,137 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.Alipay_WAP.Service 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,213 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.B2BUnionPay.B2BUnionPay 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,227 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.UnionPay.UnionPay 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,244 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay.Service 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,257 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_App.Service 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,272 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_H5.Service 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,285 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_Native.WeiXinPay 
+
+
+
+
+ 记录时间：2018-11-16 17:06:04,298 
+日志级别：  INFO  
+出错类：Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+错误描述：set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_SmallProg.Service 
+

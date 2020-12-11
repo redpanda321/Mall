@@ -1,0 +1,143 @@
+﻿<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li value="" class="active"><a>成交转化率</a></li>
+        
+    </ul>
+    <form class="custom-inline count-search">
+        <div class="form-group">
+            @Html.DropDownList("year", (List<SelectListItem>)ViewBag.YearDrop, new { @class = "form-control input-sm" })
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("month", (List<SelectListItem>)ViewBag.MonthDrop, new { @class = "form-control input-sm" })
+        </div>
+
+        <input type="button" class="btn btn-primary btn-sm" id="SearchBtn" value="查询" />
+    </form>
+    <div class="count">
+        <div class="text-right form-group">
+            <div class="count-chat">
+                <div id="main" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
+            </div>
+            <table class="table table-bordered table-primary">
+                <tbody>
+                    <tr class="info">
+                        <td><span id="thisMonthName"></span>：<b id="thisMonthCount">9</b>%</td>
+                        <td><span id="prevMonthName"></span>：<b id="prevMonthCount">9</b>%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/Scripts/echarts-plain-map.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script type="text/javascript">
+    var myChart;
+    require.config({ paths: { echarts: '/Scripts' } });
+    require(['echarts', 'echarts/chart/bar', 'echarts/chart/line', 'echarts/chart/map'], function (echarts) {
+        myChart = echarts.init(document.getElementById('main'));
+        load();
+    });
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            formatter: function (params, ticket, callback) {
+                var t1 = params[0][0].replace('月', '月' + params[0][1] + '号') + '  :  <b style="color:yellow;font-size:14px;">' + params[0][2] + '</b>  %';
+                var t2 = params[1][0].replace('月', '月' + params[1][1] + '号') + '  :  <b style="color:yellow;font-size:14px;">' + params[1][2] + '</b>  %';
+                var html = ['<div style="text-align:left;">', t1, '<br />', t2, '</div>'];
+
+                return html.join('');
+            }
+        },
+        legend: {},
+        toolbox: {
+            show: true,
+            feature: {
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        xAxis: [{ type: 'category' }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} %'
+                },
+                splitArea: { show: true }
+            }
+        ],
+        series: [
+            {
+                type: 'line',
+                smooth: true,
+                symbol: 'emptyCircle',
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最多' },
+                        { type: 'min', name: '最少' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            },
+            {
+                type: 'line',
+                smooth: true,
+                symbol: 'emptyCircle',
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最多' },
+                        { type: 'min', name: '最少' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            }
+        ]
+    };
+    $(function () {
+        $("#SearchBtn").click(function () { load(); });
+    });
+    function load() {
+        myChart.showLoading({ text: '正在加载图表...', effect: 'bubble', textStyle: { fontSize: 20 } });
+        $.ajax({
+            url: "./GetDealConversionRateChartByMonth",
+            data: { year: $("#year").val(), month: $("#month").val() },
+            success: function (data) {
+                myChart.hideLoading();
+                if (data.success) {
+                    option.legend.data = [data.chart.SeriesData[0].Name, data.chart.SeriesData[1].Name];
+                    option.xAxis.data = data.chart.XAxisData;
+                    option.series[0].name = data.chart.SeriesData[0].Name;
+                    option.series[0].data = data.chart.SeriesData[0].Data;
+                    option.series[1].name = data.chart.SeriesData[1].Name;
+                    option.series[1].data = data.chart.SeriesData[1].Data;
+                    $("#thisMonthName").text(option.series[0].name);
+                    $("#prevMonthName").text(option.series[1].name);
+                    $("#thisMonthCount").text(option.series[0].data.sum(function (i) { return i; }));
+                    $("#prevMonthCount").text(option.series[1].data.sum(function (i) { return i; }));
+                    myChart.clear();
+                    myChart.setOption(option);
+                }
+            }, error: function () {
+                myChart.hideLoading();
+            }
+        });
+    }
+</script>
+
+

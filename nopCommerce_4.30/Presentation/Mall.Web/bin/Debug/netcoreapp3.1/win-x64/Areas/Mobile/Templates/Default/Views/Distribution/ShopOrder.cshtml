@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.FootIndex = 4;
+}
+
+<div class="container distribution">
+	<ul class="order-list" id="orderlist">
+	</ul>
+	<div class="item details-link" id="enddata">
+        <a href="javascript:void(0)"><span>别拉了, 快去分享吧</span></a>
+    </div>	
+    <div class="null-content hide" id="nodata">
+		<img src="~/Areas/Mobile/Templates/Default/Images/no-withdraw.png">
+		<h3>暂无订单</h3>
+		<h5>您还没有订单哦</h5>
+	</div>
+</div>
+<a href="javascript:;" class="btn_top"></a>
+<script src="~/Content/Public/js/dist/underscore.js?v=20183030"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js?v=20183030"></script>
+
+<script id="datatmp" type="text/template">
+    <%_.each(datalist, function(item, index, obj) {%>
+    <li>
+            <h6><%=item.OrderId%><%if(item.IsRefundCloseOrder){%><i class="iconfonts icon-icon_-tuihuo top"></i><%}%><span class="pull-right"><%=item.StatusText%></span></h6>
+        <%_.each(item.Items, function(sitem, sindex, sobj) {%>
+            <div class="order-goods clearfix">
+                <img src="<%=sitem.ProductDefaultImage%>">
+                <p class="name">
+                    <span class="pd-name"><%if(sitem.IsHasRefund){%><i class="iconfonts icon-icon_-tuihuo"></i><%}%><%=sitem.ProductName%></span>
+                </p>
+                <p class="p-r"><span class="gray"><%=sitem.Sku%></span><em><i style="font-style: normal;padding:0 5px;">x</i><%=sitem.Quantity%></em></p>
+            </div>
+        <%});%>
+        <p class="order-text">
+            <a href="/m-Wap/Order/Detail?id=2018032783119387"><span>共<%=item.QuantitySum%>件商品</span> <span>订单金额： <em>¥<%=item.OrderAmount.toFixed(2)%></em></span></a>
+        </p>
+        <div class="order-time">
+            <h6><%=item.OrderDateText%><span class="pull-right"><span class="orderstatus"><%=(item.Status==0?"预计":"结算")%>佣金</span>¥<%=item.BrokerageAmount.toFixed(2)%></span></h6>
+        </div>
+    </li>
+    <%});%>
+</script>
+
+<script type="text/javascript">
+    var curPage = 1;       //当前页
+    var isMoreGet = true;  //是否还有数据
+    var isLoading = false;
+    var TmplCon = "";
+    var databox;
+    var datalist;   //数据变量
+    var isSearch = false;
+
+    $(function () {
+
+        TmplCon = $("#datatmp").html(); //获取模板内容
+        databox = $("#orderlist");
+        h_loading.init($("#autoLoad"));
+
+        getData();
+
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+
+            if (scrollTop + windowHeight >= scrollHeight - 30) {
+                getData();
+            }
+        });
+    });
+
+    function getData() {
+        if (isMoreGet) {
+            var getdataurl = '/' + areaName + '/Distribution/GetShopOrder';
+            if (!isLoading) {
+                isLoading = true;
+                h_loading.show();
+                $.post(getdataurl, { page: curPage}, function (result) {
+                    isLoading = false;
+                    datalist = result.rows;
+                    if (datalist.length > 0) {
+                        databox.append(_.template(TmplCon, datalist));
+                        h_loading.hide();
+                        if (datalist.length < 5) {
+                            //无更多数据
+                            $("#enddata").show();
+                        }
+                    } else {
+                        isMoreGet = false;
+                        if (curPage > 1) {
+                            h_loading.hide();
+                            $("#enddata").show();
+                        } else {
+                            h_loading.hide();
+                            $("#nodata").removeClass("hide");
+                        }
+                    }
+                    curPage++;
+                });
+            }
+        }
+    }
+</script>

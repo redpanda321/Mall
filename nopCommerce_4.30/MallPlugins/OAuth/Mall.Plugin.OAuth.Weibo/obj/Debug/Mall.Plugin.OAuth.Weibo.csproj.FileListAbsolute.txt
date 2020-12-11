@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.Weibo\obj\Debug\Mall.Plugin.OAuth.Weibo.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.Weibo\obj\Debug\Mall.Plugin.OAuth.Weibo.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.Weibo\obj\Debug\Mall.Plugin.OAuth.Weibo.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\OAuth\Mall.Plugin.OAuth.Weibo\Mall.Plugin.OAuth.Weibo.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\OAuth\Mall.Plugin.OAuth.Weibo\Mall.Plugin.OAuth.Weibo.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\OAuth\Mall.Plugin.OAuth.Weibo\Mall.Plugin.OAuth.Weibo.pdb
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.Weibo\obj\Debug\Mall.Plugin.OAuth.Weibo.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.Weibo\obj\Debug\Mall.Plugin.OAuth.Weibo.dll
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.Weibo\obj\Debug\Mall.Plugin.OAuth.Weibo.pdb

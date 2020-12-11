@@ -1,0 +1,60 @@
+﻿@model List<Mall.Entities.BusinessCategoryInfo>
+@{
+    ViewBag.Title = "BusinessCategory";
+}
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopBusinessCategory.js"></script>
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="./Management">店铺管理</a></li>
+
+        <li class="active"><a>经营类目</a></li>
+
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>官方自营店默认拥有所有类目的经营权限，入驻商家需要申请经营类目。</span></li>
+				<li><span>商家冻结后，商家将无法登录卖家中心，店铺所有商品都会下架， 商家下面的所有门店也会冻结。商家解冻后，所有商品需要重新上架，所有门店也需要重新解冻。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="form-group">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>经营类目</th>
+                    <th>分佣比例</th>
+                    <th class="td-operate">操作</th>
+                </tr>
+            </thead>
+            <tbody id="bcategoryTBody">
+                @if (Model == null || Model.Count() == 0)
+                {
+                    <tr id="nonData"><td colspan="3" style="text-align:center;"><h4>没有任何经营类目</h4></td></tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="bcategoryLines" id="@item.CategoryId" businessCategoryId="@item.Id">
+                            <td>@item.CategoryName</td>
+                            <td><input class="text-order no-m commisRate" type="text" value="@item.CommisRate"> %</td>
+                            <td class="td-operate"><span class="btn-a"><a onclick="deleteCategoryLine(this);" class="a-del">删除</a></span></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <a class="add-business"><span class="glyphicon glyphicon-plus-sign"></span>新增经营类目</a>
+    </div>
+    <input type="button" class="btn btn-primary" id="SaveBtn" value="保存" />
+
+</div>
+
+<input type="hidden" id="shopId" value="@ViewBag.ShopId" />

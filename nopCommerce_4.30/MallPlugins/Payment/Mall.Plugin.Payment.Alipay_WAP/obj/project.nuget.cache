@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "pvldsqDb0RenMenZoMYmMSSwnKcrhb92K+8PDPrhOWjoUQkYKHEXBrPSZcPRiGPhHZPUX6sKkKMOLIKnF+aTvA==",
+  "success": false,
+  "projectFilePath": "C:\\Mall\\nopCommerce_4.30\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay_WAP\\Mall.Plugin.Payment.Alipay_WAP.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Mall.PaymentPlugin is not compatible with netcoreapp2.2 (.NETCoreApp,Version=v2.2). Project Mall.PaymentPlugin supports: netcoreapp3.1 (.NETCoreApp,Version=v3.1)",
+      "libraryId": "Mall.PaymentPlugin",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.2"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Mall.Plugin.Payment.Alipay.Base is not compatible with netcoreapp2.2 (.NETCoreApp,Version=v2.2). Project Mall.Plugin.Payment.Alipay.Base supports: netcoreapp3.1 (.NETCoreApp,Version=v3.1)",
+      "libraryId": "Mall.Plugin.Payment.Alipay.Base",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,678 @@
+﻿@using Mall.CommonModel;
+@using Mall.Core;
+@using Mall.DTO;
+@using Mall.Entities;
+@model Mall.Entities.OrderInfo
+
+@{
+    ViewBag.Title = "订单详情";
+    bool isExpire = false;//是否过了维权期
+    bool isCanRefundOrder = true;//整笔订单是否可退
+    if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.Finish)
+    {
+        if ((bool)ViewBag.IsRefundTimeOut)
+        {
+            isExpire = true;
+        }
+    }
+    var detail = ViewBag.Detail as Mall.DTO.OrderDetail;
+    isCanRefundOrder = (bool)ViewBag.isCanRefundOrder && !detail.OrderItems.Any(e => e.IsCanRefund == true);
+    FightGroupOrderJoinStatus? fgojoinstate = Model.FightGroupOrderJoinStatus;
+    bool canfgrefund = true;
+    if (Model.OrderType == Mall.Entities.OrderInfo.OrderTypes.FightGroup)
+    {
+        canfgrefund = (bool)Model.FightGroupCanRefund;
+    }
+    var shopBranchInfo = ViewBag.ShopBranchInfo as ShopBranch;
+    var virtualProductInfo = ViewBag.virtualProductInfo as Mall.Entities.VirtualProductInfo;
+    var orderVerificationCodes = ViewBag.orderVerificationCodes as List<Mall.Entities.OrderVerificationCodeInfo>;
+    var virtualOrderItemInfos = ViewBag.virtualOrderItemInfos as List<Mall.Entities.VirtualOrderItemInfo>;
+    var isCanRefundVirtual = false;
+    if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitVerification)
+    {
+        if (virtualProductInfo != null)
+        {
+            if (virtualProductInfo.SupportRefundType == 2)
+            {
+                isCanRefundVirtual = true;
+            }
+            else if (virtualProductInfo.SupportRefundType == 1)
+            {
+                if (virtualProductInfo.EndDate.Value > DateTime.Now)
+                {
+                    isCanRefundVirtual = true;
+                }
+            }
+            else if (virtualProductInfo.SupportRefundType == 3)
+            {
+                isCanRefundVirtual = false;
+            }
+            if (isCanRefundVirtual)
+            {
+                long num = orderVerificationCodes.Where(a => a.Status == OrderInfo.VerificationCodeStatus.WaitVerification).Count();
+                if (num > 0)
+                {
+                    isCanRefundVirtual = true;
+                }
+                else
+                {
+                    isCanRefundVirtual = false;
+                }
+            }
+        }
+    }
+    var hasExpressStatus = !string.IsNullOrWhiteSpace(Model.ShipOrderNumber);
+    var orderInvoice = ViewBag.OrderInvoiceInfo as OrderInvoiceInfo;
+    var shipperAddress = (string)ViewBag.ShipperAddress;
+    var shipperTelPhone = (string)ViewBag.ShipperTelPhone;
+}
+<div class="container order-detail">
+
+    <div class="status">
+        订单状态：
+        <span>
+            @Model.OrderStatus.ToDescription()
+            @if (Model.OrderType == Mall.Entities.OrderInfo.OrderTypes.FightGroup)
+            {
+                <i class="fgordstatus  fgordstatus@(fgojoinstate.GetHashCode())">@(fgojoinstate.ToDescription())</i>
+            }
+        </span>
+    </div>
+    @if (Model.OrderType == Mall.Entities.OrderInfo.OrderTypes.Virtual&&!string.IsNullOrWhiteSpace(shipperAddress)&&!string.IsNullOrWhiteSpace(shipperTelPhone))
+    {
+        <div class="street-well common virtual">
+            <span>联系电话：@shipperTelPhone</span>
+            <span>核销地址：@shipperAddress</span>
+        </div>
+    }
+    @if (Model.OrderType != Mall.Entities.OrderInfo.OrderTypes.Virtual && Model.DeliveryType != Mall.CommonModel.DeliveryType.SelfTake)
+    {
+        <div class="street-well common">
+	    	<i class="iconfonts icon-icon_location"></i>
+	        <p>@Model.ShipTo, @Model.CellPhone</p>
+	        <span>@Model.RegionFullName @Model.Address</span>
+	    </div>
+    }
+    @if (Model.OrderType != Mall.Entities.OrderInfo.OrderTypes.Virtual && shopBranchInfo != null)
+    {
+       if (Model.DeliveryType == Mall.CommonModel.DeliveryType.SelfTake)
+        {
+                <a class="street-well common shopaddr" href="javascript:void(0);" onclick="onMapClick(@shopBranchInfo.Latitude,@shopBranchInfo.Longitude,'@shopBranchInfo.AddressDetail')">
+                    <i class="iconfonts icon-icon_location"></i>
+                    <p>联系电话: @shopBranchInfo.ContactPhone</p>
+                    <p class="mt10">门店地址: @shopBranchInfo.AddressFullName</p>
+                </a>
+         }
+    }
+    <div class="pro-list common">
+        @if (shopBranchInfo != null)
+        {
+            <a class="shopname" href="/@(CurrentAreaName)/shopbranch/Index/@shopBranchInfo.Id">
+                <i class="iconfonts icon-icon_store"></i>
+                <span>@shopBranchInfo.ShopBranchName</span>
+                <i class="glyphicon glyphicon-menu-right"></i>
+            </a>
+        }
+        else
+        {
+            if (detail.VShopId > 0)
+            {
+                <a class="shopname" href="/@(CurrentAreaName)/vshop/detail/@detail.VShopId">
+                    <i class="iconfonts icon-icon_store"></i>
+                    <span>@detail.ShopName</span>
+                    <i class="glyphicon glyphicon-menu-right"></i>
+                </a>
+            }
+            else
+            {
+                <a class="shopname">
+                    <i class="iconfonts icon-icon_store"></i>
+                    <span>@detail.ShopName</span>
+                    <i class="glyphicon glyphicon-menu-right"></i>
+                </a>
+            }
+        }
+
+        @foreach (var orderItem in detail.OrderItems)
+        {
+            var href = "/m-wap/product/detail/"+orderItem.ProductId;
+            if (shopBranchInfo != null&&Model.OrderType==OrderInfo.OrderTypes.Virtual)
+            {
+                href = "/m-wap/branchproduct/vdetails/"+orderItem.ProductId+"?shopBranchId="+shopBranchInfo.Id;
+            }
+            if (ViewBag.Bonus != null)
+            {
+                <div class="dialog-HB" id="paymentsChooser"><a href="@ViewBag.ShareHref"><img src="~/Areas/Mobile/Templates/Default/Images/detailHB_03.png"></a></div>
+            }
+            <a href="@href">
+                <div class="shopcart-m-item">
+                    <div class='shopcart-item-pic'>
+                        <img src="@orderItem.ProductImage" />
+                    </div>
+                    <div class='shpcart-item-txt'>
+                        <div class="shopcart-txt-t ">
+                            <div class="shopcart-txt-name two-text-overflow">@orderItem.ProductName</div>
+                            <div class="shopcart-txt-saleprice ">
+                                <span>¥ @orderItem.Price.ToString("F2")</span>
+                                <div class="shopcart-item-num">
+                                    <div class="txt ">× @(orderItem.Count)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shopcart-txt-b ">
+                            <p class="shpcart-item-skuname">
+                                @orderItem.Color @(new HtmlString(orderItem.Size)) @orderItem.Version
+                            </p>
+                        </div>
+                    </div>
+                    @if (orderItem.IsCanRefund && orderItem.EnabledRefundAmount > 0)
+                    {
+                        bool isShowRefund = false;
+                        if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.Finish)
+                        {
+                            isShowRefund = true;
+                        }
+                        if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitReceiving)
+                        {
+                            isShowRefund = true;
+                        }
+                        if (orderItem.RefundStats == 4)
+                        {
+                            isShowRefund = false;
+                        }
+                        if (isShowRefund&& Model.OrderType != OrderInfo.OrderTypes.Virtual)
+                        {
+                            if (Model.PaymentType != Mall.Entities.OrderInfo.PaymentTypes.CashOnDelivery
+                            || Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.Finish)
+                            {
+                                if (!isExpire)
+                                {
+                                    <a class="btn btn-default" href="/@(CurrentAreaName)/OrderRefund/RefundApply/?orderid=@Model.Id&itemId=@orderItem.Id">申请售后</a>
+                                }
+                            }
+                        }
+                    }
+                    @if (orderItem.OrderRefundId > 0 || detail.OrderRefundId > 0)
+                    {
+                        var refundid = detail.OrderRefundId;
+                        var refundstate = detail.RefundStats;
+                        if (orderItem.OrderRefundId > 0)
+                        {
+                            refundid = orderItem.OrderRefundId;
+                            refundstate = orderItem.RefundStats;
+                        }
+                        <a class="btn btn-default" href="/@(CurrentAreaName)/OrderRefund/RefundDetail/@(refundid)">
+                            @switch (refundstate)
+                            {
+                                case 4:
+                                    @("退款拒绝")
+                                    break;
+                                case 7:
+                                    @("退款成功")
+                                    break;
+                                default:
+                                    @("退款中")
+                                    break;
+                            }
+                        </a>
+                    }
+                </div>
+            </a>
+        }
+</div>
+
+    @if (orderVerificationCodes != null && orderVerificationCodes.Count > 0)
+    {
+        <div class="vericode">
+            <div class="info">
+                <h3 class="title">核销码</h3>
+                @if (virtualProductInfo != null)
+                {
+                    if (virtualProductInfo.ValidityType)
+                    {
+                        <p>有效期 @virtualProductInfo.StartDate.Value.ToString("yyyy-MM-dd") ~ @virtualProductInfo.EndDate.Value.ToString("yyyy-MM-dd")</p>
+                    }
+                    else
+                    {
+                        <p>长期有效</p>
+                    }
+                }
+                @if (isCanRefundVirtual)
+                {
+                    <a class="btn btn-default" href="javascript:RefundApply();">申请退款</a>
+                }
+            </div>
+            <ul>
+                @foreach (var item in orderVerificationCodes)
+                {
+                    var status = "used";
+                    if (item.Status == Mall.Entities.OrderInfo.VerificationCodeStatus.WaitVerification)
+                    {
+                        status = "wait";
+                    }
+                    else if (item.Status == Mall.Entities.OrderInfo.VerificationCodeStatus.Refund)
+                    {
+                        status = "ing";
+                    }
+                    <li class="@status">
+                        <img src="@item.QRCode" width="22" height="22" />
+                        <span>核销码 @(orderVerificationCodes.IndexOf(item) + 1)</span>
+                        <span>@System.Text.RegularExpressions.Regex.Replace(item.VerificationCode, @"(\d{4})", "$1 ")</span>
+                        <span class="fr">@item.Status.ToDescription()</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+
+    <div class="user">
+        <ul class="infolist">
+            <li>
+                <label>商品金额</label>
+                <span>¥@((Model.ProductTotalAmount).ToString("F2"))</span>
+            </li>
+
+            @if (Model.FullDiscount > 0)
+            {
+                <li>
+                    <label>满额减</label>
+                    <span>-¥@Model.FullDiscount.ToString("F2")</span>
+                </li>
+            }
+
+            @if (Model.DiscountAmount > 0)
+            {
+                <li>
+                    <label>优惠券</label>
+                    <span>-¥@Model.DiscountAmount.ToString("F2")</span>
+                </li>
+            }
+            @if (Model.IntegralDiscount > 0)
+            {
+                <li>
+                    <label>积分抵扣</label>
+                    <span>-¥@Model.IntegralDiscount.ToString("F2")</span>
+                </li>
+            }
+
+            @if (Model.OrderType != OrderInfo.OrderTypes.Virtual)
+            {
+                <li>
+                    <label>运费</label>
+                    <span>¥@Model.Freight.ToString("F2")</span>
+                </li>
+                if (Model.Tax > 0)
+                {
+                    <li>
+                        <label>税费</label>
+                        <span>¥@Model.Tax.ToString("F2")</span>
+                    </li>
+                }
+            }
+
+            <li>
+                @if (Model.PaymentType == Mall.Entities.OrderInfo.PaymentTypes.CashOnDelivery)
+                {<label>订单金额</label> }
+                else
+                {
+                    <label>实付金额</label>
+                }
+                <span class="price fontbold">¥@((Model.OrderTotalAmount).ToString("F2"))</span>
+            </li>
+
+            @if (Model.OrderStatus != OrderInfo.OrderOperateStatus.WaitPay)
+            {
+                if (Model.CapitalAmount>0 || Model.OrderPayAmount > 0)
+                {
+                    <h3 class="title">付款信息</h3>
+                }
+                if (Model.CapitalAmount>0)
+                {
+                    <li>
+                        <label>预存款抵扣</label>
+                        <span>¥@Model.CapitalAmount.ToString("F2")</span>
+                    </li>
+                }
+                if (Model.OrderPayAmount > 0)
+                {
+                    <li>
+                        <label>@Model.PaymentTypeName</label>
+                        <span>¥@Model.OrderPayAmount.ToString("F2")</span>
+                    </li>
+                }
+            }
+        </ul>
+    </div>    
+    <div class="user">
+        <ul class="infolist">
+            <li>
+                <label>订单号</label>
+                <span>@Model.Id</span>
+            </li>
+            <li>
+                <label>支付方式</label>
+                <span>@Model.PaymentTypeDesc</span>
+            </li>
+            <li>
+                <label>下单时间</label>
+                <span>@Model.OrderDate</span>
+            </li>
+            <li>
+                <label>买家留言</label>
+                <span>@Model.OrderRemarks</span>
+            </li>
+        </ul>
+    </div>
+
+    @if (virtualOrderItemInfos!=null&& virtualOrderItemInfos.Count>0)
+    {
+        <div class="user">
+            <h3 class="title">用户信息</h3>
+            <ul class="infolist">
+                @foreach (var item in virtualOrderItemInfos)
+                {
+                    if (item.VirtualProductItemType == Mall.Entities.ProductInfo.VirtualProductItemType.Picture)
+                    {
+                    	
+                        var pics = item.Content.Split(',');
+                    	<li class="imgs">
+                        	<label>@item.VirtualProductItemName</label>
+                            <div>
+                                @foreach (var src in pics)
+                                {
+                                    <img src="@src" />
+                                }
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                    	<li>
+	                        <label>@item.VirtualProductItemName</label>
+	                        <span>@item.Content</span>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+    @if (orderInvoice != null&&Model.OrderType!=OrderInfo.OrderTypes.Virtual)
+    {
+    <div class="user">
+        <ul class="infolist">
+            <h3 class="title">发票信息</h3>
+            <li>
+                <label>发票类型</label>
+                <span>@orderInvoice.InvoiceTypeName</span>
+            </li>
+            <li>
+                <label>发票抬头</label>
+                <span>@orderInvoice.InvoiceTitle</span>
+            </li>
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.InvoiceCode))
+            {
+                <li>
+                    <label>纳税人识别号</label>
+                    <span>@orderInvoice.InvoiceCode</span>
+                </li>
+            }  
+            <li>
+                <label>发票内容</label>
+                <span>@orderInvoice.InvoiceContext</span>
+            </li>  
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.RegisterAddress))
+            {
+                <li>
+                    <label>注册地址</label>
+                    <span>@orderInvoice.RegisterAddress</span>
+                </li>
+            }   
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.RegisterPhone))
+            {
+                <li>
+                    <label>注册电话</label>
+                    <span>@orderInvoice.RegisterPhone</span>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.BankName))
+            {
+                <li>
+                    <label>开户银行</label>
+                    <span>@orderInvoice.BankName</span>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.BankNo))
+            {
+                <li>
+                    <label>银行账户</label>
+                    <span>@orderInvoice.BankNo</span>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.RealName))
+            {
+                <li>
+                    <label>收票人姓名</label>
+                    <span>@orderInvoice.RealName</span>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.CellPhone))
+            {
+                <li>
+                    <label>收票人手机</label>
+                    <span>@orderInvoice.CellPhone</span>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.Email))
+            {
+                <li>
+                    <label>收票人邮箱</label>
+                    <span>@orderInvoice.Email</span>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.RegionFullName))
+            {
+                <li>
+                    <label>收票人地区</label>
+                    <span>@orderInvoice.RegionFullName</span>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(orderInvoice.Address))
+            {
+                <li>
+                    <label>收票人地址</label>
+                    <span>@orderInvoice.Address</span>
+                </li>
+            }            
+        </ul>
+    </div>
+    }
+    <div class="bottom_fixedBtn">
+            @if (Model.OrderType != Mall.Entities.OrderInfo.OrderTypes.Virtual && hasExpressStatus)
+            {
+                <a class="btn btn-default" href="@Url.Action("ExpressInfo")?orderId=@Model.Id">查看物流</a>
+            }
+            @if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitDelivery && Model.PaymentType == Mall.Entities.OrderInfo.PaymentTypes.CashOnDelivery)
+            {
+                if (Model.OrderType != Mall.Entities.OrderInfo.OrderTypes.FightGroup)
+                {
+                    <a class="btn btn-default" href="javascript:cancelOrder('@Model.Id')">取消订单</a>
+                }
+            }
+            else if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitPay)//待支付
+            {
+                if (Model.OrderType != Mall.Entities.OrderInfo.OrderTypes.FightGroup)
+                {
+                    <a class="btn btn-default" href="javascript:cancelOrder('@Model.Id')">取消订单</a>
+                }
+                <a class="btn btn-danger" href="javascript:payOrder('@Model.Id')">去付款</a>
+            }
+            else if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitReceiving)//待收货
+            {
+                <a class="btn btn-danger" href="javascript:confirm('@Model.Id')">确认收货</a>
+            }
+
+
+            @if ((Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitDelivery || Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitSelfPickUp) && Model.PaymentType != Mall.Entities.OrderInfo.PaymentTypes.CashOnDelivery)
+            {
+                if (((isCanRefundOrder && canfgrefund) || detail.RefundStats.Equals(4)))
+                {
+                    <a class="btn btn-default" href="javascript:RefundApply();">申请退款</a>
+                }
+            }
+            @if (Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitDelivery
+            || Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitReceiving
+            || Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitSelfPickUp
+            || Model.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.Finish
+            ||Model.OrderStatus==Mall.Entities.OrderInfo.OrderOperateStatus.WaitVerification)
+            {//待发货、待收货、待自提、已完成、待消费(虚拟订单)
+             //晒单
+                 <a class="btn btn-danger" href="/@(CurrentAreaName)/Order/OrderShare?orderids=@Model.Id">我要晒单</a>
+            }
+    </div>
+</div>
+<div class="custom-dialog" id="paymentsChooser"></div>
+<div class="cover" style="display:none;"></div>
+<input type="hidden" value="@Model.ExpressCompanyName" id="expressCompanyName" />
+<input type="hidden" value="@Model.ShipOrderNumber" id="shipOrderNumber" />
+<input type="hidden" value="@hasExpressStatus" id="hasExpressStatus" />
+<script>
+
+    //显示物流信息
+    /*详情页不显示物流信息
+    var expressValidStatus = $('#hasExpressStatus').val();//获取当前状态
+    if (expressValidStatus) {//包含快递信息的状态，即已发货后的状态
+        $('[expressInfo]').removeClass('hide');
+        var expressCompanyName = $('#expressCompanyName').val();
+        var shipOrderNumber = $('#shipOrderNumber').val();
+
+        $.post('/common/ExpressData/searchTop',
+            { expressCompanyName: expressCompanyName, shipOrderNumber: shipOrderNumber },
+            function (expressData) {
+                if (expressData.success) {
+                    var html = '<ul class="goods_interflow">';
+                    $.each(expressData.data, function (i, data) {
+                        $('#expressTopInfo').html('<label><p class="address-w">'+ data.content + '</p><p class="time" style="color:#6b6c6e;font-size:11px;"> ' + data.time + '</p></label>');
+                        style = ' class="active"';
+                    });
+                }
+                else {
+                    $('#expressTopInfo').html('<label class="red">物流参数错误</label>');
+                }
+            }
+        );
+    }
+    */
+    //查看地图
+    function onMapClick(latitude, longitude, shopbranchAddress) {
+        window.location.href = 'http://apis.map.qq.com/tools/routeplan/eword=' + shopbranchAddress + '&epointx=' + longitude + '&epointy=' + latitude + '?referer=myapp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77';
+    }
+    function cancelOrder(orderId) {
+        $.dialog.confirm("确定取消该订单吗？", function () {
+            var loading = showLoading();
+            $.ajax({
+                type: 'post',
+                url: '/' + areaName + '/Order/CloseOrder',
+                dataType: 'json',
+                data: { orderId: orderId },
+                width:"250px",
+                success: function (d) {
+                    loading.close();
+                    if (d.success) {
+                        $.dialog.succeedTips("取消成功！", function () {
+                            Refresh();
+                        }, 1);
+                    }
+                    else {
+                        $.dialog.errorTips("取消失败！", '', 2);
+                    }
+                },
+                error: function () {
+                    loading.close();
+                }
+            });
+        });
+    }
+
+
+    function confirm(orderId) {
+        $.dialog.confirm("你确定收到货了吗？", function () {
+            var loading = showLoading();
+            $.ajax({
+                type: 'post',
+                url: '/' + areaName + '/Order/ConfirmOrder',
+                dataType: 'json',
+                data: { orderId: orderId },
+                width:"250px",
+                success: function (d) {
+                    loading.close();
+                    if (d.success) {
+                        $.dialog.succeedTips("确认成功！", function () {
+                            Refresh();
+                        }, 1);
+                    }
+                    else {
+                        $.dialog.errorTips("确认失败！", '', 2);
+                    }
+                },
+                error: function () {
+                    loading.close();
+                }
+            });
+        });
+
+
+    }
+
+    function payOrder(orderId)
+    {
+        var loading = showLoading();
+        if(@Model.OrderTotalAmount==0)
+        {
+            loading && loading.close();
+            $.dialog.confirm('您确定用积分抵扣全部金额吗？', function () {
+                ajaxRequest({
+                    type: 'POST',
+                    url: '/' + areaName + '/Order/PayOrderByIntegral',
+                    param: { orderIds: orderId },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success == true) {
+                            $.dialog.succeedTips('支付成功！', function () {
+                                location.href = '/' + areaName + '/Member/Orders';
+                            },0.5);
+
+                        }
+                    },
+                    error: function (data) { $.dialog.tips('支付失败,请稍候尝试.', null, 0.5); }
+                });
+            });
+        }
+        else
+        {
+            loading && loading.close();
+            GetPayment(orderId, window.location.href);
+        }
+    }
+    $(document).ready(function(){
+        $(".dialog-HB").show();
+    });
+    function RefundProductTip()
+    {
+        $.dialog.alert( "很遗憾，该维权入口已经关闭<br/>1、交易已过退货维权受理期,您无法发起退换货<br/>2、请在帮助中心查看平台退换货流程", '', 2000 );
+    }
+
+    $(document).on('click','.cover,.custom-dialog-header .close',function () {
+        if ($('.custom-dialog').is(':visible')){
+            $('.cover,.custom-dialog').fadeOut();
+        }
+    });
+
+    function RefundApply(){
+        if(@Model.OrderEnabledRefundAmount <= 0){
+            $.dialog.tips('此为优惠券全额抵扣订单不支持退款');
+            return false;
+        }
+        var url = "/@(CurrentAreaName)/OrderRefund/RefundApply/?orderid=@Model.Id";
+        window.location.href=url;
+    }
+</script>

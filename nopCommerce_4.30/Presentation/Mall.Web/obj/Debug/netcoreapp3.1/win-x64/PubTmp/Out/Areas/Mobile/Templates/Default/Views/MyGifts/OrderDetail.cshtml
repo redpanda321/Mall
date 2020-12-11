@@ -1,0 +1,80 @@
+﻿@model Mall.Web.Areas.Mobile.Models.MyGiftsOrderDetailModel
+@{
+    ViewBag.Title = "礼品订单详情";
+    ViewBag.ShowAside = 3;//显示浮动菜单栏、回到顶部按钮
+}
+<div class="container">
+    <div class="gift-address">
+    	<div class="street-well">
+	        <h3>@(Model.OrderData.ShipTo)，@(Model.OrderData.CellPhone)</h3>
+	        <p>@(Model.OrderData.RegionFullName) @(Model.OrderData.Address)</p>
+	        <i class="icon"></i>
+        </div>
+    </div>
+
+    <ul class="gift-order-list">
+        <li>
+            <div class="gift-order-hd">
+                <i class="glyphicon glyphicon-list-alt"></i>@(Model.OrderData.Id)
+                <span class="active">@(Model.OrderData.ShowOrderStatus)</span>
+            </div>
+            @foreach (var item in Model.OrderItems)
+            {
+                <div class="gift-item">
+                    <img src="@Mall.Core.MallIO.GetProductSizeImage(item.ImagePath, 1, (int)Mall.CommonModel.ImageSize.Size_150)" />
+                    <p>@item.GiftName</p>
+                    <span>@item.SaleIntegral<em>积分</em><br />× @item.Quantity</span>
+                </div>
+            }
+            <div class="gift-order-txt">共 <span>@(Model.OrderItems.Sum(d => d.Quantity))</span> 件礼品  花费积分：<span>@(Model.OrderData.TotalIntegral)</span></div>
+            @if (Model.OrderData.OrderStatus == Mall.Entities.GiftOrderInfo.GiftOrderStatus.WaitReceiving)
+            {
+            <div class="gift-order-bot border-top">
+                <a class="gift-btn light" onclick="ConfirmOrder('@(Model.OrderData.Id)')">确认收货</a>
+            </div>
+            }
+        </li>
+    </ul>
+    <div class="gift-order-detail">
+        <p>兑换时间：@(Model.OrderData.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"))</p>
+        @if (!string.IsNullOrWhiteSpace(Model.OrderData.ShipOrderNumber))
+            {
+            <p class="border-top">运单号码：@(Model.OrderData.ShipOrderNumber)</p>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.OrderData.ExpressCompanyName))
+            {
+            <p class="border-top">物流公司：@(Model.OrderData.ExpressCompanyName)</p>
+        }
+    </div>
+</div>
+
+
+
+<script>
+
+    function ConfirmOrder(orderId) {
+        $.dialog.confirm("你确定收到货了吗？", function () { Confirm(orderId); });
+    }
+
+    function Confirm(orderId) {
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: "/" + areaName + "/MyGifts/ConfirmOrderOver",
+            dataType: 'json',
+            data: { OrderId: orderId },
+            success: function (d) {
+                loading.close();
+                if (d.success) {
+                    $.dialog.succeedTips("确认成功！", function () {
+                        window.location.reload();
+                    }, 1);
+                }
+                else {
+                    $.dialog.errorTips("确认失败！", '', 2);
+                }
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,60 @@
+﻿@{Layout = null;}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Areas/Mobile/Templates/Default/Content/custom.css?v=20183030" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+    <script type="text/javascript">
+	$( function ()
+	{
+	    if(window.__wxjs_environment === 'miniprogram'){
+	        $("#btnBackApplet").show();
+	    }
+	    else{
+	        $("#btnBackApplet").hide();
+	    }
+	} );
+	function onBackApplet() {
+	    wx.miniProgram.switchTab({ url: '../home/home' });
+	    //wx.miniProgram.navigateBack();
+	}
+    </script>
+    <script type="text/javascript">
+        $( document ).ready(
+                function ()
+                {
+                    $( '.top' ).height( $( '.container' ).width() * 497 / 320 );
+                }
+        );
+    </script>
+</head>
+<body>
+    <button id="btnBackApplet" onclick="onBackApplet()">返回小程序</button>
+    <div class="container gift-L gift03">
+        <input id="grant" value="@ViewBag.DataModel.GrantId" type="hidden" />
+        <div class="top">
+            <div class="img"><img src="@(Mall.Core.MallIO.GetImagePath(ViewBag.DataModel.HeadImg))"></div>
+            <div class="go"><a href="@ViewBag.DataModel.ShopAddress ">去逛逛</a></div>
+            <p class="name">@Model.Name</p>
+        </div>
+        <ul class="mid">
+
+        </ul>
+        @*@if (ViewBag.DataModel.CopyRight == null || ((bool)ViewBag.DataModel.CopyRight))
+        {
+            <div class="bottom" onclick="javascript:window.location.href='/@ViewBag.DataModel.AreaName'" style="background-image:url(@ViewBag.DataModel.Logo)">Copyright &copy; @(ViewBag.DataModel.SiteName)版权所有</div>
+        }*@
+        @*<div id="footer"><img src="~/Areas/Mobile/Templates/Default/Images/logo.png"></div>*@
+    </div>
+    
+</body>
+</html>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/shopBonusOther.js?v=20183030"></script>
+<script>
+    LoadWXInfos();
+</script>

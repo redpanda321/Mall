@@ -1,0 +1,147 @@
+﻿@{
+    Layout = null;
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/custom.css" rel="stylesheet" />
+<link href="~/Content/artdialog.css" rel="stylesheet" />
+<link href="~/Content/inner-custom.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.artDialog.js"></script>
+<script src="~/Scripts/artDialog.iframeTools.js"></script>
+<!--[if lt IE 9]>
+<script src="/Scripts/respond.min.js"></script>
+<![endif]-->
+<script src="~/Scripts/jquery.nicescroll.min.js"></script>
+<script src="~/Scripts/inner-custom.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+@RenderBody()
+
+<script>
+    var _topRefresh, _loading;
+    var _jquery = $;
+    var _topPass;
+    var _tid;
+    if (window.top)
+        window.top._floorSave = function (refresh, refreshPass) {
+            _topRefresh = refresh;
+            _topPass = refreshPass;
+            _tid = window.top._tid;//获取父页模板ID
+            _jquery('button[name=submit]').trigger('click');
+        };
+    function submit(floorDetail) {
+        _loading = showLoading();
+        var json = JSON.stringify(floorDetail);
+        var url = 'SaveHomeFloorDetail';
+        $.post(url, { floorDetail: json, tid: _tid }, function (result) {
+            _loading.close();
+            if (result.success) {
+                $('#homeFloorId').val(result.data.id);
+                _topRefresh(result.data);
+                _topPass(1);
+                $.dialog.succeedTips('保存成功!');
+            }
+            else
+                $.dialog.errorTips('保存失败！' + result.msg);
+        });
+    }
+    //固定获取跳转地址
+    function setPlink(url, index) {
+        if (url == "1") {
+            var selectids = [];
+            $.productSelector.show(selectids, function (selectedProducts) {
+                var ids = [];
+                $.each(selectedProducts, function () {
+                    ids.push(this.id);
+                });
+                if (ids.length > 1) {
+                    $.dialog.errorTips("只能选择一个商品");
+                    return;;
+                }
+                url = '/product/detail/' + ids.join(",");
+                $("input.pLink:eq("+index+")").val(url);
+            });
+        } else if (url == "2") {
+            $("input.pLink:eq(" + index + ")").val("/");
+        } else if (url == "3") {
+            var selectids = [];
+            $.specialSelector.show(selectids, function (selectedSpecials) {
+                var ids = [];
+                $.each(selectedSpecials, function () {
+                    ids.push(this.Id);
+                });
+                if (ids.length > 1) {
+                    $.dialog.errorTips("只能选择一个专题");
+                    return;;
+                }
+                url = '/topic/detail/' + ids.join(",");
+                $("input.pLink:eq(" + index + ")").val(url);
+            });
+        } else if (url == "4") {
+            $.dialog({
+                title: '选择分类',
+                lock: true,
+                content: '<iframe id="iframeCategory" src="/Admin/pageSettings/Categoryselect" style="border:none;width:1230px;height:350px;"></iframe>',
+                padding: '0',
+                ok: function () {
+                    url = '/Search/SearchAd?cid=' + window.top._categorId;
+                    $("input.pLink:eq(" + index + ")").val(url);
+                },
+                close: function () {
+                }
+            });
+        } else {
+            $("input.pLink:eq(" + index + ")").val(url);
+        }
+    }
+    function setTextlink(obj) {
+        var url = $(obj).attr("url");
+        if (url == "1") {
+            var selectids = [];
+            $.productSelector.show(selectids, function (selectedProducts) {
+                var ids = [];
+                $.each(selectedProducts, function () {
+                    ids.push(this.id);
+                });
+                if (ids.length > 1) {
+                    $.dialog.errorTips("只能选择一个商品");
+                    return;;
+                }
+                url = '/product/detail/' + ids.join(",");
+                $(obj).parents('td').find("input[name='url']").val(url);
+            });
+        } else if (url == "2") {
+            $(obj).parents('td').find("input[name='url']").val("/");
+        } else if (url == "3") {
+            var selectids = [];
+            $.specialSelector.show(selectids, function (selectedSpecials) {
+                var ids = [];
+                $.each(selectedSpecials, function () {
+                    ids.push(this.Id);
+                });
+                if (ids.length > 1) {
+                    $.dialog.errorTips("只能选择一个专题");
+                    return;;
+                }
+                url = '/topic/detail/' + ids.join(",");
+                $(obj).parents('td').find("input[name='url']").val(url);
+            });
+        } else if (url == "4") {
+            $.dialog({
+                title: '选择分类',
+                lock: true,
+                content: '<iframe id="iframeCategory" src="/Admin/pageSettings/Categoryselect" style="border:none;width:1230px;height:350px;"></iframe>',
+                padding: '0',
+                ok: function () {
+                    url = '/Search/SearchAd?cid=' + window.top._categorId;
+                    $(obj).parents('td').find("input[name='url']").val(url);
+                },
+                close: function () {
+                }
+            });
+        } else {
+            $(obj).parents('td').find("input[name='url']").val(url);
+        }
+    }
+</script>

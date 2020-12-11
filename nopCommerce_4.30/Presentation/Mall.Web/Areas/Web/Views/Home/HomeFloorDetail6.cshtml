@@ -1,0 +1,72 @@
+﻿@model Mall.Web.Areas.Web.Models.HomeFloorModel
+@using Mall.Web.Framework;
+@{
+    var floor = Model;
+    Mall.Web.Areas.Web.Models.HomeFloorModel.WebFloorProductLinks defaultLink = new Mall.Web.Areas.Web.Models.HomeFloorModel.WebFloorProductLinks {
+        ImageUrl = "Areas/Web/Images/integra-bg.png"
+    };
+}
+<!--楼层样式6-->
+<div class="floor floor-six clearfix">
+    <div class="floor-six-hd">
+        <h3>@floor.Name</h3>
+        <ul>
+            <li class="active">@floor.DefaultTabName</li>
+            @foreach (var tab in floor.Tabs)
+            {
+                <li>@tab.Name</li>
+            }
+        </ul>
+        <s class="hd-bg"></s>
+    </div>
+
+    <div class="floor-six-left clearfix">
+        <div class="fsl-a">
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpOne).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpOne).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpTwo).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpTwo).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpThree).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpThree).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpFour).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpFour).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpFive).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpFive).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpSix).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpSix).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpSeven).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpSeven).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpEight).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpEight).ImageUrl" /></a>
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpNight).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftUpNight).ImageUrl" /></a>
+        </div>
+        <div class="fsl-b">
+            <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftTwo).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.LeftTwo).ImageUrl" /></a>
+        </div>
+    </div>
+    <div class="floor-six-right clearfix">
+        <div class="right-img-show clearfix tab-right current">
+            <div class="fsr-a">
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleOne).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleOne).ImageUrl" /></a>
+                <a class="special-a" href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleTwo).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleTwo).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleThree).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleThree).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFour).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFour).ImageUrl" /></a>
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFive).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.MiddleFive).ImageUrl" /></a>
+            </div>
+            <div class="fsr-b">
+                <a href="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RightOne).Url"><img src="@floor.Products.FirstOrDefault(e => e.Type == Mall.CommonModel.Position.RightOne).ImageUrl" /></a>
+            </div>
+        </div>
+        <!--TAB-->
+        @foreach (var tab in floor.Tabs)
+        {
+            <div class="right-tab-pro clearfix tab-right" style="display:none;">
+                <ul>
+                    @foreach (var item in tab.Detail)
+                    {
+                        <li>
+                            <a href="/Product/Detail/@item.ProductId"><img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@Mall.Core.MallIO.GetProductSizeImage(item.ImagePath, 1, (int)Mall.CommonModel.ImageSize.Size_220)"></a>
+                            <div>
+                                <span>￥@item.Price</span>
+                                <p><a href="/Product/Detail/@item.ProductId">@item.Name</a></p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+        
+    </div>
+</div>

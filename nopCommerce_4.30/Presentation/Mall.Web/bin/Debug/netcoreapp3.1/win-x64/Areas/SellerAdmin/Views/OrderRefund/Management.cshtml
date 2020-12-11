@@ -1,0 +1,111 @@
+﻿@{ 
+    ViewBag.Title = "OrderRefund";
+    int? showtype = (int?)ViewBag.ShowType;
+    showtype = showtype ?? 0;   //初始显示所有
+    string pagename = "所有记录";
+    switch (showtype)
+    {
+        case 1:
+            pagename = "订单退款";
+            break;
+        case 2:
+            pagename = "退款记录";
+            break;
+        case 3:
+            pagename = "退货记录";
+            break;
+        case 4:
+            pagename = "货品退款";
+            break;
+    }
+    bool isOpenStore = (bool)ViewBag.IsOpenStore;
+    var storeList = ViewBag.StoreList as List<Mall.DTO.ShopBranch>;
+   }
+@model IEnumerable<Mall.Core.Plugins.PluginInfo>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/orderRefundManagement.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+<input type="hidden" value="@(showtype)" id="Showty" />
+<input type="hidden" value="@ViewBag.ShopName" id="shopName"/>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li type="statusTab" class="active"><a>@(pagename)</a></li>
+        <li value="1" type="statusTab"><a>待处理</a></li>
+        
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				@if(pagename=="退款记录"){
+					<li><span>退款流程：买家发起退款申请→对应的商家或门店同意→平台确认退款→退款完成。</span></li>
+					<li><span>注意：商家PC后台无法处理待门店审核的退款申请，必须由门店管理员登录门店APP处理，或商家登录商家APP越权门店处理。</span></li>
+				}else{
+					<li><span>退货流程：买家发起退货申请→对应的商家或门店同意→买家将货物寄回→商家确认收到退回货物→平台确认退款→退款完成。</span></li>
+					<li><span>注意；商家或门店可以选择同意退货并弃货，买家无需将货物寄回，直接进入平台确认流程；商家PC后台无法处理待门店审核的退货申请，必须由门店管理员登录门店APP处理，或商家登录商家APP越权门店处理。</span></li>
+				}
+			</ul>
+		</div>
+	</div>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">开始日期</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">结束日期</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单编号</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtOrderId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">商品名称</label>
+                <input class="form-control input-ssm" type="text" id="txtProductName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">买家</label>
+                <input class="form-control input-ssm" type="text" id="txtUserName">
+            </div>
+            @if (isOpenStore)
+            {
+                <div class="form-group">
+                    <label class="label-inline w75" for="">商家/门店</label>
+                    <select id="shopBranchId" class="form-control input-ssm">
+                        <option value="">全部</option>
+                        <option value="0">@ViewBag.ShopName</option>
+                        @foreach (var item in storeList)
+                        {
+                            <option value="@item.Id">@item.ShopBranchName</option>
+                        }
+                    </select>
+                </div>
+            }
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+
+    <div class="table-head-l">
+        <div id="orderOperate"><a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a></div>
+    </div>
+
+    <div class="cover"></div>
+    <div class="preview-img"><img src="" /></div>
+</div>
+@Html.Hidden("isOpenStore", isOpenStore)

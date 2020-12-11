@@ -1,0 +1,70 @@
+﻿@model Mall.Entities.BusinessCategoryApplyInfo
+@{ 
+    var details = ViewBag.Details as List<Mall.Entities.BusinessCategoryApplyDetailInfo>;
+
+}
+<script src="~/Areas/Admin/Scripts/ShopApplyDetail.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix">
+        <li><a href="../Applylist">经营类目审核</a></li>
+        <li><a>审核详情</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>官方自营店默认拥有所有类目的经营权限，入驻商家需要申请经营类目。</span></li>
+				<li><span>商家冻结后，商家将无法登录卖家中心，店铺所有商品都会下架， 商家下面的所有门店也会冻结。商家解冻后，所有商品需要重新上架，所有门店也需要重新解冻。</span></li>
+			</ul>
+		</div>
+	</div>
+    @*<div>状态：@Model.AuditedStatus.ToDescription()</div>*@
+    @*<div>申请时间：@Model.ApplyDate</div>*@
+    <div class="top-msg clear-v3">
+        <span>商家：@Model.ShopName</span><br />
+        @if (Model.AuditedDate.HasValue)
+        {
+            <span>审核时间：@Model.AuditedDate</span>
+        }
+    </div>
+    
+    <table class="table clear-v4">
+        <thead>
+            <tr>
+                <th class="clear-v5">申请类目</th>
+                <th>佣金比例</th>
+            </tr>
+        </thead>
+        @foreach (var t in details)
+        {
+            <tr>
+                <td class="clear-v6">@t.CatePath</td>
+                <td>@t.CommisRate</td>
+            </tr>
+        }
+    </table>
+    @if (Model.AuditedStatus== Mall.Entities.BusinessCategoryApplyInfo.BusinessCateApplyStatus.UnAudited)
+    {
+        <span class="btn btn-primary btn-sm clear-v8" onclick="AgreeOrNot(1,@Model.Id)">同意</span>
+        <span class="btn-export-none" onclick="AgreeOrNot(2,@Model.Id)">拒绝</span>
+    }
+    @*<a href="../applylist" class="btn btn-primary btn-sm clear-v7">返回</a>*@
+</div>
+<script>
+    function AgreeOrNot(type, Id) {
+        var loading = showLoading();
+        $.post("../AgreeOrNot", { type: type, Id: Id },
+            function (result) {
+                if (result.success) {
+                    var showmsg="审核成功！"
+                    if(type==2)
+                        showmsg="已拒绝商家申请";
+                    $.dialog.succeedTips(showmsg, function () { window.location.href = '../applylist'; });
+                }
+                else
+                    $.dialog.tips('审核失败！' + result.msg);
+                loading.close();
+            });
+    }
+</script>

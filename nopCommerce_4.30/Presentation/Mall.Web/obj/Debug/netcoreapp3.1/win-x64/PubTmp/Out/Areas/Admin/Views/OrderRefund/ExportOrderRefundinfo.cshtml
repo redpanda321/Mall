@@ -1,0 +1,56 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.OrderRefundExportModel>
+@{ int intRefundMode = (Model != null && Model.Count() > 0) ? Model.FirstOrDefault().RefundMode : 0;}@*3退货，2退款*@
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>售后编号</th>
+            <th>订单号</th>
+            <th>商品</th>
+            @if (intRefundMode == 3)
+            {
+                <th>退货数量</th>
+            }
+            <th>商家(门店)</th>
+            <th>买家</th>
+            <th>联系人</th>
+            <th>联系方式</th>
+            <th>申请日期</th>
+            <th>商家处理</th>
+            <th>退款金额</th>
+            <th>退款状态</th>
+            <th>退款方式</th>
+            <th>买家退款理由</th>
+            <th>退款凭证</th>
+            <th>说明</th>
+            <th>平台备注</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.RefundId</td>@*售后编号*@
+                <td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.OrderId</td>@*售后编号*@
+                <td>@item.ProductName</td>@*商品*@
+                @if (intRefundMode == 3)
+                {
+                    <td>@item.ReturnQuantity</td>@*退货数量*@
+                }
+                <td>@(item.ShopName)(@item.ShopBranchName)</td>@*商家(门店)*@
+                <td>@item.UserName</td>@*买家*@
+                <td>@item.ContactPerson</td>@*联系人*@
+                <td>@item.ContactCellPhone </td>@*联系方式*@
+                <td>@item.ApplyDate</td>@*申请日期*@
+                <td>@item.SellerRemark</td>@*商家处理*@
+                <td>@item.Amount</td>@*退款金额*@
+                <td>@item.RefundStatus</td>@*退款状态*@
+                <td>@item.RefundPayType</td>@*退款方式*@
+                <td>@item.Reason</td>@*理由*@
+                <td>@(item.CertPic1) @(!string.IsNullOrEmpty(item.CertPic2) ? "," + item.CertPic2 : "") @(!string.IsNullOrEmpty(item.CertPic3) ? "," + item.CertPic3 : "")</td>@*退款凭证*@
+                <td>@item.ReasonDetail</td>@*说明*@
+                <td>@item.ManagerRemark</td>@*平台备注*@
+            </tr>
+        }
+    </tbody>
+</table>

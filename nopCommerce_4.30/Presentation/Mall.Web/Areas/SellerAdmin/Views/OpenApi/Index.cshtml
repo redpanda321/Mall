@@ -1,0 +1,71 @@
+﻿@model Mall.Entities.ShopOpenApiSettingInfo
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li class="active"><a>开放平台管理</a></li>
+
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+            <ul>
+                <li><span>注册ERP并开启后，商家可以使用电子面单功能。</span></li>
+                <li><span>开启后订单页点“电子面单”出现缺少参数，可以点下面“重新注册”按钮进行ERP重新注册。</span></li>
+            </ul>
+		</div>
+	</div>
+    @Html.Hidden("appkey", Model.AppKey)
+    @Html.Hidden("appsecreat", Model.AppSecreat)
+    @Html.Hidden("routeaddress", Context.Request.Host.ToString())
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">APPKEY：</label>
+            <div class="col-sm-3 form-control-static">@(Model.AppKey)</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">APPSECREAT：</label>
+            <div class="col-sm-3 form-control-static">@(Model.AppSecreat)</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">申请时间：</label>
+            <div class="col-sm-3 form-control-static">@(Model.AddDate.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">重置时间：</label>
+            <div class="col-sm-3 form-control-static">@(Model.LastEditDate.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">注册ERP：</label>
+            <div class="col-sm-3 form-control-static">
+                @if (Model.IsRegistered)
+            {
+                <span>注册成功</span>
+                <a class="btn btn-default" id="btnRegConfirm" data-flag="true" href="javascript:;">重新注册</a>
+            }
+            else {
+                <a class="btn btn-default" id="btnReg" data-flag="true" href="javascript:;">注册</a>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="">当前状态：</label>
+        <div class="col-sm-3 form-control-static">@Html.Raw(Model.IsEnable ? "<span style='color:green'>已开启</span>" : "<span style='color:red'>未开启</span>")</div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="">&nbsp;</label>
+        <div class="col-sm-6 form-control-static">
+            @if (Model.IsEnable)
+            {
+            <a class="btn btn-default" id="btnClose" data-flag="true" href="javascript:;">关闭</a>
+        }
+        else {
+            <a class="btn btn-primary" id="btnOpen" data-flag="true" href="javascript:;">开启</a>
+        }
+    </div>
+</div>
+</div>
+
+</div>
+<script src="~/Areas/SellerAdmin/Scripts/OpenApiIndex.js"></script>

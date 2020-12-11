@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>&#x5546;&#x54C1;&#x8BE6;&#x60C5;</title>
+	<script>
+		(function() {
+			var baseFontSize = 100;
+			var baseWidth = 320;
+			var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+			var innerWidth = Math.max(Math.min(clientWidth, 480), 320);
+
+			var rem = 100;
+
+			if (innerWidth > 362 && innerWidth <= 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.9);
+			}
+
+			if (innerWidth > 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.84);
+			}
+
+			window.__baseREM = rem;
+			document.querySelector('html').style.fontSize = rem + 'px';
+		}());
+	</script>
+	<link rel="stylesheet" href="/Content/bootstrap.min.css">
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/custom.css">
+	
+	<script src="/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="/Scripts/CommonJS.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/custom.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/buylib.js"></script>
+	<script src="/Scripts/imitateRequire.js"></script>
+	<script>
+		imitateRequireJS.addJsFile([{
+			group: 'common',
+			fileNames: [
+				{ nickName: 'jquery.artDialog', fileName: 'jquery.artDialog.js' },
+				{ nickName: 'artDialog', fileName: 'artDialog.iframeTools.js', depends: ['jquery.artDialog'] },
+			]
+		}]);
+	</script>
+</head>
+<body>
+	<!--_Base start-->
+	<script>
+		var areaName = 'm-Wap';
+		var MAppType = '';
+	</script>
+	<input type="hidden" id="gid" value="719" />
+<input type="hidden" id="categoryId" value="22" />
+<input type="hidden" id="has" value="1" />
+<div id="J_shop_att"></div>
+<div class="container container-z">
+    <div class="detail-hd">
+        <div id="slides">
+        </div>
+    </div>
+    <a class="dis-info-a bt_share" id="dis-brokerage-box" style="display:none;">赚<span id="dis-brokerage">00.00</span>元</a>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <div id="preheat"></div>
+            <div class="item">
+                <div class="goods-price" id="jd-price">
+                    <span id="jd-saleprice"></span>
+                    <s>￥40.00</s>
+                </div>
+                <h4>&#x8D44;&#x751F;&#x5802;&#x6D17;&#x989C;&#x4E13;&#x79D1;&#x67D4;&#x6F88;&#x6CE1;&#x6CAB;&#x6D01;&#x9762;&#x4E73;&#xFF11;&#xFF12;&#xFF10;&#xFF47;</h4>
+                <h5></h5>
+            </div>
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                        <li class="promotion-coupon spec-arrow" style="display:none;" onclick="showPortfolio()">
+                            <a href="javascript:;">
+                                <span id="activespan"><i class="coupon-tip">促销优惠</i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="productColloCation"></div>
+                <div class="goods-address" id="showDeportAddress">
+                </div>
+
+                <ul class="ensary j_ensary">
+            <li class="flex-center"><i>消费者保障</i></li>             <li class="flex-center"><i>及时发货</i></li> </ul>
+<input data-val="true" data-val-required="The Int64 field is required." id="shopId" name="shopId" type="hidden" value="1" />
+<input data-val="true" data-val-required="The Int64 field is required." id="productId" name="productId" type="hidden" value="719" />
+
+            </div>
+        </div>
+        <div class="item detail-comment j_storesInfo product-store-title" style="display:none">
+            <div class="goods-comment">
+                <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1>
+                <p class="j_storeAddress"></p>
+                <a class="j_storelist btn btn-default"></a>
+            </div>
+        </div>
+        <div class="item detail-comment">
+            <div class="detail-comment-hd">
+                商品评价
+                <span class="detail-comment-num">0</span>
+            </div>
+            <div id="productCommentShow">
+            </div>
+            <div class="detail-comment-ft">
+                <a class="btn btn-default" href="../ProductComment?pId=719&commentType=0">查看全部评价</a>
+            </div>
+        </div>
+
+
+        <div class="item shop-wrap">
+    <div class="shop-hd">
+        <div class="shop-logo"><img src="/Storage/Shop/1/VShop/201702141734365302700.png"></div>
+        <h4 class="j_shopName">&#x5B98;&#x65B9;&#x81EA;&#x8425;&#x5E97;</h4>
+        <div class="shop-hd-info">
+            <span>宝贝数<strong>7</strong></span>
+            <span>关注人数<strong>3</strong></span>
+        </div>
+    </div>
+    <ul class="shop-bd clearfix">
+        <li>商品：<strong>5.00</strong></li>
+        <li>发货：<strong>5.00</strong></li>
+        <li>服务：<strong>5.00</strong></li>
+    </ul>
+    <div class="shop-ft clearfix">
+        <span><a class="btn btn-default" id="bt_govshop" href="/m-Wap/vshop/detail/10" vshopid="10">进入店铺</a></span>
+        <span><a class="btn btn-default " id="addShopFavorite" shopid="1">关注</a></span>
+    </div>
+</div>
+<input type="hidden" id="shopId" name="shopId" value="1" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/ShowShopScore.js"></script>
+
+
+        <div id="productColloCation">
+        </div>
+            <div class="item details-link">
+        <a href="javascript:void(0)" id="showmoreprodesc"><span>查看更多详情</span></a>
+    </div>
+    <div class="goods-img clearfix" id="prodesccon"></div>
+    <div id="autoLoad" class="loading"></div>
+<input id="gid_desc" name="gid_desc" type="hidden" value="719" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductShowProductDescription.js"></script>
+<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+        <div class="right" style="display:none;background:#fff">
+            <div class="relation-title text-center"><span>猜你喜欢</span></div>
+            <div id="relationProducts" class="clearfix">
+                <template>
+                    <a class="relation-pro clearfix" href="/Mobile/Product/detail/{{id}}">
+                        <div class="relation-pro-img">
+                            <img src="{{imagePath}}" />
+                        </div>
+                        <p class="relation-pro-price"><i>￥</i>{{minSalePrice}}</p>
+                        <p class="relation-pro-name">{{productName}}</p>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="s-actionBar-container">
+    <div id="s-actionbar" class="action-bar">
+        <div class="cell tocart icon-cart-c">
+            购物车
+            <a href="/m-Wap/Cart/Cart?returnUrl=http%3A%2F%2Fwww.weiyou7.com%2Fm-wap%2FProduct%2FDetails%2F719%3Fnojumpfg%3D1"></a>
+            <span class="plus-one">1</span>
+        </div>
+    </div>
+</section>
+<input type="hidden" id="proDesc" value="&lt;p&gt;&lt;img alt=&quot;&#x8D44;&#x751F;&#x5802;&#x3001;&#x6D01;&#x9762;&#x4E73;&#x3001;&#x62A4;&#x80A4;&#x6B65;&#x9AA4;&#x3001;&#x7F8E;&#x5BB9;&#x62A4;&#x80A4;&quot; src=&quot;/Storage/Shop/1/Products/719/remark/a90dbdb3ce4b40448c59171f5bb21315.jpg&quot; height=&quot;2039&quot; width=&quot;750&quot;/&gt;&lt;br/&gt;&lt;img alt=&quot;&#x8D44;&#x751F;&#x5802;&#x3001;&#x6D01;&#x9762;&#x4E73;&#x3001;&#x62A4;&#x80A4;&#x6B65;&#x9AA4;&#x3001;&#x7F8E;&#x5BB9;&#x62A4;&#x80A4;&quot; src=&quot;/Storage/Shop/1/Products/719/remark/19844539819646d4bb63d3f81bd2a180.jpg&quot; height=&quot;1343&quot; width=&quot;750&quot;/&gt;&lt;br/&gt;&lt;img alt=&quot;&#x8D44;&#x751F;&#x5802;&#x3001;&#x6D01;&#x9762;&#x4E73;&#x3001;&#x62A4;&#x80A4;&#x6B65;&#x9AA4;&#x3001;&#x7F8E;&#x5BB9;&#x62A4;&#x80A4;&quot; src=&quot;/Storage/Shop/1/Products/719/remark/11b01b177fac47e497a988cd40abe91e.jpg&quot; height=&quot;1543&quot; width=&quot;750&quot;/&gt;&lt;br/&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;img alt=&quot;&quot; src=&quot;/Storage/Shop/1/Products/719/remark/34c2a1488f5d4e288fbbb7cfc9b7135c.jpg&quot; height=&quot;98&quot; width=&quot;750&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;color: #e4007f;font-size: 13px&quot;&gt;&#x5378;&#x5986;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;font-size: 13px&quot;&gt;&#x9762;&#x90E8;&#x5378;&#x5986;&#x662F;&#x6700;&#x57FA;&#x672C;&#x7684;&#x6E05;&#x6D01;&#x73AF;&#x8282;&#xFF0C;&#x5BF9;&#x9762;&#x90E8;&#x8FDB;&#x884C;&#x5378;&#x5986;&#x524D;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x8BA4;&#x771F;&#x9605;&#x8BFB;&#x5378;&#x5986;&#x7528;&#x54C1;&#x5378;&#x5986;&#x8BF4;&#x660E;&#x4E66;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0D;&#x540C;&#x7684;&#x4EA7;&#x54C1;&#x4F7F;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x4E5F;&#x4E0D;&#x5C3D;&#x76F8;&#x540C;&#x3002;&lt;br/&gt; &#x5728;&#x9F3B;&#x5B50;&#x4E24;&#x4FA7;&#x8981;&#x7528;&#x5378;&#x5986;&#x4E73;&#x4E0A;&#x4E0B;&#x6D82;&#x62B9;&#xFF0C;&#x5176;&#x4ED6;&#x90E8;&#x4F4D;&#x7531;&#x5185;&#x5411;&#x5916;&#x8F7B;&#x63C9;&#xFF0C;&#x5F85;&#x6C61;&#x57A2;&#x5B8C;&#x5168;&#x4E0E;&#x5378;&#x5986;&#x4E73;&#x878D;&#x5408;&#x518D;&#x64E6;&#x6389;&#x6216;&#x51B2;&#x6D17;&#x6389;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;color: #e4007f;font-size: 13px&quot;&gt;&#x6D01;&#x9762;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;font-size: 13px&quot;&gt;&#x901A;&#x8FC7;&#x6E05;&#x6D01;&#x4F7F;&#x5F97;&#x76AE;&#x80A4;&#x5904;&#x4E8E;&#x5C3D;&#x53EF;&#x80FD;&#x65E0;&#x6C61;&#x67D3;&#x548C;&#x65E0;&#x4FB5;&#x5BB3;&#x7684;&#x72B6;&#x6001;&#x4E2D;&#xFF0C;&#x4E3A;&#x76AE;&#x80A4;&#x63D0;&#x4F9B;&#x826F;&#x597D;&#x7684;&#x751F;&#x7406;&#x6761;&#x4EF6;&#xFF0C;&#x6E05;&#x6D01;&#x76AE;&#x80A4;&#x4E5F;&#x662F;&#x5BF9;&#x76AE;&#x80A4;&#x5F88;&#x597D;&#x7684;&#x8C03;&#x6574;&#x548C;&#x653E;&#x677E;&#x8FC7;&#x7A0B;&#xFF0C;&lt;br/&gt; &#x6709;&#x6548;&#x5730;&#x6FC0;&#x53D1;&#x76AE;&#x80A4;&#x6D3B;&#x529B;&#xFF0C;&#x4F7F;&#x5F97;&#x6BDB;&#x5B54;&#x5145;&#x5206;&#x901A;&#x900F;&#xFF0C;&#x5145;&#x5206;&#x53D1;&#x6325;&#x76AE;&#x80A4;&#x5065;&#x5EB7;&#x548C;&#x6B63;&#x5E38;&#x7684;&#x5438;&#x6536;&#x3001;&#x547C;&#x5438;&#x3001;&#x6392;&#x6CC4;&#x529F;&#x80FD;&#xFF0C;&#x4FDD;&#x6301;&#x76AE;&#x80A4;&#x826F;&#x597D;&#x7684;&#x65B0;&#x9648;&#x4EE3;&#x8C22;&#x72B6;&#x6001;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;color: #e4007f;font-size: 13px&quot;&gt;&#x723D;&#x80A4;&#x6C34;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;font-size: 13px&quot;&gt;&#x723D;&#x80A4;&#x6C34;&#x5B83;&#x7684;&#x4F5C;&#x7528;&#x5C31;&#x5728;&#x4E8E;&#x518D;&#x6B21;&#x6E05;&#x6D01;&#x4EE5;&#x6062;&#x590D;&#x808C;&#x80A4;&#x8868;&#x9762;&#x7684;&#x9178;&#x78B1;&#x503C;&#xFF0C;&#x5E76;&#x8C03;&#x7406;&#x89D2;&#x8D28;&#x5C42;&#xFF0C;&#x4F7F;&#x808C;&#x80A4;&#x66F4;&#x597D;&#x5730;&#x5438;&#x6536;&#xFF0C;&#x5E76;&#x4E3A;&#x4F7F;&#x7528;&#x4FDD;&#x517B;&#x54C1;&#x4F5C;&#x51C6;&#x5907;&#x3002;&#x4E13;&#x5BB6;&#x5EFA;&#x8BAE;&lt;br/&gt; &#x6CB9;&#x6027;&#x76AE;&#x80A4;&#x4F7F;&#x7528;&#x7D27;&#x80A4;&#x6C34;&#xFF0C;&#x5065;&#x5EB7;&#x76AE;&#x80A4;&#x4F7F;&#x7528;&#x723D;&#x80A4;&#x6C34;&#xFF0C;&#x5E72;&#x6027;&#x76AE;&#x80A4;&#x4F7F;&#x7528;&#x67D4;&#x80A4;&#x6C34;&#xFF0C;&#x6DF7;&#x5408;&#x76AE;&#x80A4;&lt;span style=&quot;color: windowtext&quot;&gt;T&lt;/span&gt;&lt;span style=&quot;color: windowtext&quot;&gt;&#x533A;&lt;/span&gt;&#x4F7F;&#x7528;&#x7D27;&#x80A4;&#x6C34;&#xFF0C;&#x654F;&#x611F;&#x76AE;&#x80A4;&#x9009;&#x7528;&#x654F;&#x611F;&#x6C34;&#x3001;&#x4FEE;&#x590D;&#x6C34;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;color: #e4007f;font-size: 13px&quot;&gt;&#x7CBE;&#x534E;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: 0;background: white&quot;&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;font-size: 13px&quot;&gt;&#x7CBE;&#x534E;&#x7D20;&#x5E94;&#x8BE5;&#x5728;&#x6E05;&#x6D01;&#x5B8C;&#x76AE;&#x80A4;&#xFF0C;&#x5747;&#x5300;&#x6D82;&#x62B9;&#x67D4;&#x80A4;&#x6C34;&#x3001;&#x8F6F;&#x80A4;&#x6C34;&#x540E;&#x4F7F;&#x7528;&#xFF0C;&#x5207;&#x5FCC;&#x6D01;&#x80A4;&#x540E;&#x9A6C;&#x4E0A;&#x4F7F;&#x7528;&#x3002;&#x80FD;&#x591F;&#x5E2E;&#x52A9;&#x76AE;&#x80A4;&#x5F62;&#x6210;&#x76AE;&#x8102;&#x819C;&#xFF0C;&#x4ECE;&#x800C;&#x6709;&#x6548;&#x5730;&#x5438;&#x6536;&#x6C34;&lt;br/&gt; &#x5206;&#x53BB;&#x9664;&#x8001;&#x65E7;&#x89D2;&#x8D28;&#xFF0C;&#x8F85;&#x52A9;&#x808C;&#x80A4;&#x5438;&#x6536;&#x7CBE;&#x534E;&#x7D20;&#x7684;&#x8425;&#x517B;&#xFF0C;&#x4EE4;&#x7CBE;&#x534E;&#x7D20;&#x7684;&#x517B;&#x5206;&#x66F4;&#x5145;&#x5206;&#x3001;&#x76F4;&#x63A5;&#x5730;&#x8FDB;&#x5165;&#x76AE;&#x80A4;&#x6DF1;&#x5C42;&#xFF0C;&#x4EE4;&#x76AE;&#x80A4;&#x7684;&#x67D4;&#x8F6F;&#x6027;&#x3001;&#x5F39;&#x6027;&#x66F4;&#x597D;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;;background: white&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;color: #e4007f;font-size: 13px&quot;&gt;&#x4E73;&#x6DB2;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: 0;background: white&quot;&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;font-size: 13px&quot;&gt;&#x6700;&#x5927;&#x7684;&#x7279;&#x70B9;&#x5C31;&#x662F;&#x542B;&#x6C34;&#x91CF;&#x5F88;&#x9AD8;&#xFF0C;&#x53EF;&#x4EE5;&#x77AC;&#x95F4;&#x6ECB;&#x6DA6;&#x808C;&#x80A4;&#xFF0C;&#x4E3A;&#x5E72;&#x71E5;&#x808C;&#x80A4;&#x8865;&#x5145;&#x6C34;&#x5206;&#x3002;&#x52A0;&#x4E0A;&#x4E73;&#x6DB2;&#x53EF;&#x4EE5;&#x5728;&#x808C;&#x80A4;&#x8868;&#x9762;&#x5F62;&#x6210;&#x8F7B;&#x8584;&#x900F;&#x6C14;&#x7684;&#x4FDD;&#x62A4;&#x819C;&#xFF0C;&#x53EF;&#x9632;&#x6B62;&lt;br/&gt; &#x6C34;&#x5206;&#x6D41;&#x5931;&#xFF0C;&#x8D77;&#x5230;&#x4FDD;&#x6E7F;&#x6548;&#x679C;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: 0;background: white&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;color: #e4007f;font-size: 13px&quot;&gt;&#x9762;&#x971C;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: 0;background: white&quot;&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;font-size: 13px&quot;&gt;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#xFF0C; &#x5E72;&#x6027;&#x76AE;&#x80A4;&#x9002;&#x5408;&#x4F7F;&#x7528;&#x9762;&#x971C;&#x4EE5;&#x53CA;&#x8F83;&#x4E3A;&#x6ECB;&#x6DA6;&#x7684;&#x4E73;&#x6DB2;&#xFF0C;&#x6CB9;&#x6027;&#x53CA;&#x6DF7;&#x5408;&#x6027;&#x76AE;&#x80A4;&#x9002;&#x5408;&#x6E05;&#x723D;&#x7684;&#x4E73;&#x6DB2;&#x53CA;&#x4E0D;&#x542B;&#x6CB9;&#x5206;&#x7684;&#x9762;&#x971C;&#x3002;&#x5E72;&#x71E5;&#x5B63;&#x8282;&#xFF0C;&#x5982;&#x79CB;&#x51AC;&lt;br/&gt; &#x5B63;&#x8282;&#xFF0C;&#x9002;&#x5408;&#x4F7F;&#x7528;&#x8D28;&#x5730;&#x8F83;&#x539A;&#x7684;&#x9762;&#x971C;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: 0;background: white&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;color: #e4007f;font-size: 13px&quot;&gt;&#x9632;&#x6652;&#x9694;&#x79BB;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: 0;background: white&quot;&gt;&lt;span style=&quot;font-family: &amp;#39;&#x5FAE;&#x8F6F;&#x96C5;&#x9ED1;&amp;#39;,&amp;#39;sans-serif&amp;#39;;font-size: 13px&quot;&gt;&#x9694;&#x79BB;&#x971C;&#x5927;&#x81F4;&#x5206;&#x4E24;&#x79CD;&#xFF0C;&#x6709;&#x4E00;&#x79CD;&#x53C8;&#x79F0;&#x5986;&#x524D;&#x5E95;&#x4E73;&#xFF08;Make-upBase&#xFF09;&#xFF0C;&#x56E0;&#x4E3A;&#x65E9;&#x5148;&#x7684;&#x5F69;&#x5986;&#x4EA7;&#x54C1;&#x90FD;&#x542B;&#x6709;&#x4F1A;&#x4F24;&#x76AE;&#x80A4;&#x7684;&#x6210;&#x5206;&#xFF0C;&#x6240;&#x4EE5;&#x201C;&#x53D1;&#x660E;&#x201D;&#x4E86;&#x5728;&lt;span style=&quot;color: windowtext&quot;&gt;&#x62A4;&#x80A4;&lt;/span&gt;&lt;br/&gt; &#x4E0E;&#x5F69;&#x5986;&#x54C1;&#x4E4B;&#x95F4;&#x52A0;&#x4E00;&#x9053;&#x9694;&#x79BB;&#x971C;&#x4EE5;&#x9694;&#x79BB;&#x5F69;&#x5986;&#x548C;&#x810F;&#x7A7A;&#x6C14;&#xFF0C;&#x4E5F;&#x80FD;&#x4F7F;&#x5986;&#x5BB9;&#x66F4;&#x52A0;&#x7EC6;&#x817B;&#x3001;&#x670D;&#x8D34;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x9632;&#x6652;&#x971C; &#xFF0C;&#x56E0;&#x4E3A;&#x542B;&#x6709;&#x6216;&#x5B8C;&#x5168;&#x4EE5;&#x7269;&#x7406;&#x9632;&lt;br/&gt; &#x6652;&#x5242;&#x6765;&#x963B;&#x9694;&#x7D2B;&#x5916;&#x7EBF;&#xFF0C;&#x800C;&#x88AB;&#x79F0;&#x4E3A;&#x9632;&#x6652;&#x9694;&#x79BB;&#x971C;&#xFF08;UVBlock&#x6216;SunBlock&#xFF09;&#x3002;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;" />
+<input type="hidden" id="shopId" value="1" />
+<input type="hidden" id="couponUrl" value="/Mobile/coupon/ShopCouponList" />
+<input type="hidden" id="skuUrl" value="/api/Product/GetSKUInfo" />
+    <script>
+        var winxinShareArgs = {
+            share: {
+                title: '&#x8D44;&#x751F;&#x5802;&#x6D17;&#x989C;&#x4E13;&#x79D1;&#x67D4;&#x6F88;&#x6CE1;&#x6CAB;&#x6D01;&#x9762;&#x4E73;&#xFF11;&#xFF12;&#xFF10;&#xFF47;',
+                desc: '&#x8D44;&#x751F;&#x5802;&#x6D17;&#x989C;&#x4E13;&#x79D1;&#x67D4;&#x6F88;&#x6CE1;&#x6CAB;&#x6D01;&#x9762;&#x4E73;&#xFF11;&#xFF12;&#xFF10;&#xFF47;',
+                link: location.href,
+                imgUrl: 'http://www.weiyou7.com/Storage/Shop/1/Products/719/1_150.png',
+                success: null,
+                cancel: null,
+                fail: null,
+                complete: null,
+                trigger: null
+            }
+        };
+    </script>
+    <!--_WeiXinShare start-->
+    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+    <!--_WeiXinShare end-->
+<script src="https://map.qq.com/api/js?v=2.exp&key=56QBZ-R763U-UNTVS-B2AZF-EU7R7-LLFOQ&libraries=convertor" async></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js?key=56QBZ-R763U-UNTVS-B2AZF-EU7R7-LLFOQ" async></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script src="/Scripts/jquery.cookie.js"></script>
+<script src="/Scripts/jquery.slides.min.js"></script>
+<a class="WX-backtop"></a>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+	<div class="modul-popup">
+	    <div class="modul-popup-container sale-popup-container">
+	        <div class="sale-popup-header"></div>
+	        <div class="sale-popup-body">
+	            <div class="modul-scroll">
+	                <table class="sale-table" width="100%">
+	                        <tbody id="activeList">
+	                    	</tbody>
+	                </table>
+                </div>
+	        </div>
+	        <div class="sale-popup-footer">
+	            <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+
+<!--_Aside start-->
+<div id="_Aside_CustomServices">
+</div>
+<script src="/Areas/Mobile/Templates/Default/Scripts/_Aside.js"></script>
+
+    <div class="wx_aside">
+            <!-- 更多 -->
+            <a href="javascript:;" class="btn_more"></a>
+                <div class="wx_aside_item">
+                        <a href="/m-wap"><img src="/temp/201810170225284811350.png" style="width:25px;height:25px;" />Home</a>
+                        <a href="/m-wap/category"><img src="/temp/201810170226199645080.png" style="width:25px;height:25px;" />Good</a>
+                        <a href="/m-wap/cart/cart"><img src="/temp/201810170226412488170.png" style="width:25px;height:25px;" />Cart</a>
+                        <a href="/m-wap/member/center"><img src="/temp/201810170227011843730.png" style="width:25px;height:25px;" />Me</a>
+                </div>
+    </div>
+<!--_Aside end-->		<script src="/Scripts/jquery.nicescroll.min.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/_Base.js"></script>
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/artdialog.css">
+	<script src="/Scripts/jquery.artDialog.js"></script>
+	<script src="/Scripts/artDialog.iframeTools.js"></script>
+	<script src="/Scripts/jquery.cookie.js"></script>
+	<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+
+		
+
+		<script>
+		(function () {
+			var data= null;
+			if (data) {
+				var callback;
+				if (data.goBack == true)
+					callback = function () { history.go(-1); };
+				var fun;
+				if (data.type == -1)
+					fun='errorTips';
+				else if(data.type==0)
+					fun='alert';
+				else if (data.type == 1)
+					fun='alertTips';
+				else if (data.type == 2)
+					fun='succeedTips';
+				if(fun)
+					$.dialog[fun](data.message,callback,data.time);
+			}
+		})();
+</script>
+	<!--_Base end-->
+</body>
+</html>

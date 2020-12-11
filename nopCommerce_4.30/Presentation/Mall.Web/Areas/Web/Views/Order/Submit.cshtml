@@ -1,0 +1,860 @@
+﻿@model Mall.DTO.OrderSubmitModel
+@{
+    ViewBag.Title = "核对并提交订单";
+    Layout = "~/Areas/Web/Views/Shared/_OrderTopBar.cshtml";
+    var canIntegralPerMoney = (bool)ViewBag.CanIntegralPerMoney;
+    var canCapital = (bool)ViewBag.CanCapital;
+    var shipperAddress = (string)ViewBag.ShipperAddress;
+    var shipperTelPhone = (string)ViewBag.ShipperTelPhone;
+}
+@section Style
+{
+    <link href="~/Areas/Web/Content/base.css?v=20183030" rel="stylesheet">
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" >
+   <style>
+        .form-error {border:1px solid #ff0000}
+        .upload-img-box {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            margin: 5px 10px 0 0;
+            float: left;
+        }
+            .upload-img-box img {
+                width: 100%;
+                height: 100%;
+                border: 1px dashed #e3393c;
+                box-sizing: border-box;
+                margin: 0 !important;
+            }
+
+            .upload-img-box .remove-img {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                display: none;
+                width: 100%;
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+                cursor: pointer;
+                background: #000;
+                color: #fff;
+                opacity: 0.6;
+                font-family: "microsoft yahei";
+                font-weight: normal;
+                z-index: 11;
+            }
+
+        .img-upload-btn {
+            color: #e3393c;
+            width: 56px;
+            height: 56px;
+            line-height: 56px;
+            text-align: center;
+            font-size: 20px;
+            border: 3px dashed #e3393c;
+            cursor: pointer;
+            top: 0;
+            font-weight: bold;
+        }
+
+        .file.uploadFilebtn {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-img-box .text-muted {
+            display: block;
+            line-height: 26px;
+        }
+  .datetimepicker.dropdown-menu { position: absolute; top: 100%; left: 0; z-index: 1000; display: none; float: left; min-width: 100px; padding: 5px 0; margin: 2px 0 0; font-size: 12px; text-align: left; list-style: none; background-color: #fff; -webkit-background-clip: padding-box; background-clip: padding-box; border: 1px solid #ccc; border: 1px solid rgba(0,0,0,.15); border-radius: 4px; -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175); box-shadow: 0 6px 12px rgba(0,0,0,.175); }
+.datetimepicker.dropdown-menu { box-shadow: 0 0 4px #b6b6b6; -webkit-box-shadow: 0 0 4px #b6b6b6; border: 1px solid #cdcdcd; border-radius: 0; }
+/*日期控件----------*/
+.datetimepicker { border-radius: 0 !important; }
+.datetimepicker table tr td.active:active, .datetimepicker table tr td.active:hover:active, .datetimepicker table tr td.active.disabled:active, .datetimepicker table tr td.active.disabled:hover:active, .datetimepicker table tr td.active.active, .datetimepicker table tr td.active:hover.active, .datetimepicker table tr td.active.disabled.active, .datetimepicker table tr td.active.disabled:hover.active, .datetimepicker table tr td span.active:active, .datetimepicker table tr td span.active:hover:active, .datetimepicker table tr td span.active.disabled:active, .datetimepicker table tr td span.active.disabled:hover:active, .datetimepicker table tr td span.active.active, .datetimepicker table tr td span.active:hover.active, .datetimepicker table tr td span.active.disabled.active, .datetimepicker table tr td span.active.disabled:hover.active { background: #e3393c !important; }
+      </style>
+    <!--<link href="~/Areas/Web/Content/myjd.easebuy.css" rel="stylesheet">-->
+    <!--<link href="~/Content/bootstrap.min.css" rel="stylesheet" />-->
+    <style>
+        .deliverytype[disabled] {
+            color: #B7B2B2 !important;
+        }
+
+        .tip {
+            color: #B7B2B2 !important;
+        }
+
+            .tip.have {
+                color: #47e6eb !important;
+            }
+        /*.datetimepicker .datetimepicker-hours .thead:first-child th{
+            height: 1px;
+        }*/
+        .datetimepicker .datetimepicker-hours thead tr:first-child th, .datetimepicker .datetimepicker-hours thead tr:first-child th:hover, .datetimepicker .datetimepicker-minutes thead tr:first-child th, .datetimepicker .datetimepicker-minutes thead tr:first-child th:hover {
+            height: 0px;
+            line-height: 0px;
+            color: #fff;
+            font-size: 1px;
+        }
+    </style>
+}
+@section Script
+{
+    <script src="~/Scripts/jquery.Mall.Region.js?v=20183030"></script>
+    <script src="~/Scripts/jquery.MallDatagrid.js"></script>
+}
+@{
+    bool onlyshop1 = Model.products.Count() == 1 && Model.products.Any(p => p.shopId == 1);
+}
+<input id="icod" type="hidden" value="@ViewBag.IsCashOnDelivery.ToString()" />
+<input id="islimit" type="hidden" value="@ViewBag.IsLimitBuy.ToString()" />
+<input id="onlyshop1" type="hidden" value="@onlyshop1.ToString()" />
+<input type="hidden" id="isOpenStore" value="@ViewBag.IsOpenStore.ToString()" />
+<input type="hidden" id="productType" value="@Model.ProductType" />
+<div class="w990 m2">
+    <div id="checkout">
+        <div class="mt">
+            <span>填写并核对订单信息</span>
+        </div>
+        <div id="wizard" class="checkout-steps">
+            @if (Model.ProductType == 0)
+            {
+                <div id="step-1" class="step step-complete">
+                    <div class="step-title">
+                        <strong id="consigneeTitleDiv">收货人信息</strong>
+                        <span class="step-action"><a href="javascript:;" id="editReciever">修改</a></span>
+                    </div>
+                    <div class="step-content">
+                        <div id="consignee" class="sbox-wrap">
+                            <div class="sbox">
+                                <div class="s-content">
+                                    @if (Model.address != null)
+                                    {
+                                        var defaultAddress = Model.address;
+                                        <p id="selectedAddress"><span>@defaultAddress.ShipTo</span> <br />@defaultAddress.RegionFullName &nbsp; &nbsp;@defaultAddress.Address&nbsp;&nbsp;@defaultAddress.AddressDetail<br />  @defaultAddress.Phone</p>
+                                    }
+                                    else
+                                    {
+                                        <p id="selectedAddress"></p>
+                                    }
+                                </div>
+                                <div class="form" id="addressListArea" style="display:none">
+                                    <div id="consignee-list">
+                                    </div>
+                                    <div class="item" id="use-new-address">
+                                        <input type="radio" onclick="showEditArea(0)" class="hookbox" name="address" id="consignee_radio_new" />
+                                        <label for="consignee_radio_new">使用新地址 </label><span class="status error" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当前地址数量已达上限，若要继续添加新地址，请先删除部分收货地址。</span>
+                                    </div>
+                                    <form style="display:none" id="addressEditArea">
+                                        <div class="consignee-form" id="consignee-form" name="consignee-form">
+                                            <div class="list message" id="name_div">
+                                                <span class="label"><em>*</em>收货人：</span>
+                                                <div class="field">
+                                                    <input type="text" class="textbox" id="consignee_name" name="shipTo" maxlength="20" onblur="check_Consignee('name_div')" />
+                                                </div>
+                                                <span class="status error" id="name_div_error"></span>
+                                            </div>
+                                            <div class="list select-address" id="area_div">
+                                                <span class="label"><em>*</em>所在地区：</span>
+                                                <div class="field">
+                                                    <span id="regionSelector"></span>
+                                                    @Html.Hidden("NewAddressId")
+                                                </div>
+                                            </div>
+                                            <div class="list full-address" id="address_div" style="overflow: inherit;line-height: 26px;">
+                                                <span class="label"><em>*</em>详细地址：</span>
+                                                <div class="field" id="areaName">
+                                                    <span class="selected-address" name="regionFullName">
+                                                        <em>湖南省</em>
+                                                        <em>长沙市</em>
+                                                        <em>芙蓉区</em>
+                                                    </span>
+                                                    @*<input type="text" class="textbox" maxlength="50" name="address" />*@
+                                                    <div class="fl" id="detailaddr">
+                                                        <input type="text" class="textbox" maxlength="50" value="" id="consigneeAddress" name="address">
+                                                        <div class="select-container" id="divAdr">
+                                                            <ul id="nearAddress"></ul>
+                                                            <div id="divMore" style="text-align:center; padding: 0px 15px 60px 15px;" onclick="searchKeyword(2, '')">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="status error" id="address_div_error"></span>
+                                            </div>
+                                            <div class="list full-address" id="call_div">
+                                                <span class="label"><em></em>楼号-门牌号：</span>
+                                                <div class="field">
+                                                    <div class="phone">
+                                                        <input type="text" class="textbox" name="addressdetail" value="" />
+                                                    </div>
+                                                    <span class="status error" id="addressdetail_div_error"></span>
+                                                </div>
+                                            </div>
+                                            <div class="list" id="call_div">
+                                                <span class="label"><em>*</em>电话：</span>
+                                                <div class="field">
+                                                    <div class="phone">
+                                                        <input type="text" class="textbox" name="phone" maxlength="18" />
+                                                    </div>
+                                                    <span class="status error" id="call_div_error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="form-btn group">
+                                        <a href="javascript:;" class="btn-submit"><span id="saveConsigneeTitleDiv">保存收货人信息</span></a>
+                                        <div class="loading loading-1" style="display:none"><b></b>正在提交信息，请等待！</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.VirtualProductItemInfos != null && Model.VirtualProductItemInfos.Count > 0)
+            {
+                <div id="step-2" class="step step-complete">
+                    <div class="step-title">
+                        <strong id="consigneeTitleDiv">用户信息</strong>
+                    </div>
+                    <div class="step-content">
+                        <div id="consignee2" class="sbox-wrap">
+                            @foreach (var item in Model.VirtualProductItemInfos)
+                            {
+                                var required = item.Required;
+                                string requiredText = required ? "j_required" : "";
+                                var type = item.Type;
+                                var placeholder = "";
+                                if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Text || type == Mall.Entities.ProductInfo.VirtualProductItemType.Digital)
+                                {
+                                    placeholder = string.Format("请填写{0}信息", item.Name);
+                                }
+                                else if (type == Mall.Entities.ProductInfo.VirtualProductItemType.IdCard)
+                                {
+                                    placeholder = "请输入身份证号码";
+                                }
+                                else if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Date || type == Mall.Entities.ProductInfo.VirtualProductItemType.Time)
+                                {
+                                    placeholder = string.Format("请选择{0}", item.Name);
+                                }
+                                if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Picture)
+                                {
+                                    <div class="virtual j_productItem @requiredText clearfix" id="consignee-form2" name="consignee-form2" ptype="@((sbyte)type)" data-itemid="@(item.Id)" style="margin-bottom: 10px;">
+                                        <div class="list message" id="name_div">
+                                            <span class="label">@Html.Raw(required ? "<em>*</em>" : "")<label class="j_name">@item.Name</label>：</span>
+                                            <div class="item">
+                                                <div class="fl pic-upload" id="VProductItemImages_@(item.Id)"></div>
+                                            </div>
+                                            <span class="imgtip">最多3张图片</span>
+                                        </div>
+                                    </div>
+                                }
+                                else if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Digital)
+                                {
+                                    <div class="virtual j_productItem @requiredText" id="consignee-form2" name="consignee-form2" ptype="@((sbyte)type)">
+                                        <div class="list message" id="name_div">
+                                            <span class="label">@Html.Raw(required ? "<em>*</em>" : "")<label class="j_name">@item.Name</label>：</span>
+                                            <div class="field">
+                                                <input type="text" value="" placeholder="@placeholder" onkeyup="value = value.replace(/[^\-?\d]/g, '')" maxlength="50"  />
+                                            </div>
+                                            <span class="status error" id="name_div_error"></span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="virtual j_productItem @requiredText" id="consignee-form2" name="consignee-form2" ptype="@((sbyte)type)">
+                                        <div class="list message" id="name_div">
+                                            <span class="label">@Html.Raw(required ? "<em>*</em>" : "")<label class="j_name">@item.Name</label>：</span>
+                                            <div class="field">
+                                                <input type="text" class="@Html.Raw(type==Mall.Entities.ProductInfo.VirtualProductItemType.Date?"j_date":"" ) @Html.Raw(type==Mall.Entities.ProductInfo.VirtualProductItemType.Time?"j_time":"" )" value="" placeholder="@placeholder" maxlength="100" />
+                                            </div>
+                                            <span class="status error" id="name_div_error"></span>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            @{
+                var zyShop = Model.products.Where(p => p.shopId == 1).FirstOrDefault();
+                var otherShops = Model.products.Where(p => p.shopId != 1).ToList();
+            }
+            <div class="step step-complete">
+                <div class="step-title"><strong>支付及配送方式</strong></div>
+                <div class="step-content">
+                    <div id="payment-ship" class="sbox-wrap">
+                        <div class="sbox">
+                            <div class="payment-selected">
+                                <p>
+                                    <label><input type="radio" name="pay-offline" value="1" checked />在线支付</label>
+                                    @{
+                                        var isCashOnDelivery = (bool)ViewBag.IsCashOnDelivery && zyShop != null && zyShop.CartItemModels.Count > 0&&Model.ProductType==0;
+                                    }
+                                    <label style="@(isCashOnDelivery?"":"display:none")"><input class="CashOnDelivery" type="radio" name="pay-offline" value="2" />货到付款<i>（选择该方式后不支持货到付款的商品仍需在线支付）</i></label>
+                                </p>
+                                <p style="color:#999;">快递运输  由商家选择合作快递为您配送</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--支付方式弹框页-->
+
+                <div class="payment-dialog" style="display:none">
+                    <h3>请确认支付方式</h3>
+                    @if (zyShop != null && zyShop.CartItemModels.Count > 0)
+                    {
+                        <div class="offline-pay">
+                            <h4>以下商品<em>支持货到付款</em></h4>
+                            <ul>
+                                @foreach (var product in zyShop.CartItemModels)
+                                {
+                                    <li><a href="#"><img src="@product.imgUrl"></a></li>    <!----在Controller处理图片-->
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    @if ((bool)ViewBag.IsCashOnDelivery && otherShops != null && otherShops.Count > 0)
+                    {
+                        <div class="online-pay">
+                            <h4>以下商品仅支持<em>在线支付</em></h4>
+                            <ul>
+                                @foreach (var shop in otherShops)
+                                {
+                                    foreach (var product in shop.CartItemModels)
+                                    {
+                                        <li><a href="#"><img src="@product.imgUrl"></a></li> <!----在Controller处理图片-->
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    }
+                    <p style="width:200px;height:36px;margin:10px  auto 0;">
+                        <span class="pd-commit">提交</span>
+                        <span class="pd-submit">取消</span>
+                    </p>
+                </div>
+
+            </div>
+           @if (Model.ProductType == 1&&!string.IsNullOrWhiteSpace(shipperAddress)&&!string.IsNullOrWhiteSpace(shipperTelPhone))
+           {
+            <div class="step step-complete">
+                <div class="step-title"><strong>核销地址</strong></div>
+                <div class="step-content">
+                    <div id="payment-ship" class="sbox-wrap">
+                        <div class="sbox">
+                            <div class="payment-selected">
+                                <p>
+                                    <label>联系电话：@shipperTelPhone</label>
+                                </p>
+                                <p>
+                                    <label>核销地址：@shipperAddress</label>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         }
+            @if (Model.ProductType == 0)
+            {
+                @*<div class="step step-complete @(ViewBag.ProvideInvoice ? "" : "hide")">
+                    <div class="step-title"><strong>发票信息</strong></div>
+                    <div class="step-content">
+                        <div class="sbox-wrap">
+                            <div class="sbox">
+                                <div>
+                                    <label><input type="radio" value="2" id="isInvoce2" name="isInvoce" />需要发票</label>
+                                    <label><input type="radio" value="0" id="isInvoce1" name="isInvoce" checked="checked" />不需要发票</label>
+                                </div>
+                                <div class="payment-selected" id="invoceMsg">
+                                    <span id="" class="mr15">发票抬头：</span><span id="invoiceTitle" class="mr15"></span>
+                                    <span id="" class="mr15">发票内容：</span><span id="invoiceContext" class="mr15"></span>
+                                    <a href="#none" class="ftx-05" onclick="invoiceReceipt">修改</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>*@
+            }
+            <div id="step-4" class="step step-complete mt20">
+                <div class="step-title"><strong>商品清单</strong></div>
+                <div class="step-content">
+                    <div id="part-order" class="sbox-wrap">
+                        <div class="sbox">
+                            <div id="order-cart">
+                                @{var products = Model.products;}
+                                <table class="review-thead">
+                                    <tbody>
+                                        <tr>
+                                            <th width="44%"><span>商品</span></th>
+                                            <th width="20%"><span>服务</span></th>
+                                            <th width="18%"><span>单价</span></th>
+                                            <th width="18%"><span>数量</span></th>
+                                            @*<th><span>运费</span></th>*@
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="order-review">
+                                    @foreach (var p in products)
+                                    {
+                                        <div class="step-title"><a target="_blank" href="/shop/home/@p.shopId" class="return-edit">@p.ShopName</a></div>
+                                        <!--商品清单展示-->
+                                        <div id="span-skulist">
+                                            <!--**********商品清单内容列表开始************-->
+                                            <div class="review-body">
+                                                <div class="review-tbody border-b-none">
+                                                    <table class="order-table" shopid="@p.shopId">
+                                                        <tbody>
+                                                            @{ var isOpenLadder = false;}
+                                                            @foreach (var product in p.freightProductGroup)
+                                                            {
+                                                                if (!isOpenLadder)
+                                                                {
+                                                                    isOpenLadder = product.isOpenLadder;
+                                                                }
+                                                                string skuStr = string.IsNullOrEmpty(product.skuColor) ? "" : product.colorAlias + "：" + product.skuColor + "  ";
+                                                                skuStr += string.IsNullOrEmpty(product.skuSize) ? "" : product.sizeAlias + "：" + product.skuSize + "   ";
+                                                                skuStr += string.IsNullOrEmpty(product.skuVersion) ? "" : product.versionAlias + "：" + product.skuVersion;
+                                                                <tr pid="@product.id" skuid="@product.skuId" quntity="@product.count" price="@(decimal.Round(product.price,2, MidpointRounding.AwayFromZero))" collpid="@product.collpid">
+                                                                    <td class="fore1" width="44%">
+                                                                        <div class="p-goods">
+                                                                            <div class="p-img"><a href="@Url.Action( "Detail" , "Product" , new { id = product.id } )" target="_blank"><img src="@product.imgUrl" /></a></div>
+                                                                            <div class="p-detail">
+                                                                                <div class="p-name">
+                                                                                    <a class="single-ellipsis w250" href="@Url.Action( "Detail" , "Product" , new { id = product.id } )" target="_blank">@product.name </a>
+                                                                                </div>
+                                                                                <div class="p-more">@(new HtmlString(skuStr))</div>
+                                                                                <div class="p-more">商品货号：@product.productCode</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="fore3" width="20%" align="center">
+                                                                        @if (product.customerSecurity)
+                                                                        {
+                                                                            <img src="/Images/Security.jpg" title="消费者保障" />
+                                                                        }
+                                                                        @if (product.sevenDayNoReasonReturn)
+                                                                        {
+                                                                            <img src="/Images/SevenDay.jpg" title="七天无理由退换货" />
+                                                                        }
+                                                                        @if (product.timelyShip)
+                                                                        {
+                                                                            <img src="/Images/TimelyDelivery.jpg" title="及时发货" />
+                                                                        }
+                                                                    </td>
+                                                                    <td class="p-price" width="18%" align="center">￥@product.price.ToString("F2")</td>
+                                                                    <td class="fore2" width="18%" align="center">@product.count</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!--**********商品清单内容列表结束************-->
+                                        </div>
+                                        <div class="order-summary ordsumbox" data-shopid="@(p.shopId)" id="orderdata_@(p.shopId)">
+                                            <div class="order-summary-left">
+                                                @if (Model.ProductType == 0)
+                                                {
+                                                    <div class="leave-message clearfix">
+                                                        <label class="w70 text-right">配送方式：</label>
+                                                        <label><input class="express vertical-middle mr5" type="radio" name="shop@(p.shopId).DeliveryType" value="0" checked />快递配送</label>
+                                                        @if (ViewBag.IsOpenStore == true)
+                                                        {
+                                                            if (!isOpenLadder)
+                                                            {
+                                                                var temp = p.freightProductGroup.ToDictionary(pp => pp.skuId, pp => pp.count);
+                                                                var skuIds = string.Join(",", temp.Keys);
+                                                                var counts = string.Join(",", temp.Values);
+                                                                var disabledAtt = p.ExistShopBranch ? "" : "disabled";
+                                                                var pids = string.Join(",", p.freightProductGroup.Select(pp => pp.ProductId));
+
+                                                                <label class="deliverytype" skuids="@skuIds" counts="@counts" data-pids="@pids" @disabledAtt>
+                                                                    <input class="vertical-middle mr5" type="radio" name="shop@(p.shopId).DeliveryType" value="1" @disabledAtt />到店自提
+                                                                </label>
+                                                                <a href="javascript:" class="selectStore hide">请选择自提点</a>
+                                                                <label class="tip @(p.ExistShopBranch ? "hide" : "")">本市无可自提门店</label>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="leave-message clearfix selectedStore" style="display:none">
+                                                        <label class="w70 text-right">自提点：</label><label class="shopbranchname" shopid="@p.shopId"></label>
+                                                    </div>
+                                                    <div class="leave-message clearfix selectedStore" style="display:none;width: 535px;">
+                                                        <label class="w70 text-right">地址：</label><label class="shopbranchaddress" style="width: 400px;" shopid="@p.shopId"></label>
+                                                    </div>
+                                                   }
+                                                   <!--留言字段添加6-12-->
+                                                <div class="leave-message clearfix mt10">
+                                                    <label class="w70 text-right">买家留言：</label>
+                                                    @*<textarea id="orderRemarks" placeholder="选填"></textarea>*@
+                                                    <textarea class="orderRemarks" rows="4" id="remark_@p.shopId" placeholder="选填" maxlength="200"></textarea>
+                                                </div>
+												@if (Model.ProductType == 0)
+                                                {
+                                                    <div class="leave-message invoice clearfix @(p.IsInvoice ? "" : "hide")">
+                                                        <label class="w70 text-right">发票信息：</label>
+                                                        <div class="step-content fl">
+                                                            <div class="sbox-wrap">
+                                                                <div class="sbox">
+                                                                    <div class="clearfix" name="invoiceInfo@(p.shopId)">
+                                                                        <label><input type="radio" value="2" class="isInvoce2" date-shopid="@p.shopId" name="isInvoce@(p.shopId)" onclick="invoiceReceipt(@p.shopId)" />需要发票</label>
+                                                                        <label><input type="radio" value="0" class="isInvoce1" date-shopid="@p.shopId" name="isInvoce@(p.shopId)" checked="checked" />不需要发票</label>
+                                                                        <a href="#none" class="btnInvoiceEdit" style="display:none;" onclick="invoiceReceipt(@p.shopId)">修改</a>
+                                                                    </div>
+                                                                    <div class="payment-selected" name="invoceMsg@(p.shopId)">
+                                                                        <span class="mr15 invoiceType"></span>
+                                                                        <span class="mr15 invoiceTitle"></span>
+                                                                        <span class="mr15 invoiceContext"></span>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                                
+                                            </div>
+                                            <div class="order-summary-right">
+                                                <div class="statistic fr" style="width:370px;color:#b8c4cc;">
+                                                    @if (p.FullDiscount > 0)
+                                                    {
+                                                        <div style="color:#6b6c6e; height:30px; line-height:30px;"><span style="float:left; width:180px;">满减优惠：</span>-@p.FullDiscount</div>
+                                                    }
+
+                                                    @if (p.BaseCoupons != null && p.BaseCoupons.Count > 0)
+                                                    {
+                                                        <div class="list" style="height:30px;">
+                                                            <div class="shopa">优惠券</div>
+                                                            <select class="shopb" data-shopid="@(p.shopId)">
+                                                                <option value="0" data-type="99" data-p="0" >不使用优惠劵</option>
+                                                                @foreach (var c in @p.BaseCoupons)
+                                                                {
+                                                                    //if (c.OrderAmount == 0)
+                                                                    if (p.OneCoupons != null && c.BaseId == p.OneCoupons.BaseId)
+                                                                    {
+                                                                        //var price = Math.Round((c.BasePrice > p.ShopTotalWithoutFreight) ? p.ShopTotalWithoutFreight : c.BasePrice, 2);
+                                                                        var price = p.OneCoupons.BasePrice;
+
+                                                                        <option value="@c.BaseId" data-p="@c.BasePrice" data-type="@((int)c.BaseType)" selected>@(c.OrderAmount == 0 ? "无门槛立减" : "满" + c.OrderAmount.ToString() + "减")@c.BasePrice</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@c.BaseId" data-p="@c.BasePrice" data-type="@((int)c.BaseType)">@(c.OrderAmount == 0 ? "无门槛立减" : "满" + c.OrderAmount.ToString() + "减")@(c.BasePrice)</option>
+                                                                    }
+                                                                }
+                                                            </select>：
+                                                            <div class="shopc" data="0">-0</div>
+                                                        </div>
+                                                    }
+                                                    <div class="list">
+                                                        <div class="shopf text-left"  hidden="@(Model.ProductType == 1)" data="@p.Freight" data-profrei="@p.Freight" data-free="@(p.FreeFreight)" style="width:140px;">￥@p.Freight</div>
+                                                        <div class="shopg" hidden="@(Model.ProductType == 1)">@(p.FreeFreight > 0 ? "（满" + p.FreeFreight.ToString("F2") + "免运费）" : "")运费：</div>
+                                                        <div class="shopd text-left" data="@(( p.ShopTotal ).ToString( "F2" ))" data-v="@(( p.ShopTotalWithoutFreight ).ToString( "F2" ))" style="width:140px;">￥@((p.ShopTotal).ToString("F2"))</div>
+                                                        <div class="shope">店铺合计 @if (Model.ProductType == 0) { <text>（含运费）</text> }：</div>
+                                                        <div class="span clr"></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order-summary order-summary-total">
+        <div class="statistic fr">
+            <div class="list">
+                <span><em id="span-skuNum">@products.Sum(item => item.CartItemModels.Sum(a => a.count))</em> 件商品，总商品金额：</span>
+                <em class="price" id="warePriceId" v="@Model.totalAmount">￥@Model.products.Sum(p => (p.ShopTotalWithoutFreight + p.FullDiscount)).ToString("F2")</em>
+            </div>
+            <div class="list" style="display:@(Model.products.Sum(p=>p.FullDiscount)>0?"block":"none")"><span>满减优惠：</span><em class="price">@(Model.products.Sum(p => p.FullDiscount).ToString("F2"))</em></div>
+            <div class="list" style="display:none;" id="divTotalInvoice"><span>税费：</span><em class="price" id="totalInvoice">0</em></div>
+            <div class="list" hidden="@(Model.ProductType == 1)"><span>运费：</span><em class="price" id="totalFreight" data-freight="@Model.Freight.ToString("F2")"> ￥@Model.Freight.ToString("F2")</em></div>
+            <div class="list" style="display:none"><span>优惠券抵扣金额：</span><em class="price" id="id_c"></em></div>
+
+            @if (canIntegralPerMoney && Model.IntegralPerMoney != 0 && Model.Integral != 0)
+            {
+                <div>
+                    <span style="line-height:30px;">
+                        <input type="checkbox" id="IsUsedIntegral" /> 使用平台积分
+                        <label style="display: none;" class=""><input type="text" class="text-center quantity-text" style="width:40px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v()" data-userintegral="@Model.Integral" data-rule="@Model.IntegralPerMoney" data-maxuserate="@(SiteSetting.IntegralDeductibleRate)" name="integral" id="integral" value="0" /> 分</label>：<em style="display:inline-block;float:right;position:relative;width:500px; color: #999;">可用 @Model.Integral 积分</em>
+                    </span>
+                    <em style="display: none;" class="price" id="integralPrice"> ¥0.00</em>
+                </div>
+            }
+            @if (canCapital && Model.Capital > 0)
+            {
+                <div>
+                    <span style="line-height:30px;">
+                        <input type="checkbox" id="IsUsedCapital" /> 使用预存款
+                        <label style="display: none;" class=""><input type="text" class="text-center quantity-text" style="width:40px;" onkeyup="(this.v = function () { this.value = this.value.replace(/[^\d.]/g,'').replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); }).call(this)" data-usercapital="@Model.Capital" name="capital" id="capital" value="0" /> 元</label>：<em style="display:inline-block;float:right;position:relative;width:500px; color: #999;">可用 ¥@Model.Capital 元</em>
+                    </span>
+                    <em style="display: none;" class="price" id="capitalPrice"> ¥0.00</em>
+                    @Html.Hidden("PayPwd")
+                </div>
+            }
+        </div>
+    </div>
+    <div class="checkout-buttons group">
+        <div class="sticky-placeholder">
+            <div class="sticky-wrap">
+                <div class="inner">
+                    <a class="return-edit2" href="/cart/cart">返回购物车</a>
+                    <div class="pull-right">
+                        <button type="button" id="submit" class="checkout-submit">提交订单</button>
+                        <span class="total">应付总额：<strong id="payPriceId" data-real="@Model.orderAmount.ToString( "F2" )" data="@Model.orderAmount.ToString( "F2" )">@Model.orderAmount.ToString("F2")</strong>元</span>
+                        @if (Model.MoneyPerIntegral > 0)
+                        {
+                            <span class="total-tip">可获得平台积分<span id="MoneyPerIntegral" data-rule="@Model.MoneyPerIntegral">@Model.TotalIntegral</span>分</span>
+                        }
+                        <div class="offline-icon">在线支付</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@foreach (var item in Model.products)
+{
+    if (item.IsInvoice)
+    {
+        <div class="thickdiv hide"></div>
+        <div class="thickbox hide invoicebox" id="invoiceDialog@(item.shopId)">
+            <div class="thickwrap">
+                <div class="thicktitle"><span>发票信息</span></div>
+                <div class="thickcon">
+                    <div id="edit-cont" class="m">
+                        <div class="mc">
+                            <div class="form formInvoice@(item.shopId)" name="dvInvoice">
+                                <div class="item mt15">
+                                    <span class="label fl">发票类型：</span>
+                                    <div class="fl invoice-list dvInvoiceType">
+                                        @{ var index = 0;}
+                                        @if (item.invoiceTpyes != null)
+                                        {
+                                            foreach (var it in item.invoiceTpyes)
+                                            {
+                                                <div class="invoice-item @(index==0?"invoice-item-selected":"")" data-id="@it.Id" data-shopid="@item.shopId" data-rate="@it.Rate"><span>@it.Name</span></div>
+                                                index++;
+                                            }
+                                        }
+                                    </div>
+                                    <div class="clr"></div>
+                                </div>
+                                <div class="invoicetype1-@item.shopId">
+                                    <div class="item clearfix height-auto">
+                                        <span class="label fl">发票抬头：</span>
+                                        <div class="fl invoice-tit-list">
+                                            @{ index = 0;}
+                                            @foreach (var i in Model.InvoiceTitle)
+                                            {                                                
+                                                <div class="invoice-item @(string.IsNullOrEmpty(Model.invoiceName)?(index==0?"invoice-item-selected":""):(Model.invoiceName.Equals(i.Name)?"invoice-item-selected":""))">
+                                                    公司：<input type="text" value="@i.Name" class="invoicename" disabled>
+                                                    税号：<input type="text" value="@i.Code" class="invoicecode" disabled>
+                                                    <div class="item-btns">
+                                                        <a href="javascript:void(0);" class="ml10 update-tit hide" key="@i.Id">保存</a>
+                                                        <a href="javascript:void(0);" class="ml10 set-tit" key="@i.Id">编辑</a>
+                                                        <a href="javascript:void(0);" class="ml10 del-tit" key="@i.Id">删除</a>
+                                                    </div>
+                                                </div>
+                                                index++;
+                                            }
+                                            <div class="invoice-item @(string.IsNullOrEmpty(Model.invoiceName)?"":(Model.invoiceName.Equals("个人")?"invoice-item-selected":""))">
+                                                <input type="text" value="个人" class="invoicename" disabled>
+                                            </div>
+                                            <a class="addInvoice btnAddInvoice" data-shopid="@(item.shopId)" href="javascript:;">新增单位发票</a>
+                                        </div>
+                                    </div>
+                                    <div class="item clearfix height-auto">
+                                        <span class="label fl">发票内容：</span>
+                                        <div class="fl invoice-list dvInvoiceContext">
+                                            @{index = 0;}
+                                            @foreach (var e in Model.InvoiceContext)
+                                            {
+                                                <div class="invoice-item @(index==0?"invoice-item-selected":"")"><span>@e.Name</span></div>
+                                                index++;
+                                            }
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="Electronic@(item.shopId)" style="display:none;">
+                                    	<div class="title">收票人信息</div>
+                                        <div class="item mt15">
+                                            <span class="label fl"><lable class="red">*</lable>收票人手机：</span>
+                                            <div class="fl invoice-list">
+                                                <input type="text" value="@Model.cellPhone" name="cellphone" placeholder="请输入收票人手机号" />
+                                            </div>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="item mt15">
+                                            <span class="label fl"><lable class="red">*</lable>收票人邮箱：</span>
+                                            <div class="fl invoice-list">
+                                                <input type="text" value="@Model.email" name="email" placeholder="请输入收票人邮箱" />
+                                            </div>
+                                            <div class="clr"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="invoicetype2-@item.shopId vatInvoice" style="display:none;">
+                                    <div class="invoice-vat-title">
+                                        发票将在订单完成之后@(item.InvoiceDay)个工作日后寄出
+                                    </div>
+                                    <div class="item clearfix height-auto">
+                                        <span class="label fl">发票内容：</span>
+                                        <div class="fl invoice-list dvInvoiceContextVat">
+                                            @{index = 0;}
+                                            @foreach (var e in Model.InvoiceContext)
+                                            {
+                                                <div class="invoice-item @(index==0?"invoice-item-selected":"")"><span>@e.Name</span></div>
+                                                index++;
+                                            }
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="title">增票资质</div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>单位名称：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.Name" name="companyname" placeholder="请输入单位名称" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>纳税人识别号：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.Code" name="companyno" placeholder="请输入纳税人识别号" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>注册地址：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.RegisterAddress" name="registeraddress" placeholder="请输入注册地址" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>注册电话：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.RegisterPhone" name="registerphone" placeholder="请输入注册电话" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>开户银行：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.BankName" name="bankname" placeholder="请输入开户银行" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15" style="margin-bottom: 28px;">
+                                        <span class="label fl"><lable class="red">*</lable>银行账户：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.BankNo" name="bankno" placeholder="请输入银行账户" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="title">收票人信息</div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>收票人姓名：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.RealName" name="vatrealname" placeholder="请输入收票人姓名" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>收票人手机：</span>
+                                        <div class="fl invoice-list">
+                                            <input type="text" value="@Model.vatInvoice.CellPhone" name="vatcellphone" placeholder="请输入收票人手机" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>收票人地区：</span>
+                                        <div class="fl invoice-list">
+                                            <div id="area-selector@(item.shopId)"></div>
+                                            <input id="RegionID@(item.shopId)" name="RegionID" type="hidden" value="@Model.vatInvoice.RegionID">                        
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                    <div class="item mt15">
+                                        <span class="label fl"><lable class="red">*</lable>详细地址：</span>
+                                        <div class="fl invoice-list">                                            
+                                            <input type="text" value="@Model.vatInvoice.Address" name="vataddress" placeholder="请输入详细地址" />
+                                        </div>
+                                        <div class="clr"></div>
+                                    </div>
+                                </div>
+                                <div class="btns">
+                                    <a data-shopid="@(item.shopId)" class="e-btn btn-5 save-btn btnOk" href="javascript:;">确定</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a id="" class="thickclose" href="#">×</a>
+            </div>
+        </div>
+    }
+    <div class="thickbox hide shopbranch dialog" id="@item.shopId" data-pid="@string.Join(",",item.freightProductGroup.Select(p=>p.ProductId))">
+        <div class="thickwrap pick">
+            <div class="thicktitle"><span>选择自提点</span></div>
+            <div style="width:700px; padding:20px 40px 50px;" class="thickcon">
+                <div>
+                    <label>选择区域：</label>
+                    <select class="districtSelect" style="display:inline-block;padding: 4px; width: 200px;"></select>
+                </div>
+                <div style="max-height: 300px;overflow-y: auto;">
+                    <table class="list" width="600"></table>
+                </div>
+            </div>
+            <a id="" class="thickclose" href="#">×</a>
+        </div>
+    </div>
+}
+<div class="id_alpha"></div>
+<input type="hidden" id="collIds" value="@Model.collIds">
+<input type="hidden" id="latAndLng" value="@(Model.address != null ? Model.address.Latitude+","+Model.address.Longitude:"0,0")" />
+<input type="hidden" id="isNeedUpdate" value="@(Model.address != null && Model.address.NeedUpdate ? '1' : '0')" />
+<input type="hidden" id="shippingAddressId" value="@(Model.address != null ? ( Model.address ).Id.ToString() : "")" />
+<input type="hidden" id="shippingAddressRegionId" value="@(Model.address!=null?Model.address.RegionId.ToString():"")" />
+<input type="hidden" id="cartItemIds" value="@Model.cartItemIds" />
+<input type="hidden" id="modelFreight" value="@Model.Freight.ToString("F2")">
+@Html.Hidden("Longitude")
+@Html.Hidden("Latitude")
+@section ScriptLast
+{
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.form.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.MallUpload.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="~/Areas/Web/Scripts/submitOrder.js?v=20183030"></script>
+    <script src="~/Areas/Web/Scripts/searchAddress.js?v=20183030"></script>
+}

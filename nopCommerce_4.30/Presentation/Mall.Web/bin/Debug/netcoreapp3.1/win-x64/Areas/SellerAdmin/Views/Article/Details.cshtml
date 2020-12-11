@@ -1,0 +1,19 @@
+﻿@model Mall.Entities.ArticleInfo
+
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div class="container">
+    <div class="article">
+        <div class="article-title">
+            <h2 style="text-align:center;">@Model.Title</h2><h6 style="text-align:center;">@Model.AddDate.ToString("yyyy-MM-dd")</h6>
+        </div>
+      
+        @{new HtmlString(Model.Content); }
+
+    </div>
+
+</div>
+

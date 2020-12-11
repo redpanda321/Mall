@@ -1,0 +1,20 @@
+﻿@model Mall.Entities.TopicInfo
+@{
+    ViewBag.Title = "推荐专题";
+    var TopicInfo = (IEnumerable<Mall.Entities.TopicInfo>)ViewBag.TopicInfo;
+}
+
+
+<div class="warp">       
+	<ul  class="topic-list cl" id="topicUl">
+		@foreach (var item in (TopicInfo))
+		{
+			<li>
+				<h3>@item.Name</h3>
+				<a href="./Detail/@item.Id"><span><img alt="@item.Name" src="@Mall.Core.MallIO.GetImagePath(item.TopImage)" /></span></a>
+			</li>
+		}
+	</ul>
+</div>
+<div class="loading" id="autoLoad"><span></span></div>
+<script src="~/Areas/Web/Scripts/topicList.js?v=20183030"></script>

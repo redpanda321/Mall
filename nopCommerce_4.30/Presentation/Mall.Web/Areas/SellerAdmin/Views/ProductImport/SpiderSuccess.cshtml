@@ -1,0 +1,51 @@
+﻿@model Mall.Web.Areas.SellerAdmin.Models.SpiderProductResult
+
+@using System.Linq
+@{
+    ViewBag.Title = "SpiderSuccess";
+}
+
+<div class="container Sclear-F">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="SpiderManage">数据采集</a></li>
+        <li><a href="ImportManage">数据包导入</a></li>
+    </ul>
+    @if (Model != null)
+    {
+        <div class="form-horizontal">
+            <div class="j_spiderResult">
+                <h4 class="text-center" style="line-height: 32px;"><img src="/Images/succeedg.png" style="vertical-align: bottom;" /> &nbsp; 您的商品数据已成功导入<span class="j_sucess">@Model.SuccessNum</span>条，失败<span class="j_fail red">@Model.FailNum</span>条</h4>
+                @if (Model.FailDataModel != null && Model.FailDataModel.Count > 0)
+                {
+                    <div class="form-group j_failResult mt20">
+                        <div class="col-sm-10">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>链接</th>
+                                        <th>失败备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="j_result">
+                                    @foreach (var item in Model.FailDataModel)
+                                    {
+                                        <tr>
+                                        	<td><span class="overflow-ellipsis" style="width: 700px;"><a href="@item.GrabUrl" target="_blank">@item.GrabUrl</a></span></td>
+                                        	<td>@item.Remark</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+                <div class="form-group mt20">
+                    <div class="col-sm-offset-4 col-sm-7">
+                        <a href="/SellerAdmin/ProductImport/SpiderManage" class="btn btn-primary">继续导入</a>
+                        <a href="/SellerAdmin/product/management?tar=indraft" target="_blank" class="btn btn-primary">查看导入商品</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "积分优惠券列表";
+    ViewBag.ShowAside = 3;//显示浮动菜单栏、回到顶部按钮
+}
+<div class="container">
+    <ul class="integral-coupon integral-product cl" id="List"></ul>
+    <div class="loading" id="autoLoad"><span></span></div>
+
+</div>
+<input type="hidden" id="couponUri" value="@Url.Action("AcceptCoupon","coupon")" />
+
+<script>
+
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+
+        if (scrollTop + windowHeight >= scrollHeight) {
+            loadGifts();
+        }
+    });
+
+    // 优惠券领取
+    $(function () {
+        $("#List").on('click', 'a[name="acceptCoupon"]', function () {
+            var $thisCoupon = $(this);
+            var needi = $thisCoupon.data("ni");
+            if ($thisCoupon.hasClass("disabled")) {
+                return;
+            }
+            $.dialog.confirm("此券需要" + needi + "积分，是否兑换？", function () {
+                var cpid = $thisCoupon.attr('cpid') || 0;
+                var vshopid = $thisCoupon.attr('vshopid') || 0;
+                var couponCon = $("#couponUri").val();
+                if (parseInt(cpid) > 0) {
+                    console.log(couponCon);
+                    $.post(couponCon, { vshopid: vshopid, couponid: parseInt(cpid) }, function (result) {
+                        if (result.success == true) {
+                            $.dialog.succeedTips("兑换成功！")
+                            //$("#Integral_balance").html(result.Integral_balance);
+                            // window.location.href = '/' + areaName + '/VShop/GetCouponSuccess/' + result.crid;
+                        }
+                        else {
+                            $thisCoupon.addClass("disabled");
+                            $.dialog.tips(result.msg, function () { });
+                        }
+                        return;
+                    });
+                }
+            });
+        });
+    });
+
+    var page = 0,
+        isnodata = false,
+        list = $('#List');
+
+    loadGifts();
+
+    function loadGifts() {
+        var pageSize = 10;
+        if (!isnodata) {
+            page++;
+            $.get('/' + areaName + '/Gifts/GetCouponList',
+                {
+                    pageNo: page,
+                    pageSize: pageSize
+                }
+                , function (data) {
+                    console.log(JSON.stringify(data))
+                    data = data.data;
+                    if (data.length > 0) {
+                        var str = '';
+                        $.each(data, function (i, item) {
+                            str += '<li>' +
+                                '<div class="p-img"><b style="background-image: url(' + item.ShowIntegralCover + ');"></b></div>' +
+                                '<div class="p-text">' +
+                                '<h3>' + item.ShopName + '</h3>' +
+                                '<p>' + (item.UseArea == 1 ? item.Remark : '全场通用') + '</p>' +
+                                '<h5><span>¥ <em>' + item.Price + '</em></span>' + (item.OrderAmount > 0 ? "满" + item.OrderAmount + "元可用" : "无门槛") + '</h5>' +
+                                '</div>' +
+                                '<div class="p-btn">' +
+                                '<p><span>' + item.NeedIntegral + '</span>分</p>' +
+                                '<a name="acceptCoupon" data-ni="' + item.NeedIntegral +'" cpid="' + item.Id + '" vshopid="' + item.VShopId + '">兑换</a>' +
+                                '</div>' +
+                                '</li>';
+                        });
+                        list.append(str);
+                    }
+                    if (data.length < 10) {
+                        isnodata = true;
+                        $('#autoLoad').html('没有更多优惠券了');
+                    }
+                }
+            );
+        }
+    }
+</script>

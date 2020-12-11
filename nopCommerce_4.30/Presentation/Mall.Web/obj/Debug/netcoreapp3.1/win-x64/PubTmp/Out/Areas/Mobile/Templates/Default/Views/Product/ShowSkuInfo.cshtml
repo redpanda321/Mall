@@ -1,0 +1,210 @@
+﻿@using Mall.Core
+@model Mall.Web.Areas.Mobile.Models.ProductShowSkuInfoModel
+@{
+    Layout = null;
+    ViewBag.Title = "商品SKU";
+    var weiXinShareArgs = this.WeiXinShareArgs;
+    var productType = (sbyte)ViewBag.ProductType;
+    var productDefaultImg = MallIO.GetProductSizeImage(Model.ProductImagePath, 1, (int)Mall.CommonModel.ImageSize.Size_220);
+}
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.picker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.dtpicker.css" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.picker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.dtpicker.js"></script>
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<!--ShowSkuInfo start-->
+<div class="modul-popup" role="alert">
+    <div class="modul-popup-container">
+        <div class="att-popup-header">
+            <div class="thumb pull-left">
+            <input type="hidden" id="hidProductDefaultImg" value="@(productDefaultImg)" />
+            <img class="img-responsive" src="@(productDefaultImg)"></div>
+            <div class="info pull-left">
+                <div class="price-con">￥<em id="jd-price">@Model.MinSalePrice.ToString("F2")</em></div>
+                <div class="stock-control">
+                    库存 <em id="stockNum">@Model.StockAll</em> @Model.MeasureUnit
+                    @if (Model.MaxBuyCount > 0 && !Model.IsOpenLadder)
+                    {
+                        <label id="maxBuyCount" data-value="@Model.MaxBuyCount"> (单个ID限购@(Model.MaxBuyCount)件)</label>
+                    }
+                    <em id="minMath" class="hidden">0</em>
+                </div>
+                <!-- <div class="sku-dtips" id="choose-result">已选择：</div> -->
+            </div>
+            <a href="javascript:;" class="modul-popup-close att-popup-close"></a>
+        </div>
+        <div class="att-popup-body">
+            <div class="modul-scroll">
+                @if (Model.Color.Count() > 0 || Model.Size.Count() > 0 || Model.Version.Count() > 0)
+                {
+                    <div class="item" id="choose">
+                        @if (Model.Color.Count() > 0)
+                        {
+                            <div class="spec">
+                                <label>@Model.ColorAlias</label>
+                                <div class="att-name" id="colorSpec">
+                                    @foreach (var color in Model.Color.OrderBy(p => p.SkuId))
+                                    {
+                                        <span st="0" cid="@color.SkuId" data-img="@(color.Img)" class="itemSku @color.EnabledClass @color.SelectedClass">@(new HtmlString(color.Value))</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Size.Count() > 0)
+                        {
+                            <div class="spec">
+                                <label>@Model.SizeAlias</label>
+                                <div class="att-name">
+                                    @foreach (var size in Model.Size.OrderBy(p => p.SkuId))
+                                    {
+                                        <span st="1" cid="@size.SkuId" class="itemSku @size.EnabledClass @size.SelectedClass">@(new HtmlString(size.Value))</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Version.Count() > 0)
+                        {
+                            <div class="spec">
+                                <label>@Model.VersionAlias</label>
+                                <div class="att-name">
+                                    @foreach (var version in Model.Version.OrderBy(p => p.SkuId))
+                                    {
+                                        <span st="2" cid="@version.SkuId" class="itemSku @version.EnabledClass @version.SelectedClass">@(new HtmlString(version.Value))</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                <div class="item">
+                    <div class="buy-num">
+                        <label>数量</label>
+                        <div class="wrap-num">
+                            <a class="glyphicon glyphicon-minus" href="javascript:;"></a>
+                            <input class="input-xs form-control" id="buy-num" value="1" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v()">
+                            <a class="glyphicon glyphicon-plus" href="javascript:;"></a>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.VirtualProductItem != null && Model.VirtualProductItem.Count > 0)
+                {
+                    <div class="item">
+                        @foreach (var item in Model.VirtualProductItem)
+                        {
+                            string name = item.Name;
+                            var type = item.Type;
+                            var required = item.Required;
+                            string placeholder = string.Empty;
+                            string requiredText = required ? "j_required" : "";
+
+                            if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Text || type == Mall.Entities.ProductInfo.VirtualProductItemType.Digital)
+                            {
+                                if (required)
+                                {
+                                    placeholder = string.Format("必填，请填写您的{0}", name);
+                                }
+                                else
+                                {
+                                    placeholder = string.Format("请填写您的{0}", name);
+                                }
+                            }
+                            else if (type == Mall.Entities.ProductInfo.VirtualProductItemType.IdCard)
+                            {
+                                if (required)
+                                {
+                                    placeholder = string.Format("必填，请填写18位身份证号");
+                                }
+                                else
+                                {
+                                    placeholder = string.Format("请填写18位身份证号");
+                                }
+                            }
+                            else if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Date)
+                            {
+                                placeholder = "年/月/日";
+                            }
+                            else if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Time)
+                            {
+                                placeholder = "-- : --";
+                            }
+
+                            if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Picture)
+                            {
+                                <div class="virtual @requiredText" ptype="@((sbyte)type)" data-itemid="@(item.Id)">
+                                    <label class="j_name">@name</label>
+                                    <div id="VProductItemImages_@(item.Id)"></div>
+                                    <span class="imgtip">最多3张图片</span>
+                                </div>
+                            }
+                            else if (type == Mall.Entities.ProductInfo.VirtualProductItemType.Digital)
+                            {
+                                <div class="virtual @requiredText"  ptype="@((sbyte)type)" >
+                                    <label class="j_name">@name</label>
+                                    <input type="text" placeholder="@placeholder" onkeyup="value = value.replace(/[^\-?\d]/g, '')" maxlength="50"/>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="virtual @requiredText @Html.Raw(type==Mall.Entities.ProductInfo.VirtualProductItemType.Date?"j_date":"") @Html.Raw(type==Mall.Entities.ProductInfo.VirtualProductItemType.Time?"j_time":"")" ptype="@((sbyte)type)">
+                                    <label class="j_name">@name</label>
+                                    <input type="text" placeholder="@placeholder" maxlength="100" />
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="att-popup-footer">
+            <button type="button" class="btn btn-warning btn-yes" id="addToCart" style="display:none;">确 定</button>
+            <button type="button" class="btn btn-warning btn-yes" id="easyBuyBtn" style="display:none;">确 定</button>
+            @if (productType == 0)
+            {
+                <button type="button" class="btn btn-danger btn-shopcart" id="addToCart2" style="display:none;">加入购物车</button>
+            }
+            <button type="button" class="btn btn-danger btn-goshop" id="easyBuyBtn2" style="display:none;">立即购买</button>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Scripts/jquery.Mall.sku.js?v=20183030"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".j_date").click(function () {
+            var input = $(this).find("input[type=text]");
+            var option = { type: "date", beginYear: 1907, endYear: new Date().getFullYear() };
+            var dtpicker = new mui.DtPicker(option)
+            dtpicker.show(function (e) {
+                input.val(e.y.text + "/" + e.m.text + "/" + e.d.text);
+            })
+        });
+        $(".j_time").click(function () {
+            var input = $(this).find("input[type=text]");
+            var option = { type: "time"};
+            var dtpicker = new mui.DtPicker(option)
+            dtpicker.show(function (e) {
+                input.val(e.text);
+            })
+        });
+        $("div[id^='VProductItemImages_']").each(function () {
+            var _t = $(this).attr("id");
+            $(this).MallUpload({
+                imgFieldName: _t,
+                imagesCount: 3,
+                maxSize: 3,
+                canDel: true,
+                isMobile: true
+            });
+        });
+
+        //$("#VProductItemImages1").MallUpload({
+        //    imgFieldName: "VProductItemImages1" + 1,
+        //    imagesCount: 3,
+        //    maxSize: 3,
+        //    canDel: true,
+        //    isMobile: true
+        //});
+    });
+</script>
+<!--ShowSkuInfo end-->

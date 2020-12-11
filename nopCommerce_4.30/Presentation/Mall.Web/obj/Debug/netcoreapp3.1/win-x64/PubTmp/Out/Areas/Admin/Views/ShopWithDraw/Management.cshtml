@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "退款记录";
+}
+
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Management?status=3" id="dh_3">提现成功</a></li>
+        <li><a href="Management?status=1" id="dh_1">待处理</a></li>
+        <li><a href="Management?status=5" id="dh_5">付款中</a></li>
+        <li><a href="Management?status=4" id="dh_4">提现失败</a></li>
+        <li><a href="Management?status=2" id="dh_2">拒绝提现</a></li>
+        <li><a href="Setting">提现金额设置</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>其中提现方式为银行账户的申请，需由平台线下打款至商家账户，其他方式可由系统自动完成转账。</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">商家</label>
+                <input id="shopName" class="form-control input-ssm" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">申请时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group Deal" style="display:none;">
+                <label class="label-inline w75" for="">审核时间</label>
+                <input id="inputStartDates" class="form-control input-ssm start_datetimes" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDates" class="form-control input-ssm end_datetimes" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table">
+        <div class="tabel-operate" id="batchOperate">
+            @if (ViewBag.Status != null && (ViewBag.Status == 1 || ViewBag.Status == 4))
+            {
+                <button type="button" class="btn btn-default btn-ssm" onclick="BatchDoOperate()">批量审核</button>
+            }
+            @*提现成功*@
+            @if (ViewBag.Status == 3)
+            {
+                <a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a>
+            }
+        </div>
+    </table>
+</div>
+<script type="text/javascript">
+    var status='@ViewBag.Status';
+</script>
+<script src="~/Areas/Admin/Scripts/ShopWithDrawManagement.js"></script>

@@ -1,0 +1,253 @@
+﻿@model IEnumerable<Mall.Entities.ImageAdInfo>
+@{
+    var slidAds = ViewBag.SlidAds as IList<Mall.Entities.SlideAdInfo>;
+    var count = slidAds.Count;
+    var isOpenTopImageAd=(bool)ViewBag.IsOpenTopImageAd;
+}
+
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script type="text/javascript">
+    var setlogoUrl = '@Url.Action("setlogo")';
+    var logo = "@(MallIO.GetImagePath(ViewBag.Logo))";
+</script>
+<script src="/Scripts/jquery.MallDatagrid.js"></script>
+<script src="/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="/Scripts/jquery.productSelector.js"></script>
+<script src="/Scripts/jquery.couponSelector.js"></script>
+<script src="/Scripts/jquery.limitTimeBuySelector.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/pageSettings.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.nicescroll.min.js"></script>
+
+<style type="text/css">
+    .dialog-form .label-inline {
+        text-align: left !important;
+        width: auto !important;
+        margin-right: 10px !important;
+    }
+
+    .add-slide-btn {
+        border: 1px dashed #ddd;
+        text-align: center;
+        line-height: 32px;
+        color: #333;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .slide-list li.item {
+        border: 1px solid #ddd;
+        margin-bottom: 5px;
+    }
+
+    .slide-list a {
+        cursor: pointer;
+    }
+
+    .dialog-form .slide-list .form-group {
+        padding: 5px 0;
+    }
+
+    .form-group label {
+        margin-top: 5px;
+    }
+
+    .downlist {
+        position: relative;
+        display: inline-block;
+    }
+
+        .downlist span {
+            cursor: pointer;
+            position: relative;
+            padding: 0 20px 0 10px;
+        }
+
+            .downlist span:after {
+                content: '';
+                position: absolute;
+                border-top: 5px solid #999;
+                border-left: 5px dashed transparent;
+                border-right: 5px dashed transparent;
+                right: 5px;
+                top: 8px;
+            }
+
+        .downlist ul {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 5px;
+            display: none;
+            width: 110px;
+            right: 0;
+            z-index: 2;
+        }
+
+        .downlist:hover ul {
+            display: block;
+        }
+
+        .downlist ul li {
+            line-height: 26px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+            .downlist ul li:hover {
+                background: #f0f0f0;
+            }
+
+    .dialog-form .upload-img .control-label {
+	    margin-top: 3px;
+	    padding-left: 5px;
+	    padding-right: 0;
+	    box-sizing: content-box;
+	}
+	.dialog-form .upload-img .col-sm-5{
+		padding-left: 10px;
+	}
+
+    .upload-img {
+        position: static;
+    }
+    #url{
+    	margin-left: 13px;
+    }
+</style>
+<div class="container">
+    <!--<ul class="nav nav-tabs-custom clearfix">
+        <strong>首页设置</strong>
+        <em class="primary-btn">
+            <span class="glyphicon glyphicon-question-sign"></span>
+            <div class="primary">
+                <h3>温馨提示：</h3>
+                <span>*</span><p>可通过可视化编辑设置店铺首页</p>
+            </div>
+        </em>
+    </ul>-->
+
+    <div class="vis-view-area clearfix">
+        <div class="seller-banner-area clearfix">
+            <a type="imageAd" imagedescript="宽度1920，高度不限" istopAd="1" class="banner-a" title="顶部广告栏编辑" value="@Model.ElementAt(0).Id" pic="@(Mall.Core.MallIO.GetImagePath(Model.ElementAt(0).ImageUrl))" url="@(Model.ElementAt(0).Url)"></a>
+        </div>
+        <div class="nav-area clearfix">
+            <a type="navigation" title="导航条设置"></a>
+        </div>
+        <div class="focus-area clearfix">
+            <a type="slideAds" title="轮播图"></a>
+        </div>
+        <div class="goods-area clearfix">
+            <div class="recomm-goods-area">
+                <a type="imageAd" imagedescript="1190*218" title="广告图片设置" value="@ViewBag.TransverseAD.Id" pic="@(Mall.Core.MallIO.GetImagePath(ViewBag.TransverseAD.ImageUrl))" url="@(ViewBag.TransverseAD.Url)"></a>
+                <a type="imageAd" imagedescript="380*320" title="精品推荐(1)" value="@Model.ElementAt(1).Id" pic="@(Mall.Core.MallIO.GetImagePath(Model.ElementAt(1).ImageUrl))" url="@(Model.ElementAt(1).Url)"></a>
+                <a type="imageAd" imagedescript="426*320" class="recomm-area" title="精品推荐(2)" value="@Model.ElementAt(2).Id" pic="@(Mall.Core.MallIO.GetImagePath(Model.ElementAt(2).ImageUrl))" url="@(Model.ElementAt(2).Url)"></a>
+                <a type="imageAd" imagedescript="380*320" title="精品推荐(3)" value="@Model.ElementAt(3).Id" pic="@(Mall.Core.MallIO.GetImagePath(Model.ElementAt(3).ImageUrl))" url="@(Model.ElementAt(3).Url)"></a>
+            </div>
+        </div>
+        @*<div class="shop-goood-sort"><a type="category" title="引导搜索设置"></a></div>*@
+        <div class="floors-area">
+            <a type="shopHomeModule" title="楼层编辑"></a>
+        </div>
+        <div class="shop-bot"><a class="shop-notice " title="页脚编辑" type="editFooter"></a><a class="logo-area" title="Logo设置"></a></div>
+
+
+    </div>
+
+
+</div>
+<div class="dialog-form" id="logosetting" style="display:none">
+    <div class="form-group upload-img clearfix" id="uploadImg">
+    </div>
+</div>
+
+<div class="dialog-form" id="slideAdsSetting" style="display:none">
+    <ul class="slide-list">
+        @if (slidAds != null && slidAds.Count > 0)
+        {
+            foreach (var item in slidAds)
+            {
+                var index = slidAds.IndexOf(item);
+                <li class="item j_slideads">
+                    <div class="form-group upload-img clearfix">
+                        <div id="HandSlideAdsPic_@index" class="fl j_adsPic form-group upload-img clearfix j_HandSlideAdsPic_@index" pic="@item.ImageUrl"></div>
+                        <div class="fl">
+                        	<span class="help-default">1920*520</span>
+	                        <label style="margin-left:20px;"><a class="glyphicon glyphicon-arrow-up" title="上移"></a></label>
+	                        <label><a class="glyphicon glyphicon-arrow-down" title="下移"></a></label>
+	                        <label><a title="删除" class="glyphicon glyphicon-remove"></a></label>
+	                        <input type="hidden" id="adsId" name="adsId" class="j_adsId" value="@item.Id" />
+                        </div>
+                    </div>
+                    <div class="form-group upload-img clearfix">
+                        <label class="col-sm-2 control-label fl" for="">链接到：</label>
+                        <input class="form-control input-sm" type="text" id="url" value="@item.Url" />
+                        <div class="downlist j_selectDown">
+                            <span>请选择</span>
+                            <ul>
+                                <li type="1">选择商品</li>
+                                @*<li type="2">优惠券</li>*@
+                                <li type="3">限时购商品</li>
+                                <li type="4">自定义链接</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="item j_slideads">
+                <div class="form-group upload-img clearfix">
+                    <div id="HandSlideAdsPic" class="form-group upload-img clearfix j_HandSlideAdsPic"></div>
+                    <div class="fl">
+	                    <span class="help-default">1920*480</span>
+	                    <label style="margin-left:20px;"><a class="glyphicon glyphicon-arrow-up" title="上移"></a></label>
+	                    <label><a class="glyphicon glyphicon-arrow-down" title="下移"></a></label>
+	                    <label><a title="删除" class="glyphicon glyphicon-remove"></a></label>
+	                    <input type="hidden" id="sort" name="sort" class="j_sort" value="0" />
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="col-sm-2 control-label fl" for="">链接到：</label>
+                    <input class="form-control input-sm" type="text" id="url" value="" />
+                    <div class="downlist j_selectDown">
+                        <span>请选择</span>
+                        <ul>
+                            <li type="1">选择商品</li>
+                            @*<li type="2">优惠券</li>*@
+                            <li type="3">限时购商品</li>
+                            <li type="4">自定义链接</li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+    <div class="add-slide-btn"><a class="j_addUrl">+</a></div>
+</div>
+<div class="dialog-form" id="imageAd"  style="display:none">
+    <div id="HandSlidePic" class="form-group upload-img clearfix"></div>
+    <div class="form-group">
+        <label class="label-inline fl" for="">跳转链接:</label>
+        <input class="form-control input-sm" type="text" id="url" value="" />
+        <div class="downlist j_selectDownAd">
+            <span>请选择</span>
+            <ul>
+            <li type="1">选择商品</li> 
+             @*<li type="2">优惠券</li>*@
+            <li type="3">限时购商品</li>
+            <li type="4">自定义链接</li></ul>
+        </div>
+    </div>
+    <div class="form-group j_openTopImageAd" style="display:none">
+        <label class="label-inline fl" for="">是否显示</label>
+        <label class="mr10 mb0 align-middle">
+            <input type="radio" value="1"  @Html.Raw(isOpenTopImageAd?"checked":"")  name="openTopImageAd"/>显示
+        </label>
+        <label class="mb0 mb0 align-middle">
+            <input type="radio" value="0"  @Html.Raw(isOpenTopImageAd==false?"checked":"") name="openTopImageAd"/>不显示
+        </label>
+    </div>
+</div>
+<input type="hidden" id="slideAdsCount" value="@count" />

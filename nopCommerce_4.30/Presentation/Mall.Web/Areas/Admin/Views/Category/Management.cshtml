@@ -1,0 +1,146 @@
+﻿@model List<Mall.Web.Areas.Admin.Models.Product.CategoryModel>
+
+@{
+    ViewBag.Title = "分类管理";
+}
+
+
+
+@functions {
+   public  void CreateTr(Mall.Web.Areas.Admin.Models.Product.CategoryModel category, long[] hideItems)
+    {
+        var hide = hideItems.Contains(category.Id);
+        var allChildHide = Model.Where(p => p.ParentCategoryId == category.Id).All(p => hideItems.Contains(p.Id));
+
+        <tr class="level-@category.Depth" cid="@category.Id" parentid="@category.ParentCategoryId" style="@(hide ? "display:none" : "")">
+            <td class="@(category.Depth == 3 ? "clear-m2" : "clear-e")">
+                @if (category.Depth == 2)
+                {
+                    <s class="line clear-m4">└───</s>
+                }
+                @if (category.Depth == 3)
+                {
+                    <s class="line clear-m3">├─── </s>
+                }
+                @if (category.Depth < 3)
+                {
+                    <span class="glyphicon glyphicon-@(allChildHide ? "plus" : "minus")-sign"></span>
+                }
+                <input type="hidden" class="hidden_id" value="@category.Id" />
+                <input type="hidden" class="hidden_depth" value="@category.Depth" />
+                <input class="text-name input-no-sp" type="text" value="@category.Name" categoryId="@category.Id" />
+            </td>
+            <td class="clear-m2">
+                <input class="text-order" type="text" value="@category.DisplaySequence" categoryId="@category.Id" />
+            </td>
+            @if (category.Depth == 3)
+            {
+                <td class="tac"><input class="text-commis tac text-order" type="text" value="@category.CommisRate"><span>%</span></td>
+            }
+            else
+            {
+                <td style="text-align:center"></td>
+            }
+            <td style="text-align:center">
+                <span class="btn-a">
+                    @if (category.IsShow)
+                    {<a categoryId="@category.Id" IsShow="1" class="j_isshow">√</a>}
+                    else
+                    {<a categoryId="@category.Id" IsShow="0" class="j_isshow">×</a>}
+                </span>
+            </td>
+            @if (category.Depth == 3)
+            {
+                <td>
+                    <input type="checkbox" categoryId="@category.Id" class="VirtualProductCheck" @(category.SupportVirtualProduct ? "checked" : "")>
+                </td>
+            }
+            else
+            {
+                <td style="text-align:center"></td>
+            }
+            <td class="td-operate">
+                <span class="btn-a">
+                    @if (category.Depth < 3)
+                    {
+                        <a id="add_@category.Id" href="./AddByParent?Id=@category.Id" class="add" target="">新增下级</a>
+                    }
+                    <a id="edit_@category.Id" href="./Edit?Id=@category.Id" class="edit">编辑</a>
+                    <a id="del_@category.Id" class="delete-classify" categoryId="@category.Id">删除</a>
+                </span>
+            </td>
+        </tr>
+    }
+
+}
+
+
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/categoryJS.js"></script>
+
+<div class="container clear-m">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="./Add">新增</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>可以在分类后设置排序值，数值越小排序越靠前。</span></li>
+                <li><span>可以在三级分类下设置佣金比例，当商家成功卖出该分类下的商品时，平台可以抽取对应比例佣金。</span></li>
+                <li><span>“√”则表示在前台会显示出来，“×”表示前台不显示出来，直接点击图标就可以切换两者的状态。</span></li>
+                <li class="mark-info"><span>注意最多有三级分类，并且分类下有商品时无法删除该分类。</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="topbtn">
+        <a class="add-business" id="btnlevel1"><span class="glyphicon glyphicon-plus-sign"></span>折叠</a>
+        <a class="add-business" id="btnlevelAll"><span class="glyphicon glyphicon-minus-sign"></span>展开</a>
+    </div>
+
+    <table class="table category_table">
+        <thead>
+            <tr>
+
+                <th style="text-align:center" width="450">分类名称</th>
+                <th style="text-align:center" width="150">排序</th>
+                <th style="text-align:center" width="200">佣金比率</th>
+                <th style="text-align:center" width="200">是否显示</th>
+                <th style="text-align:center" width="150">支持虚拟商品</th>
+                <th class="td-operate clear-m1">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (null == Model)
+            {
+
+                <tr style="text-align:center">
+                    <td style="text-align:center;" colspan="3"><h2 class="none-data">没有任何分类</h2></td>
+                </tr>
+}
+            else
+            {
+                var cookie = Context.Request.Cookies["CategoryHideItems"];
+                var cookieValue = "";
+                if (cookie != null && !string.IsNullOrEmpty(cookie))
+                {
+                    cookieValue = Uri.UnescapeDataString(cookie);
+                }
+
+                long temp;
+                var hideItems = cookieValue.Split(',').Where(p => long.TryParse(p, out temp)).Select(p => long.Parse(p)).ToArray();
+
+
+
+                foreach (var category in Model)
+                {
+                    CreateTr(category, hideItems);
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>

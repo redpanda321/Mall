@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CartItemModel.cs" />
+    <Compile Remove="ChargePayModel.cs" />
+    <Compile Remove="IBaseCoupon.cs" />
+    <Compile Remove="LabelModel.cs" />
+    <Compile Remove="ManagerInfoModel.cs" />
+    <Compile Remove="MemberModel.cs" />
+    <Compile Remove="OrderClassCollections.cs" />
+    <Compile Remove="OrderIntegralModel.cs" />
+    <Compile Remove="OrderModel.cs" />
+    <Compile Remove="OrderRefundModel.cs" />
+    <Compile Remove="OrderReturnModel.cs" />
+    <Compile Remove="PrintModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mall.CommonModel\Mall.CommonModel.csproj" />
+    <ProjectReference Include="..\Mall.Entities\Mall.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,175 @@
+﻿@model Mall.DTO.ShopBranchListHomePage
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "周边门店";
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+                            //轮播图
+    var slideHome = Model.SlideAdModels.Where(e => e.TypeId == Mall.Entities.SlideAdInfo.SlideAdType.NearShopBranchHome);
+    //轮播图2
+    var slideHome2 = Model.SlideAdModels.Where(e => e.TypeId == Mall.Entities.SlideAdInfo.SlideAdType.NearShopBranchHome2);
+    //图标
+    var slideIcons = Model.SlideAdModels.Where(e => e.TypeId == Mall.Entities.SlideAdInfo.SlideAdType.NearShopBranchIcon);
+    //广告图
+    var ImageAdInfos = Model.SlideAdModels.Where(e => e.TypeId == Mall.Entities.SlideAdInfo.SlideAdType.NearShopBranchSpecial);
+    var defaultImage = new Mall.DTO.SlideAdModel { Url=string.Empty, ImageUrl=string.Empty };
+    var imageFirst = ImageAdInfos.Count() > 0 ? ImageAdInfos.ElementAt(0) : defaultImage;
+    var imageSecond = ImageAdInfos.Count() > 1 ? ImageAdInfos.ElementAt(1) : defaultImage;
+    var imageThree = ImageAdInfos.Count() > 2 ? ImageAdInfos.ElementAt(2) : defaultImage;
+    var imageFour = ImageAdInfos.Count() > 3 ? ImageAdInfos.ElementAt(3) : defaultImage;
+    var imageFive = ImageAdInfos.Count() > 4 ? ImageAdInfos.ElementAt(4) : defaultImage;
+    ViewBag.ShowAside = 2;//显示返回顶部按钮 
+}
+
+
+
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchs.css?v=20183030" rel="stylesheet" />
+<div class="storelist">
+	<div class="top-info" style="z-index:2">
+		<span class="locate" id="CurrentAddress">当前位置</span>
+		<span class="search">
+            <form action="">
+                <input type="search" id="searchInput" placeholder="附近商家门店及商品" />
+            </form>
+			<i class="glyphicon glyphicon-search" id="searchBtn"></i>
+		</span>
+	</div>
+    <div id="slides" class="slides-box">
+        <ul class="clearfix swiper-wrapper">
+            @foreach (var item in slideHome)
+            {
+                string url = item.Url;
+                string[] arrayitem = url.Split(',');
+                if (arrayitem.Length == 2)
+                {
+                    url = arrayitem[1];
+                }
+                <li class="swiper-slide">
+                    <a href="@url" title=""><img src="@item.ImageUrl"></a>
+                </li>
+            }
+        </ul>
+        <section class="swipe-dots">
+            
+        </section>
+        <script>
+        	$(function () {
+        		$(".slides-box").each(function(){
+        			var htmle="";
+        			var numbers = $(this).find("li").length;
+        			for(var i=0; i<numbers;i++){
+        				htmle+="<span></span>"
+        			} 
+        			$(this).children('.swipe-dots').append(htmle);
+        			$(this).children('.swipe-dots span').first().addClass("cur");
+        		});
+        	});
+        	
+        </script>
+    </div>
+    <ul class="fast-nav clearfix">
+        @foreach (var item in slideIcons)
+        {
+            string url = item.Url;
+            string[] arrStr = url.Split(',');
+            if (arrStr.Length == 2)
+            {
+                url = arrStr[1];
+            }
+            <li><a href="@url"><img src="@item.ImageUrl"><span>@item.Description</span></a></li>
+        }
+	</ul>
+	<div class="index-topic clearfix">
+        @{
+            string imageFirsturl = imageFirst.Url;
+            string[] arrayStr = imageFirsturl.Split(',');
+            if (arrayStr.Length == 2)
+            {
+                imageFirsturl = arrayStr[1];
+            }
+            string imageSecondurl = imageSecond.Url;
+            arrayStr = imageSecondurl.Split(',');
+            if (arrayStr.Length == 2)
+            {
+                imageSecondurl = arrayStr[1];
+            }
+            string imageThreeurl = imageThree.Url;
+            arrayStr = imageThreeurl.Split(',');
+            if (arrayStr.Length == 2)
+            {
+                imageThreeurl = arrayStr[1];
+            }
+            string imageFoururl = imageFour.Url;
+            arrayStr = imageFoururl.Split(',');
+            if (arrayStr.Length == 2)
+            {
+                imageFoururl = arrayStr[1];
+            }
+            string imageFiveurl = imageFive.Url;
+            arrayStr = imageFiveurl.Split(',');
+            if (arrayStr.Length == 2)
+            {
+                imageFiveurl = arrayStr[1];
+            }
+            if (!(string.IsNullOrEmpty(imageFirst.ImageUrl)
+                && string.IsNullOrEmpty(imageSecond.ImageUrl)
+                && string.IsNullOrEmpty(imageThree.ImageUrl)
+                && string.IsNullOrEmpty(imageFour.ImageUrl)
+                && string.IsNullOrEmpty(imageFive.ImageUrl)))
+            {
+                <a href="@imageFirsturl" class="t-left"><img src="@imageFirst.ImageUrl"></a>
+                <div class="t-right">
+                    <div class="t-top">
+                        <a class="" href="@imageSecondurl"><img src="@imageSecond.ImageUrl"></a>
+                        <a class="" href="@imageThreeurl"><img src="@imageThree.ImageUrl"></a>
+                    </div>
+                    <div class="t-bottom">
+                        <a class="" href="@imageFoururl"><img src="@imageFour.ImageUrl"></a>
+                        <a class="" href="@imageFiveurl"><img src="@imageFive.ImageUrl"></a>
+                    </div>
+                </div>
+                }
+            }
+		
+	</div>
+	<div id="slides2" class="slides-box mb12">
+        <ul class="clearfix swiper-wrapper">
+            @foreach (var item in slideHome2)
+            {
+                string url = item.Url;
+                string[] arrayslideHome2 = url.Split(',');
+                if (arrayslideHome2.Length == 2)
+                {
+                    url = arrayslideHome2[1];
+                }
+                <li class="swiper-slide">
+                    <a href="@url" title=""><img src="@item.ImageUrl"></a>
+                </li>
+            }
+        </ul>
+        <section class="swipe-dots">
+            
+        </section>
+    </div>
+	<div class="store-container">
+		<div class="title"><span>周边推荐</span></div>
+		<ul class="list-ul" id="store_list">
+		</ul>
+        <div class="loading" id="autoLoad" style="margin-bottom: 50px;"><span></span></div>
+	</div>
+</div>
+<div class="no_sotre">
+    <img src="/Areas/mobile/templates/default/Images/no_store.png" style="display:none;" id="imgnonstore" />
+    <span id="sansearchstroe"><img src="/Areas/mobile/templates/default/Images/locating.gif" width="80" /><b style="float: left;width: 100%;color: #666;">正在定位...</b></span>
+</div>
+
+
+
+<input type="hidden" id="hidLatitude" />
+<input type="hidden" id="hidLongitude" />
+@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+@Html.Hidden("hdQQMapKey", (string)ViewBag.QQMapKey)
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script charset="utf-8" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Scripts/custom.js?v=20180425"></script>
+<script src="/Scripts/swiper.min.js"></script>	
+<script src="~/Areas/Mobile/Templates/Default/Scripts/storeList.js?v=20183030"></script>

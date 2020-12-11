@@ -1,0 +1,77 @@
+﻿@model   Mall.DTO.ShopBillingIndex
+
+<script src="~/Scripts/echarts-plain-map.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="@Url.Action("index")">财务总览</a></li>
+        <li><a href="@Url.Action("PendingSettlementOrders")">待结算订单</a></li>
+        <li><a href="@Url.Action("SettlementList")">已结算列表</a></li>
+        <li><a href="@Url.Action("ShopAccountItem")">收支明细</a></li>
+        <li><a href="@Url.Action("Management","ShopAccount")">提现明细</a></li>
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>平台可以设置与各商家的结算周期，每个结算周期都会生成一个结算账单，账单会对这个周期内所有“已完成”且过了售后维权期的订单进行结算。</span></li>
+				<li><span>计算公式：平台应结金额 = 订单实付金额 + 积分抵扣金额 - 平台抽佣 - 分销佣金 - 退款金额。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="overview-total">
+        <ul class="overview-top seller">
+            <li class="account-balance">
+                <h5>账户余额 <a href="@Url.Action("ShopAccountItem")">收支明细</a></h5>
+                <p><i></i><span>@Model.ShopAccout.Balance.ToString("F2")</span><em>可用</em><i class="icon-freeze"></i><b>@Model.ShopAccout.FrozenAmount.ToString("F2")</b><em>冻结</em></p>
+            </li>
+            <li class="wait-clearing">
+                <h5>待结算<a href="@Url.Action("PendingSettlementOrders")">待结算订单</a></h5>
+                <p><i></i><span>@Model.ShopAccout.PendingSettlement.ToString("F2")</span></p>
+            </li>
+            <li class="po-clear">
+                <h5>已结算<a href="@Url.Action("SettlementOrders")">已结算订单</a></h5>
+                <p><i></i><span>@Model.ShopAccout.Settled.ToString("F2")</span></p>
+                @if (ViewBag.IsMainAccount != null && ViewBag.IsMainAccount == true)
+                {
+                <div class="clear-btn">
+                    <a href="@Url.Action("CapitalCharge", "shopAccount")">充值</a>
+                    <a href="@Url.Action("applywithdraw", "shopaccount")">提现</a>
+                </div>
+                }
+            </li>
+        </ul>
+
+
+        <div class="overview-detail clearfix">
+            <div class="chart-head clearfix">
+                <h5>交易情况</h5>
+                <ul id="dimensionType">
+                    <li data="1" class="active"><a href="#">近7日</a></li>
+                    <li data="2"><a href="#">近30日</a></li>
+                    <li data="3"><a href="#">本月</a></li>
+                </ul>
+            </div>
+            <div class="text-right form-group">
+                <div class="count-chat clear-57">
+                    <div id="main"></div>
+                </div>
+            </div>
+            <div class="btn-group">
+                @*<button type="button" value="1" name="dimensionType" class="btn btn-default btn-xs active">最近七天</button>*@
+                @*<button type="button" value="2" name="dimensionType" class="btn btn-default btn-xs ">近三十天</button>
+                    <button type="button" value="3" name="dimensionType" class="btn btn-default btn-xs ">本月</button>*@
+
+            </div>
+            <div class="chart-footer">
+                <ul>
+                    <li><p><i class="i01"></i><span>@Model.YesterDaySaleAmount.ToString("F2")</span><br /><em>昨日交易额</em></p><b>|</b></li>
+                    <li><p><i class="i02"></i><span>@Model.YesterDayOrders</span><br /><em>昨日下单数</em></p><b>|</b></li>
+                    <li><p><i class="i03"></i><span>@Model.YesterDayPayOrders</span><br /><em>昨日付款订单数</em></p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Areas/SellerAdmin/Scripts/ShopSaleRanking.js"></script>

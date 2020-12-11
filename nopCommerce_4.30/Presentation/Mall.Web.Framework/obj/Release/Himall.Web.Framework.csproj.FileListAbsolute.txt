@@ -1,0 +1,8 @@
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.Web.Framework.dll.config
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.Web.Framework.dll
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.Web.Framework.pdb
+D:\我的项目\Himall3.3\src\Himall.Web.Framework\obj\Release\Himall.Web.Framework.csprojAssemblyReference.cache
+D:\我的项目\Himall3.3\src\Himall.Web.Framework\obj\Release\Himall.Web.Framework.csproj.CoreCompileInputs.cache
+D:\我的项目\Himall3.3\src\Himall.Web.Framework\obj\Release\Himall.Web.Framework.csproj.CopyComplete
+D:\我的项目\Himall3.3\src\Himall.Web.Framework\obj\Release\Himall.Web.Framework.dll
+D:\我的项目\Himall3.3\src\Himall.Web.Framework\obj\Release\Himall.Web.Framework.pdb

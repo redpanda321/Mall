@@ -1,0 +1,65 @@
+﻿@model List<ManageThemeInfo>
+@using Mall.Web.Framework
+@{
+    var curUrl = CurrentUrlHelper.CurrentUrlNoPort();
+}
+@if (!ViewBag.IsOpenVShop)
+{
+    <div class="container">
+        <ul class="nav nav-tabs-custom clearfix">
+            <li class="active"><a>未开通微店</a></li>
+        </ul>
+        <div class="queryDiv">
+            <img class="queryImg" src="/Images/ic_query.png">
+            <div class="tipBox">
+                <h5>温馨提示:</h5>
+                <ul>
+                    <li><span>您可以对小程序微店首页进行可视化编辑。</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未开设自己的微店，<a href="../vshop/EditVShop?shopId=@ViewBag.ShopId">现在开设</a></p>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container Sclear-O">
+        <ul class="nav nav-tabs-custom clearfix">
+            <li class="active"><a>模板管理</a></li>
+        </ul>
+        <div class="queryDiv">
+            <img class="queryImg" src="/Images/ic_query.png">
+            <div class="tipBox">
+                <h5>温馨提示:</h5>
+                <ul>
+                    <li><span>您可以对小程序微店首页进行可视化编辑。</span></li>
+                </ul>
+            </div>
+        </div>
+        @{
+            var temp = ((ManageThemeInfo)ViewBag.CurrentTemplate);
+        }
+        <form name="aspnetForm" method="post" action="" id="aspnetForm" class="form-horizontal" style="padding-left:15px">
+            <div class="set-switch clearfix">
+                <div class="usertemplate"> <img src="@(temp.ThemeImgUrl)"> </div>
+                <div class="usertemplateInfo">
+                    @if (ViewBag.IsHaveApplet!=null && (bool)ViewBag.IsHaveApplet)
+                    {
+                        <div class="qrCode"><img src="@ViewBag.QrCodeImagePath"></div>
+                        <p class="mb20">手机扫描此二维码，可直接在手机上访问小程序微店</p>
+                    }
+                    else
+                    {
+                        <p class="mb20">还未配置小程序</p>
+                    }
+                    <a class="btn btn-primary mt20" target="_blank" href="./EditSmallProgTemplate?client=17&tName=t1">编辑模板</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="~/Areas/SellerAdmin/Scripts/VShopHomeSite.js"></script>
+}

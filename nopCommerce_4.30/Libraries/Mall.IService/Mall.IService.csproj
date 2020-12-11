@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Senparc.Weixin.MP" Version="16.10.502" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mall.DTO\Mall.DTO.csproj" />
+    <ProjectReference Include="..\Mall.Entities\Mall.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

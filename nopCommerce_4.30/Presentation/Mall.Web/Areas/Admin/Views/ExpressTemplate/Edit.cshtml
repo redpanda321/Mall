@@ -1,0 +1,56 @@
+﻿@model Mall.DTO.ExpressCompany
+
+<script>
+    var expressTemplateName = '@Model.Name'
+
+</script>
+
+<div class="container clear-v53">
+    <ul class="breadcrumb clearfix">
+        <li><a>快递单模板管理</a></li>
+        <li class="active"><a>编辑</a></li>
+    </ul>
+    <div class="queryDiv">
+			<img class="queryImg" src="/Images/ic_query.png">
+			<div class="tipBox">
+				<h5>温馨提示:</h5>
+				<ul>
+					<li><span>状态为开启的快递公司，商家发货时才能进行选择。</span></li>
+					<li><span>其中<a target="_blank" href="https://www.kuaidi100.com">快递100</a>code和<a target="_blank" href="http://www.kdniao.com">快递鸟</a>code分别是这两家系统内对应快递公司的代号，可以登录对方官网查询。</span></li>
+				</ul>
+			</div>
+		</div>
+    <div class="form-horizontal">
+            <div class="col-sm-6">
+                <label class="label-inline" >单据名称</label><span class="label-custom mr10">@Model.Name</span>
+                <label class="ml10">单据尺寸：</label>
+                <label>宽 </label> 
+                <input id="imageweight"  class="input-sm" type="number" max="24" min="0" step="1" value="@(Model.Width==0?230:Model.Width)" />
+                <span>mm</span>
+                <label class="ml10">高 </label>
+                <input id="imageheight" class="input-sm" type="number" max="60" min="0" step="1" value="@(Model.Height==0?127:Model.Height)" />
+                <span>mm</span>
+            </div>
+            <div class="col-sm-5 form-control-static" >
+                <div class="upload-img" id="backgroundImg">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" onclick="ClearData(@Model.Id)" id="addExpress">清除</button>
+    </div>
+    <div class="clearfix box-print">
+        <div id="widgetBox"></div>
+    </div>
+    <input value="@Model.BackGroundImage" type="hidden" id="id_img">
+    <div id="id_parent">
+        <div class="box1" id="canvas" style="background-image: url(@Model.BackGroundImage); background-repeat: no-repeat; width: 805px;"></div>
+    </div>
+    <div class="clearfix mt10 ml15">
+        <span id="ids" class="btn btn-primary">确认</span>
+        @*<span class="btn btn-default fr" style="margin-right:15px;">打印</span>*@
+    </div>
+    
+</div>
+
+
+<script src="~/Areas/Admin/Scripts/expressTemplateEdit.js"></script>
+<script src="~/Scripts/jquery.MallUpload.js"></script>

@@ -1,0 +1,2720 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web\\Mall.Web.csproj": {}
+  },
+  "projects": {
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Open.Api\\Hishop.Open.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Open.Api\\Hishop.Open.Api.csproj",
+        "projectName": "Hishop.Open.Api",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Open.Api\\Hishop.Open.Api.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Open.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\Hishop.Weixin.MP.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\Hishop.Weixin.MP.csproj",
+        "projectName": "Hishop.Weixin.MP",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\Hishop.Weixin.MP.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "Senparc.CO2NET": {
+              "target": "Package",
+              "version": "[1.3.104.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\Mall.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\Mall.Application.csproj",
+        "projectName": "Mall.Application",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\Mall.Application.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\Mall.DTO.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\Mall.DTO.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.ServiceProvider\\Mall.ServiceProvider.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.ServiceProvider\\Mall.ServiceProvider.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj",
+        "projectName": "Mall.CommonModel",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj",
+        "projectName": "Mall.Core",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Autofac.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Iconic.Zlib.Netstandard": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Microsoft.Extensions.Caching.Memory": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "SharpZipLib": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "System.ComponentModel.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[4.6.0, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "Wangkanai.Detection": {
+              "target": "Package",
+              "version": "[2.0.0-beta12, )"
+            },
+            "ZXing.Net": {
+              "target": "Package",
+              "version": "[0.16.5, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\Mall.DTO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\Mall.DTO.csproj",
+        "projectName": "Mall.DTO",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\Mall.DTO.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj",
+        "projectName": "Mall.Entities",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.CommonModel\\Mall.CommonModel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.10.4, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.10.4, )"
+            },
+            "MongoDB.Driver.Core": {
+              "target": "Package",
+              "version": "[2.10.4, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.20, )"
+            },
+            "NPoco": {
+              "target": "Package",
+              "version": "[4.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj",
+        "projectName": "Mall.IService",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\Mall.DTO.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.DTO\\Mall.DTO.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Entities\\Mall.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Senparc.Weixin.MP": {
+              "target": "Package",
+              "version": "[16.10.502, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.ServiceProvider\\Mall.ServiceProvider.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.ServiceProvider\\Mall.ServiceProvider.csproj",
+        "projectName": "Mall.ServiceProvider",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.ServiceProvider\\Mall.ServiceProvider.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.ServiceProvider\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Service\\Mall.Service.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Service\\Mall.Service.csproj",
+        "projectName": "Mall.Service",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Service\\Mall.Service.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Service\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\Hishop.Weixin.MP.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\Hishop.Weixin.MP.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\Mall.Application.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\Mall.Application.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.10.4, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.10.4, )"
+            },
+            "MongoDB.Driver.Core": {
+              "target": "Package",
+              "version": "[2.10.4, )"
+            },
+            "Senparc.Weixin": {
+              "target": "Package",
+              "version": "[6.7.502, )"
+            },
+            "Senparc.Weixin.WxOpen": {
+              "target": "Package",
+              "version": "[3.8.502, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.SmallProgAPI\\Mall.SmallProgAPI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.SmallProgAPI\\Mall.SmallProgAPI.csproj",
+        "projectName": "Mall.SmallProgAPI",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.SmallProgAPI\\Mall.SmallProgAPI.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.SmallProgAPI\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\Mall.Web.Framework.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\Mall.Web.Framework.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+      "version": "4.3.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj",
+        "projectName": "Nop.Core",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Autofac.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Humanizer": {
+              "target": "Package",
+              "version": "[2.8.11, )"
+            },
+            "Microsoft.AspNetCore.DataProtection.AzureKeyVault": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Microsoft.AspNetCore.DataProtection.AzureStorage": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Microsoft.AspNetCore.DataProtection.StackExchangeRedis": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Microsoft.Azure.Services.AppAuthentication": {
+              "target": "Package",
+              "version": "[1.4.0, )"
+            },
+            "MiniProfiler.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "RedLock.net": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "System.IO.FileSystem.AccessControl": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+      "version": "4.3.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\Nop.Data.csproj",
+        "projectName": "Nop.Data",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\Nop.Data.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "FluentMigrator": {
+              "target": "Package",
+              "version": "[3.2.6, )"
+            },
+            "FluentMigrator.Runner": {
+              "target": "Package",
+              "version": "[3.2.6, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.20, )"
+            },
+            "System.Net.NameResolution": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "linq2db": {
+              "target": "Package",
+              "version": "[2.9.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+      "version": "4.3.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\Nop.Services.csproj",
+        "projectName": "Nop.Services",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\Nop.Services.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\Nop.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[4.5.3.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.6.0, )"
+            },
+            "MaxMind.GeoIP2": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "SixLabors.ImageSharp": {
+              "target": "Package",
+              "version": "[1.0.0-rc0001, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "System.ServiceModel.Http": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "WindowsAzure.Storage": {
+              "target": "Package",
+              "version": "[9.3.3, )"
+            },
+            "iTextSharp.LGPLv2.Core": {
+              "target": "Package",
+              "version": "[1.6.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\Mall.ExpressPlugin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\Mall.ExpressPlugin.csproj",
+        "projectName": "Mall.ExpressPlugin",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\Mall.ExpressPlugin.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.Plugin.Express.EMS\\Mall.Plugin.Express.EMS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.Plugin.Express.EMS\\Mall.Plugin.Express.EMS.csproj",
+        "projectName": "Mall.Plugin.Express.EMS",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.Plugin.Express.EMS\\Mall.Plugin.Express.EMS.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.Plugin.Express.EMS\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\Mall.ExpressPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\Mall.ExpressPlugin.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\Mall.MessagePlugin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\Mall.MessagePlugin.csproj",
+        "projectName": "Mall.MessagePlugin",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\Mall.MessagePlugin.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.Plugin.Message.Email\\Mall.Plugin.Message.Email.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.Plugin.Message.Email\\Mall.Plugin.Message.Email.csproj",
+        "projectName": "Mall.Plugin.Message.Email",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.Plugin.Message.Email\\Mall.Plugin.Message.Email.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.Plugin.Message.Email\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\Mall.MessagePlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\Mall.MessagePlugin.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\OAuth\\Mall.Plugin.OAuth.WeiXin\\Mall.Plugin.OAuth.WeiXin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\OAuth\\Mall.Plugin.OAuth.WeiXin\\Mall.Plugin.OAuth.WeiXin.csproj",
+        "projectName": "Mall.Plugin.OAuth.WeiXin",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\OAuth\\Mall.Plugin.OAuth.WeiXin\\Mall.Plugin.OAuth.WeiXin.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\OAuth\\Mall.Plugin.OAuth.WeiXin\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj",
+        "projectName": "Mall.PaymentPlugin",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj",
+        "projectName": "Mall.Plugin.Payment.Alipay.Base",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay\\Mall.Plugin.Payment.Alipay.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay\\Mall.Plugin.Payment.Alipay.csproj",
+        "projectName": "Mall.Plugin.Payment.Alipay",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay\\Mall.Plugin.Payment.Alipay.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay_QRCode\\Mall.Plugin.Payment.Alipay_QRCode.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay_QRCode\\Mall.Plugin.Payment.Alipay_QRCode.csproj",
+        "projectName": "Mall.Plugin.Payment.Alipay_QRCode",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay_QRCode\\Mall.Plugin.Payment.Alipay_QRCode.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay_QRCode\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay\\Mall.Plugin.Payment.WeiXinPay.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay\\Mall.Plugin.Payment.WeiXinPay.csproj",
+        "projectName": "Mall.Plugin.Payment.WeiXinPay",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay\\Mall.Plugin.Payment.WeiXinPay.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_MiniProg\\Mall.Plugin.Payment.WeiXinPay_MiniProg.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_MiniProg\\Mall.Plugin.Payment.WeiXinPay_MiniProg.csproj",
+        "projectName": "Mall.Plugin.Payment.WeiXinPay_MiniProg",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_MiniProg\\Mall.Plugin.Payment.WeiXinPay_MiniProg.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_MiniProg\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Native\\Mall.Plugin.Payment.WeiXinPay_Native.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Native\\Mall.Plugin.Payment.WeiXinPay_Native.csproj",
+        "projectName": "Mall.Plugin.Payment.WeiXinPay_Native",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Native\\Mall.Plugin.Payment.WeiXinPay_Native.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Native\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Wap\\Mall.Plugin.Payment.WeiXinPay_Wap.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Wap\\Mall.Plugin.Payment.WeiXinPay_Wap.csproj",
+        "projectName": "Mall.Plugin.Payment.WeiXinPay_Wap",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Wap\\Mall.Plugin.Payment.WeiXinPay_Wap.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Wap\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj",
+        "projectName": "Mall.WeiXinPaymentBase",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\Mall.Web.Framework.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\Mall.Web.Framework.csproj",
+        "projectName": "Mall.Web.Framework",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\Mall.Web.Framework.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Open.Api\\Hishop.Open.Api.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Open.Api\\Hishop.Open.Api.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\Hishop.Weixin.MP.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Hishop.Weixin.MP\\Hishop.Weixin.MP.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\Mall.Application.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Application\\Mall.Application.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.IService\\Mall.IService.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[8.6.2, )"
+            },
+            "FluentValidation.ValidatorAttribute": {
+              "target": "Package",
+              "version": "[8.6.1, )"
+            },
+            "Microsoft.AspNetCore.Http.Extensions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web\\Mall.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web\\Mall.Web.csproj",
+        "projectName": "Mall.Web",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web\\Mall.Web.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web\\obj\\publish\\win-x64\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Service\\Mall.Service.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Service\\Mall.Service.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.SmallProgAPI\\Mall.SmallProgAPI.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.SmallProgAPI\\Mall.SmallProgAPI.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\Mall.ExpressPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.ExpressPlugin\\Mall.ExpressPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.Plugin.Express.EMS\\Mall.Plugin.Express.EMS.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Express\\Mall.Plugin.Express.EMS\\Mall.Plugin.Express.EMS.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\Mall.MessagePlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.MessagePlugin\\Mall.MessagePlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.Plugin.Message.Email\\Mall.Plugin.Message.Email.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Message\\Mall.Plugin.Message.Email\\Mall.Plugin.Message.Email.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\OAuth\\Mall.Plugin.OAuth.WeiXin\\Mall.Plugin.OAuth.WeiXin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\OAuth\\Mall.Plugin.OAuth.WeiXin\\Mall.Plugin.OAuth.WeiXin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.PaymentPlugin\\Mall.PaymentPlugin.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay.Base\\Mall.Plugin.Payment.Alipay.Base.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay\\Mall.Plugin.Payment.Alipay.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay\\Mall.Plugin.Payment.Alipay.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay_QRCode\\Mall.Plugin.Payment.Alipay_QRCode.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.Alipay_QRCode\\Mall.Plugin.Payment.Alipay_QRCode.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay\\Mall.Plugin.Payment.WeiXinPay.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay\\Mall.Plugin.Payment.WeiXinPay.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_MiniProg\\Mall.Plugin.Payment.WeiXinPay_MiniProg.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_MiniProg\\Mall.Plugin.Payment.WeiXinPay_MiniProg.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Native\\Mall.Plugin.Payment.WeiXinPay_Native.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Native\\Mall.Plugin.Payment.WeiXinPay_Native.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Wap\\Mall.Plugin.Payment.WeiXinPay_Wap.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.Plugin.Payment.WeiXinPay_Wap\\Mall.Plugin.Payment.WeiXinPay_Wap.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\MallPlugins\\Payment\\Mall.WeiXinPaymentBase\\Mall.WeiXinPaymentBase.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\Mall.Web.Framework.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Mall.Web.Framework\\Mall.Web.Framework.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Strategies\\Cache\\Mall.Strategy.Cache.AspNetCache\\Mall.Strategy.Cache.AspNetCache.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\Cache\\Mall.Strategy.Cache.AspNetCache\\Mall.Strategy.Cache.AspNetCache.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Strategies\\IO\\Mall.Strategy.AspNetIO\\Mall.Strategy.IO.AspNetIO.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\IO\\Mall.Strategy.AspNetIO\\Mall.Strategy.IO.AspNetIO.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Thirdparty\\diagnostics\\src\\SOS\\SOS.NETCore\\SOS.NETCore.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Thirdparty\\diagnostics\\src\\SOS\\SOS.NETCore\\SOS.NETCore.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "BinaryFormatter": {
+              "target": "Package",
+              "version": "[2.1.4, )"
+            },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[4.5.3.3, )"
+            },
+            "EasyCaching.Core": {
+              "target": "Package",
+              "version": "[0.5.6, )"
+            },
+            "EasyCaching.InMemory": {
+              "target": "Package",
+              "version": "[0.5.6, )"
+            },
+            "EnyimMemcachedCore": {
+              "target": "Package",
+              "version": "[2.1.0.7, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[8.6.2, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[8.6.2, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.6.0, )"
+            },
+            "MaxMind.GeoIP2": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "NPOI": {
+              "target": "Package",
+              "version": "[2.5.1, )"
+            },
+            "RedLock.net.StrongName": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Senparc.CO2NET": {
+              "target": "Package",
+              "version": "[1.3.104.1, )"
+            },
+            "Senparc.CO2NET.AspNet": {
+              "target": "Package",
+              "version": "[0.3.104.1, )"
+            },
+            "Senparc.CO2NET.Cache.Memcached": {
+              "target": "Package",
+              "version": "[3.1.3.2, )"
+            },
+            "Senparc.CO2NET.Cache.Redis": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Senparc.Weixin.Open": {
+              "target": "Package",
+              "version": "[4.7.502, )"
+            },
+            "Senparc.Weixin.TenPay": {
+              "target": "Package",
+              "version": "[1.5.502.1, )"
+            },
+            "Senparc.Weixin.Work": {
+              "target": "Package",
+              "version": "[3.7.502, )"
+            },
+            "SixLabors.Core": {
+              "target": "Package",
+              "version": "[1.0.0-beta0008, )"
+            },
+            "SixLabors.ImageSharp": {
+              "target": "Package",
+              "version": "[1.0.0-rc0001, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "System.ServiceModel.Http": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "UEditor.Core": {
+              "target": "Package",
+              "version": "[1.0.6, )"
+            },
+            "WindowsAzure.Storage": {
+              "target": "Package",
+              "version": "[9.3.3, )"
+            },
+            "iTextSharp.LGPLv2.Core": {
+              "target": "Package",
+              "version": "[1.6.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
+      "version": "4.3.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
+        "projectName": "Nop.Web.Framework",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Presentation\\Nop.Web.Framework\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Data\\Nop.Data.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "BundlerMinifier.Core": {
+              "target": "Package",
+              "version": "[3.2.447, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[8.6.2, )"
+            },
+            "WebMarkupMin.AspNetCore3": {
+              "target": "Package",
+              "version": "[2.8.2, )"
+            },
+            "WebMarkupMin.NUglify": {
+              "target": "Package",
+              "version": "[2.8.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Strategies\\Cache\\Mall.Strategy.Cache.AspNetCache\\Mall.Strategy.Cache.AspNetCache.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\Cache\\Mall.Strategy.Cache.AspNetCache\\Mall.Strategy.Cache.AspNetCache.csproj",
+        "projectName": "Mall.Strategy.Cache.AspNetCache",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\Cache\\Mall.Strategy.Cache.AspNetCache\\Mall.Strategy.Cache.AspNetCache.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\Cache\\Mall.Strategy.Cache.AspNetCache\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              },
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Strategies\\IO\\Mall.Strategy.AspNetIO\\Mall.Strategy.IO.AspNetIO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\IO\\Mall.Strategy.AspNetIO\\Mall.Strategy.IO.AspNetIO.csproj",
+        "projectName": "Mall.Strategy.IO.AspNetIO",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\IO\\Mall.Strategy.AspNetIO\\Mall.Strategy.IO.AspNetIO.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Strategies\\IO\\Mall.Strategy.AspNetIO\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj": {
+                "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Libraries\\Mall.Core\\Mall.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\S\\nopCommerce_4.30_dev\\Thirdparty\\diagnostics\\src\\SOS\\SOS.NETCore\\SOS.NETCore.csproj": {
+      "version": "5.0.0-dev.20506.1",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.30_dev\\Thirdparty\\diagnostics\\src\\SOS\\SOS.NETCore\\SOS.NETCore.csproj",
+        "projectName": "SOS.NETCore",
+        "projectPath": "C:\\S\\nopCommerce_4.30_dev\\Thirdparty\\diagnostics\\src\\SOS\\SOS.NETCore\\SOS.NETCore.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.30_dev\\Thirdparty\\diagnostics\\artifacts\\obj\\SOS.NETCore\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\S\\nopCommerce_4.30_dev\\Thirdparty\\diagnostics\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://dnceng.pkgs.visualstudio.com/public/_packaging/dotnet5-transport/nuget/v3/index.json": {},
+          "https://dnceng.pkgs.visualstudio.com/public/_packaging/dotnet5/nuget/v3/index.json": {},
+          "https://dotnet.myget.org/F/dotnet-buildtools/api/v3/index.json": {},
+          "https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json": {},
+          "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json": {},
+          "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "allWarningsAsErrors": true,
+          "noWarn": [
+            "NU5105"
+          ],
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "Microsoft.CodeAnalysis.FxCopAnalyzers": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.0-beta3.final, )"
+            },
+            "Microsoft.DiaSymReader.Native": {
+              "target": "Package",
+              "version": "[1.7.0, )"
+            },
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.0-preview.2, )",
+              "autoReferenced": true
+            },
+            "Microsoft.SourceLink.AzureRepos.Git": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.1.0-beta-20206-02, )",
+              "autoReferenced": true
+            },
+            "Microsoft.SourceLink.GitHub": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.1.0-beta-20206-02, )",
+              "autoReferenced": true
+            },
+            "Microsoft.SymbolStore": {
+              "target": "Package",
+              "version": "[1.0.132501, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Reflection.Metadata": {
+              "target": "Package",
+              "version": "[1.6.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

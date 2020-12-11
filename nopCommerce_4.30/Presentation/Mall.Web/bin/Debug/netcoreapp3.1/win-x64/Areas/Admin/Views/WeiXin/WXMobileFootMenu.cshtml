@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "导航栏设置";
+}
+
+<div class="container shopnav">
+    <div class="inner clearfix" style="margin: 0px; border: none; width: 100%;">
+        <div class="shop-navigation clearfix" style="width: 960px; margin: 0 auto">
+            <div class="fl">
+                <div class="mobile-border">
+                    <div class="mobile-d">
+                        <div class="mobile-header">
+                            <i></i>
+                            <div class="mobile-title">店铺首页</div>
+                        </div>
+                        <div class="set-overflow">
+                            <div class="white-box"></div>
+                            <div class="mobile-nav" id="picmenu">
+                                <ul class="clearfix" id="showmenuul"></ul>
+                            </div>
+                            <div class="mobile-nav mobile-nav-text" id="textmenu">
+                                <ul class="clearfix" id="showtextul"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear-line">
+                        <div class="mobile-footer"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="fl frwidth" style="padding-top: 10px;">
+                <script type="text/template" id="tabcontent">
+                    <div id="panediv" class=" navgation">
+                        <div class=" navgation" id="tabpane" style="border: 1px solid #ddd; padding: 15px;">
+                            <p class="nav-one">导航名称  <a id="shanchu"></a></p>
+                            <div class="shop-index clearfix">
+                                <span class="fl" id="fltitle">店铺主页</span>
+                                <span class="fr">
+                                    <span style="cursor: pointer;" id="EditMenu">编辑</span>
+                                    &nbsp;<span id="spanhid" style="color: #999">
+                                        <small class="inl"></small>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="nav-two-list" id="childmenu">
+                            </div>
+                        </div>
+                    </div>
+                </script>
+                <div id="mytabl">
+                    <ul class="nav nav-tabs margin" id="ulmenu"></ul>
+                    <div class="tab-content" id="content" style="border: 0; padding: 0; width: 100%;">
+                    </div>
+                    <div id="addmenu" class="addmenu-one" onclick="addandeditmenu(0,'','','one');">+添加一导航</div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <from id="myModealFrom">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="modaltitle"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group" style="margin-bottom:10px;">
+                                    <label for="title" class="col-xs-2 control-label"><em style="color:red;">*</em>标题</label>
+                                    <div class="col-xs-5">
+                                        <input type="text" class="form-control" id="txttitle" placeholder="不能为空，且必须在4个字符以内" name="txttitle">
+                                        <p id="txttitleTip" style="width:218px;line-height: 30px; color: red;"></p>
+                                    </div>
+
+                                </div>
+                                <div class="form-group" id="uploaderpic">
+                                    <div class="form-group upload-img" id="menuiconUrl">
+                                        <div class="col-sm-3"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="content" class="col-xs-2 control-label"><em id="linkem">*</em>链接地址</label>
+                                    <div class="col-xs-5">
+                                        <input id="txtshowContent" cols="30" rows="3" style="width: 400px;" disabled class="form-control">
+                                        <input id="txtContent" cols="30" rows="3" style="width: 400px; display: none" onchange="contentchange();" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="submitaddandedit();">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+                        </div>
+                    </from>
+                    <input type="hidden" id="MenuIconBox" value="" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<link rel="stylesheet" href="~/Content//Public/css/dist/component-min.css" />-->
+<link rel="stylesheet" href="~/Content//Public/plugins/jbox/jbox-min.css" />
+<link rel="stylesheet" href="~/Areas/Admin/Templates/common/css/css.css" />
+<!-- diy css start-->
+<link rel="stylesheet" href="~/Areas/Admin/Templates/common/css/style.css" />
+<link rel="stylesheet" href="~/Scripts/Ueditor/plugins/uploadify/uploadify-min.css" />
+<script src="~/Content/Public/js/dist/underscore.js"></script>
+<script src="~/Content/Public/plugins/jbox/jquery.jBox-2.3.min.js"></script>
+<script src="~/Content/Public/plugins/zclip/jquery.zclip-min.js"></script>
+<script src="~/Content/Public/js/jquery-ui/jquery-ui.min.js"></script>
+<script src="~/Content/Public/js/config.js"></script>
+<script src="~/Content/Public/plugins/colorpicker/colorpicker.js"></script>
+<script src="~/Content/Public/js/dist/component-min.js"></script>
+<script src="~/Areas/Admin/Scripts/HiShopComPlugin.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Areas/Admin/Scripts/WXMobileFootMenu.js"></script>
+<script src="~/Scripts/jquery.MallUpload.js"></script>

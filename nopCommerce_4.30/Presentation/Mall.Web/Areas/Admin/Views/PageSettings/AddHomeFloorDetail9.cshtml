@@ -1,0 +1,337 @@
+﻿@model Mall.Web.Areas.Admin.Models.HomeFloorDetail
+@using Mall.Web.Areas.Admin.Models;
+@using Mall.Web.Framework;
+
+@{
+    Layout = "FloorDetail.cshtml";
+
+    var LeftOne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.LeftOne, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.LeftOne, Name = "/" });
+    var LeftTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.LeftTwo, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.LeftTwo, Name = "/" });
+    var MiddleOne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.MiddleOne, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.MiddleOne, Name = "/" });
+    var MiddleTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.MiddleTwo, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.MiddleTwo, Name = "/" });
+    var MiddleThree = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.MiddleThree, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.MiddleThree, Name = "/" });
+    var ROne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.ROne, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.ROne, Name = "/" });
+    var RTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.RTwo, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.RTwo, Name = "/" });
+    var RThree = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.RThree, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.RThree, Name = "/" });
+    var BottomOne = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.BottomOne, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.BottomOne, Name = "/" });
+    var BottomTwo = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.BottomTwo, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.BottomTwo, Name = "/" });
+    var BottomThree = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.BottomThree, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.BottomThree, Name = "/" });
+    var BottomFour = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.BottomFour, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.BottomFour, Name = "/" });
+    var BottomFive = Model.ProductLinks.FirstOrDefault(e => e.Id == (int)Mall.CommonModel.Position.BottomFour, new HomeFloorDetail.TextLink() { Id = (int)Mall.CommonModel.Position.BottomFour, Name = "/" });
+}
+
+
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector2.js"></script>
+<script src="/Scripts/jquery.specialSelector.js"></script>
+<script src="~/Areas/Admin/Scripts/charCode.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-floorDetail9.js"></script>
+<link href="~/Content/pagesetting.css" rel="stylesheet" />
+
+<div class="container">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="FloorName" name="FloorName" placeholder="最多10个字符" maxlength="10" value="@ViewBag.FloorName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">文本模块：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>跳转链接</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody type="textLink">
+                        @foreach (var textLink in Model.TextLinks)
+                        {
+                            <tr type="textLink" name="@textLink.Id">
+                                <td><input class="form-control input-xs" type="text" name="name" value="@textLink.Name" /></td>
+                                <td><input class="form-control input-xs" type="text" name="url" value="@textLink.Url" />
+                                    <div class="downlist">
+                                        <span>请选择</span>
+                                        <ul>
+                                            <li onclick="setTextlink(this)" url="1">选择商品</li>
+                                            <li onclick="setTextlink(this)" url="/IntegralMall">积分商城</li>
+                                            <li onclick="setTextlink(this)" url="3">PC专题</li>
+                                            <li onclick="setTextlink(this)" url="2">自定义链接</li>
+                                            <li onclick="setTextlink(this)" url="/LimitTimeBuy/home">限时抢购页</li>
+                                            <li onclick="setTextlink(this)" url="4">商品分类</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td class="td-operate"><span class="btn-a"><a>删除</a></span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-atrr" id="addTextLink"><span class="glyphicon glyphicon-plus-sign"></span>添加</a>&nbsp;<span>(最多增加8个)</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>默认选项卡名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="DefaultTabName" name="DefaultTabName" value="@Model.DefaultTabName" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>图片：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered upload-file-btn">
+                    <thead>
+                        <tr>
+                            <th>
+                                区域
+                                <div class="floor-ex-img">
+                                    （<a class="ex-btn">区域划分图</a>）
+                                    <img src="/Images/floor_9.jpg" />
+                                </div>
+                            </th>
+                            <th>图片</th>
+                            <th>跳转链接</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>左一</td>
+                            <td><div class="upload-img" id="up0" url="@MallIO.GetImagePath(LeftOne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.LeftOne)" name="url" value="@LeftOne.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 0)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 0)">积分商城</li>
+                                        <li onclick="setPlink('3', 0)">PC专题</li>
+                                        <li onclick="setPlink('2', 0)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 0)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 0)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>左二</td>
+                            <td><div class="upload-img" id="up1" url="@MallIO.GetImagePath(LeftTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.LeftTwo)" name="url" value="@LeftTwo.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 1)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 1)">积分商城</li>
+                                        <li onclick="setPlink('3', 1)">PC专题</li>
+                                        <li onclick="setPlink('2', 1)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 1)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 1)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>中图一</td>
+                            <td><div class="upload-img" id="up2" url="@MallIO.GetImagePath(MiddleOne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.MiddleOne)" name="url" value="@MiddleOne.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 2)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 2)">积分商城</li>
+                                        <li onclick="setPlink('3', 2)">PC专题</li>
+                                        <li onclick="setPlink('2', 2)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 2)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 2)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>中图二</td>
+                            <td><div class="upload-img" id="up3" url="@MallIO.GetImagePath(MiddleTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.MiddleTwo)" name="url" value="@MiddleTwo.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 3)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 3)">积分商城</li>
+                                        <li onclick="setPlink('3', 3)">PC专题</li>
+                                        <li onclick="setPlink('2', 3)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 3)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 3)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>中图三</td>
+                            <td><div class="upload-img" id="up4" url="@MallIO.GetImagePath(MiddleThree.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.MiddleThree)" name="url" value="@MiddleThree.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 4)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 4)">积分商城</li>
+                                        <li onclick="setPlink('3', 4)">PC专题</li>
+                                        <li onclick="setPlink('2', 4)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 4)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 4)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>右图一</td>
+                            <td><div class="upload-img" id="up5" url="@MallIO.GetImagePath(ROne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.ROne)" name="url" value="@ROne.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 5)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 5)">积分商城</li>
+                                        <li onclick="setPlink('3', 5)">PC专题</li>
+                                        <li onclick="setPlink('2', 5)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 5)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 5)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>右图二</td>
+                            <td><div class="upload-img" id="up6" url="@MallIO.GetImagePath(RTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.RTwo)" name="url" value="@RTwo.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 6)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 6)">积分商城</li>
+                                        <li onclick="setPlink('3', 6)">PC专题</li>
+                                        <li onclick="setPlink('2', 6)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 6)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 6)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>右图三</td>
+                            <td><div class="upload-img" id="up7" url="@MallIO.GetImagePath(RThree.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.RThree)" name="url" value="@RThree.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 7)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 7)">积分商城</li>
+                                        <li onclick="setPlink('3', 7)">PC专题</li>
+                                        <li onclick="setPlink('2', 7)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 7)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 7)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>底图一</td>
+                            <td><div class="upload-img" id="up8" url="@MallIO.GetImagePath(BottomOne.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.BottomOne)" name="url" value="@BottomOne.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 8)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 8)">积分商城</li>
+                                        <li onclick="setPlink('3', 8)">PC专题</li>
+                                        <li onclick="setPlink('2', 8)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 8)">限时抢购页</li>
+                                        <li onclick="setPlink('4',8)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>底图二</td>
+                            <td><div class="upload-img" id="up9" url="@MallIO.GetImagePath(BottomTwo.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.BottomTwo)" name="url" value="@BottomTwo.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 9)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 9)">积分商城</li>
+                                        <li onclick="setPlink('3', 9)">PC专题</li>
+                                        <li onclick="setPlink('2', 9)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 9)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 9)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>底图三</td>
+                            <td><div class="upload-img" id="up10" url="@MallIO.GetImagePath(BottomThree.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.BottomThree)" name="url" value="@BottomThree.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 10)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 10)">积分商城</li>
+                                        <li onclick="setPlink('3', 10)">PC专题</li>
+                                        <li onclick="setPlink('2', 10)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 10)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 10)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>底图四</td>
+                            <td><div class="upload-img" id="up11" url="@MallIO.GetImagePath(BottomFour.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.BottomFour)" name="url" value="@BottomFour.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 11)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 11)">积分商城</li>
+                                        <li onclick="setPlink('3', 11)">PC专题</li>
+                                        <li onclick="setPlink('2', 11)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 11)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 11)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>底图五</td>
+                            <td><div class="upload-img" id="up12" url="@MallIO.GetImagePath(BottomFive.Url)"></div></td>
+                            <td><input class="form-control input-xs pLink" type="text" position="@((int)Mall.CommonModel.Position.BottomFive)" name="url" value="@BottomFive.Name" />
+                                <div class="downlist">
+                                    <span>请选择</span>
+                                    <ul>
+                                        <li onclick="setPlink('1', 12)">选择商品</li>
+                                        <li onclick="setPlink('/IntegralMall', 12)">积分商城</li>
+                                        <li onclick="setPlink('3', 12)">PC专题</li>
+                                        <li onclick="setPlink('2', 12)">自定义链接</li>
+                                        <li onclick="setPlink('/LimitTimeBuy/home', 12)">限时抢购页</li>
+                                        <li onclick="setPlink('4', 12)">商品分类</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="hidden" name="id" id="homeFloorId" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" name="submit" class="j_saveHide btn btn-primary">保存楼层</button>
+            </div>
+        </div>
+    </form>
+</div>

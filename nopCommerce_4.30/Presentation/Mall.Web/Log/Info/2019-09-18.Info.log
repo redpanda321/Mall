@@ -1,0 +1,89 @@
+
+
+
+ ????:2019-09-18 20:18:46,048 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.Alipay.Service 
+
+
+
+
+ ????:2019-09-18 20:18:46,356 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.Alipay_App.Service 
+
+
+
+
+ ????:2019-09-18 20:18:46,685 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.Alipay_WAP.Service 
+
+
+
+
+ ????:2019-09-18 20:18:47,244 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.B2BUnionPay.B2BUnionPay 
+
+
+
+
+ ????:2019-09-18 20:18:47,466 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.UnionPay.UnionPay 
+
+
+
+
+ ????:2019-09-18 20:18:47,581 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.WeiXinPay.Service 
+
+
+
+
+ ????:2019-09-18 20:18:47,790 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_App.Service 
+
+
+
+
+ ????:2019-09-18 20:18:48,016 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_H5.Service 
+
+
+
+
+ ????:2019-09-18 20:18:48,330 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_Native.WeiXinPay 
+
+
+
+
+ ????:2019-09-18 20:18:48,474 
+????:  INFO  
+???:Mall.PaymentPlugin.PaymentBase`1[T].set_WorkDirectory  
+????:set WorkDirectory:Mall.Plugin.Payment.WeiXinPay_SmallProg.Service 
+
+
+
+
+ ????:2019-09-18 20:23:13,104 
+????:  INFO  
+???:Mall.Web.Areas.Web.Controllers.LoginController.UserLoginIn  
+????:????????? 
+
+Mall.Web.Areas.Web.LoginException: ?????????

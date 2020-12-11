@@ -1,0 +1,193 @@
+﻿@model Mall.DTO.SiteSettings
+@{
+    ViewBag.Title = "用户入口";
+    ViewBag.CopyRight = false;
+}
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script type="text/javascript">
+	$( function ()
+	{
+	    //$( '.bonus' ).height( $( '.bonus' ).width() * 39 / 28 )
+	    if(window.__wxjs_environment === 'miniprogram'){
+	        $("#btnBackApplet").show();
+	    }
+	} );
+	function onBackApplet(){
+	    wx.miniProgram.navigateBack();
+    }
+
+    document.addEventListener('plusready', function () {
+        
+        var ms = plus.webview.currentWebview(),
+            url = ms.url,
+            returnUrl = QueryString('returnUrl');
+        returnUrl = unescape(returnUrl);
+        mui.openWindow({
+            id: 'login.html',
+            url: ms.parent().getURL().replace('web-show.html', '')+'login.html',
+            extras: {
+                params: {
+                    id: 'web-show.html',
+                    extras: {
+                        link: returnUrl
+                    }
+                }
+            }
+        });
+        plus.nativeUI.closeWaiting();
+        setTimeout(function () {
+            ms.parent().close('none');
+        },3000);
+        
+    });
+</script>
+<style>
+    body {
+        background-color: #fff;
+    }
+</style>
+<div style="display: none;" id="btnBackApplet" onclick="onBackApplet()"></div>
+<div class="login">
+    <label class="hide" id="titleType">登录@(Model.SiteName)</label>
+    <div class="login-hd">
+        <img class="login-sign" src="@Mall.Core.MallIO.GetImagePath(Model.Logo)">
+        <a class="regist-link" id="btregister" href="#">注册</a>
+    </div>
+    <div class="login-bd">
+        <div class="login-input-group">
+            <div class="input-item flex-center"><input class="form-control" id="username" type="text" placeholder="请输入用户名/手机号"></div>
+            <div class="input-item flex-center">
+                <input class="form-control" id="password" type="password" placeholder="密码">
+                <span id="eyebtn" class="icon-eye"></span>
+                <a class="forget-pwd-link" href="#">忘记密码</a>
+            </div>
+        </div>
+        <a id="bindBtn" class="flex-center">登 录</a>
+    </div>
+    <div class="login-ft" style="display:none;" id="fastloginbox">
+        <div class="trust-tip">
+            <span>使用微信一键登录</span>
+        </div>
+        <a class="weixin-trust" href="javascript:;" id="skip"></a>
+    </div>
+</div>
+<script>
+    //$('.login').css('marginTop', -$('.login').height() / 2);
+    $(".login div.option").width($(".login").width() - 21);
+    var openId = QueryString('openId');
+    var serviceProvider = QueryString('serviceProvider');
+    var realName = QueryString('realName');
+    var nickName = QueryString('nickName');
+    var headimgurl = QueryString('headimgurl');
+    var appidtype = QueryString('AppidType');
+    var unionid = QueryString('unionid');
+    var sex = QueryString('sex');
+    var city = QueryString('city');
+    var province = QueryString('province');
+    var country = QueryString('country');
+    var returnUrl = QueryString('returnUrl');
+    var method = '/' + areaName + '/Login/BindUser';
+    var queryString = '?openId=' + openId + '&serviceProvider=' + serviceProvider + '&AppidType=' + appidtype + '&headimgurl=' + headimgurl + '&unionid=' + unionid + '&returnUrl=' + returnUrl;
+    queryString += '&nickName=' + nickName + '&sex=' + sex + '&city=' + city + '&province=' + province + '&country=' + country;
+
+    $('#btregister').attr('href', '/' + areaName + '/Register' + queryString);
+
+    $('.forget-pwd-link').attr('href', '/' + areaName + '/Login/ForgotPassword');
+
+    if (serviceProvider && openId) {
+        $('#fastloginbox').show();
+        //bindSkip();
+    }
+    else {
+        //判断是否为信任登录
+        $('#titleType').html('登录');
+        $('#bindBtn').html('登 录');
+        method = '/' + areaName + '/Login';
+        $('#bindInfo').hide();
+        $('#fastloginbox').hide();
+    }
+    $('#eyebtn').click(function(){
+    	if($(this).hasClass('active')){
+    		$(this).removeClass('active');
+    		document.getElementById("password").setAttribute("type","password");
+    	}else{
+    		$(this).addClass('active');
+			document.getElementById("password").setAttribute('type','text');
+    	}
+    });
+
+    $('#bindBtn').click(function () {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        if (!username)
+            $.dialog.errorTips('请填写用户名');
+        else if (!password)
+            $.dialog.errorTips('请填写密码');
+        else {
+            var loading = showLoading();
+            $.post(method,
+                    {
+                        username: username, password: password, serviceProvider: serviceProvider, openId: openId,
+                        headimgurl: headimgurl, appidtype: appidtype, unionid: unionid, sex: sex, city: city,
+                        province: province, country: country, nickName: nickName
+                    },
+                    function (result) {
+                        loading.close();
+                        if (result.success) {
+                            $.dialog.succeedTips($('#titleType').html() + '成功!', function () {
+                                var returnUrl = QueryString('returnUrl');
+                                if (!returnUrl) {
+                                    returnUrl = '/' + areaName;
+                                }
+                                if (decodeURIComponent(returnUrl).toLocaleLowerCase().indexOf("member/accountsecure") >= 0) {//如果是从该页面回跳则个人中心
+                                    returnUrl = '/' + areaName + '/member/center';
+                                }
+                                location.replace(decodeURIComponent(returnUrl));
+                            });
+                        }
+                        else
+                            $.dialog.alert($('#titleType').html() + '失败!' + result.msg);
+
+                    });
+        }
+    });
+
+    $('#skip').click(function () {
+            var loading = showLoading();
+            $.post('../Register/Skip', {
+                openId: openId, serviceProvider: serviceProvider, realName: realName, nickName: nickName,
+                headimgurl: headimgurl, appidtype: appidtype, unionid: unionid, sex: sex, city: city,
+                province: province, country: country
+            }, function (result) {
+                loading.close();
+                if (result.success) {
+
+                    var strMessage = "快捷登录成功!";
+                    if (result.data.num > 0) {
+                        strMessage = "注册成功，获得" + result.data.num + "张赠送优惠券！";
+                    } else if (getQueryString("type") == "gift") {
+                        strMessage = "很抱歉！优惠券已被领完，请期待下次活动！";
+                    }
+
+                    $.dialog.succeedTips(strMessage, function () {
+                        location.replace(decodeURIComponent(returnUrl));
+                    });
+                }
+                else {
+                    if (result.code == 99) {
+                        location.replace(decodeURIComponent('/' + areaName + '/Member/BindPhone'));
+                    } else {
+                        $.dialog.alert('一键注册失败' + result.msg);
+                    }
+                }
+            });
+        });
+
+    //获取URL中值
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+</script>

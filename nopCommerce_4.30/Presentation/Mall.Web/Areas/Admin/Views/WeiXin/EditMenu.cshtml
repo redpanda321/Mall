@@ -1,0 +1,110 @@
+﻿@using Mall.Core;
+
+@{
+    ViewBag.Title = "EditMenu";
+}
+
+@model Mall.Web.Areas.Admin.Models.MenuManageModel
+
+<div class="container">
+    <ul class="breadcrumb clearfix">
+
+        <li><a href="MenuManage">菜单管理</a></li>
+        <li class="active"><a href="#">编辑菜单</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>微信自定义菜单最多可添加3个一级菜单、5个二级菜单。</span></li>
+				<li><span>每次修改自定义菜单后，由于微信客户端缓存，需要24小时左右微信客户端才会显示生效。测试时可以尝试重新关注微信公众号，或者清除微信缓存。</span></li>
+				<li class="mark-info"><span>注意：每次进行编辑之后，请点击左下角的“同步至微信”。</span></li>
+			</ul>
+		</div>
+	</div>
+	<form id="form1" method="post" class="form-horizontal">
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">菜单名称</label>
+			<div class="col-sm-3">
+				@Html.EditorFor(item => item.TopMenuName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+				<p class="help-default">一级菜单限5个字符,二级限7个字符</p>
+			</div>
+		</div>
+		<div id="parentMenuName" class="form-group">
+			<label for="" class="col-sm-2 control-label">上级菜单</label>
+			<div class="col-sm-3 form-control-static">
+				@ViewBag.parentName
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">链接对象</label>
+			<div class="col-sm-3">
+				<select id="ddlType" name="ddlType" onchange="Onchange($(this))" class="form-control input-sm">
+					<option value="0">不绑定</option>
+					<option value="1">首页</option>
+					<option value="2">微店</option>
+					<option value="3">商城分类</option>
+					<option value="4">个人中心</option>
+                    <option value="5">购物车</option>
+					<option value="6">链接</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" id="linkUrl">
+			<label class="col-sm-2 control-label">链接地址</label>
+			<div class="col-sm-3">
+				@Html.EditorFor(item => item.URL, new { htmlAttributes = new { @class = "form-control input-sm" } })
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="button" class="btn btn-primary" onclick="UpdateMenu()">提交</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var value = "@((int)Model.LinkType.GetValueOrDefault())";
+        $("#ddlType").val(value);
+        if ($("#ddlType").val() == 6)
+            $("#linkUrl").show();
+        else
+            $("#linkUrl").hide();
+        if ('@(ViewBag.parentName)' == '')
+            $("#parentMenuName").css('display', 'none')
+
+    });
+
+    function Onchange(obj) {
+        if (obj.val() == "6") {
+            $("#linkUrl").show();
+            $("#URL").val("http://");
+        }
+        else {
+            $("#linkUrl").hide();
+            $("#URL").val("");
+        }
+    }
+
+    function UpdateMenu() {
+        var urlType1;
+        var menuId1 = "@(Model.ID)";
+        var menuName1 = $('input[name="TopMenuName"]').val();
+        var urlType1 = $("#ddlType").val();
+        var url1 = $('input[name="URL"]').val();
+        var parentMenuId = "@ViewBag.parentId";
+        var loading = showLoading();
+        $.post('./UpdateMenu', { menuId: menuId1, menuName: menuName1, urlType: urlType1, url: url1, parentId: parentMenuId }, function (result) {
+            loading.close();
+            if (result.success) {
+                $.dialog.tips('更新成功');
+                location.reload();
+            }
+            else
+                $.dialog.alert('更新失败！' + result.msg);
+        });
+    }
+</script>

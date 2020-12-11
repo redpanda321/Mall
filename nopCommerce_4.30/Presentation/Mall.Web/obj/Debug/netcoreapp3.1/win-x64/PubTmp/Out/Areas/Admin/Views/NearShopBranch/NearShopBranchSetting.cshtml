@@ -1,0 +1,309 @@
+﻿@model Mall.DTO.SiteSettings
+@{
+    ViewBag.Title = "周边门店首页配置";
+    var imageAds = (List<Mall.Entities.SlideAdInfo>)ViewBag.imageAds;
+    var slideType = (int)Mall.Entities.SlideAdInfo.SlideAdType.NearShopBranchHome;
+    var slideType2 = (int)Mall.Entities.SlideAdInfo.SlideAdType.NearShopBranchHome2;
+}
+
+<script src="~/Areas/Admin/Scripts/APPShopHomePageSetting.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>周边门店设置</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>在此编辑的周边门店首页，会在微信端、APP端周边门店页呈现。</span></li>
+				<li><span>添加的推荐门店，会优先显示在周边门店的门店列表上，门店排序优先级：在配送范围内的>推荐门店>距离近的。</span></li>
+			</ul>
+		</div>
+	</div>
+    <ul class="page-tab-hd page-nsbindex mt20">
+        <li class="li1 canselect"><i class="glyphicon glyphicon-pencil"></i>轮播图配置</li>
+        <li class="li2 canselect"><i class="glyphicon glyphicon-pencil"></i>图标配置</li>
+        <li class="li3 canselect"><i class="glyphicon glyphicon-pencil"></i>广告位配置</li>
+        <li class="li4 canselect"><i class="glyphicon glyphicon-pencil"></i>轮播图配置</li>
+        <li class="li5 canselect"><i class="glyphicon glyphicon-pencil"></i>门店推荐</li>
+        <i class="arrow"></i>
+    </ul>
+    <div class="page-tab-bd">
+        <div class="page-item">
+            <div class="table-top">
+                <a class="btn btn-primary btn-xs" id="addSlideImage"><i class="glyphicon glyphicon-plus"></i> 添加轮播图</a>
+                @*<label class="lbl-sync"><input type="checkbox" data-type="1" id="o2o_sync_top_slide" />是否同步到o2o小程序</label>*@
+            </div>
+            <table id="slideImagesTable" class="table table-bordered"></table>
+            <form class="form-horizontal dln" id="editSlideImage">
+                <div class="form-group upload-img" id="imgUrl">
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">描述：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="description" id="description" value="" maxlength="10" />
+                        <p class="help-default">限10个字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                    <div class="col-sm-9" id="topic">
+                        <label><input name="selectRadio" type="radio" value="1" checked="checked" />门店标签</label>
+                        <label><input name="selectRadio" type="radio" value="2" />门店</label>
+                        @*<label><input name="selectRadio" type="radio" value="3" />专题</label>*@
+                        <label><input name="selectRadio" type="radio" value="4" />自定义</label>
+                        <p class="help-default">&nbsp;&nbsp;<a id="jumpid" onclick="chooseTopicJumpUrl()" style="cursor:pointer">选择门店标签</a></p>
+                        <input class="form-control input-sm" id="selectUrl" readonly="readonly" value="" />
+                    </div>
+                </div>
+            </form>
+            <input type="hidden" id="SlideImageBox" value="" />
+            <input type="hidden" id="SlideImageId" value="" />
+            <input type="hidden" id="AddressId" value="" />
+
+            <div id="choceTopicUrl" class="dln">
+                <div class="choose-search">
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">门店区域</label>
+                        <div id="area-selector" class="areainline"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        @Html.DropDownList("tagsId", (IEnumerable<SelectListItem>)ViewBag.ShopBranchTags, new { @class = "form-control input-ssm dropdownlist" })
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">名称</label>
+                        <input class="form-control input-ssm" type="text" id="titleKeyword">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        <input class="form-control input-ssm" type="text" id="tagsKeyword">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-ssm" id="topicSearchButton">搜索</button>
+                </div>
+                <table id="topicGrid" class="table table-bordered"></table>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div class="table-top">
+                <a class="btn btn-primary btn-xs" id="addNSBIcon"><i class="glyphicon glyphicon-plus"></i> 添加图标</a>
+                @*<label class="lbl-sync"><input type="checkbox" data-type="2" id="o2o_sync_icon_area" />是否同步到o2o小程序</label>*@
+            </div>
+            <table id="NSBIconTable" class="table table-bordered"></table>
+
+            <form class="form-horizontal dln" id="editNSBIcon">
+                <div class="form-group upload-img" id="iconimgUrl">
+                    <div class="col-sm-4"></div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">图标名称：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="iconDesc" id="iconDesc" value="" maxlength="4" />
+                        <p class="help-default">限4个字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                    <div class="col-sm-9" id="icon">
+                        <label class="control-label"><input name="selectRadio" type="radio" value="1" checked="checked" />门店标签</label>
+                        <label class="control-label"><input name="selectRadio" type="radio" value="2" />门店</label>
+                        @*<label class="control-label"><input name="selectRadio" type="radio" value="3" />专题</label>*@
+                        <label class="control-label"><input name="selectRadio" type="radio" value="4" />自定义</label>
+                        <p class="help-default">&nbsp;&nbsp;<a id="jumpid" onclick="chooseJumpUrl()" style="cursor:pointer">选择门店标签</a></p>
+                        <input class="form-control input-sm" id="selectUrl" readonly="readonly" value="" />
+                    </div>
+                </div>
+            </form>
+            <input type="hidden" id="NSBIconBox" value="" />
+            <input type="hidden" id="NSBIconId" value="" />
+            <input type="hidden" id="AddressIdIcon" value="" />
+
+            <div id="chooseJumpUrl" class="dln">
+                <div class="choose-search">
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">门店区域</label>
+                        <div id="area-selectorIcon" class="areainline"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        @Html.DropDownList("tagsIdIcon", (IEnumerable<SelectListItem>)ViewBag.ShopBranchTags, new { @class = "form-control input-ssm dropdownlist" })
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">名称</label>
+                        <input class="form-control input-ssm" type="text" id="queryTitle">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        <input class="form-control input-ssm" type="text" id="queryTags">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-ssm" id="queryButton">搜索</button>
+                </div>
+                <table id="jumpUrlGrid" class="table table-bordered"></table>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div class="table-top">
+                <i class="glyphicon glyphicon-th-large"></i> 广告管理
+                @*<label class="lbl-sync"><input type="checkbox" data-type="3" id="o2o_sync_ad_area" />是否同步到o2o小程序</label>*@
+            </div>
+            <div class="nsb-topic">
+                <div class="fore1">
+                    <a onclick="editImageAd(this,@imageAds[0].Id,1)"><img width="268" height="390" src="@imageAds[0].ImageUrl" alt="" /></a>
+                </div>
+                <div class="fore2">
+                    <a onclick="editImageAd(this,@imageAds[1].Id,2)"><img width="183" height="194" src="@imageAds[1].ImageUrl" alt="" /></a>
+                    <a onclick="editImageAd(this,@imageAds[2].Id,2)"><img width="183" height="194" src="@imageAds[2].ImageUrl" alt="" /></a>
+                    <a onclick="editImageAd(this,@imageAds[3].Id,2)"><img width="183" height="194" src="@imageAds[3].ImageUrl" alt="" /></a>
+                    @*<a onclick="editImageAd(this,@imageAds[4].Id,2)"><img width="183" height="194" src="@imageAds[4].ImageUrl" alt="" /></a>*@
+                </div>
+                <div style="clear:both;"></div>
+                <form class="form-horizontal dln" id="editImageAds">
+                    <div class="form-group upload-img" id="uploadImgUrl">
+                        <div class="col-sm-3"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                        <div class="col-sm-9" id="imgad">
+                            <span><input name="selectRadio" type="radio" value="1" checked="checked" />门店标签</span>
+                            <span><input name="selectRadio" type="radio" value="2" />门店</span>
+                            @*<span><input name="selectRadio" type="radio" value="3" />专题</span>*@
+                            <span><input name="selectRadio" type="radio" value="4" />自定义</span>
+                            <p class="help-default">&nbsp;&nbsp;<a id="jumpid" onclick="chooseImgAdJumpUrl()" style="cursor:pointer">选择门店标签</a></p>
+                            <input class="form-control input-sm" id="selectUrl" readonly="readonly" value="" />
+                        </div>
+                    </div>
+                </form>
+
+                <input type="hidden" id="AdImageBox" value="" />
+                <input type="hidden" id="AddressIdAd" value="" />
+
+                <div id="chooseAdJumpUrl" class="dln">
+                    <div class="choose-search">
+                        <div class="form-group">
+                            <label class="label-inline clear-h" for="">门店区域</label>
+                            <div id="area-selectorAd" class="areainline"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-inline clear-h" for="">标签</label>
+                            @Html.DropDownList("tagsIdAd", (IEnumerable<SelectListItem>)ViewBag.ShopBranchTags, new { @class = "form-control input-ssm dropdownlist" })
+                        </div>
+                        <div class="form-group">
+                            <label class="label-inline clear-h" for="">名称</label>
+                            <input class="form-control input-ssm" type="text" id="queryTitleAd">
+                        </div>
+                        <div class="form-group">
+                            <label class="label-inline clear-h" for="">标签</label>
+                            <input class="form-control input-ssm" type="text" id="queryTagsAd">
+                        </div>
+                        <button type="button" class="btn btn-primary btn-ssm" id="ImgAdQuery">搜索</button>
+                    </div>
+                    <table id="ImgAdGrid" class="table table-bordered"></table>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div class="table-top">
+                <a class="btn btn-primary btn-xs" id="addSlideImage2"><i class="glyphicon glyphicon-plus"></i> 添加轮播图</a>
+                @*<label class="lbl-sync"><input type="checkbox" data-type="4" id="o2o_sync_middle_slide" />是否同步到o2o小程序</label>*@
+            </div>
+            <table id="slideImagesTable2" class="table table-bordered"></table>
+            <form class="form-horizontal dln" id="editSlideImage2">
+                <div class="form-group upload-img" id="imgUrl2">
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">描述：</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" name="description" id="description2" value="" maxlength="10" />
+                        <p class="help-default">限10个字符</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">跳转链接：</label>
+                    <div class="col-sm-9" id="topic2">
+                        <label><input name="selectRadio" type="radio" value="1" checked="checked" />门店标签</label>
+                        <label><input name="selectRadio" type="radio" value="2" />门店</label>
+                        @*<label><input name="selectRadio" type="radio" value="3" />专题</label>*@
+                        <label><input name="selectRadio" type="radio" value="4" />自定义</label>
+                        <p class="help-default">&nbsp;&nbsp;<a id="jumpid2" onclick="chooseTopicJumpUrl2()" style="cursor:pointer">选择门店标签</a></p>
+                        <input class="form-control input-sm" id="selectUrl2" readonly="readonly" value="" />
+                    </div>
+                </div>
+            </form>
+            <input type="hidden" id="SlideImageBox2" value="" />
+            <input type="hidden" id="SlideImageId2" value="" />
+            <input type="hidden" id="AddressId2" value="" />
+
+            <div id="choceTopicUrl2" class="dln">
+                <div class="choose-search">
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">门店区域</label>
+                        <div id="area-selector2" class="areainline"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        @Html.DropDownList("tagsId2", (IEnumerable<SelectListItem>)ViewBag.ShopBranchTags, new { @class = "form-control input-ssm dropdownlist" })
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">名称</label>
+                        <input class="form-control input-ssm" type="text" id="titleKeyword2">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        <input class="form-control input-ssm" type="text" id="tagsKeyword2">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-ssm" id="topicSearchButton2">搜索</button>
+                </div>
+                <table id="topicGrid2" class="table table-bordered"></table>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div class="table-top"><a class="btn btn-primary btn-xs" id="addRecommendShopBranch"><i class="glyphicon glyphicon-plus"></i> 添加推荐门店</a></div>
+            <table id="recommendShopBranchTable" class="table table-bordered"></table>
+            <form class="form-horizontal dln" id="editRecommendShopBranch">
+                <div class="choose-search">
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">门店区域</label>
+                        <div id="area-selectorRecommend" class="areainline"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">标签</label>
+                        @Html.DropDownList("tagsIdRecommend", (IEnumerable<SelectListItem>)ViewBag.ShopBranchTags, new { @class = "form-control input-ssm dropdownlist" })
+                    </div>
+                    <div class="form-group">
+                        <label class="label-inline clear-h" for="">名称</label>
+                        <input class="form-control input-ssm" type="text" id="titleKeywordRecommend">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-ssm" id="recommendBtn">搜索</button>
+                </div>
+                <table id="recommendGrid" class="table table-bordered"></table>
+            </form>
+            <input type="hidden" id="AddressIdRecommend" value="" />
+        </div>
+    </div>
+</div>
+@*<script type="text/javascript">
+    appletSyncData={topSlide:@(Model.O2OApplet_IsUseTopSlide.ToString().ToLower()),
+        iconArea:@(Model.O2OApplet_IsUseIconArea.ToString().ToLower() ),
+        adArea:@(Model.O2OApplet_IsUseAdArea.ToString().ToLower() ),
+        middleSlide:@(Model.O2OApplet_IsUseMiddleSlide.ToString().ToLower() ),};
+</script>*@
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.Mall.Region.js"></script>
+<script src="~/Areas/Admin/Scripts/NearShopBranchSetting.js"></script>
+<script src="~/Areas/Admin/Scripts/NearShopBranchIconSetting.js"></script>
+<script type="text/javascript" src="~/Areas/Admin/Scripts/NearShopBranchAdSetting.js"></script>
+<script src="~/Areas/Admin/Scripts/NearShopBranchTopicSetting.js"></script>
+<script src="~/Areas/Admin/Scripts/NearShopBranchRecommendSetting.js"></script>
+<script type="text/javascript">
+    var slideType = @slideType;
+    var slideType2 = @slideType2;
+</script>

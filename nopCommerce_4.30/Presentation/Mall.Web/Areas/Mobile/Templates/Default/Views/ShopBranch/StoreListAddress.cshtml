@@ -1,0 +1,76 @@
+﻿
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "地址选择";
+
+}
+<style>
+    html {
+        font-size:20px !important;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.picker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.poppicker.css" />
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchs.css?v=20183030" rel="stylesheet" />
+<div class="changePo">
+    <div class="plr11 search bgfff">
+        <span id="spanCityName">长沙市</span>
+
+        <div class="memberss" id="consigneeAddress">
+            <form class="search" action="" onsubmit="searchKeyword(1); return false;">
+                <input type="search" id="txtKeyWord" placeholder="请输入地址" value="">
+                <button type="button" value="" class="sbutton" onclick="searchKeyword(1)"></button>
+                <em class="cleartext" style="display: none;"></em>
+            </form>
+        </div>
+
+    </div>
+    <div id="divCurrentPosition" class="diangqwz" style="display: block;">
+        <h2 class="plr11">当前位置</h2>
+        <div class="plr11 ptb13 fonts07 bgfff o-hidden">
+            <span id="spanCurrentAddress"><a id="curAddress" onclick="">岳麓区岳麓大道218号</a></span>
+            <em class=""><a onclick="geoPosition()">重新定位</a></em>
+        </div>
+    </div>
+    <div class="shouhdz" id="divDeliveryAddress">
+        <h2 class="plr11">收货地址</h2>
+        <div class="plr11 bgfff">
+            <ul id="locates" class="clearfix">
+                <li onclick="chooseShippingAddress('28.22821,112.9388',105,'')">
+                    <h3>湖南省 长沙市 岳麓区  长沙市中心</h3>
+                    <p>li，15895641256</p>
+                </li>
+            </ul>
+            <div id="shousuo" class="sshousuo ptb13">还有<i id="leftAddressCount">3</i>个收货地址</div>
+        </div>
+    </div>
+    <div class="fujdz" id="divAdr" style="display: block;">
+        <h2 class="plr11" id="divAdr_h">附近地址</h2>
+        <div class="plr11 bgfff">
+            <ul id="nearAddress">
+                <li onclick="choosePosition('28.17773, 113.01735','长沙海关')"><h3>长沙海关</h3><p>湖南省长沙市雨花区东二环1段678号</p></li>
+                <li onclick="choosePosition('28.18692, 113.01689','长沙市政府机关第三幼儿园')"><h3>长沙市政府机关第三幼儿园</h3><p>湖南省长沙市芙蓉区东二环1段893</p></li>
+                <li onclick="choosePosition('28.19036, 112.98405','长沙市政府采购中心')"><h3>长沙市政府采购中心</h3><p>湖南省长沙市芙蓉区解放西路35号长房大厦</p></li>
+                <li onclick="choosePosition('28.20618, 112.98438','长沙市政府机关荷花幼儿园')"><h3>长沙市政府机关荷花幼儿园</h3><p>湖南省长沙市开福区茅亭子巷110号长沙市人民政府</p></li>
+                <li onclick="choosePosition('28.22236, 112.93847','胡胖子有点味(市政府店)')"><h3>胡胖子有点味(市政府店)</h3><p>湖南省长沙市岳麓区银双路107号</p></li>
+                <li onclick="choosePosition('28.20036, 113.01997','冷水江市人民政府驻长沙办事处')"><h3>冷水江市人民政府驻长沙办事处</h3><p>湖南省长沙市芙蓉区东二环纬二路1号波月大厦</p></li>
+                <li onclick="choosePosition('28.21045, 113.00934','耒阳市政府驻长沙办事处')"><h3>耒阳市政府驻长沙办事处</h3><p>湖南省长沙市芙蓉区车站北路228号王府花园2栋20楼A座</p></li>
+                <li onclick="choosePosition('28.21425, 113.00819','张家界市政府驻长沙办事处')"><h3>张家界市政府驻长沙办事处</h3><p>湖南省长沙市芙蓉区车站北路兑泽街1号张家界大厦7层</p></li>
+                <li onclick="choosePosition('28.20158, 112.98127','湖南省文物局')"><h3>湖南省文物局</h3><p>湖南省长沙市开福区蔡锷北路153</p></li>
+                <li onclick="choosePosition('28.17067, 113.0099','永州市人民政府驻长沙办事处')"><h3>永州市人民政府驻长沙办事处</h3><p>湖南省长沙市雨花区车站南路</p></li>
+            </ul>
+            <div id="divMore" style="text-align:center; padding: 0px 15px 60px 15px;" onclick="searchKeyword(2)">加载更多...</div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/custom.js?v=20183030"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/searchAddress.js?v=20183030"></script>
+<input type="hidden" id="hidLatitude" />
+<input type="hidden" id="hidLongitude" />
+@Html.Hidden("hdQQMapKey", (string)ViewBag.QQMapKey)
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.picker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.poppicker.js"></script>
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script charset="utf-8" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>

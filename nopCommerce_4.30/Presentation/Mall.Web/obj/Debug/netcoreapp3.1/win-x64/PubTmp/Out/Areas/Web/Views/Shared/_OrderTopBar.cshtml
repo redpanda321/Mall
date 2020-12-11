@@ -1,0 +1,49 @@
+﻿@{
+	Layout = "_HeadAndFoot.cshtml";
+}
+<!--_OrderTopBar start-->
+@section Style
+{
+	<link href="~/Areas/Web/Content/inner.css?v=20183030" rel="stylesheet" />
+	<link href="~/Areas/Web/Content/artdilog.css?v=20183030" rel="stylesheet" />
+	@{
+		Html.RenderAction("OrderTopBarCss", "ProductPartial");
+	}
+	@RenderSection("Style",false)
+}
+@section Script
+{
+	<script src="~/Scripts/jquery.cookie.js?v=20183030"></script>
+	<script src="~/Areas/Web/Scripts/userInfo.js?v=20183030"></script>
+	<script src="~/Scripts/jQuery.mouseDelay.min.js?v=20183030"></script>
+	<script src="~/Scripts/jquery.scrollLoading.min.js?v=20183030"></script>
+	<script src="~/Scripts/jquery.artDialog.js?v=20183030"></script>
+	<script src="~/Areas/Web/Scripts/artDialog.iframeTools.js?v=20183030"></script>
+	<script src="~/Scripts/JumpPlatForm.js?v=20183030"></script>
+	@RenderSection("Script",false)
+}
+
+@section Header
+{
+	<!--覆盖父母版页头section-->
+}
+@{ var memberInfo = ViewBag.Member as Mall.Entities.MemberInfo;}
+@{Html.RenderAction("TopInfo", "ProductPartial");}
+<div class="w990 w1 cl">
+	<div id="logo"><a href="/"><img src="@Mall.Core.MallIO.GetImagePath(ViewBag.Logo)" height="60" title="返回商城首页" alt="返回商城首页" /></a></div>
+	<div class="progress cl">
+		<ul class="progress-@ViewBag.Step pro-c1">
+			<li class="step-1">1.我的购物车</li>
+			<li class="step-2">2.填写核对订单信息</li>
+			<li class="step-3">3.成功提交订单</li>
+		</ul>
+	</div>
+</div>
+@RenderBody()
+@section Foot
+{
+	<!--覆盖父母版页脚section-->
+}
+
+@RenderSection("ScriptLast", false)
+<!--_OrderTopBar end-->

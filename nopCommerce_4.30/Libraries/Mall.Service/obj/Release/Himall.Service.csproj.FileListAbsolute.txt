@@ -1,0 +1,8 @@
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.Service.dll.config
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.Service.dll
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.Service.pdb
+D:\我的项目\Himall3.3\src\Himall.Service\obj\Release\Himall.Service.csprojAssemblyReference.cache
+D:\我的项目\Himall3.3\src\Himall.Service\obj\Release\Himall.Service.csproj.CoreCompileInputs.cache
+D:\我的项目\Himall3.3\src\Himall.Service\obj\Release\Himall.Service.csproj.CopyComplete
+D:\我的项目\Himall3.3\src\Himall.Service\obj\Release\Himall.Service.dll
+D:\我的项目\Himall3.3\src\Himall.Service\obj\Release\Himall.Service.pdb

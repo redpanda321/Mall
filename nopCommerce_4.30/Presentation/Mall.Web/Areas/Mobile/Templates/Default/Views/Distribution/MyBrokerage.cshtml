@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.FootIndex = 4;
+    var distributor = ViewBag.Distributor as Mall.DTO.Distributor;
+}
+<div class="container distribution">
+    <div class="brokerage-top">
+        <div class="info">
+            <div class="name">
+                总收益（元）
+            </div>
+            <h3>@distributor.SettlementAmount.ToString("n2")</h3>
+        </div>
+        <a class="withdraw-btn" href="@Url.Action("ApplyWithdraw")">提现</a>
+    </div>
+    <div class="asset-addup clearfix">
+        <div class="item">
+            <div class="h3"><div>￥</div>@distributor.NoSettlementAmount.ToString("n2")</div>
+            <div class="p">未结算</div>
+        </div>
+        <div class="item">
+            <div class="h3"><div>￥</div>@distributor.Balance.ToString("n2")</div>
+            <div class="p">可提现</div>
+        </div>
+        <div class="item">
+            <div class="h3"><div>￥</div>@distributor.WithdrawalsAmount.ToString("n2")</div>
+            <div class="p">已提现</div>
+        </div>
+    </div>
+    <script id="itemTemplate" type="text/html">
+        {{each list as item i}}
+        <li class="item">
+            <div class="price">
+            {{if item.amount < 0 }}
+                -<span>￥</span>{{-item.amount}}
+            {{else}}
+                <span>￥</span>{{item.amount}}
+            {{/if}}
+            </div>
+            <div class="desc">
+                {{item.type}}
+                <span> （{{item.remark}}）</span>
+            </div>
+            <div class="time">{{item.time}}</div>
+        </li>
+        {{/each}}
+    </script>
+    <ul class="asset-list" id="list"></ul>
+    <div id="noMoreBox" class="item details-link">
+        <a href="javascript:void(0)"><span>没有更多数据了</span></a>
+    </div>
+    <div id="emptyBox" class="null-content hide">
+        <img src="~/Areas/Mobile/Templates/Default/Images/no-brokerage.png">
+        <h3>暂无收益</h3>
+        <h5>您还没有获得分佣哦, 快快分享吧</h5>
+    </div>
+</div>
+<script src="~/Scripts/template.js"></script>
+<script type="text/javascript">
+    var curIndex = 1;
+    $(function () {
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+            if (scrollTop + windowHeight >= scrollHeight) {
+                $('#autoLoad').removeClass('hide');
+                load(++curIndex);
+            }
+        });
+        load();
+    });
+
+  
+    function load(index) {
+        var data = {
+            pageSize: 10,
+            pageNo: index || 1
+        };
+        curIndex = data.pageNo;
+        $.post("@Url.Action("GetRecords")", data, function (result) {
+            if (result.success) {
+                if (curIndex == 1 && result.list.length == 0)
+                    $("#emptyBox").removeClass("hide");
+                else if (result.list.length < data.pageSize)
+                    $("#noMoreBox").show();
+                else $("#noMoreBox").hide();
+                var items = template('itemTemplate', { list: result.list });
+                $("#list").append(items);
+            }
+        });
+    }
+</script>

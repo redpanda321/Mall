@@ -1,0 +1,207 @@
+﻿@using Mall.Core
+@model Mall.Web.Areas.Mobile.Models.CapitalIndexChargeModel
+@{
+    ViewBag.Title = "我的资产";
+}
+
+<style>
+    html, body { height: 100%; background-color: #fff; }
+</style>
+<div class="container assets">
+    <div id="J_assets_layer"></div>
+
+    <div class='asset-total'>
+        <div class='h3'><div>￥</div>@Model.UserCaptialInfo.Balance.ToString("f2")</div>
+        <div class='p'>当前可用</div>
+    </div>
+    <div class='asset-addup clearfix'>
+        <div class='item'>
+            <div class='h3'><div>￥</div>@Model.RedPacketAmount.ToString("f2")</div>
+            <div class='p'>累计收到红包</div>
+        </div>
+        <div class='item'>
+            <div class='h3'><div>￥</div>@Model.UserCaptialInfo.ChargeAmount.ToString("f2")</div>
+            <div class='p'>累计充值金额</div>
+        </div>
+        <div class='item'>
+            <div class='h3'><div>￥</div>@Model.UserCaptialInfo.PresentAmount.ToString("f0")</div>
+            <div class='p'>累计赠送金额</div>
+        </div>
+    </div>
+
+    <ul class='asset-list' id="ulList">
+        @if (Model.CapitalDetails != null)
+        {
+            var capitaldetails = Model.CapitalDetails;
+            foreach (var detail in capitaldetails)
+            {
+                <li class='item'>
+                    @if (detail.Amount >= 0)
+                    {
+                        <div class='price'>@(detail.Amount + detail.PresentAmount)</div>}
+                    else
+                    {
+                        <div class='price out'>@(detail.Amount)</div>
+                    }
+                    <div class='desc'>
+                        @detail.SourceType.ToDescription()
+                        @*@if (detail.SourceType == Mall.Entities.CapitalDetailInfo.CapitalDetailType.Consume)
+                            {
+                                <span>（订单号 @detail.SourceData）</span>
+                            }
+                            else*@
+                        @if (detail.SourceType == Mall.Entities.CapitalDetailInfo.CapitalDetailType.Brokerage)
+                        {
+                            @detail.Remark
+                            @*<span>（@detail.Remark.Replace("Id","号").Split(',')[1]）</span>*@
+                        }
+                        @*else if (detail.SourceType == Mall.Entities.CapitalDetailInfo.CapitalDetailType.ChargeAmount)
+                            {
+                                <span>（充值单号 @detail.Id）</span>
+                            }
+                            else if (detail.SourceType == Mall.Entities.CapitalDetailInfo.CapitalDetailType.Refund)
+                            {
+                                <span>（订单号 @detail.SourceData）</span>
+                            }*@
+                        else
+                        {
+                            if (detail.SourceType == Mall.Entities.CapitalDetailInfo.CapitalDetailType.ChargeAmount && detail.PresentAmount > 0)
+                            {
+                                <span>，@("充" + detail.Amount + "送" + detail.PresentAmount + "元")</span>
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(detail.Id.ToString()) || !string.IsNullOrEmpty(detail.SourceData))
+                                {
+                                <span> （单号 @(string.IsNullOrWhiteSpace(detail.SourceData) ? detail.Id.ToString() : detail.SourceData)）</span>
+                                }
+                                else if (!string.IsNullOrEmpty(detail.Remark))
+                                {
+                                <span>（@detail.Remark）</span>
+                                }
+                            }
+                        }
+                    </div>
+                    <div class='time'>@detail.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                </li>
+            }
+        }
+    </ul>
+
+    <div style="display:none;" class="loading" id="autoLoad"><span></span></div>
+
+    <div class='asset-bot clearfix'>
+        @if (Model.CanWithDraw)
+        {
+            <span id="btnWithDraw">提现</span>
+        }
+        <span id="btnCharge" class='recharge'>充值</span>
+    </div>
+
+    <div class="box1 lh24 steponeee" id="stepone" style="display:none">
+        <span class="close" aria-hidden="true"></span>
+        <form>
+            <h3 class="title_txt cur">请设置支付密码</h3>
+            <div class="item">
+                <div>
+                    <input type="password" placeholder="请输入支付密码" value="" id="firstPwd" name="userVo.realName" maxlength="20" class="form-control itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <input type="password" placeholder="请再次输入支付密码" value="" id="secondPwd" name="userVo.realName" maxlength="20" class="form-control itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <a id="submitPwd" class="btn btn-primary">提交</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="box1 lh24 steponeee" id="steptwo" style="display:none">
+        <span class="close" aria-hidden="true"></span>
+        <form>
+            <h3 class="title_txt cur">提现申请</h3>
+            <div class="item">
+                <div class="withApplyType-box clearfix">
+                    <label class="withApplyType-btn" id="withDrawWeixinBox"><input id="withDrawWeixin" type="radio" name="userVo.applyType" value="1" checked /><span>微信提现</span></label>
+                    <label class="withApplyType-btn" id="withDrawALipayBox"><input id="withDrawALipay" type="radio" name="userVo.applyType" value="3" /><span>支付宝提现</span></label>
+                </div>
+
+            </div>
+            <div class="item">
+                <div>
+                    <input value="" id="inputMoney" placeholder="提现金额" name="userVo.realName" maxlength="20" class="itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <input type="password" placeholder="支付密码" value="" id="payPwd" name="userVo.realName" maxlength="20" class="itxt fl">
+                </div>
+            </div>
+            <div class="item alipayitem" style="display:none;">
+                <div>
+                    <input placeholder="收款账号" value="" id="wdopenId" name="userVo.openId" maxlength="60" class="itxt fl">
+                </div>
+            </div>
+            <div class="item alipayitem" style="display:none;">
+                <div>
+                    <input placeholder="真实姓名" value="" id="wdnickName" name="userVo.nickName" maxlength="20" class="itxt fl">
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <a id="submitApply" class="btn btn-primary">提交</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!---------- 新增功能 - 账户充值、开发做完后删除此注释 ----------------------------------------------------------------------->
+    <div class="box1 lh24 steponeee" id="rechargePay" style="display:none">
+        <span class="close" aria-hidden="true"></span>
+        <form>
+            <h3 class="title_txt cur">账户充值</h3>
+            <div class="item">
+                <div class="clearfix">
+                    <input type="@(Model.IsEnableRechargePresent?"hidden":"text")" id="chargeAmount" placeholder="请输入充值金额" name="" maxlength="20" class="itxt fl">
+                    @if (Model.IsEnableRechargePresent)
+                    {
+                        foreach (var item in Model.RechargePresentRules)
+                        {
+                            <div class="chargeitem @Html.Raw(Model.RechargePresentRules.IndexOf(item)==0?"active":"")" data-amount="@(item.ChargeAmount.ToString("F0"))">
+                                @(item.ChargeAmount.ToString("F0")) 元
+                                <p>送@(item.PresentAmount.ToString("F0"))元</p>
+                            </div>
+                        }
+                    }
+                    <input type="hidden" name="ispresent" id="ispresent" value="@(Model.IsEnableRechargePresent?1:0)" />
+                    <h5 class="red" style="font-size: 11px; text-align: left;">参与充值及赠送的金额仅用于商城消费不能提现</h5>
+                </div>
+            </div>
+            <div class="item">
+                <div>
+                    <a id="submitPayBtn" class="btn btn-primary">提交</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- End -->
+    <div id="choosePay" class="dcontent">
+    	<span class="close" aria-hidden="true"></span>
+    	<div class="custom-btn wxpay" id="weixinpay">微信支付</div>
+    	<div class="custom-btn alipay" id="alipay">支付宝支付</div>
+    </div>
+</div>
+@*<section class="assets-bar-container">
+        <div class="assets-bar">
+            <a class="btn" href="#">充值</a>
+            <a id="btnWithDraw" class="btn" href="#">提现</a>
+        </div>
+    </section>*@
+<input type="hidden" value="@Model.WithDrawMinimum" id="inputWithDrawMinimum" />
+<input type="hidden" value="@Model.WithDrawMaximum" id="inputWithDrawMaximum" />
+<script>
+    var pwdflag = '@Model.IsSetPwd';
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ApplyWithDraw.js?v=20183030"></script>

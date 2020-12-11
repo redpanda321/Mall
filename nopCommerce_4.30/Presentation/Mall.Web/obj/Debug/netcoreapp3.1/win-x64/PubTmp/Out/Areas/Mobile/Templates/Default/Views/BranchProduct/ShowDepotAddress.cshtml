@@ -1,0 +1,11 @@
+﻿@model Mall.Entities.FreightTemplateInfo
+@{
+    Layout = null;
+}
+@if (Model != null)
+{
+<div class="goods-address">
+    <span class="address-icon pull-left">@Model.DepotAddress &nbsp;</span>
+    <span class="pull-right">@(Model.IsFree == Mall.CommonModel.FreightTemplateType.Free ? "免运费" : "")</span>
+</div>
+}

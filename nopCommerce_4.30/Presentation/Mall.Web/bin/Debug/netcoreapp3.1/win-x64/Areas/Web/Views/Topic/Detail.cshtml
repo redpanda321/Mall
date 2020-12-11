@@ -1,0 +1,53 @@
+﻿@model Mall.Web.Models.TopicViewModel
+@{
+    var topic = Model.Topic;
+    ViewBag.Title = topic.Name;
+}
+@if (topic != null)
+{
+    <div class="topic" style="background-image:url(@topic.BackgroundImage);background-position:top center;">
+        <div class="topic-html">
+           <a href="#">
+                <img src="@topic.TopImage" alt="" class="tp-img" />
+            </a>
+        </div>
+        <div class="topic-nav">
+            <ul>
+                @{
+                    var index = 0;
+                    foreach (var item in Model.Modules)
+                    {
+                        <li class="@(index++>0?"":"curr")">
+                            <a href="javascript:void(0)">@item.Name</a></li>
+                    }
+
+                }
+            </ul>
+        </div>
+        <div class="w cl">
+            @foreach (var module in Model.Modules)
+            {
+        <div class="topic-goods-Z">
+            <h3 class="topic-title fore_@(module.TitleAlign)">@(module.Name)</h3>
+            <ul class="cl">
+                @foreach (var pro in Model.ModuleProducts.Where(p=>p.ModuleId==module.Id))
+                {
+                    var product = Model.Products.FirstOrDefault(p => p.Id == pro.ProductId);
+                    <li>
+                        <div class="p-img">
+                            <a href="@Url.Action("Detail", "Product", new { id = product.Id })" target="_blank" title="">
+                                <img class="lazyload" src="~/Areas/Web/images/blank.gif" data-url="@product.GetImage(Mall.CommonModel.ImageSize.Size_220)" />
+                            </a>
+                        </div>
+                        <div class="p-name"><div class="pname-1"><a href="@Url.Action("Detail", "Product", new { id = product.Id })" target="_blank" title="">@product.ProductName</a></div></div>
+                        <div class="p-price">￥@product.MinSalePrice</div><a href="@Url.Action("Detail", "Product", new { id = product.Id })" target="_blank" class="btn-buy ">立即抢购</a>
+                    </li>
+                }
+            </ul>
+        </div>
+            }
+            <div class="peggy"></div>
+        </div>
+    </div>
+}
+<script src="~/Areas/Web/Scripts/topicDetail.js?v=20183030"></script>

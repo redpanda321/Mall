@@ -1,0 +1,238 @@
+﻿@{
+    ViewBag.Title = "会员管理";
+    long? labelId = (long?)ViewBag.labelId;
+    List<Mall.Entities.LabelInfo> labelinfos = (List<Mall.Entities.LabelInfo>)ViewBag.LabelInfos;
+    var selectItems = labelinfos.Select(e => new SelectListItem() { Text = e.LabelName, Value = e.Id.ToString() }).ToList();
+    selectItems.Insert(0, new SelectListItem { Text = "选择", Value = "0" });
+    if (labelId.HasValue)
+    {
+        var item = selectItems.FirstOrDefault(d => d.Value == labelId.ToString());
+        if (item != null)
+        {
+            item.Selected = true;
+        }
+    }
+}
+<link href="~/Content/WXmsg.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="~/Areas/Admin/Scripts/memberManagement.js"></script>
+
+<div class="container clear-s">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="@Url.Action("ManagementPower")">购买力筛选</a></li>
+    </ul>
+
+    <div class="search-box clearfix">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员名</label>
+                <input class="form-control input-ssm" type="text" id="autoTextBox" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">昵称</label>
+                <input class="form-control input-ssm" id="weChatNick" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">手机号码</label>
+                <input class="form-control input-ssm" type="text" id="mobile">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员等级</label>
+                <select class="form-control input-ssm" id="grade">
+                    <option value="">全部</option>
+                    @foreach (var m in Model)
+                    {
+                        <option value="@m.Id">@m.GradeName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员状态</label>
+                <select class="form-control input-ssm" id="status">
+                    <option value="">全部</option>
+                    <option value="false">正常</option>
+                    <option value="true">冻结</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员来源</label>
+                <select id="platform" class="form-control input-ssm">
+                    <option value="">全部</option>
+                    @foreach (var item in Enum.GetValues(typeof(Mall.Core.PlatformType)))
+                    {
+                        switch ((Mall.Core.PlatformType)item)
+                        {
+                            case Mall.Core.PlatformType.IOS:
+                            case Mall.Core.PlatformType.Mobile:
+                                break;
+                            case Mall.Core.PlatformType.Android:
+                                <option value="@((int)item)">APP</option>
+                                break;
+                            default:
+                                <option value="@((int)item)">@(((Mall.Core.PlatformType)item).ToDescription())</option>
+                                break;
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">会员标签</label>
+                @Html.DropDownList("labelSelect", selectItems, new { @class = "form-control input-ssm" })
+            </div>
+            <div class="form-group">
+                <button type="button" id="searchBtn" class="btn btn-primary btn-sm">搜 索</button>
+            </div>
+            <span class="menu-shrink menber-m" id="btnAdvanceSearch" style="top:-3px;"></span>
+            <div id="divAdvanceSearch" class="dln">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">注册时间</label>
+                    <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                    <label class="label-inline-line" for="">-</label>
+                    <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline" for="">是否关注微信</label>
+                    <select class="form-control input-ssm" id="iswxfocus">
+                        <option value="">全部</option>
+                        <option value="true">是</option>
+                        <option value="false">否</option>
+                    </select>
+                </div>
+                @*<div class="form-group">
+                        <label class="label-inline" for="">最后登录时间</label>
+                        <input id="inputStartDateLogin" class="form-control input-ssm start_datetime" type="text">
+                        <label class="label-inline clear-s4" for="" >-</label>
+                        <input id="inputEndDateLogin" class="form-control input-ssm end_datetime" type="text">
+                    </div>*@
+                <div class="form-group">
+                    <label class="label-inline clear-s5">是否为入驻商家</label>
+                    <select class="form-control input-ssm" id="isrzseller">
+                        <option value="">全部</option>
+                        <option value="true">是</option>
+                        <option value="false">否</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <table class="table" id="list"></table>
+    <div class="tabel-operate" id="batchOperate" style="">
+        <button type="button" id="setMembersLabel" onclick="batchAddLabels()" class="btn btn-default btn-ssm">批量加标签</button>
+        <a class="btn btn-default btn-ssm" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a>
+
+        <select id="sendCoupon" class="form-control input-sm select-sort valid" style="width:105px !important;" onchange="sendCoupon($(this).val());$(this).val('0');">
+            <option value="0">群发优惠券</option>
+            <option value="check">已选中会员群发</option>
+            <option value="result">已筛选会员群发</option>
+        </select>
+
+        <select id="sendWei" class="form-control input-sm select-sort valid" onchange="sendWei($(this).val());$(this).val('0');">
+            <option value="0">群发微信</option>
+            <option value="check">已选中会员群发</option>
+            <option value="result">已筛选会员群发</option>
+        </select>
+
+        <select id="sendSms" class="form-control input-sm select-sort valid" onchange="sendSms($(this).val());$(this).val('0');">
+            <option value="0">群发短信</option>
+            <option value="check">已选中会员群发</option>
+            <option value="result">已筛选会员群发</option>
+        </select>
+    </div>
+
+        <!--@*<table class="table" id="list">
+                <div class="tabel-operate" id="batchOperate">
+                    <button type="button" class="btn btn-default btn-ssm" onclick="BatchLock()">冻结</button>
+                    <button type="button" class="btn btn-default btn-ssm" onclick="BatchDelete()">批量删除</button>
+                </div>
+           *@-->
+</div>
+<div id="dialogform" class="dialog-form" class="dln" style="display:none;">
+    <div class="form-group">
+        <label class="label-inline fl clear-s6" for="">密码</label><p class="help-top clear-s7 "><input class="form-control input-sm" type="password" id="password" name="password" style="width:150px;"></p>
+    </div>
+</div>
+
+<div class="dialog-form" style="display:none;" id="divSetLabel">
+    @if (ViewBag.LabelInfos != null)
+    {
+        foreach (var label in labelinfos)
+        {
+            <div class="form-group" style="width: 150px; float: left; border: none; white-space: nowrap; overflow: hidden; margin: 10px; text-overflow: ellipsis;">
+                @Html.CheckBox("check_Label", new { value = label.LabelName, id = "check_" + label.Id, datavalue = label.Id })
+                @label.LabelName
+            </div>
+        }
+    }
+</div>
+
+<div class="dialog-form" style="display:none;" id="divSendSms">
+    <div class="form-group" style="width: 540px; float: left; border: none; white-space: nowrap; overflow: hidden; margin: 10px; text-overflow: ellipsis;">
+        <h5>短信正文</h5>
+        <textarea id="contentDesc1" cols="60" rows="9" style="width:100%;"></textarea>
+    </div>
+</div>
+
+
+<div class="dialog-form" style="display:none;" id="divSendWei">
+    <div class="form-group VIP-Marketing" style="width: 540px; float: left; border: none; white-space: nowrap; overflow: hidden;  text-overflow: ellipsis;">
+
+        <div class="msg-tab">
+            <ul id="msgtype">
+                <li id="msgtype_news" class="active" value="@((int)Mall.CommonModel.WXMsgType.mpnews)" style="width:65px;"><span class="glyphicon glyphicon-list-alt"></span>图文</li>
+                <li id="msgtype_text" value="@((int)Mall.CommonModel.WXMsgType.text)" style="width:65px;"><span class="glyphicon glyphicon-pencil"></span>文字</li>
+            </ul>
+            <div class="Area-inner">
+                <div class="tab-content" id="mediaSelect">
+                    <span class="create_access library">
+                        <a><i class="glyphicon glyphicon-plus"></i><br><p>从素材库中选择</p></a>
+                    </span>
+                    <div id="mediaDetail" style="display:none;">
+                        <span id="mediaTime"></span>
+                        <div class="item" name="wrapperItem">
+                            <div class="WX-item">
+                                <div class="item-img">
+                                    <img name="wrapper" />
+                                </div>
+                                <span class="item-title" name="wrapperTitle">标题</span>
+                            </div>
+                        </div>
+                        <div id="divChild"></div>
+                    </div>
+                </div>
+                <div class="sucai-library">
+                    <h5>选择素材<span class="glyphicon glyphicon-remove"></span></h5>
+
+                    <div class="library-box">
+                        <ul id="list"></ul>
+                    </div>
+                    <p class="submit"><a id="btnOk" class="clear-u2">确定</a><a id="btnCancel">取消</a></p>
+                </div>
+                <div class="tab-content dln" id="txtInput">
+                    <textarea></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--选择优惠券列表-->
+<div id="choceCouponUrl" class="dln">
+    <div class="choose-search">
+        <div class="form-group">
+            <label class="label-inline clear-h" for="">名称</label>
+            <input class="form-control input-ssm" type="text" name="couponName" id="couponName">
+        </div>
+        <button type="button" class="btn btn-primary btn-ssm" id="btncoupon">搜索</button>
+    </div>
+    <table id="CouponGrid" class="table"></table>
+</div>

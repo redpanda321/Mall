@@ -1,0 +1,42 @@
+[
+  {
+    "classifiedsColor": "#00ff00",
+    "frameColor": "#ffff00",
+    "mainColor": "#ff0000",
+    "secondaryColor": "#ff0000",
+    "templateId": 2,
+    "themeId": 1,
+    "typeId": 1,
+    "writingColor": "#ff00ff"
+  },
+  {
+    "classifiedsColor": "#00ffff",
+    "frameColor": "#ff00ff",
+    "mainColor": "#ffff00",
+    "secondaryColor": "#ffff00",
+    "templateId": 3,
+    "themeId": 1,
+    "typeId": 1,
+    "writingColor": "#cc0000"
+  },
+  {
+    "classifiedsColor": "#9900ff",
+    "frameColor": "#0000ff",
+    "mainColor": "#0000ff",
+    "secondaryColor": "#0000ff",
+    "templateId": 0,
+    "themeId": 1,
+    "typeId": 1,
+    "writingColor": "#ffff00"
+  },
+  {
+    "classifiedsColor": "#000000",
+    "frameColor": "#000000",
+    "mainColor": "#000000",
+    "secondaryColor": "#000000",
+    "templateId": 1,
+    "themeId": 1,
+    "typeId": 1,
+    "writingColor": "#000000"
+  }
+]

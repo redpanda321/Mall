@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.FootIndex = 4;
+}
+<style type="text/css">
+    .aui_content { padding: 20px !important; }
+    .distribution .openshopmsg img { max-width:100%;}
+</style>
+<div class="container distribution">
+    <div class="openshopmsg">
+        @Html.Raw(ViewBag.content)
+    </div>
+    <a class="btn btn-danger btn-any" href="javascript:OpenMyShop();">我要开店</a>
+</div>
+<script type="text/javascript">
+    function OpenMyShop() {
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: '/' + areaName + '/Distribution/CanOpenMyShop',
+            data: null,
+            success: function (data) {
+                loading.close();
+                if (data.success) {
+                    if (data.code > 1) {
+                        $.dialog({
+                            title: '提示',
+                            content: data.msg,
+                            button: [
+                                {
+                                    name: '确认', callback: function () {
+                                        window.location.reload();
+                                    }
+                                }
+                            ]
+                        });
+                    } else {
+                        window.location.href = '/' + areaName + '/Distribution/ApplyDistributor';
+                    }
+                }
+                else {
+                    $.dialog({
+                        title: '提示',
+                        content: data.msg,
+                        button: [
+                            { name: '取消', callback: function () { } },
+                            {
+                                name: '确认', callback: function () {
+                                    window.location.href = '/' + areaName + '/Member/Center';
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+        });
+    }
+
+</script>

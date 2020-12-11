@@ -1,0 +1,8 @@
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.DTO.dll.config
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.DTO.dll
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.DTO.pdb
+D:\我的项目\Himall3.3\src\Himall.DTO\obj\Release\Himall.DTO.csprojAssemblyReference.cache
+D:\我的项目\Himall3.3\src\Himall.DTO\obj\Release\Himall.DTO.csproj.CoreCompileInputs.cache
+D:\我的项目\Himall3.3\src\Himall.DTO\obj\Release\Himall.DTO.csproj.CopyComplete
+D:\我的项目\Himall3.3\src\Himall.DTO\obj\Release\Himall.DTO.dll
+D:\我的项目\Himall3.3\src\Himall.DTO\obj\Release\Himall.DTO.pdb

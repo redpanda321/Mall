@@ -1,0 +1,25 @@
+﻿@model Mall.Web.Areas.Mobile.Models.VShopShowShopScoreModel
+@{
+    Layout = null;
+}
+<div class="item shop-wrap">
+    <div class="shop-hd">
+        <div class="shop-logo"><img src="@(Model.VShopLog)"></div>
+        <h4 class="j_shopName">@(Model.ShopName)</h4>
+        <div class="shop-hd-info">
+            <span>宝贝数<strong>@(Model.ProductNum)</strong></span>
+            <span>关注人数<strong id="favoriteShopCount">@(Model.FavoriteShopCount)</strong></span>
+        </div>
+    </div>
+    <ul class="shop-bd clearfix">
+        <li><strong>@(((decimal)Model.ProductAndDescription).ToString("F2"))</strong><div>商品</div></li>
+        <li><strong>@(((decimal)Model.SellerDeliverySpeed).ToString("F2"))</strong><div>发货</div></li>
+        <li><strong>@(((decimal)Model.SellerServiceAttitude).ToString("F2"))</strong><div>服务</div></li>
+    </ul>
+    <div class="shop-ft clearfix">
+        <span><a class="btn btn-default" id="bt_govshop" href="/@ViewBag.AreaName/vshop/detail/@Model.VShopId" vshopid="@Model.VShopId">进入店铺</a></span>
+        <span><a class="btn btn-default @(Model.IsFavoriteShop ? "fav-yes" : "")" id="addShopFavorite" shopid="@Model.ShopId">@(Model.IsFavoriteShop?"已":"")关注</a></span>
+    </div>
+</div>
+<input type="hidden" id="shopId" name="shopId" value="@Model.ShopId" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ShowShopScore.js?v=20183030"></script>

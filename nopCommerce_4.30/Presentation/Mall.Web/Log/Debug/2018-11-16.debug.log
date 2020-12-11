@@ -1,0 +1,56 @@
+
+
+
+ 记录时间：2018-11-16 16:46:40,137 
+日志级别：  DEBUG 
+出错类：Mall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-11-16 16:47:31,333 
+日志级别：  DEBUG 
+出错类：Mall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-11-16 16:48:11,665 
+日志级别：  DEBUG 
+出错类：Mall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-11-16 16:49:17,972 
+日志级别：  DEBUG 
+出错类：Mall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-11-16 16:52:33,606 
+日志级别：  DEBUG 
+出错类：Mall.Web.MvcApplication.Application_EndRequest  
+错误描述：2018-11-16 04:52:33 605:[当前请求URL：http://localhost:32223/Installer/SaveConfiguration；请求的参数为：；页面加载的时间：105633.1705 毫秒] 
+
+
+
+
+ 记录时间：2018-11-16 16:52:35,636 
+日志级别：  DEBUG 
+出错类：Mall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+
+
+
+
+ 记录时间：2018-11-16 17:06:00,895 
+日志级别：  DEBUG 
+出错类：Mall.Web.WebApiConfig.Register  
+错误描述：[OpenApi]RegRoute-DefaultOpenApi 
+

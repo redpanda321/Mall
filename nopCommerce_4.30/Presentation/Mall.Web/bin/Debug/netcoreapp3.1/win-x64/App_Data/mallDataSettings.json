@@ -1,0 +1,5 @@
+﻿{
+  "DataProvider": "mysql",
+  "DataConnectionString": "server=localhost;database=mall;user id=root;password=1234512345a;persistsecurityinfo=True;SslMode=none",
+  "RawDataSettings": {}
+}

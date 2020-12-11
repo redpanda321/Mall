@@ -1,0 +1,17 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Message\Mall.MessagePlugin.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Message\Mall.MessagePlugin.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Message\Mall.MessagePlugin.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.dll
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.pdb
+C:\S\nopCommerce_4.30_dev\Presentation\Mall.Web\Plugins\Message\Mall.MessagePlugin.deps.json
+C:\S\nopCommerce_4.30_dev\Presentation\Mall.Web\Plugins\Message\Mall.MessagePlugin.dll
+C:\S\nopCommerce_4.30_dev\Presentation\Mall.Web\Plugins\Message\Mall.MessagePlugin.pdb
+C:\S\nopCommerce_4.30_dev\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.30_dev\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.csproj.CoreCompileInputs.cache
+C:\S\nopCommerce_4.30_dev\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.30_dev\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.AssemblyInfo.cs
+C:\S\nopCommerce_4.30_dev\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.dll
+C:\S\nopCommerce_4.30_dev\MallPlugins\Message\Mall.MessagePlugin\obj\Debug\Mall.MessagePlugin.pdb

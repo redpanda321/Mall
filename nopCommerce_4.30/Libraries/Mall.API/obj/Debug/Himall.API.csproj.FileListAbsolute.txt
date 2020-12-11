@@ -1,0 +1,14 @@
+D:\Hiishop_Mall\branches\Himall3.3\src\Himall.API\obj\Debug\Himall.API.csprojResolveAssemblyReference.cache
+D:\Hiishop_Mall\branches\Himall3.3\src\Himall.Web\bin\Himall.API.dll.config
+D:\Hiishop_Mall\branches\Himall3.3\src\Himall.Web\bin\Himall.API.dll
+D:\Hiishop_Mall\branches\Himall3.3\src\Himall.Web\bin\Himall.API.pdb
+D:\Hiishop_Mall\branches\Himall3.3\src\Himall.API\obj\Debug\Himall.API.dll
+D:\Hiishop_Mall\branches\Himall3.3\src\Himall.API\obj\Debug\Himall.API.pdb
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.API.dll.config
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.API.dll
+D:\我的项目\Himall3.3\src\Himall.Web\bin\Himall.API.pdb
+D:\我的项目\Himall3.3\src\Himall.API\obj\Debug\Himall.API.csprojAssemblyReference.cache
+D:\我的项目\Himall3.3\src\Himall.API\obj\Debug\Himall.API.csproj.CoreCompileInputs.cache
+D:\我的项目\Himall3.3\src\Himall.API\obj\Debug\Himall.API.csproj.CopyComplete
+D:\我的项目\Himall3.3\src\Himall.API\obj\Debug\Himall.API.dll
+D:\我的项目\Himall3.3\src\Himall.API\obj\Debug\Himall.API.pdb

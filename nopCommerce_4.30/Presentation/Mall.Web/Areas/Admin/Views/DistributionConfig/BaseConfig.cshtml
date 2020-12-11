@@ -1,0 +1,188 @@
+﻿@model Mall.Web.Areas.Admin.Models.Distribution.DistributionConfigBaseConfigModel
+@{
+
+}
+<style type="text/css">
+	input[type='radio']{margin: 4px 0 0;}
+	.spec1{padding-left: 0;padding-right: 0;}
+	.spec1 input{width: 80px;}
+</style>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a href="@Url.Action("BaseConfig")">基本设置</a></li>
+        <li><a href="@Url.Action("PageConfig")">页面设置</a></li>
+        <li><a href="@Url.Action("RenameConfig")">分销关键字重命名</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>平台可在此设置分销功能的基本设置。平台开启分销后，商家可以添加分销商品并设置分佣比例，并且佣金由商家承担。（此部分佣金将会在平台与商家之间结算时，从商家应结佣金中扣除）</span></li>
+                <li><span>为规避可能存在的风险，平台可以重命名分销员的小店菜单名称。</span></li>
+            </ul>
+        </div>
+    </div>
+    @using (Html.BeginForm("SaveBaseConfig", "DistributionConfig", FormMethod.Post))
+    {
+        <div class="form-horizontal form-pt0">
+
+            <h3 class="table-hd">活动设置</h3>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">活动开关：</label>
+                <div class="col-sm-2 form-control-static">
+                    <label>@Html.RadioButtonFor(model => model.DistributionIsEnable, true)开启</label>
+                    <label>@Html.RadioButtonFor(model => model.DistributionIsEnable, false)关闭</label>
+                </div>
+                <div class="col-sm-6">
+                    <p class="help-default">开启后才能进行分销活动</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">分销等级设置：</label>
+                <div class="col-sm-4 form-control-static">
+                    @Html.HiddenFor(model => model.DistributionMaxLevel)
+                    <label><input type="radio" name="rdMaxLevel" value="1" @(Model.DistributionMaxLevel == 1 ? "checked" : "") /> 一级分销</label>
+                    <label><input type="radio" name="rdMaxLevel" value="2" @(Model.DistributionMaxLevel == 2 ? "checked" : "") /> 二级分销</label>
+                    <label><input type="radio" name="rdMaxLevel" value="3" @(Model.DistributionMaxLevel == 3 ? "checked" : "") /> 三级分销</label>
+                </div>
+                <div class="col-sm-5">
+                    <p class="help-default">具体的商品佣金由商家设置，分销产生的佣金也由商家承担</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">最高佣金比例设置：</label>
+                <div class="col-sm-2">
+                	<div class="col-sm-7 spec1">
+                    @Html.TextBoxFor(model => model.DistributionMaxBrokerageRate,new { @class= "form-control input-sm" })                    
+                    </div>
+                    <span class="help-default">%</span>
+                </div>
+                <span class="col-sm-6 help-default">商家设置的各级佣金比例之和不得超过此数，最多一位小数</span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">商品详情页佣金：</label>
+                <div class="col-sm-2 form-control-static">
+                    <label>
+                        @Html.RadioButtonFor(model => model.DistributionIsProductShowTips, true)显示
+                    </label>
+                    <label> @Html.RadioButtonFor(model => model.DistributionIsProductShowTips, false) 不显示</label>
+                </div>
+                <div class="col-sm-6">
+                    <p class="help-default">注意:此开关只针对非销售员用户有效，销售员的商品详情页都会显示佣金</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">销售员自购是否分佣：</label>
+                <div class="col-sm-2 form-control-static">
+                    <label>
+                        @Html.RadioButtonFor(model => model.DistributionCanSelfBuy, true)开启
+                    </label>
+                    <label> @Html.RadioButtonFor(model => model.DistributionCanSelfBuy, false) 关闭</label>
+                </div>
+                <div class="col-sm-6">
+                    <p class="help-default">开启后，销售员自己购买将获得一级分销佣金</p>
+                </div>
+            </div>
+            <h3 class="table-hd">销售员设置</h3>
+            <div class="form-group form-control-static">
+                <label class="col-sm-2 control-label" for="">销售员申请审核开关：</label>
+                <div class="col-sm-2 form-control-static">
+                    <label>
+                        @Html.RadioButtonFor(model => model.DistributorNeedAudit, true) 开启
+                    </label>
+                    <label>@Html.RadioButtonFor(model => model.DistributorNeedAudit, false) 关闭</label>
+                </div>
+                <div class="col-sm-6">
+                    <p class="help-default">关闭后，会员提交申请即成为销售员</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.HiddenFor(model => model.DistributorApplyNeedQuota)
+                <label style="margin-top: 10px;" class="col-sm-2 control-label" for="">销售员申请条件：</label>
+                <div class="col-sm-6 form-control-static">
+                    <label><input type="radio" name="rdApplyNeedQuota" value="0" @(Model.DistributorApplyNeedQuota == 0 ? "checked" : "") /> 无条件</label>
+                    <label><input style="margin-top: 12px;" type="radio" name="rdApplyNeedQuota" id="rdApplyNeedQuotaTrue" value="1" @(Model.DistributorApplyNeedQuota > 0 ? "checked" : "") /> 历史消费金额达到 <input class="form-control" style="display: inline-block;width: 150px;" type="text" name="txtApplyNeedQuota" id="txtApplyNeedQuota" value="@(Model.DistributorApplyNeedQuota>0?Model.DistributorApplyNeedQuota.ToString():"")" /> 元</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" onclick="Post()" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("[name='rdMaxLevel']").click(function () {
+            var _v = $(this).val();
+            $("#DistributionMaxLevel").val(_v);
+        });
+        $("[name='rdApplyNeedQuota']").click(function () {
+            var _v = $(this).val();
+            if (_v == "1") {
+                $("#DistributorApplyNeedQuota").val($("#txtApplyNeedQuota").val());
+            } else {
+                $("#DistributorApplyNeedQuota").val(0);
+            }
+        });
+        $("#txtApplyNeedQuota").focus(function () {
+            $("[name='rdApplyNeedQuota']").prop("checked", false);
+            $("#rdApplyNeedQuotaTrue").prop("checked", true);
+        });
+        $("#txtApplyNeedQuota").blur(function () {
+            var _v = $(this).val();
+            $("#DistributorApplyNeedQuota").val(_v);
+        });
+    });
+
+    function Post() {
+        var rate = $("#DistributionMaxBrokerageRate").val();
+        if (rate.length < 1 || !/^(100|(\d{1,2}(\.\d){0,1}))$/.test(rate)) {
+            $.dialog.tips('最高分佣比例需在0.1%~100%之间，且只能保留一位小数！');
+            return;
+        }
+        if (parseFloat(rate) < 0.1 || parseFloat(rate) > 100) {
+            $.dialog.tips('最高分佣比例需在0.1%~100%之间，且只能保留一位小数！');
+            return;
+        }
+        if ($("[name='rdApplyNeedQuota']:checked").val() == "1") {
+            var q = $("#txtApplyNeedQuota").val();
+            if (q.length < 1) {
+                $.dialog.tips('请填写销售员申请历史消费金额条件！');
+                $("#txtApplyNeedQuota").focus();
+                return;
+            }
+            if (!/^\d+$/.test(q)) {
+                $.dialog.tips('您输入的信息有误，此处只能输入大于0的整数！');
+                $("#txtApplyNeedQuota").focus();
+                return;
+            }
+            var pq = parseInt(q);
+            if (pq < 1 || pq > 99999) {
+                $.dialog.tips('您输入的信息有误，此处只能输入大于0 小于99999 的整数！');
+                $("#txtApplyNeedQuota").focus();
+                return;
+            }
+        }
+
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: '/Admin/DistributionConfig/SaveBaseConfig',
+            data: $("form").serialize(),
+            success: function (data) {
+                loading.close();
+                if (data.success)
+                    $.dialog.tips('保存成功！');
+                else
+                    $.dialog.tips('保存失败！' + data.msg);
+            }
+        });
+    }
+</script>

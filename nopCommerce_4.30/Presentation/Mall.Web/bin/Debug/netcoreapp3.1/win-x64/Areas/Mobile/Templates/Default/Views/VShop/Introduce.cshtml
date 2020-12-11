@@ -1,0 +1,66 @@
+﻿@using Mall.Core;
+@model Mall.Entities.VShopInfo
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "店铺介绍";
+}
+<style type="text/css">
+	.list-group .list-group-item{padding: 0;border: 0;}
+	.list-group .list-group-item.head-item{height: 120px;background-color: #FB1438;padding-top: 14px;}
+	.vshop-head .v-logo{border-width: 0;height: 68px;width:68px;border-radius: 50%;margin-top: 0;}
+	.vshop-head .v-logo img{height: 100%;width: 100%;}
+	.vshop-head p{color:#FFFFFF;font-size: 16px;line-height: 20px;margin-top: 6px;}
+	.vshop-head a.favorite-btn{display: block;position: absolute;top: 0;right: 13px;width: 26px;height: 20px;background:url(/Areas/Mobile/Templates/Default/Images/favorite.png) no-repeat center;background-size: 26px 20px;}
+	.vshop-head a.favorite-btn.on{background-image: url(/Areas/Mobile/Templates/Default/Images/favorite_on.png);}
+	.shop-score{height: 60px;display: table;width: 100%;padding-top: 10px;}
+	.shop-score span{display: inline-block;width: 33%;color: #747474;font-size: 12px;line-height: 20px;display: table-cell;text-align: center;}
+	.shop-score span em{color: #FB1438;font-size: 14px;display: block;padding: 0!important;}
+	.shop-score span+span:before{margin-top:8px;display:block;width:1px;height:25px;background-color: #CCCCCC;content: "";float: left;}
+	.list-group .list-group-item.qr-item{background: transparent;}
+	.list-group .list-group-item.qr-item .qr-wrapper{height: 212px;width: 176px;background: url(/Areas/Mobile/Templates/Default/Images/qr_bg.png) no-repeat center;margin: 40px auto;text-align: center;color: #FFFFFF;font-size: 16px;line-height: 44px;padding-top: 8px;background-size: 176px 212px;}
+	.list-group .list-group-item.qr-item .qr-wrapper img{margin:0 auto;width: 160px;height: 160px;display: block;}
+</style>
+
+<div class="container">
+    @{var shop = (Mall.Entities.ShopInfo)ViewBag.shop;}
+    <div class="list-group">
+        <div class="list-group-item head-item">
+            <div class="vshop-head">
+                <a class="v-logo" href=""><img src="@(Mall.Core.MallIO.GetImagePath(Model.Logo))" /></a>
+                <p>@Model.Name</p>
+                @if (ViewBag.IsFavorite) {
+                    <a class="favorite-btn on" id="favorite"></a>
+                }
+                else {
+                    <a class="favorite-btn" id="favorite"></a>
+                }
+            </div>
+        </div>
+    @if(shop!=null && shop.IsSelf!=true) {
+        <div class="list-group-item">
+                <div class="shop-score">
+                	<span><em>@(((decimal)ViewBag.ProductAndDescription).ToString("F2"))</em>店铺</span>
+                	<span><em>@(((decimal)ViewBag.SellerDeliverySpeed).ToString("F2"))</em>发货</span>
+                	<span><em>@(((decimal)ViewBag.SellerServiceAttitude).ToString("F2"))</em>服务</span>
+                </div>
+        </div>
+       }
+       <div class="list-group-item f14 qr-item">
+       	<div class="qr-wrapper">
+       		<img class="lazyload" src="@ViewBag.QRCode" width="150" />店铺二维码
+       	</div>
+       </div>
+    </div>
+   
+    <!-- <div class="list-group">
+        <div class="list-group-item ">
+            <h6 class="f14">店铺简介：</h6>
+            <p>@Model.Description</p>
+        </div>
+    </div> -->
+</div>
+
+<a class="WX-backtop" href="#"></a>
+<input type="hidden" id="shopId" value="@Model.ShopId" />
+<input type="hidden" id="vshopId" value="@Model.Id" />
+<script src="~/Areas/Mobile/Templates/Default/Scripts/vshopIntroduce.js?v=20183030"></script>

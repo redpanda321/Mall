@@ -1,0 +1,167 @@
+﻿@model Mall.Web.Areas.Mobile.Models.FightGroupGroupDetailModel
+@{
+    ViewBag.Title = "拼团详情";
+    var actdata = Model.ActiveData;
+    var gpdata = Model.GroupsData;
+    int showhst = 1;
+    if (gpdata.BuildStatus == Mall.CommonModel.FightGroupBuildStatus.Failed)
+    {
+        showhst = 2;
+    }
+    if (gpdata.BuildStatus == Mall.CommonModel.FightGroupBuildStatus.Ongoing)
+    {
+        showhst = 3;
+    }
+    //计算结束时间
+    DateTime etime = gpdata.AddGroupTime.AddHours((double)gpdata.LimitedHour);
+}
+
+<div id="J_shop_att">@Html.RenderAction("ShowSkuInfo", "FightGroup", new { data = actdata })</div>
+<div class="merge-mask hide">
+	<div class="text-tip"></div>
+</div>
+<div class="container merge-container">
+	<div class="cover distribution">
+        <img src="/Areas/Mobile/Templates/Default/Images/proShare.png" />
+    </div>
+	@Html.RenderAction("ShowActionHead", "FightGroup", new { data = actdata })
+	<div class="detail-bd">
+		@Html.RenderAction("ShowDetail", "FightGroup", new { data = actdata, hst = showhst, etime = etime })
+		@if (actdata.ActiveStatus == Mall.CommonModel.FightGroupActiveStatus.Ongoing)
+		{
+			<section class="merge-do">
+				<div class="merge-do-tip">
+					已参团的小伙伴
+					@if (gpdata.BuildStatus == Mall.CommonModel.FightGroupBuildStatus.Ongoing)
+					{
+						<span>，还差<strong class="merge-highlight">@(gpdata.LimitedNumber - gpdata.JoinedNumber)</strong>人</span>
+					}
+				</div>
+				<ul class="merge-do-list">
+					@foreach (var item in gpdata.GroupOrders)
+					{
+						<li>
+							<span class="avatar"><img src="@(item.Photo)"></span>
+							<span class="name">@(item.UserName)</span>
+						</li>
+					}
+				</ul>
+				@if (gpdata.BuildStatus == Mall.CommonModel.FightGroupBuildStatus.Success)
+				{
+					<div class="merge-do-sign"></div>
+				}
+				@if (gpdata.BuildStatus == Mall.CommonModel.FightGroupBuildStatus.Failed)
+				{
+					<div class="merge-fail-sign"></div>
+				}
+			</section>
+		}
+		else
+		{
+			@Html.RenderAction("ShowNewCanJoinGroup", "FightGroup", new { id = actdata.Id })
+		}
+
+		@Html.RenderAction("ProductCommentShow", "Product", new { id = actdata.ProductId, top = 0, isshowtit = true })
+
+		@Html.RenderAction("ShowShopScore", "VShop", new { id = actdata.ShopId })
+
+		@Html.RenderAction("ShowProductDescription", "Product", new { id = actdata.ProductId })
+	</div>
+</div>
+
+@Html.Hidden("gpid", gpdata.Id)
+
+<section class="merge-bar-container">
+	<div class="merge-bar">
+		@if (actdata.CanBuy)
+		{
+			if (actdata.EndTime >= DateTime.Now)
+			{
+				switch (gpdata.BuildStatus)
+				{
+					case Mall.CommonModel.FightGroupBuildStatus.Ongoing:
+						<a class="btn btn-default btn-left" href="/@(ViewBag.AreaName)/FightGroup/Index/">更多拼团</a>
+						if (Model.HasJoin)
+						{
+							<a class="btn btn-danger btn-right" id="bt_invite">邀请朋友</a>
+						}
+						else
+						{
+							<a class="btn btn-danger btn-right buy">参加火拼</a>
+						}
+						break;
+					case Mall.CommonModel.FightGroupBuildStatus.Failed:
+					<a class="btn btn-default btn-left" href="/@(ViewBag.AreaName)/FightGroup/Index/">更多拼团</a>
+					<a class="btn btn-danger btn-right" href="/@(ViewBag.AreaName)/FightGroup/Detail/@(gpdata.ActiveId)">我也要开团</a>
+						break;
+					case Mall.CommonModel.FightGroupBuildStatus.Success:
+					<a class="btn btn-default btn-left" href="/@(ViewBag.AreaName)/FightGroup/Index/">更多拼团</a>
+					<a class="btn btn-danger btn-right" href="/@(ViewBag.AreaName)/FightGroup/Detail/@(gpdata.ActiveId)">我也要开团</a>
+						break;
+				}
+			}
+			else
+			{
+				<a href="/@(ViewBag.AreaName)/Product/Detail/@(actdata.ProductId)?nojumpfg=1" class="btn btn-default btn-left">￥@(actdata.MiniSalePrice) 原价买</a>
+				<a class="btn btn-danger btn-right" href="/@(ViewBag.AreaName)/FightGroup/Index/">更多拼团</a>
+			}
+		}
+		else
+		{
+			<a class="btn btn-default btn-right disabled" href="javascript:;">商品不在销售中</a>
+		}
+	</div>
+</section>
+<script type="text/javascript">
+	$(function () {
+		$("#bt_invite").on("click", function () {
+			$(".merge-mask").removeClass("hide");
+		});
+
+		$(".merge-mask").on("click", function () {
+			var _t = $(this);
+			_t.addClass("hide");
+		});
+		
+		$(".cover").on('click', function () {
+	        $(".cover").hide();
+	    });
+	    
+	    $(".goods-info").on('click', ".icon-share", function () {
+	        $(".cover").show();
+	    });
+	});
+	
+	
+</script>
+<script type="text/javascript">
+    function getProductId() {
+        return '@Model.ActiveData.ProductId';
+    }
+</script>
+
+<script>
+	var loading = showLoading();
+	var winxinShareArgs = {
+		success: function () {
+			loading.close();
+		},
+		error: function () {
+			loading.close();
+			$.dialog.errorTips('注册微信接口失败，请刷新页面');
+		},
+		share: {
+			title: '@Model.ShareTitle',
+			desc: '@Model.ShareDesc',
+			link: '@Model.ShareUrl',
+			imgUrl: '@Model.ShareImage',
+			success: function () {
+				var mmbox = $(".merge-mask");
+				if (mmbox) {
+					$(".merge-mask").addClass("hide");
+				}
+			}
+		}
+	};
+</script>
+@Html.Partial("_WeiXinShare")

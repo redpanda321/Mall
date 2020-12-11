@@ -1,0 +1,365 @@
+﻿@using Mall.Core;
+@using Mall.DTO;
+@using Mall.Entities
+@model Mall.Entities.OrderInfo
+@{
+    var orderitems = ViewBag.OrderItems as List<OrderItemInfo>;
+    var logs = ViewBag.Logs as List<OrderOperationLogInfo>;
+    var itemDis = orderitems.Sum(i => i.DiscountAmount);
+    var shopBranchInfo = ViewBag.ShopBranchInfo as ShopBranch;
+    var virtualOrderItemInfos = ViewBag.VirtualOrderItemInfos as List<VirtualOrderItemInfo>;
+    var orderVerificationCodeInfos = ViewBag.OrderVerificationCodeInfos as List<OrderVerificationCodeInfo>;
+    var orderInvoice = ViewBag.OrderInvoiceInfo as OrderInvoiceInfo;
+    var shipperAddress = (string)ViewBag.ShipperAddress;
+    var shipperTelPhone = (string)ViewBag.ShipperTelPhone;
+}
+<script src="~/Areas/Admin/Scripts/OrderDetail.js"></script>
+
+<div class="container clear-q1">
+    <ul class="breadcrumb clearfix" style="margin-bottom:0;">
+        <li><a>订单列表</a></li>
+        <li><a>查看订单详情 </a></li>
+    </ul>
+	<div class="outercont">
+    <div class="order-info clearfix mr20">
+        <h3> <span></span>订单信息</h3>
+        <div class="caption">
+            <div class="form-group clearfix">
+                <label class="col-sm-4">订单状态：</label>
+                <div class="col-sm-5 form-control-static">@Model.OrderStatus.ToDescription()</div>
+                @if (Model.OrderType == Mall.Entities.OrderInfo.OrderTypes.FightGroup)
+                {
+                <div class="col-sm-3 form-control-static">
+                    <span class="fgordstatus fgordstatus@(Model.FightGroupOrderJoinStatus.GetHashCode())">@(Model.FightGroupOrderJoinStatus.ToDescription())</span>
+                </div>
+                }
+            </div>
+            <div class="form-group clearfix"><label class="col-sm-4">订 单 号：</label><div class="col-sm-8 form-control-static">@Model.Id</div></div>
+            <div class="form-group clearfix"><label class="col-sm-4">买家：</label><div class="col-sm-8 form-control-static">@Model.UserName</div></div>
+            <div class="form-group clearfix"><label class="col-sm-4">下单时间：</label><div class="col-sm-8 form-control-static">@Model.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</div></div>
+
+            @if (Model.PayDate != null && Model.OrderStatus != Mall.Entities.OrderInfo.OrderOperateStatus.WaitPay)
+            {
+                if (Model.OrderTotalAmount == 0 && Model.CapitalAmount == 0)
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label> <div class="col-sm-8 form-control-static">@Model.PaymentTypeDesc</div></div>
+                }
+                else if (string.IsNullOrEmpty(Model.PaymentTypeName))
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label><div class="col-sm-8 form-control-static">@Model.PaymentTypeDesc  <span>【备注：@{@Model.PayRemark}】</span></div></div>
+                }
+                else
+                {
+                    <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label> <div class="col-sm-8 form-control-static">@Model.PaymentTypeDesc <span>@(string.IsNullOrEmpty(Model.PayRemark) ? "" : "(" + Model.PayRemark + ")")</span></div> </div>
+                    <div class="form-group clearfix"><label class="col-sm-4">支付流水号：</label><div class="col-sm-8 form-control-static">@Model.GatewayOrderId</div></div>
+                }
+            }
+            else
+            {
+                <div class="form-group clearfix"><label class="col-sm-4">支付方式：</label> <div class="col-sm-8 form-control-static">@Model.PaymentTypeDesc @Model.PayRemark</div> </div>
+            }
+            <div class="form-group clearfix"><label class="col-sm-4">支付时间：</label><div class="col-sm-8 form-control-static">@(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</div></div>
+            @*@if (Model.InvoiceType != Mall.CommonModel.InvoiceType.None)
+            {
+            <div class="form-group clearfix"><label class="col-sm-4">发票抬头：</label><div class="col-sm-8 form-control-static">@Model.InvoiceTitle</div></div>
+            <div class="form-group clearfix" hidden="!@Model.InvoiceCode"><label class="col-sm-4">发票税号：</label><div class="col-sm-8 form-control-static">@Model.InvoiceCode</div></div>
+            <div class="form-group clearfix"><label class="col-sm-4">发票内容：</label><div class="col-sm-8 form-control-static">@Model.InvoiceContext</div></div>
+            }*@
+            @if (Model.SellerRemarkFlag.HasValue)
+            {
+            <div class="form-group" title="@Model.SellerRemark">
+                <label class="col-sm-4">商家备注：</label>
+
+
+                <div class="col-sm-8 form-control-static" id="txtSellerRemark">@Model.SellerRemark</div>
+            </div>
+            }
+            @if (Model.OrderType == OrderInfo.OrderTypes.Virtual && !string.IsNullOrWhiteSpace(shipperAddress) && !string.IsNullOrWhiteSpace(shipperTelPhone))
+            {
+                <div class="form-group"><label class="col-sm-4">联系电话：</label><div class="col-sm-8 form-control-static">@shipperTelPhone</div></div>
+                <div class="form-group"><label class="col-sm-4">核销地址：</label><div class="col-sm-8 form-control-static">@shipperAddress</div></div>
+            }
+            @if (Model.FinishDate.HasValue)
+            {
+                <div class="form-group"><label class="col-sm-4">订单完成时间：</label><div class="col-sm-8 form-control-static">@(Model.FinishDate.Value.ToString("yyyy-MM-dd HH:mm:ss"))</div></div>
+            }
+        </div>
+    </div>
+    @if (Model.OrderType == OrderInfo.OrderTypes.Virtual)
+    {
+        <div class="delivery-info">
+            <h3><span></span>用户信息</h3>
+            <div class="caption">
+                @if (virtualOrderItemInfos != null && virtualOrderItemInfos.Count > 0)
+                {
+                    foreach (var item in virtualOrderItemInfos)
+                    {
+                        if (item.VirtualProductItemType == ProductInfo.VirtualProductItemType.Picture)
+                        {
+                            var pics = item.Content.Split(',').ToList();
+                            <div class="form-group">
+                                <label class="col-sm-4">@item.VirtualProductItemName：</label>
+                                <div class="col-sm-8 form-control-static" style="overflow: visible;">
+                                    <p class="after-service-img">
+                                        @foreach (var src in pics)
+                                        {
+                                            <img src="@src" />
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group"><label class="col-sm-4">@item.VirtualProductItemName：</label><div class="col-sm-8 form-control-static"><span id="content" style="max-height:37px;overflow:hidden;">@item.Content</span></div></div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="delivery-info clearfix">
+            <h3><span></span>收货信息</h3>
+            <div class="caption">
+                <div class="form-group clearfix"><label class="col-sm-4">收 货 人：</label><div class="col-sm-8 form-control-static">@Model.ShipTo</div></div>
+                <div class="form-group clearfix"><label class="col-sm-4">手机号码：</label><div class="col-sm-8 form-control-static">@Model.CellPhone</div></div>
+                <div class="form-group clearfix"><label class="col-sm-4">收货地址：</label><div class="col-sm-8 form-control-static">@Model.RegionFullName @Model.Address</div></div>
+
+                @if (!string.IsNullOrEmpty(Model.ExpressCompanyName))
+            {
+            <div class="form-group clearfix"><label class="col-sm-4">物流公司：</label><div class="col-sm-8 form-control-static">@Model.ExpressCompanyName</div></div>
+            }
+        
+            @if (Model.DeliveryType == Mall.CommonModel.DeliveryType.SelfTake)
+            {
+            <div class="form-group clearfix">
+                <label class="col-sm-4">核销时间：</label>
+                <div class="col-sm-8 form-control-static">@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy-MM-dd") : string.Empty)</div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="col-sm-4">核销人：</label>
+                <div class="col-sm-8 form-control-static">@ViewBag.ShopBranchContactUser</div>
+            </div>
+            }
+            @if (Model.OrderStatus != Mall.Entities.OrderInfo.OrderOperateStatus.WaitSelfPickUp)
+            {
+            <div class="form-group clearfix"><label class="col-sm-4">发货时间：</label><div class="col-sm-8 form-control-static">@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</div></div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ShipOrderNumber))
+            {
+            <div class="form-group clearfix"><label class="col-sm-4">快递单号：</label><div class="col-sm-8 form-control-static">@Model.ShipOrderNumber      <a href="javascript:;" onclick="showExpress();">查看物流信息</a></div></div>
+            }
+            @if (shopBranchInfo != null)
+            {
+                if (Model.DeliveryType != Mall.CommonModel.DeliveryType.SelfTake)
+                {
+            <div class="form-group"><label class="col-sm-4">配送门店：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.ShopBranchName</div></div>
+            <div class="form-group"><label class="col-sm-4">配送方式：</label><div class="col-sm-8 form-control-static">门店配送</div></div>
+            <div class="form-group"><label class="col-sm-4">配送时间：</label><div class="col-sm-8 form-control-static">@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd") : "任意时间")</div></div>
+                }
+            <div class="form-group"><label class="col-sm-4">联系方式：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.ContactPhone</div></div>
+            <div class="form-group"><label class="col-sm-4">门店地址：</label><div class="col-sm-8 form-control-static">@shopBranchInfo.AddressFullName</div></div>
+            }
+            @*<p>买家备注：@Model.UserRemark</p>*@<p></p>
+        </div>
+    </div>
+    }
+    </div>
+    @if (orderVerificationCodeInfos != null && orderVerificationCodeInfos.Count > 0)
+    {
+        <div class="order-detail-list">
+            <table id="tbVerificationCodes" class="table no-hover bgcolor-f9">
+                <thead>
+                    <tr>
+                        <th width="30%" class="text-center">核销码</th>
+                        <th width="15%" class="text-center">付款时间</th>
+                        <th width="10%" class="text-center">状态</th>
+                        <th width="10%" class="text-center">核销时间</th>
+                        <th width="10%" class="text-center">门店/店铺名称</th>
+                        <th width="10%" class="text-center">核销人</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in orderVerificationCodeInfos)
+                    {
+                        <tr class="product tac">
+                            @if (item.Status == OrderInfo.VerificationCodeStatus.Refund || item.Status == OrderInfo.VerificationCodeStatus.WaitVerification)
+                            {
+                                <td class="tal">@System.Text.RegularExpressions.Regex.Replace(System.Text.RegularExpressions.Regex.Replace(item.VerificationCode, "(\\d{4})\\d{4}(\\d{4})", "$1 **** $2"), @"(\d{4})", "$1 ")</td>
+                            }
+                            else
+                            {
+                                <td class="tal">@System.Text.RegularExpressions.Regex.Replace(item.VerificationCode, @"(\d{4})", "$1 ")</td>
+                            }
+                            <td>@Html.Raw(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</td>
+                            <td>@item.Status.ToDescription()</td>
+                            <td>@Html.Raw(item.VerificationTime.HasValue ? item.VerificationTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</td>
+                            <td>@Html.Raw(Model.ShopBranchId > 0 ? shopBranchInfo.ShopBranchName : Model.ShopName)</td>
+                            <td>@item.VerificationUser</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    @if(orderInvoice != null&&Model.OrderType!=OrderInfo.OrderTypes.Virtual)
+    {
+        <div class="invoice-info clearfix">
+            <h3> <span></span>发票信息</h3>
+            <div class="caption">
+                <div class="invoice-detail clearfix"><label class="col-sm-4">发票类型：</label><div class="col-sm-8">@orderInvoice.InvoiceTypeName</div></div>
+                <div class="invoice-detail clearfix" style="height:auto;"><label class="col-sm-4">发票抬头：</label><div class="col-sm-8">@orderInvoice.InvoiceTitle</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.InvoiceCode))"><label class="col-sm-4">纳税人识别号：</label><div class="col-sm-8">@orderInvoice.InvoiceCode</div></div>
+                <div class="invoice-detail clearfix"><label class="col-sm-4">发票内容：</label><div class="col-sm-8">@orderInvoice.InvoiceContext</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.RegisterAddress))"><label class="col-sm-4">注册地址：</label><div class="col-sm-8">@orderInvoice.RegisterAddress</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.RegisterPhone))"><label class="col-sm-4">注册电话：</label><div class="col-sm-8">@orderInvoice.RegisterPhone</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.BankName))"><label class="col-sm-4">开户银行：</label><div class="col-sm-8">@orderInvoice.BankName</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.BankNo))"><label class="col-sm-4">银行账户：</label><div class="col-sm-8">@orderInvoice.BankNo</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.RealName))"><label class="col-sm-4">收票人姓名：</label><div class="col-sm-8">@orderInvoice.RealName</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.CellPhone))"><label class="col-sm-4">收票人手机：</label><div class="col-sm-8">@orderInvoice.CellPhone</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.Email))"><label class="col-sm-4">收票人邮箱：</label><div class="col-sm-8">@orderInvoice.Email</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.RegionFullName))"><label class="col-sm-4">收票人地区：</label><div class="col-sm-8">@orderInvoice.RegionFullName</div></div>
+                <div class="invoice-detail clearfix" hidden="@(string.IsNullOrEmpty(orderInvoice.Address))"><label class="col-sm-4">收票人详细地址：</label><div class="col-sm-8">@orderInvoice.Address</div></div>
+            </div>
+        </div>
+    }
+    <div class="order-detail-list">
+        <h3><span></span>订单清单</h3>
+        <table class="table clearfix">
+            <thead>
+                <tr class="tac">
+                    <th class="tac" width="300">商品名称</th>
+                    <th class="tac" width="100">规格</th>
+                    <th class="tac" width="100">单价/数量</th>
+                    @if (itemDis != 0)
+                    {
+                        <th class="tac">改价</th>
+                    }
+                    <th class="tac" width="100">总价</th>
+                    <th class="tac" width="100">佣金</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderItem in orderitems)
+                {
+                    <tr class="tac">
+                        <td class="name-info tal">
+                            <a target="_blank" href="/product/detail/@orderItem.ProductId">
+                                <img class="ml15" width="40" height="40" src="@(Mall.Core.MallIO.GetProductSizeImage(orderItem.ThumbnailsUrl, 1, (int)Mall.CommonModel.ImageSize.Size_50))">@orderItem.ProductName
+                            </a>
+                        </td>
+                        <td>@orderItem.Color @orderItem.Size @orderItem.Version</td>
+                        <td>@orderItem.SalePrice.ToString("F2")*@orderItem.Quantity</td>
+                        @if (itemDis != 0)
+                        {
+                            <td>
+                                @if (@orderItem.DiscountAmount > 0)
+                                {
+                                    <span>-@orderItem.DiscountAmount.ToString("F2")</span>
+                                }
+                                else
+                                {
+                                    <span>+@Math.Abs(orderItem.DiscountAmount).ToString("F2")</span>
+                                }
+                            </td>
+                        }
+                        <td class="clear-q2">@orderItem.RealTotalPrice.ToString("F2")</td>
+
+                        <td>@(orderItem.PlatCommission.ToString("F2"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="order-bottom-detail clearfix">
+            <!--留言字段添加6-12-->
+            <div class="leave-message">
+                <label>买家留言：</label>
+                <span>@Model.OrderRemarks</span>
+            </div>
+            <div class="order-total">
+                <span><label>商品总价：</label><i>￥ @((Model.ProductTotalAmount + itemDis).ToString("F2"))</i></span>
+                @if (Model.FullDiscount > 0)
+            {
+                    <span><label>满减优惠:</label><i>-￥@Model.FullDiscount.ToString("F2")</i></span>
+                }
+
+                @if (Model.DiscountAmount > 0)
+                {
+                    <span><label>优惠券抵扣金额:</label><i>-￥@Model.DiscountAmount.ToString("F2")</i></span>
+                }
+                @if (Model.IntegralDiscount > 0)
+                {
+                    <span><label>积分抵扣金额：</label><i>-￥@Model.IntegralDiscount.ToString("F2")</i></span>
+                }
+                @if (itemDis != 0)
+                {
+                    <span>
+                        <label class="pl4">商家改价：</label>
+                        @if (itemDis > 0)
+                        {
+                            <i>- @itemDis</i>
+                        }
+                        else
+                        {
+                            <i>+ @(-itemDis)</i>
+                        }
+                    </span>
+                }
+                @if (Model.OrderType != OrderInfo.OrderTypes.Virtual)
+                {
+                    <span><label>运费：</label><i>￥@Model.Freight.ToString("F2")</i></span>
+                    if (Model.Tax > 0)
+                    {
+                        <span><label>税费：</label><i>￥@Model.Tax.ToString("F2")</i></span>
+                    }
+                }
+                <span><label class="clear-q2">订单实付金额：</label><i class="clear-q2">￥@Html.Raw((Model.OrderTotalAmount).ToString("F2"))</i></span>
+                @if (Model.CapitalAmount > 0)
+                {
+                    <span><label>预存款抵扣金额：</label><i>￥@Model.CapitalAmount.ToString("F2")</i></span>
+                }
+                @if ((Model.OrderPayAmount) > 0)
+                {
+                    <span><label>@Model.PaymentTypeName：</label><i>￥@((Model.OrderPayAmount).ToString("F2"))</i></span>
+                }
+                
+            </div>
+        </div>
+        <div class="delivery-detail" id="delivery-detail">
+            <p class="clear-q3">物流详情<span class="detail-open"></span></p>
+            <div id="tbExpressData" class="clearfix">
+            </div>
+        </div>
+
+        <div class="order-log">
+            <p>订单操作日志<span class="list-open"></span></p>
+            <table class="table dln">
+                <thead>
+                    <tr>
+                        <th class="tac">操作者</th>
+                        <th class="tac">时间</th>
+                        <th class="tac">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderOperationLog in logs)
+                    {
+                        <tr class="tac">
+                            <td>@orderOperationLog.Operator</td>
+                            <td>@orderOperationLog.OperateDate</td>
+                            <td>@orderOperationLog.OperateContent</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <input type="hidden" value="@Model.ExpressCompanyName" id="MECo" />
+    <input type="hidden" value="@Model.ShipOrderNumber" id="MSOn" />
+</div>
+<div class="cover"></div>
+<div class="preview-img"><img src="" /></div>

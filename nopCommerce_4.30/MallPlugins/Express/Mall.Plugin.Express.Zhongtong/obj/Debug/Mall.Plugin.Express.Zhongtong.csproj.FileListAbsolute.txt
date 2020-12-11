@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhongtong\Mall.Plugin.Express.Zhongtong.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhongtong\Mall.Plugin.Express.Zhongtong.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhongtong\Mall.Plugin.Express.Zhongtong.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongtong\obj\Debug\Mall.Plugin.Express.Zhongtong.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongtong\obj\Debug\Mall.Plugin.Express.Zhongtong.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongtong\obj\Debug\Mall.Plugin.Express.Zhongtong.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongtong\obj\Debug\Mall.Plugin.Express.Zhongtong.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongtong\obj\Debug\Mall.Plugin.Express.Zhongtong.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongtong\obj\Debug\Mall.Plugin.Express.Zhongtong.pdb

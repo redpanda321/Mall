@@ -1,0 +1,241 @@
+﻿@model Mall.Web.Areas.Mobile.Models.DistributionMarketViewModel
+@{
+    ViewBag.FootIndex = 4;
+}
+
+<div class="container distribution pb0">
+    <div class="cover">
+        <img src="/Areas/Mobile/Templates/Default/Images/proShare.png" />
+    </div>
+    <div class="search plr11">
+        <form class="" action="" onsubmit="return false;">
+            <input type="search" placeholder="搜索分销商品" id="searchtxt">
+            <i class="glyphicon glyphicon-search" id="searchBtn"></i>
+            <i class="iconfonts icon-icon__close1" id="clearSearch"></i>
+        </form>
+    </div>
+    <div class="index-category">
+        <div class="categoryLeft" id="categoryLeft" tabindex="5000" style="overflow: hidden; outline: none;">
+            <ul class="clearfix" id="typeList">
+                <li class="cur" id="allcate" data-cid="0">全部分类</li>
+                @foreach (var item in Model.AllTopCategories)
+                {
+                    <li data-cid="@(item.Id)">@(item.Name)</li>
+                }
+            </ul>
+        </div>
+        <div class="categoryRight" id="categoryRight">
+            <div id="hasdata">
+                <ul class="pros" id="productlist"></ul>
+                <div id="autoLoad" class="loading"></div>
+            </div>
+            <div style="display:none;" id="nodata">
+                <p>暂无数据！</p>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="ShareProductUrlTMP" name="ShareProductUrlTMP" value="@(Model.ShareProductUrlTMP)" />
+<a href="javascript:;" class="btn_top"></a>
+<script src="~/Scripts/iscroll.js"></script>
+<script src="~/Content/Public/js/dist/underscore.js?v=20183030"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/loading.js?v=20183030"></script>
+<script id="datatmp" type="text/template">
+    <%_.each(datalist, function(item, index, obj) {%>
+    <li>
+        <a href="/@(ViewBag.AreaName)/Product/Detail/<%=item.ProductId%>">
+            <img src="<%=item.DefaultImage%>" onerror="this.onerror='';src='/Areas/Mobile/Templates/Default/Images/default-img.png'">
+        </a>
+        <div class="content">
+            <a href="/@(ViewBag.AreaName)/Product/Detail/<%=item.ProductId%>">
+                <h3><%=item.ProductName%></h3>
+            </a>
+            <div class="middle">
+                <span class="price">￥<%=item.MinSalePrice.toFixed(2)%></span>
+                <span class="most">最高赚 <span class="price">￥<%=item.MaxBrokerage.toFixed(2)%></span></span>
+            </div>
+            <div class="bottommsg">库存<b><%=item.Stock%></b>件 已分销<b><%=item.SaleCount%></b>件</div>
+        </div>
+        <span class="icon-share" data-pid="<%=item.ProductId%>" data-uid="@(CurrentUser.Id)"
+                              data-des="<%=item.ShortDescription%>"
+                              data-title="<%=item.ProductName%>" data-img="<%=item.DefaultImage%>"><i class="iconfonts icon-icon_-share"></i></span>
+    </li>
+    <%});%>
+</script>
+<script type="text/javascript">
+
+    var curCateId = 0;
+    var curSearchKey = "";
+
+    var curPage = 1;       //当前页
+    var isMoreGet = true;  //是否还有数据
+    var isLoading = false;
+    var TmplCon = "";
+    var databox;
+    var datalist;   //数据变量
+    var isSearch = false;
+
+    $(function () {
+		//滚动
+	    $(".categoryLeft").niceScroll({ cursorwidth: 0, cursorborder: 0 });
+	    $('.index-category').height($(window).height()-58);
+        TmplCon = $("#datatmp").html(); //获取模板内容
+        databox = $("#productlist");
+        h_loading.init($("#autoLoad"));
+
+        getData();
+
+        $('.categoryRight').scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+
+            if (scrollTop + windowHeight >= scrollHeight-30) {
+                getData();
+            }
+        });
+        $("#searchBtn").click(function () {
+            curSearchKey = $("#searchtxt").val();
+            isSearch = true;
+            isMoreGet = true;
+            $("#allcate").trigger("click");
+        });
+        $("#searchtxt").keypress(function (e) {
+            if (e.keyCode == 13) {
+                $('#searchBtn').trigger("click");
+                e.preventDefault();
+            }
+        });
+        $("#clearSearch").click(function(){
+        	$("#searchtxt").val('');
+        });
+
+        //滚动
+        $(".categoryLeft").niceScroll({ cursorwidth: 0, cursorborder: 0 });
+        //点击切换分类
+        var array = new Array();
+        $('.categoryLeft li').each(function (i) {
+            array.push($(this).position().top - 56);
+        });
+        $('.categoryLeft li').click(function () {
+            if (!isSearch) {
+                if ($(this).hasClass('cur')) {
+                    return;
+                }
+                isSearch = false;
+            }
+            var _t = $(this);
+            curPage = 1;
+            isMoreGet = true;
+            //curSearchKey = $("#searchtxt").val();
+            curCateId = _t.data("cid");
+            databox.empty();
+            getData();
+            var index = $(this).index();
+            $('.categoryLeft').delay(200).animate({ scrollTop: array[index] }, 300);
+            $(this).addClass("cur").siblings().removeClass("cur");
+        });
+        $(".cover").on('click', function () {
+            $(".cover").hide();
+        });
+        $("#productlist").on('click', ".icon-share", function () {
+            shareProduct($(this));
+            $(".cover").show();
+        });
+    });
+
+    function getData() {
+        if (isMoreGet) {
+            var getdataurl = '/' + areaName + '/Distribution/GetProductList';
+            if (!isLoading) {
+                isLoading = true;
+                h_loading.show();
+                $.post(getdataurl, { page: curPage, categoryId: curCateId, productName: curSearchKey }, function (result) {
+                    isLoading = false;
+                    datalist = result.rows;
+                    if (datalist.length > 0) {
+                        $("#nodata").hide();
+                        $("#hasdata").show();
+                        databox.append(_.template(TmplCon, datalist));
+                        h_loading.hide();
+                    } else {
+                        isMoreGet = false;
+                        if (curPage > 1) {
+                            h_loading.nodata("-别拉了，快去分享吧-");
+                        } else {
+                            $("#hasdata").hide();
+                            $("#nodata").show();
+                        }
+                    }
+                    curPage++;
+                });
+            }
+        }
+    }
+</script>
+
+<script>
+
+    function shareProduct(obj) {
+        var productId = 0;
+        obj = $(obj);
+        var pid = obj.data("pid");
+        var uid = obj.data("uid");
+        var _url = $("#ShareProductUrlTMP").val();
+        _url = _url.replace("%23id%23", pid);
+        _url = _url.replace("%23uid%23", uid);
+        //var hosturl = 'http://' + window.location.host
+        var newlink = _url;
+        productId = pid;
+        var _stitle = "";
+        var _sdesc = "";
+        var _sicon = "";
+        if (_stitle == '')
+            _stitle = obj.data("title");
+
+        if (_sdesc == '') {
+            _sdesc = obj.data("des");
+            if (_sdesc == '') {
+                _sdesc = _stitle;
+            }
+        }
+        if (_sicon == '') {
+            _sicon = obj.data("img");
+            shareIcon = _sicon;
+        }
+
+        winxinShareArgs.share = $.extend(winxinShareArgs.share, {
+            link: newlink,
+            title: _stitle,
+            desc: _sdesc,
+            imgUrl: _sicon,
+            success: function () {
+                if (productId) {
+                    $.post(updateUrl, { productId: productId });
+                }
+            }
+        });
+        initWinxin(winxinShareArgs);
+    }
+</script>
+
+<script>
+    var loading = showLoading();
+    loading.close();
+    var winxinShareArgs = {
+        success: function () {
+            loading.close();
+        },
+        error: function () {
+            loading.close();
+            imitateRequireJS.load('artDialog', function () {
+                $.dialog.errorTips('注册微信接口失败，请刷新页面');
+            });
+        },
+        share: {
+            imgUrl:'@ViewBag.ShareIcon'
+        }
+    };
+</script>
+
+@Html.Partial("_WeiXinShare")

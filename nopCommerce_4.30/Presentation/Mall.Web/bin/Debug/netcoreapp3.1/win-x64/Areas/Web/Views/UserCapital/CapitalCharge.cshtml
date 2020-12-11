@@ -1,0 +1,118 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "预存款充值";
+}
+@model Mall.Web.Areas.Web.Models.UserCapitalChargeModel
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/CommonJS.js?v=20183030"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+
+<div class="box1 lh24">
+    <div class="title bot-border">
+
+        <a class="title_txt cur">预存款充值</a>
+        <a class="title_txt" href="../UserCapital" style="margin-left:40px;margin-top:2px;">账户管理</a>
+    </div>
+    <div class="border-box">
+        <div class="user-set userset-lcol">
+            <div class="form">
+                <div class="item">
+                    <span class="label">可用金额：</span>
+                    <div class="fl">
+                        @Model.UserCaptialInfo.Balance 元
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">充值金额：</span>
+                    <div class="fl" style=" max-width: 860px;">
+                        <input class="itxt fl" onkeyup="" onblur="" id="balance" type="@(Model.IsEnableRechargePresent?"hidden":"text")" /> @(Model.IsEnableRechargePresent ? "" : " 元")
+                        @if (Model.IsEnableRechargePresent)
+                        {
+                            foreach (var item in Model.RechargePresentRules)
+                            {
+                                <div class="chargeitem" data-amount="@(item.ChargeAmount.ToString("F0"))">
+                                    @(item.ChargeAmount.ToString("F0")) 元
+                                    <br />送@(item.PresentAmount.ToString("F0"))元
+                                </div>
+                            }
+                        }
+                        @if (Model.IsEnableRechargePresent || !Model.CanWithdraw)
+                        {
+                            <p class="red">参与充值及赠送的金额仅用于商城消费不能提现</p>
+                        }
+                        <input type="hidden" name="ispresent" id="ispresent" value="@(Model.IsEnableRechargePresent?1:0)" />
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="label">&nbsp;</span>
+                    <div class="fl">
+                        <a class="btn-5" href="javascript:;" onclick="Pay()">提交</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="" id="payMent" style="display:none">
+    <h5 class="subtit">请选择支付方式</h5>
+    <ul></ul>
+</div>
+<style>
+    #payMent ul { margin-left: 20px; }
+
+    #payMent li { padding-top: 10px; }
+
+    #payMent input[type="radio"] { vertical-align: middle; margin-right: 10px; }
+</style>
+
+
+<script>
+    $(function () {
+        $(".chargeitem").click(function () {
+            var _t = $(this);
+            var _b = $("#balance");
+            _b.val(_t.data("amount"));
+            _t.addClass('active').siblings().removeClass('active');
+        })
+    })
+
+    function Pay() {
+        var ispresent = $("#ispresent").val() == "1";
+        var reg = new RegExp('^[0-9]+([.]{1}[0-9]{1,2})?$');
+        if ($("#balance").val() == "") {
+            var tipsmsg = "请输入要充值金额";
+            if (ispresent) {
+                tipsmsg = "请选择充值金额";
+            }
+            $.dialog.tips(tipsmsg);
+            return false;
+        }
+        if (!reg.test($("#balance").val())) {
+            $.dialog.errorTips("金额格式不对");
+            return false;
+        }
+        if (parseFloat($("#balance").val()) <= 0) {
+            $.dialog.errorTips("充值金额必需大于零");
+            return false;
+        }
+        if (parseFloat($("#balance").val()) > 99999) {
+            $.dialog.errorTips("充值金额最大不能超过99999");
+            return false;
+        }
+        var loading = showLoading();
+        $.post("ChargeSubmit", { amount: parseFloat($("#balance").val()), ispresent: ispresent }, function (result) {
+            var html = '';
+            if (result.success) {
+                window.top.open("/Order/ChargePay?orderIds=" + result.msg, "_self");
+            }
+            else {
+                loading.close();
+                $.dialog.errorTips(result.msg);
+            }
+        });
+    }
+</script>

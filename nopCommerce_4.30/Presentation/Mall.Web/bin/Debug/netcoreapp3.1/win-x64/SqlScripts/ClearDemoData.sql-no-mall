@@ -1,0 +1,153 @@
+set foreign_key_checks=0;
+DELETE FROM accountdetail WHERE ID>=532 AND ID<=546;
+DELETE FROM account WHERE ID>=157 AND ID<=162;
+DELETE FROM activemarketservice WHERE ID>=38 AND ID<=42;
+
+DELETE FROM articlecategory WHERE ID>=9 AND ID<=17;
+
+DELETE FROM article WHERE ID>=88 AND ID<=92;
+
+DELETE FROM attributevalue WHERE ID>=810 AND ID<=852;
+DELETE FROM attribute WHERE ID>=192 AND ID<=204;
+
+DELETE FROM banner WHERE ID>=73 AND ID<=81 AND  DisplaySequence>0;
+
+DELETE FROM brand WHERE ID>=319 AND ID<=367 ;
+/*
+DELETE FROM category WHERE ID>=1 AND ID<=159 ;
+*/
+DELETE FROM categorycashdeposit WHERE CategoryId>=1 AND CategoryId<=159 ;
+
+DELETE FROM chargedetailshop WHERE  ID in ('17021411310728770','17021411323326291');
+
+/*×éºÏ¹º*/
+DELETE c FROM collocationporuduct a INNER JOIN collocation b on a.colloid=b.id
+INNER JOIN collocationsku c on c.colloproductid=a.id
+WHERE  b.Id>=21 AND b.Id<=25
+;
+DELETE a FROM collocationporuduct a INNER JOIN collocation b on a.colloid=b.id
+WHERE  b.Id>=21 AND b.Id<=25
+;
+DELETE FROM collocation WHERE ID>=21 AND ID<=25
+;
+DELETE b FROM Coupon a INNER JOIN couponsetting b on a.Id=b.couponid WHERE  a.Id>=59 AND a.Id<=64;
+DELETE FROM Coupon WHERE Id>=59 AND Id<=64;
+
+DELETE FROM couponrecord WHERE ID IN (884,885);
+
+
+DELETE FROM fightgroupactiveitem WHERE ActiveId>=26 AND ActiveId<=30 ;
+DELETE FROM fightgroupactive WHERE  Id>=26 AND Id<=30;
+
+DELETE FROM flashsaledetail WHERE  FlashSaleId>=26 AND FlashSaleId<=30 ;
+DELETE FROM flashsale WHERE Id>=34 AND Id<=50 ;
+DELETE FROM flashsaleconfig  ;
+
+/*
+DELETE b FROM freighttemplate a INNER JOIN freightareadetail b on a.Id=b.FreightTemplateId
+WHERE  a.Id>=166 AND a.Id<=169
+;
+DELETE b FROM freighttemplate a INNER JOIN freightareacontent b on a.Id=b.FreightTemplateId
+WHERE  a.Id>=166 AND a.Id<=169
+;
+DELETE FROM freighttemplate WHERE Id>=166 AND Id<=169 ;
+*/
+DELETE FROM gift WHERE Id>=68 AND Id<=77 ;
+
+DELETE FROM integralmallad WHERE Id>=3 AND Id<=4 ;
+
+DELETE FROM label WHERE Id>=33 AND Id<=35 ;
+
+DELETE FROM log WHERE Id>=4608 AND Id<=5024 ;
+
+DELETE FROM marketservicerecord WHERE Id>=101 AND Id<=107 ;
+DELETE FROM marketsettingmeta WHERE Id>=5 AND Id<=5 ;
+
+DELETE FROM memberintegralexchangerule WHERE Id>=2 AND Id<=2 ;
+
+DELETE FROM menu WHERE Id>=65 AND Id<=72 ;
+
+DELETE FROM messagelog WHERE Id>=875 AND Id<=878 ;
+
+DELETE FROM mobilehomeproduct WHERE Id>=104 AND Id<=134 ;
+
+DELETE FROM moduleproduct WHERE Id>=723 AND Id<=963 ;
+
+DELETE FROM photospace WHERE Id>=102 AND Id<=538 ;
+DELETE FROM photospacecategory WHERE Id>=3 AND Id<=3 ;
+
+DELETE FROM plataccountitem WHERE AccoutId>=1 AND AccoutId<=1 ;
+
+DELETE FROM plataccount WHERE Id>=1 AND Id<=1 ;
+
+DELETE FROM productattribute WHERE  ProductId>=699 AND ProductId<=749 ;
+DELETE FROM productdescription WHERE ProductId>=699 AND ProductId<=749 ;
+DELETE FROM sku  WHERE ProductId>=699 AND ProductId<=749 ;
+DELETE FROM product WHERE Id>=699 AND Id<=749 ;
+DELETE FROM browsinghistory WHERE ProductId>=699 AND ProductId<=749 ;
+DELETE FROM favorite WHERE ProductId>=699 AND ProductId<=749 ;
+
+
+DELETE FROM productshopcategory WHERE shopcategoryid>=350 AND shopcategoryid<=360 ;
+/*DELETE FROM shopcategory WHERE Id>=350 AND Id<=360 ;*/
+
+DELETE FROM receivingaddressconfig WHERE Id>=1 AND Id<=1 ;
+DELETE FROM refundreason WHERE Id>=28 AND Id<=30 ;
+
+DELETE FROM roleprivilege WHERE roleid>=46 AND roleid<=49 ;
+DELETE FROM role WHERE Id>=46 AND Id<=49 ;
+
+DELETE FROM settled WHERE Id>=2 AND Id<=2 ;
+
+
+DELETE FROM shopbonus WHERE Id>=8 AND Id<=8 ;
+
+DELETE FROM shopaccountitem WHERE shopid>=1 AND shopid<=1 ;
+DELETE FROM shopaccount WHERE Id>=1 AND Id<=1 ;
+
+DELETE FROM shopbranchmanager WHERE  shopbranchId>=26 AND shopbranchId<=26 ;
+DELETE FROM shopbranchsku WHERE ShopBranchId>=26 AND ShopBranchId<=26 ;
+DELETE FROM ShopBranch WHERE  ShopID>=1 AND ShopID<=1 ;
+
+DELETE FROM shopfooter WHERE Id>=19 AND Id<=19 ;
+
+DELETE FROM shophomemoduleproduct WHERE homemoduleid>=29 AND homemoduleid<=31 ;
+DELETE FROM shophomemodule WHERE Id>=29 AND Id<=31 ;
+
+DELETE FROM sitesigninconfig WHERE Id>=2 AND Id<=2 ;
+
+DELETE FROM slidead  WHERE Id>=105 AND Id<=132 ;
+
+/*DELETE FROM specificationvalue  WHERE Id>=646 AND Id<=681 ;*/
+
+DELETE FROM topicmodule WHERE topicid>=54 AND topicid<=63 ;
+DELETE FROM topic WHERE id>=54 AND id<=63;
+
+/*DELETE FROM typebrand WHERE typeid>=82 AND typeid<=96;*/
+
+/*DELETE FROM Type WHERE Id>=82 AND Id<=96 ;*/
+
+DELETE FROM weiactivityaward WHERE activityid>=154 AND activityid<=155;
+
+DELETE FROM weiactivityinfo WHERE Id>=154 AND Id<=155 ;
+
+DELETE FROM weixinbasic WHERE Id>=3 AND Id<=3 ;
+
+
+DELETE FROM weixinmsgtemplate WHERE Id>=41 AND Id<=58 ;
+
+DELETE FROM homecategory  WHERE Id>=2450 AND Id<=2518 ;
+
+DELETE FROM homefloor WHERE Id>=151 AND Id<=167 ;
+
+DELETE FROM floorbrand WHERE FloorId>=151 AND FloorId<=167 ;
+
+DELETE FROM floortopic WHERE FloorId>=151 AND FloorId<=167 ;
+DELETE FROM floorproduct WHERE FloorId>=151 AND FloorId<=167 ;
+
+
+DELETE FROM searchproduct WHERE ProductId>=699 AND ProductId<=749 ;
+
+UPDATE `SiteSetting` SET `Value`='false' WHERE `Key`='IsCanClearDemoData';
+
+set foreign_key_checks=1;

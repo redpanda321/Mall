@@ -1,0 +1,102 @@
+﻿<style>
+    .choose-right ul i { display: none; }
+    .table .text-order.checkError { border: 1px solid #f00; }
+</style>
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Orders")">分销订单业绩</a></li>
+        <li class="active"><a href="@Url.Action("Products")">商品分销明细</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>分销订单业绩中分销佣金为各个等级销售员获得的佣金之和。</span></li>
+				<li><span>商品分销明细中的成交件数指的是该商品在分销中成功售出的件数，成交金额为这些件数对应的商品金额。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div id="searchBox" class="form-inline custom-inline pt20">
+        <div class="form-group">
+            <label class="label-inline w75" for="">商品名称</label>
+            <input type="text" id="productName" name="productName" class="form-control input-ssm">
+        </div>
+        <div class="form-group">
+            <label class="label-inline w75" for="">分销状态</label>
+            <select name="Status" class="form-control input-ssm">
+                <option>全部</option>
+                <option value="0">推广中</option>
+                <option value="1">取消推广</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button id="searchBtn" class="btn btn-primary btn-sm" type="button">搜 索</button>
+        </div>
+    </div>
+    <table id="list" class="table"></table>
+
+    <div class="table-head-l">
+        <div id="orderOperate"><a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a></div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#searchBtn").click(function () {
+            loadTable();
+        });
+        loadTable();
+    });
+    function loadTable() {
+        var prarms = $("#searchBox").inputToJson();
+        //商品表格
+        $("#list").MallDatagrid({
+            url:"@Url.Action("Products")",
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的商品',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            pageSize: 10,
+            pageNumber: 1,
+            pagePosition: 'bottom',
+            queryParams: prarms,
+            operationButtons: "#orderOperate",
+            columns:
+                [[
+                    {
+                        field: "productName", title: '商品名称', align: 'left',
+                        formatter: function (value, row, index) {
+                            if (value.length > 100) return value.substring(0, 100) + "...";
+                            else return value;
+                        }
+                    },
+                    { field: "status", title: '分销状态', width: 150, },
+                    {
+                        field: "quantity", title: '成交件数', width: 150, sort: true,
+                        formatter: function (value, row, index) {
+                            return '<a href="/SellerAdmin/distribution/orders?product={0}">{1}</a>'.format(row.productId, value);
+                        }
+                    },
+                    { field: "amount", title: '成交金额', width: 150, },
+                    { field: "settlement", title: '已结算佣金', width: 150, },
+                    { field: "noSettlement", title: '未结算佣金', width: 150, }
+                ]]
+        });
+    }
+
+    //导出
+    function ExportExecl() {
+        var productName = $("#productName").val();
+        var orderStatus = $("#orderStatus").val();
+
+        var href = "/SellerAdmin/Distribution/ProductsExportToExcel?productName={1}&orderStatus={2}"
+            .format(productName, orderStatus);
+
+        $("#aExport").attr("href", href);
+    }
+</script>

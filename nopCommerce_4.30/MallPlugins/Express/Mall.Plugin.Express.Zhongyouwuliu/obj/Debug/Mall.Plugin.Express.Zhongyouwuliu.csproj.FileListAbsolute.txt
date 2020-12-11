@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhongyouwuliu\Mall.Plugin.Express.Zhongyouwuliu.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhongyouwuliu\Mall.Plugin.Express.Zhongyouwuliu.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhongyouwuliu\Mall.Plugin.Express.Zhongyouwuliu.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongyouwuliu\obj\Debug\Mall.Plugin.Express.Zhongyouwuliu.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongyouwuliu\obj\Debug\Mall.Plugin.Express.Zhongyouwuliu.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongyouwuliu\obj\Debug\Mall.Plugin.Express.Zhongyouwuliu.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongyouwuliu\obj\Debug\Mall.Plugin.Express.Zhongyouwuliu.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongyouwuliu\obj\Debug\Mall.Plugin.Express.Zhongyouwuliu.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhongyouwuliu\obj\Debug\Mall.Plugin.Express.Zhongyouwuliu.pdb

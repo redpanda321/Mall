@@ -1,0 +1,11 @@
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\bin\Debug\netcoreapp2.2\MobileDetect.deps.json
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\bin\Debug\netcoreapp2.2\MobileDetect.dll
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\bin\Debug\netcoreapp2.2\MobileDetect.pdb
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\bin\Debug\netcoreapp2.2\Nop.Core.dll
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\bin\Debug\netcoreapp2.2\Nop.Core.pdb
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\obj\Debug\netcoreapp2.2\MobileDetect.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\obj\Debug\netcoreapp2.2\MobileDetect.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\obj\Debug\netcoreapp2.2\MobileDetect.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\obj\Debug\netcoreapp2.2\MobileDetect.csproj.CopyComplete
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\obj\Debug\netcoreapp2.2\MobileDetect.dll
+C:\S\nopCommerce_4.20\Thirdparty\MobileDetect\obj\Debug\netcoreapp2.2\MobileDetect.pdb

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "购物车";
+    ViewBag.ShowAside = 1;  // 显示更多按钮
+}
+<div class="container cartstore-cont">
+    <div class="top-nav"> <i id="checkAll" class="check-custom"></i><label>全选</label> <span class="editor">编辑</span></div>
+    <div class="height40"></div>
+    <div class="cart-inner"></div>
+    <ul class="list-group cart"></ul>
+
+    <ul class="list-group cartstore"></ul>
+    <footer class="clearfix footer-cart">
+
+        <em class="cart-total">
+            <b>合计：<a id="totalSkuPrice">¥0</a></b>
+            <b>(不含运费)</b>
+        </em>
+        <a id="toSettlement" class="cart-pay">结算<b id="selectedCount">（0）</b></a>
+        <span id="deleteProducts" class="cart-pay">删除商品</span>
+    </footer>
+</div>
+<script>
+    var isClickNum = true;
+    $(function () {
+
+        $("#toSettlement").show();
+        $("#deleteProducts").hide();
+        $(".clearCarts").parents('li').hide();
+        $(".editor").click(function () {
+            if (isClickNum) {
+                $(this).html("保存");
+                $(".clearCarts").parent('li').show();
+                $(".clearCarts").show();
+                $(".wrap-num .glyphicon").css({ "display": "inline-block" });
+                $(".wrap-num input").css({ "border": "1px solid #ddd" ,"text-align":"center"});
+                $(".cart-remove").show();
+                $(".delDisabled").show();
+                $("#toSettlement").hide();
+                $("#deleteProducts").show();
+                $(".fonts").hide();
+                $(".chenghao").hide();
+                isClickNum = !isClickNum;
+            } else {
+                $(this).html("编辑");
+                 $(".wrap-num input").css({ "border": "none" ,"text-align":"left"});
+                $(".clearCarts").parent('li').hide();
+                $(".clearCarts").hide();
+                $(".wrap-num .glyphicon").hide();
+                $(".cart-remove").hide();
+                $(".delDisabled").hide();
+                $("#toSettlement").show();
+                $("#deleteProducts").hide();
+                $(".fonts").show();
+                $(".chenghao").css({ "display": "inline-block" });
+                isClickNum = !isClickNum;
+            }
+        });
+    })
+</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/cartSettleAccounts.js?v=20183030"></script>

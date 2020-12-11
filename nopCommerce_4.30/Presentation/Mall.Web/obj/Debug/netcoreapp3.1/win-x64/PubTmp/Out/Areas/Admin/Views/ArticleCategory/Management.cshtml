@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Mall.Web.Areas.Admin.Models.ArticleCategoryModel>
+@{ var isOpenPC = (bool)ViewBag.IsOpenPC;}
+<script src="~/Areas/Admin/Scripts/articleCategoryManagement.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        @if (isOpenPC)
+        {
+            <li><a class="add-article-sort" id="addArticleCategory">新增</a></li>
+        }
+
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>系统内置了多个文章分类，其中底部帮助显示在商城底部，商城公告显示在用户商城BANNER图右侧公告栏，商家后台公告显示在卖家中心公告栏，系统不允许对内置的分类进行编辑/删除操作。</span></li>
+                <li><span>可以在这几个内置分类下新增下级分类，也可以直接新增一个新的文章分类，最多可以有两级分类。</span></li>
+            </ul>
+        </div>
+    </div>
+    <table class="table category_table mt20">
+        <thead>
+            <tr>
+                <th class="clear-i2" width="500">分类名称</th>
+                <th class="td-operate clear-i1" width="200">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (null == Model)
+            {
+                <tr>
+                    <td class="tac" colspan="3"><h2 class="clear-i">没有任何分类</h2></td>
+                </tr>
+            }
+            else
+            {
+                foreach (var category in Model)
+                {
+                    <tr class="level-1">
+                        <td class="clear-i2">
+                            <span class="glyphicon glyphicon-plus-sign @(category.HasChild ? "" : "disabled")" articlecategoryid="@category.Id"></span>
+                            <input type="hidden" class="hidden_id" value="@category.Id" />
+                            <input class="text-name" maxlength="12" @(category.IsDefault ? "disabled" : "") type="text" value="@category.Name" isdefault="@category.IsDefault.ToString()" orivalue="@category.Name" />
+                            <input class="text-order" type="text" value="@category.DisplaySequence" orivalue="@category.DisplaySequence" />
+                        </td>
+                        <td class="td-operate clear-i1">
+                            <span class="btn-a">
+                                @if (isOpenPC)
+                                {
+                                    <a onclick="edit(null,@category.Id)" href="javascript:;">新增下级</a>
+                                }
+                                @if (!category.IsDefault)
+                                {<a onclick="edit(@category.Id)" href="javascript:;">编辑</a><a class="delete-classify" href="javascript:;" onclick="del(@category.Id)">删除</a>                                }
+                                <a href="@Url.Action("Add", "Article", new { cid = category.Id })">新增文章</a>
+
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="table-bt clearfix">
+        <div class="tabel-operate">
+            &nbsp;
+        </div>
+    </div>
+</div>

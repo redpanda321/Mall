@@ -1,0 +1,84 @@
+﻿@using Mall.Web.Framework
+<style type="text/css">
+	.tipBox{
+		z-index: 1000;
+	}
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("BaseConfig")">基本设置</a></li>
+        <li class="active"><a href="@Url.Action("PageConfig")">页面设置</a></li>
+        <li><a href="@Url.Action("RenameConfig")">分销关键字重命名</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>平台可在此设置分销功能的基本设置。平台开启分销后，商家可以添加分销商品并设置分佣比例，并且佣金由商家承担。（此部分佣金将会在平台与商家之间结算时，从商家应结佣金中扣除）</span></li>
+                <li><span>为规避可能存在的风险，平台可以重命名分销员的小店菜单名称。</span></li>
+            </ul>
+        </div>
+    </div>
+    @using (Html.BeginForm("SavePageConfig", "DistributionConfig", FormMethod.Post))
+    {
+        <div class="form-horizontal form-pt0">
+
+            <h3 class="table-hd">我要开店页面设置</h3>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <p class="help-default">说明：会员点击个人中心的“我要开店”后将跳转至此处设置的页面。页面链接：@(CurrentUrlHelper.CurrentUrlNoPort())/m-wap/Distribution/OpenMyShop</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <textarea maxlength="2000" id="content" name="content">@(ViewBag.content )</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="button" onclick="Post()" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+
+<script type="text/javascript">
+
+    var editor;
+    function initRichTextEditor() {
+        editor = UE.getEditor('content', 0, { maximumWords: 2000, wordCount: false   });
+        editor.addListener('contentChange', function () {
+            $('#contentError').hide();
+        });
+
+    };
+
+    $(function () {
+        initRichTextEditor();
+    });
+    function Post() {
+        if (editor.getContentLength() > 2000) {
+            $.dialog.tips('内容输入字符过长！');
+            return;
+        }
+
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: '/Admin/DistributionConfig/SavePageConfig',
+            data: $("form").serialize(),
+            success: function (data) {
+                loading.close();
+                if (data.success)
+                    $.dialog.tips('保存成功！');
+                else
+                    $.dialog.tips('保存失败！' + data.msg);
+            }
+        });
+    }
+</script>

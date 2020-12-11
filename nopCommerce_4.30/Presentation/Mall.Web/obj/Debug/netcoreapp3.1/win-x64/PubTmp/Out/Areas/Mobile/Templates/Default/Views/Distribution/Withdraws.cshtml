@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.FootIndex = 4;
+}
+
+<div class="container distribution">
+    <div class="my_menu">
+        <ul class="clearfix">
+            <li><a href="@Url.Action("ApplyWithdraw")">申请提现</a></li>
+            <li class="active"><a>提现记录</a></li>
+        </ul>
+    </div>
+    <script id="itemTemplate" type="text/html">
+        {{each list as item i}}
+        <li class="item">
+            <div class="pricestatus {{item.class}}">
+                <div class="num"><span>￥</span>{{item.amount}}</div>
+                <div class="status">{{item.withdrawStatus}}</div>
+            </div>
+            <div class="desc">
+                {{item.id}} <span> （{{item.withdrawType}}）</span>
+            </div>
+            <div class="time">{{item.time}}</div>
+        </li>
+        {{/each}}
+    </script>
+    <ul class="asset-list withdrawlog" id="list"></ul>
+    <div id="noMoreBox" class="item details-link">
+        <a href="javascript:void(0)"><span>没有更多数据了</span></a>
+    </div>
+    <div id="emptyBox" class="null-content hide">
+        <img src="~/Areas/Mobile/Templates/Default/Images/no-withdraw.png">
+        <h3>暂无记录</h3>
+        <h5>您还没有提现记录哦</h5>
+    </div>
+</div>
+<script src="~/Scripts/template.js"></script>
+<script type="text/javascript">
+    var curIndex = 1;
+    $(function () {
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+            if (scrollTop + windowHeight >= scrollHeight) {
+                $('#autoLoad').removeClass('hide');
+                load(++curIndex);
+            }
+        });
+        load();
+    });
+
+    function load(index) {
+        var data = {
+            pageSize: 10,
+            pageNo: index || 1
+        };
+        curIndex = data.pageNo;
+        $.post("@Url.Action("withdraws")", data, function (result) {
+            if (result.success) {
+                if (curIndex == 1 && result.list.length == 0)
+                    $("#emptyBox").removeClass("hide");
+                else if (result.list.length < data.pageSize)
+                    $("#noMoreBox").show();
+                else $("#noMoreBox").hide();
+                result.list.forEach(function (item) {
+                    if (item.status == 1 || item.status == 2)
+                        item.class = "wait";
+                    else if (item.status == 3 || item.status == 4)
+                        item.class = "fail";
+                });
+                var items = template('itemTemplate', { list: result.list });
+                $("#list").append(items);
+            }
+        });
+    }
+</script>

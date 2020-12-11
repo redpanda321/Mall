@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "礼品列表";
+    ViewBag.ShowAside = 3;//显示浮动菜单栏、回到顶部按钮
+}
+<div class="container">
+	<ul class="integral-product cl" id="List"></ul>
+	<div class="loading" id="autoLoad"><span></span></div>
+
+</div>
+
+<script>
+
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+
+        if (scrollTop + windowHeight >= scrollHeight) {
+            loadGifts();
+        }
+    });
+
+    var page = 0,
+		isnodata = false,
+		list = $('#List');
+	
+	loadGifts();
+	
+	function loadGifts() {
+	    var pageSize = 10;
+	    if (!isnodata) {
+	        page++;
+	        $.get('/' + areaName + '/Gifts/GetList',
+	            {
+	                pageNo: page,
+	                pageSize: pageSize
+	            }
+	            , function (data) {
+	            	data=data.Data.data;
+	                if (data.length > 0) {
+	                    var str = '';
+	                    $.each(data, function (i, gift) {
+	                    	str+='<li>'+
+                                '<a href="/' + areaName+'/Gifts/Detail/'+gift.Id+'">'+
+									'<div class="p-img">'+
+										'<b style="background-image: url('+gift.DefaultShowImage+');"></b>';
+										if(gift.StockQuantity == 0){
+				                            str+='<span>已兑完</span>';
+				                        }
+									str+='</div>'+
+									'<h3>'+gift.GiftName+'</h3>'+
+									'<p><span>'+gift.NeedIntegral+'</span>积分<s class="nothrough">市场价: ¥'+gift.GiftValue.toFixed(2)+'</s></p>'+
+								'</a>'+
+							'</li>';
+	                    });
+	                    list.append(str);
+	                }
+	                if(data.length<10){
+	                	isnodata = true;
+	                    $('#autoLoad').html('没有更多礼品了');
+	                }
+	            }
+	        );
+	    }
+	}
+</script>

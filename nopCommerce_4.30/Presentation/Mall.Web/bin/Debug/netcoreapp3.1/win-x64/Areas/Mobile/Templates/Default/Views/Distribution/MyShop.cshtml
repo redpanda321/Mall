@@ -1,0 +1,113 @@
+﻿@model Mall.Web.Areas.Mobile.Models.DistributionMyShopViewModel
+@{
+    ViewBag.FootIndex = 4;
+}
+
+<div class="container distribution">
+    <!--首页分销店铺logo
+        <div class="shop-head">
+        <div class="shop-head-bg" style="background-image: url(https://Mallhttps.Mall.kuaidiantong.cn/Storage/Member/737/headImage.jpg);"></div>
+        <div class="shop-head-inner">
+            <img class="shop-logo" src="https://Mallhttps.Mall.kuaidiantong.cn/Storage/Member/737/headImage.jpg"/>
+            <div class="shop-name">名称名称</div>
+        </div>
+    </div>
+    -->
+    <div class="cover">
+        <img src="/Areas/Mobile/Templates/Default/Images/shopshare.png" />
+    </div>
+    <div class="shop-top">
+        <div class="info">
+            <img src="@(Model.ShopLogo)" />
+            <div class="right">
+                <div class="name clearfix">
+                    <h3>@(Model.ShopName)</h3>
+                    <span class="icon-grade">@(Model.GradeName)</span>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.NextGradeName))
+                {
+                    <p>再获得<span>@(Model.UpgradeNeedAmount.ToString("F2"))</span>元@(Model.CurrentSiteSettings.DistributorRenameBrokerage)升级为<span>@(Model.NextGradeName)</span></p>
+                }
+            </div>
+        </div>
+        <div class="shop-share">@(Model.CurrentSiteSettings.DistributorRenameSpreadShop)</div>
+    </div>
+    <div class="asset-addup clearfix">
+        <div class="item">
+            <div class="h3"><div>￥</div>@(Model.NoSettlementAmount.ToString("F2"))</div>
+            <div class="p">未结算</div>
+        </div>
+        <div class="item">
+            <div class="h3"><div>￥</div>@(Model.SettlementAmount.ToString("F2"))</div>
+            <div class="p">历史赚取</div>
+        </div>
+        <div class="item">
+            <div class="h3"><div>￥</div>@(Model.Balance.ToString("F2"))</div>
+            <div class="p">可提现</div>
+        </div>
+    </div>
+    <div class="groupp-middle">
+        <div class="list-grouppp">
+            <a href="@(Url.Action("Market"))">
+                <span class="iconfonts icon-icon_-weidian"></span><div class="list">@(Model.CurrentSiteSettings.DistributorRenameMarket)</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+            </a>
+        </div>
+        <div class="list-grouppp" style="border:none;">
+            <a href="@(Url.Action("ShopOrder"))">
+                <span class="iconfonts icon-icon_-xiaodiandingdan"></span><div class="list">@(Model.CurrentSiteSettings.DistributorRenameShopOrder)</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+            </a>
+        </div>
+        <div class="list-grouppp">
+            <a href="@(Url.Action("MyBrokerage"))">
+                <span class="iconfonts icon-icon_-wodeyongjin"></span><div class="list">@(Model.CurrentSiteSettings.DistributorRenameMyBrokerage)</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+            </a>
+        </div>
+        <div class="list-grouppp" style="border:none;">
+            <a href="@(Url.Action("MySubordinate"))">
+                <span class="iconfonts icon-icon_-wodexiaji"></span><div class="list">@(Model.CurrentSiteSettings.DistributorRenameMySubordinate)</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+            </a>
+        </div>
+        <div class="list-grouppp">
+            <a href="@(Url.Action("ShopConfig"))">
+                <span class="iconfonts icon-icon_-xiaodianshezhi"></span><div class="list">@(Model.CurrentSiteSettings.DistributorRenameShopConfig)</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".cover").on('click', function () {
+        $(".cover").hide();
+    });
+    $(".shop-share").on('click', function () {
+        $(".cover").show();
+    });
+</script>
+
+<script>
+    var loading = showLoading();
+	var winxinShareArgs = {
+        success: function () {
+            loading.close();
+		},
+        error: function () {
+            loading.close();
+            imitateRequireJS.load('artDialog', function () {
+                $.dialog.errorTips('注册微信接口失败，请刷新页面');
+            });
+		},
+		share: {
+		    title: '@(Model.ShopName)',
+		    desc: '@(Model.ShopName)，精选好货，集您所需',
+		    link: '@(Context.Request.Host.ToString()+Url.Action("Index","Home",new { SpreadId =Model.MemberId}))',
+		    imgUrl: '@(Model.ShopLogo)',
+		    success: function (res) {
+		    }
+		}
+	};
+</script>
+@Html.Partial("_WeiXinShare")

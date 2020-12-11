@@ -1,0 +1,290 @@
+﻿@using Mall.Core
+@model Mall.Web.Areas.Web.Models.LimitTimeProductDetailModel
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "限时购商品详情";
+    ViewBag.ShowAside = 1;
+    var DetailModel = (Mall.Web.Areas.Mobile.Models.LimitTimeBuyDetailModel)ViewBag.DetailModel;
+    string flashPriceStr = (@Model.FlashSale.SkuMinPrice == @Model.FlashSale.SkuMaxPrice ? @Model.FlashSale.SkuMinPrice.ToString("f2") : (@Model.FlashSale.SkuMinPrice.ToString("f2") + " - " + @Model.FlashSale.SkuMaxPrice.ToString("f2")));
+}
+<input type="hidden" id="gid" value="@Model.Product.Id" />
+<input type="hidden" id="has" value="1" />
+<input type="hidden" id="maxSaleCount" value="@Model.MaxSaleCount" />
+<input type="hidden" id="mainId" value="@Model.MainId" />
+<input type="hidden" id="logined" value="@DetailModel.Logined" />
+<div id="J_timeBuy_att">
+    <div class="modul-popup" role="alert">
+        <div class="modul-popup-container">
+            <div class="att-popup-header">
+                <div class="thumb pull-left"><img class="img-responsive" src="@MallIO.GetProductSizeImage(Model.Product.RelativePath, 1, (int)Mall.CommonModel.ImageSize.Size_150)"></div>
+                <div class="info pull-left">
+                    <div class="price-con">￥<em id="salePrice">@flashPriceStr</em></div>
+                    <div class="stock-control">活动库存 <em id="stockNum">@Model.StockAll</em> 件（单个ID限购@(Model.MaxSaleCount)件）</div>
+                    <em id="minMath" class="hidden">0</em>
+                    <!-- <div class="sku-dtips" id="choose-result"></div> -->
+                </div>
+            </div>
+            <div class="att-popup-body">
+                <div class="modul-scroll">
+                    <div class="item" id="choose">
+                        @if (Model.Color.Count() > 0)
+                        {
+                            <div class="spec">
+                                <label>@Model.ColorAlias</label>
+                                <div class="att-name" id="colorSpec">
+                                    @foreach (var color in Model.Color.OrderBy(p => p.SkuId))
+                                    {
+                                        <span st="0" cid="@color.SkuId" data-img="@(color.Img)" class="itemSku @color.EnabledClass @color.SelectedClass">@color.Value</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Size.Count() > 0)
+                        {
+                            <div class="spec">
+                                <label>@Model.SizeAlias</label>
+                                <div class="att-name">
+                                    @foreach (var size in Model.Size.OrderBy(p => p.SkuId))
+                                    {
+                                        <span st="1" cid="@size.SkuId" class="itemSku @size.EnabledClass @size.SelectedClass">@size.Value</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Version.Count() > 0)
+                        {
+                            <div class="spec">
+                                <label>@Model.VersionAlias</label>
+                                <div class="att-name">
+                                    @foreach (var version in Model.Version.OrderBy(p => p.SkuId))
+                                    {
+                                        <span st="2" cid="@version.SkuId" class="itemSku @version.EnabledClass @version.SelectedClass">@version.Value</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="item">
+                        <div class="buy-num">
+                            <label>数量</label>
+                            <div class="wrap-num">
+                                <a id="btn-reduce" class="glyphicon glyphicon-minus" href="javascript:;"></a>
+                                <input class="input-xs form-control" id="buy-num" value="1" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v()">
+                                <a id="btn-add" class="glyphicon glyphicon-plus" href="javascript:;"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="att-popup-footer">
+                <button type="button" class="btn btn-warning btn-yes" id="justBuy">确 定</button>
+            </div>
+            <a href="javascript:;" class="modul-popup-close att-popup-close"></a>
+        </div>
+    </div>
+</div>
+<div class="container container-z">
+    <div class="cover distribution">
+        <img src="/Areas/Mobile/Templates/Default/Images/proShare.png" />
+    </div>
+    <div class="detail-hd">
+        <div id="slides">
+            @if (Model.Product.VideoPath != null && Model.Product.VideoPath.Length > 0)
+            {
+                <div class="video-box">
+                    <div class="j_preview">
+                        <video id="video1" webkit-playsinline="true" x-webkit-playsinline="true" x-webkit-airplay="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-ignore-metadata="true" src="@Model.Product.VideoPath" poster="@Mall.Core.MallIO.GetProductSizeImage(Model.Product.RelativePath, 1, (int)Mall.CommonModel.ImageSize.Size_500)"></video>
+                        <div class="fd_gif"><i class="j_startPic"></i></div>
+                    </div>
+                </div>
+            }
+            @for (int i = 1; i < 6; i++)
+            {
+                if (MallIO.ExistFile((Model.Product.RelativePath + string.Format("/{0}.png", i))))
+                {
+                    <img data-src="@(MallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Mall.CommonModel.ImageSize.Size_350))" />
+                }
+            }
+        </div>
+    </div>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <div class="icon-share hide" id="dis-share">
+            	<i class="iconfonts icon-icon_-share"></i>
+                <div class="most hide" id="dis-maxbrokeragebox">最高赚 <span class="price" id="dis-maxbrokerage">￥0.00</span></div>
+            </div>
+            <div id="preheat"></div>
+            <div class="item">
+                <div class="goods-price">
+                    @*<span id="jd-saleprice"><sub>￥</sub>@flashPriceStr</span>*@
+                    <span id="limitjd-saleprice" class="jd-saleprice"><sub>￥</sub>@flashPriceStr</span>
+                    @if (Model.Product.MarketPrice > 0)
+                    {
+                        <s id="marketpricebox">￥@Model.Product.MarketPrice.ToString("F2")</s>
+                    }
+
+                </div>
+                <h4>@Model.Product.ProductName</h4>
+                <h5>@Model.Product.ShortDescription</h5>
+                <div class="salefreight" id="salefreight">
+
+                    <span id="saleCountsSpan">销量 <a id="flashSaleCounts">@Model.SaleCount</a>@(Model.Product.MeasureUnit)</span>
+
+                    <span>@(Model.Freight)</span>
+                    <span>@((Model.FreightTemplate != null && !string.IsNullOrEmpty(Model.FreightTemplate.SendTime)) ? (Model.FreightTemplate.SendTime + "h内发货") : "")</span>
+                </div>
+            </div>
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                        <li class="promotion-coupon">
+                            <a href="javascript:;" class="item-navigate-right arrow" onclick="showPortfolio()">
+                                <span id="activespan"><i class="coupon-tip">促销优惠</i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            @Html.RenderAction("ShowServicePromise", "Product", new { id = Model.Product.Id, shopId = Model.Product.ShopId })
+        </div>
+        @if (Model.Color.Count > 0 || Model.Size.Count > 0 && Model.Version.Count > 0)
+        {
+            <div class="item">
+                <a class="item-navigate-right att-popup-trigger">选择规格</a>
+            </div>
+        }
+        @*门店信息-前端调整界面样式*@
+        <div class="item detail-comment j_storesInfo product-store-title" style="display:none">
+            <div class="goods-comment">
+                <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1>
+                <p class="j_storeAddress"></p>
+                <a class="j_storelist btn btn-default"></a>
+            </div>
+        </div>
+        @*门店信息-前端调整界面样式*@
+        <div class="item detail-comment">
+            <div class="detail-comment-hd">
+                商品评价
+                <span class="detail-comment-num">@(DetailModel.CommentCount)</span>
+            </div>
+            @Html.RenderAction("ProductCommentShow", "Product", new { id = Model.Product.Id })
+            <div class="detail-comment-ft">
+                <a class="btn btn-default" href="../../Product/ProductComment?pId=@(Model.Product.Id)&commentType=0">查看全部评价</a>
+            </div>
+        </div>
+
+        @Html.RenderAction("ShowShopScore", "VShop", new { id = Model.Product.ShopId })
+        @*
+            <div class="item details-link">
+                <a href="javascript:void(0)" id="showmoreprodesc"><span>查看更多详情</span></a>
+            </div>
+            <div class="goods-img"></div>*@
+        @Html.RenderAction("ShowProductDescription", "Product", new { id = Model.Product.Id })
+    </div>
+</div>
+@if (DateTime.Parse(Model.FlashSale.BeginDate) < DateTime.Now)
+{
+    <footer class="clearfix limi-footer">
+        <p class="countime"><s class="glyphicon glyphicon-time"></s><b class="hour">00</b><em>天</em> <b class="hour">00</b><em>时</em> <b class="hour">00</b><em>分</em> <b class="hour">00</b><em>秒</em></p>
+        @if (Model.Product.SaleStatus == Mall.Entities.ProductInfo.ProductSaleStatus.OnSale && Model.Product.AuditStatus == Mall.Entities.ProductInfo.ProductAuditStatus.Audited)
+        {
+            if (Model.FlashSale.Quantity > 0)
+            {
+                <a class="limi-btn">立即抢购</a>
+            }
+        }
+        else
+        {
+            <a class="limi-btn disabled" disabled id="easyBuyBtn">已下架</a>
+        }
+    </footer>
+    if (Model.Product.SaleStatus == Mall.Entities.ProductInfo.ProductSaleStatus.OnSale && Model.Product.AuditStatus == Mall.Entities.ProductInfo.ProductAuditStatus.Audited && Model.FlashSale.Quantity <= 0)
+    {
+        <footer class="clearfix limi-footer" readonly>
+            <p class="countime"><s class="glyphicon glyphicon-time"></s><b class="hour">00</b><em>天</em> <b class="hour">00</b><em>时</em> <b class="hour">00</b><em>分</em> <b class="hour">00</b><em>秒</em></p>
+            <a style="position: absolute; right: 0; top: 0; z-index: 1; width: 100%; height: .42rem; padding-left: 71.875%; line-height: .42rem; text-align: center; font-size: .16rem; color: #fff;">已售罄</a>
+        </footer>
+    }
+}
+else
+{
+    <footer class="clearfix limi-footer2">
+        <p class="countime"><s class="glyphicon glyphicon-time"></s><b>00</b><em>天</em> <b>00</b><em>时</em> <b>00</b><em>分</em> <b>00</b><em>秒后开始</em></p>
+        @if (Model.IsFavorite)
+        {
+            <a class="favorite active" id="favoriteProduct">已收藏</a>}
+        else
+        {
+            <a class="favorite" id="favoriteProduct">收藏</a>}
+    </footer>
+}
+
+<a href="javascript:;" class="btn_top"></a>
+
+<input type="hidden" id="gid_desc" value="@Model.ProductDescription" />
+<input type="hidden" id="hasSecond" value="@DetailModel.Second" />
+<input type="hidden" id="shopId" value="@Model.Shop.Id" />
+<input type="hidden" id="couponUrl" value="@Url.Action("ShopCouponList","coupon")" />
+<script src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js?v=20183030"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/fly-zomm-img.min.js"></script>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+    <div class="modul-popup">
+        <div class="modul-popup-container sale-popup-container">
+            <div class="sale-popup-header"></div>
+            <div class="sale-popup-body">
+                <div class="modul-scroll">
+                    <table class="sale-table" width="100%">
+                        <tbody id="activeList"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sale-popup-footer">
+                <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 倒计时
+    countDown($("#hasSecond").val(), function (day, hour, minute, second) {
+        @if( DateTime.Parse( Model.FlashSale.BeginDate ) < DateTime.Now ) {
+        <text>
+        $('.countime').html('<s class="glyphicon glyphicon-time"></s> <b class="hour">' + day + '</b><em>天</em> <b class="hour">' + hour + '</b><em>时</em> <b class="hour">' + minute + '</b><em>分</em> <b class="hour">' + second + '</b><em>秒</em>');
+        </text>
+    }
+    else {
+        <text>
+        $('.countime').html('<s class="glyphicon glyphicon-time"></s> <b class="hour">' + day + '</b><em>天</em> <b class="hour">' + hour + '</b><em>时</em> <b class="hour">' + minute + '</b><em>分</em> <b class="hour">' + second + '</b><em>秒后开始</em>');
+        </text>
+    }
+    });
+</script>
+<a class="WX-backtop"></a>
+<script src="~/Scripts/jquery.Mall.sku.js?v=20183011"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/timeBuyDetail.js?v=2018041204"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+
+<script>
+    var loading = showLoading();
+    var winxinShareArgs = {
+        success: function(){
+            loading.close();
+        },
+        error:function(){
+            loading.close();
+            $.dialog.errorTips('注册微信接口失败，请刷新页面');
+        },
+        share: {
+            title: '【限时折扣】@Model.Product.ProductName',
+            desc: '@(string.IsNullOrEmpty(Model.Product.ShortDescription)?Model.Product.ProductName:Model.Product.ShortDescription)',
+            link: location.origin+'/' + areaName + "/LimitTimeBuy/Detail/" + @Model.MainId,
+            imgUrl: '@MallIO.GetRomoteProductSizeImage(Model.Product.RelativePath, 1, (int)Mall.CommonModel.ImageSize.Size_150)'
+        }
+    };
+</script>
+@Html.Partial("_WeiXinShare")

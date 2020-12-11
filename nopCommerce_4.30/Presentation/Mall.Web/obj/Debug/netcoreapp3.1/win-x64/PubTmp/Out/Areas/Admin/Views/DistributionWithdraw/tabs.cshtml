@@ -1,0 +1,8 @@
+﻿@model int
+<ul class="nav nav-tabs-custom clearfix">
+    <li @(Model == 1?"class=active":"")><a href="@Url.Action("management")">佣金管理</a></li>
+    <li @(Model == 2?"class=active":"")><a href="@Url.Action("wechat")">微信提现管理</a></li>
+    <li @(Model == 3?"class=active":"")><a href="@Url.Action("alipay")">支付宝提现管理</a></li>
+    <li @(Model == 4?"class=active":"")><a href="@Url.Action("settings")">提现设置</a></li>
+</ul>
+

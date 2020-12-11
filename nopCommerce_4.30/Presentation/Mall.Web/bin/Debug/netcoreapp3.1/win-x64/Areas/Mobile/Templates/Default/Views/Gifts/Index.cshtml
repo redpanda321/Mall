@@ -1,0 +1,153 @@
+﻿@model Mall.Web.Areas.Mobile.Models.GiftsIndexModel
+@{
+    ViewBag.Title = "积分商城";
+    ViewBag.ShowAside = 3;//显示浮动菜单栏、回到顶部按钮
+}
+<div class="container pb0">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.SlideAds)
+            {
+                <div class="swiper-slide"><a href="@(item.Url)"><img src="@(item.ImageUrl)"></a></div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="integral-cur">
+        @if (Model.HasLogined)
+        {
+            <a href="Member/Integral">
+                <p><img src="/Areas/Mobile/Templates/Default/Images/star.png" />当前积分<span id="Integral_balance">@(Model.MemberAvailableIntegrals)</span></p>
+                <em><i class="glyphicon glyphicon-menu-right"></i></em>
+            </a>
+        }
+        else
+        {
+            <a href="@Url.Action("GotoGifts","Member")">
+                <p><i class="glyphicon glyphicon-question-sign"></i>登录后查看我的积分</p>
+                <em><span>去登录</span></em>
+            </a>
+        }
+    </div>
+
+    @if (Model.HomeGiftses.Count > 0)
+    {
+    <div class="integral-title">礼品兑换专区</div>
+    <ul class="integral-product cl" id="giftProduct">
+        @foreach (var item in Model.HomeGiftses)
+        {
+            <li>
+                <a href="@(Url.Action("Detail", new { id = item.Id }))">
+                    <div class="p-img">
+                        <b style="background-image: url(@(item.DefaultShowImage));"></b>
+                        @if (item.StockQuantity == 0)
+                        {
+                            <span>已兑完</span>
+                        }
+                    </div>
+                    <h3>@(item.GiftName)</h3>
+                    <p><span>@(item.NeedIntegral)</span>积分<s class="nothrough">市场价: ¥@(item.GiftValue)</s></p>
+                </a>
+            </li>
+        }
+    </ul>
+    if (Model.HasMoreGifts)
+    {
+        <div class="integral-more"><a href="@(Url.Action("list"))">查看更多<i class="glyphicon glyphicon-menu-right"></i></a></div>
+    }
+    }
+
+    @if (Model.IntegralCoupons.Count > 0)
+    {
+    <div class="integral-title">优惠券兑换专区</div>
+    <ul class="integral-coupon integral-product" id="integralCoupon">
+        @foreach (var item in Model.IntegralCoupons)
+        {
+            <li>
+                <div class="p-img"><b style="background-image: url(@(item.ShowIntegralCover));"></b></div>
+                <div class="p-text">
+                    <h3>@(item.ShopName)</h3>
+                    <p>@(item.UseArea == 1 ? item.Remark : "全场通用")</p>
+                    <h5><span>¥ <em>@(item.Price)</em></span>@(item.OrderAmount > 0 ? "满" + item.OrderAmount + "元可用" : "无门槛")</h5>
+                </div>
+                <div class="p-btn">
+                    <p><span>@(item.NeedIntegral)</span>分</p>
+                    <a @(Model.MemberAvailableIntegrals < item.NeedIntegral ? "class=\"disabled\"" : "") name="acceptCoupon" data-ni="@(item.NeedIntegral)" cpid="@item.Id" vshopid="@item.VShopId">兑换</a>
+                </div>
+            </li>
+        }
+    </ul>
+    if (Model.HasMoreIntegralCoupons)
+    {
+        <div class="integral-more"><a href="@(Url.Action("CouponList"))">查看更多<i class="glyphicon glyphicon-menu-right"></i></a></div>
+    }
+    }
+    @if (Model.WeiActives.Count > 0)
+    {
+    <div class="integral-title-m"><img src="/Areas/Mobile/Templates/Default/Images/inte-icon.png" /><span>更多玩法</span><img class="rotate-half" src="/Areas/Mobile/Templates/Default/Images/inte-icon.png" /></div>
+    <ul class="integral-use">
+        @foreach (var item in Model.WeiActives)
+        {
+            if (item.ActivityType == 1)
+            {
+                <li><a name="开心刮刮卡" href="@(item.LinkUrl)"><img src="/Areas/Mobile/Templates/Default/Images/integral2.png" /></a></li>
+            }
+            else
+            {
+                <li><a name="幸运大转盘" href="@(item.LinkUrl)"><img src="/Areas/Mobile/Templates/Default/Images/integral1.png" /></a></li>
+            }
+        }
+    </ul>
+    }
+</div>
+
+<input type="hidden" id="couponUri" value="@Url.Action("AcceptCoupon","coupon")" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/swiper.min.js?v=20183030"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        autoplay: 4000,
+        speed: 500,
+        autoplayDisableOnInteraction: false
+    });
+
+    $(".integral-coupon li .p-img b").each(function () {
+        var image = this.style.backgroundImage;
+        if (image == 'url("")') {
+            this.style.backgroundImage = 'url("/Areas/Mobile/Templates/Default/Images/logo-bg.png")';
+        }
+    });
+
+    // 优惠券领取
+    $(function () {
+        $('a[name="acceptCoupon"]').click(function () {
+            var $thisCoupon = $(this);
+            checkLogin(window.location.href, function () {
+                var needi = $thisCoupon.data("ni");
+                if ($thisCoupon.hasClass("disabled")) {
+                    return;
+                }
+                $.dialog.confirm("此券需要" + needi + "积分，是否兑换？", function () {
+                    var cpid = $thisCoupon.attr('cpid') || 0;
+                    var vshopid = $thisCoupon.attr('vshopid') || 0;
+                    var couponCon = $("#couponUri").val();
+                    if (parseInt(cpid) > 0) {
+                        console.log(couponCon);
+                        $.post(couponCon, { vshopid: vshopid, couponid: parseInt(cpid) }, function (result) {
+                            if (result.success == true) {
+                                $.dialog.succeedTips("兑换成功！")
+                                //$("#Integral_balance").html(result.Integral_balance);
+                                // window.location.href = '/' + areaName + '/VShop/GetCouponSuccess/' + result.crid;
+                            }
+                            else {
+                                $thisCoupon.addClass("disabled");
+                                $.dialog.tips(result.msg, function () { });
+                            }
+                            return;
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.10.4" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.4" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.10.4" />
+    <PackageReference Include="Senparc.Weixin" Version="6.7.502" />
+    <PackageReference Include="Senparc.Weixin.WxOpen" Version="3.8.502" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hishop.Weixin.MP\Hishop.Weixin.MP.csproj" />
+    <ProjectReference Include="..\Mall.Application\Mall.Application.csproj" />
+    <ProjectReference Include="..\Mall.IService\Mall.IService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Himall.JDSDK.Area">
+      <HintPath>..\..\lib\Mall.JDSDK.Area.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+ 
+
+</Project>

@@ -1,0 +1,33 @@
+﻿@model List<Mall.DTO.ShopWithDrawItem>
+@{
+    Layout = null;
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+	<thead>
+		<tr>
+			<th> 申请时间</th>
+            <th> 商家</th>
+            <th> 申请金额</th>
+			<th> 提现方式</th>
+			<th> 帐户</th>
+            <th> 收款账户姓名</th>
+            <th> 交易流水号</th>
+            <th> 备注</th>
+		</tr>
+	</thead>
+	<tbody id="list-table-body">
+		@foreach (var item in Model)
+        {
+			<tr>
+				<td>@item.ApplyTime</td>
+				<td>@item.ShopName</td>
+				<td>@item.CashAmount</td>
+				<td>@item.CashType</td>
+				<td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.Account</td>
+				<td>@item.AccountName</td>
+				<td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.AccountNo</td>
+				<td>@item.PlatRemark</td>
+			</tr>
+		}
+	</tbody>
+</table>

@@ -1,0 +1,123 @@
+﻿@{
+ViewBag.ShowAside = 2;//显示返回顶部按钮 
+}
+@{Layout = "/Areas/Mobile/Templates/Default/Views/Shared/_Base.cshtml";}
+<div class="container">
+<script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_SearchBox.cshtml");}
+<script src="~/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+<link rel="stylesheet" href="/Content/PublicMob/css/style.css" />
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/css.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/mycss.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/main.css" rev="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Areas/Admin/templates/common/style/head.css">
+
+            <div class="members_con">
+                <section class="members_special titlestyle0 left">
+                    <h2 class="j-title">
+                        首页标题
+                    </h2>
+                    <!--<p class="j-subtitle">『副标题』</p>-->
+                    <!--
+                        <b>更多</b>
+                    -->
+                </section>
+            </div>
+        
+            <div class="members_con" style="margin:0 auto">
+                
+                <section class="members_flash j-swipe" id="mySwipe">
+                    <ul class="clearfix">
+                        
+                        
+                        <li>
+                            <a href="/m-Wap/LimitTimeBuy/Home" title="限时购列表">
+                                
+                                
+                                <img src="/Storage/Shop/1/Products/1689/1_350.png" width="100%" />
+                                
+                                
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="/m-wap/Product/Detail/1687" title="新商品地方就睡老地方">
+                                
+                                
+                                <img src="/Storage/Shop/1/Products/1687/1_350.png" width="100%" />
+                                
+                                
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="/m-wap/Product/Detail/1683" title="测试运费模板商品">
+                                
+                                
+                                <img src="/Storage/Shop/1/Products/1683/1_350.png" width="100%" />
+                                
+                                
+                            </a>
+                        </li>
+                        
+                        
+                    </ul>
+                    <section class="members_flash_time">
+                        
+                        
+                        <span class="cur" ></span>
+                        
+                        <span  ></span>
+                        
+                        <span  ></span>
+                        
+                        
+                    </section>
+                </section>
+                
+            </div>
+        
+            <div class="members_con">
+                <section class="members_nav1">
+                    <ul class="pic-nav">
+                        
+                        
+                        
+                        <li class="lisw4">
+                            <span><a class="goodsimg" href="/m-wap/topic/detail/95"><div class="son"><img src="http://192.168.10.127/Storage/template/0/20180718/6366750459178351378310084.jpg"></div></a></span>
+                            <a class="members_nav1_name" href="/m-wap/topic/detail/95">高明超测试</a>
+                        </li>
+                        
+                        
+                        
+                        <li class="lisw4">
+                            <span><a class="goodsimg" href="/m-wap/shopregister/step1"><div class="son"><img src="http://192.168.10.127/Storage/template/0/20180823/6367063131471663038213519.jpg"></div></a></span>
+                            <a class="members_nav1_name" href="/m-wap/shopregister/step1">商家入驻</a>
+                        </li>
+                        
+                        
+                        
+                        <li class="lisw4">
+                            <span><a class="goodsimg" href="/m-Wap/Gifts"><div class="son"><img src="http://192.168.10.127/Storage/template/0/20180823/6367063132421244427849156.jpeg"></div></a></span>
+                            <a class="members_nav1_name" href="/m-Wap/Gifts">积分商城</a>
+                        </li>
+                        
+                        
+                        
+                        <li class="lisw4">
+                            <span><a class="goodsimg" href="/m-wap/topic/detail/106"><div class="son"><img src="/Content/Public/images/diy/app/group_120_120.png"></div></a></span>
+                            <a class="members_nav1_name" href="/m-wap/topic/detail/106">测试第三层</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                </section>
+            </div>
+        @{Html.RenderAction("GoodsListAction", "TemplateVisualizationProcess",new { Layout="3", ShowName="1", IDs="1817,1816,1815,1814,1813", ShowIco="True", ShowPrice="True", DataUrl="/api/Hi_Ajax_GoodsList", ID="goods_64ab29ec492e4f5b8eae65779fcc7217"});}@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/AppAuto.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/home.js"></script>
+ <script src="~/Scripts/swipe-template.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/IndexShare.js"></script>

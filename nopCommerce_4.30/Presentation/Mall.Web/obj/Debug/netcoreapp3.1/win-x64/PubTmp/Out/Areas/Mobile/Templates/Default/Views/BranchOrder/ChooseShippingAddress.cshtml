@@ -1,0 +1,174 @@
+﻿@using Mall.Entities
+
+@{
+    ViewBag.Title = "收货地址管理";
+}
+@model List<Mall.Entities.ShippingAddressInfo>
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchs.css?v=20183030" rel="stylesheet" />
+<div class="container ShippingAddress store store-address">
+    <ul class="list-group address">
+        @foreach (var item in Model.Where(x => x.CanDelive))
+        {
+            <li id="@item.Id" shipto="@item.ShipTo" phone="@item.Phone" regionfullname="@item.RegionFullName" address="@item.Address" regionid="@item.RegionId" latAndLng="@(item.Latitude+","+item.Longitude)" addressDetail="@(item.AddressDetail!=null?item.AddressDetail:string.Empty)">
+                <div class="add-info" editId="@item.Id" isNeedUpdate="@item.NeedUpdate">
+                    <i class="glyphicon glyphicon-ok-@item.Id"></i>
+                    <h6>@item.ShipTo <span>@item.Phone</span></h6>
+                    <p>@(item.RegionFullName + " " + item.Address + " " + (item.AddressDetail != null ? item.AddressDetail : string.Empty))</p>
+                    @if (item.NeedUpdate)
+                    {
+                        <div class="toUpdate edit" editId="@item.Id">
+                            <i></i>
+                            <h6>需要升级</h6>
+                        </div>
+                    }
+                </div>
+                <div class="cho-addr">
+                    @if (item.IsDefault)
+                    {
+                        <lable><span class="default active"></span>默认</lable>
+                    }
+
+                    <span class="cho-btn">
+                        @if (!item.IsDefault)
+                        {
+                            <a class="edit" onclick="ChooseAddr(@item.Id)">设为默认</a>
+                        }
+                        <a class="edit" onclick="EditAddr(@item.Id)">编辑</a>
+                        <a class="del" onclick="DeleteAddr(this,@item.Id)">删除</a>
+                    </span>
+
+                </div>
+            </li>
+        }
+    </ul>
+    <div class="disabled">
+        <div class="t-title" hidden="@(Model.Where(x => !x.CanDelive).Count()<=0)">以下地址超出配送区域</div>
+        <ul class="list-group address">
+            @foreach (var item in Model.Where(x => !x.CanDelive))
+            {
+                <li id="@item.Id" shipto="@item.ShipTo" phone="@item.Phone" regionfullname="@item.RegionFullName" address="@item.Address" regionid="@item.RegionId">
+                    @*<i class="check-custom"></i>*@
+                    <div class="add-info">
+                        <i class="glyphicon glyphicon-ok-@item.Id"></i>
+                        <h6>@item.ShipTo，<span>@item.Phone</span></h6>
+                        <p>@item.RegionFullName@item.Address</p>
+                        @if (item.NeedUpdate)
+                        {
+                            <div class="toUpdate edit" editId="@item.Id">
+                                <i></i>
+                                <h6>需要升级</h6>
+                            </div>
+                        }
+                    </div>
+                    <i class="ic_edit" onclick="EditAddr(@item.Id)"></i>
+                </li>
+            }
+
+        </ul>
+    </div>
+    <footer class="clearfix">
+        <a class="add-footer" onclick="EditAddr(0)"><i class="glyphicon glyphicon-plus"></i> 新增收货地址</a>
+    </footer>
+</div>
+
+<script>
+    var chooseUrl = '@Url.Action("SetDefaultUserShippingAddress")';
+    var setDefaultUrl = '@Url.Action("SetDefaultUserShippingAddress")';
+    var editUrl = '@Url.Action("EditShippingAddress")';
+    var deleteUrl = '@Url.Action("DeleteShippingAddress")';
+    var cacheKey = 'ChoseShippingAddress.Value';
+    $(function () {
+        var addId = QueryString('addId');
+        $(".check-custom").each(function () {
+            if (addId && $(this).attr("addid") == addId) {
+                $(this).addClass("active");
+            }
+        });
+        $(".address").on("click", ".toUpdate", function () {
+            ToUpdate($(this).attr("editId"));
+            return false;
+        }).on("click", ".add-info", function () {
+            SetDefault($(this).attr("editId"), $(this).attr("isNeedUpdate"));
+        });
+    })
+    function ChooseAddr(addId, needUpdate) {
+        if (needUpdate) { $.dialog.errorTips('地址库已更新，收货地址需要升级'); return; }
+        //      $(".glyphicon-ok-'" + addId + "'").addClass("active");
+        $.post(chooseUrl, { addId: addId }, function (result) {
+            if (result.success) {
+                window.location.reload();
+                saveAndGoBack(addId);
+            }
+        });
+    }
+
+    function SetDefault(addId, needUpdate) {
+        if (needUpdate) { $.dialog.errorTips('地址库已更新，收货地址需要升级'); return; }
+        var loading = showLoading();
+        $(".glyphicon-ok-'" + addId + "'").addClass("active");
+        $.post(setDefaultUrl, { addId: addId }, function (result) {
+            loading.close();
+            if (result.success)
+                saveAndGoBack(addId);
+        });
+    }
+
+    function ToUpdate(editId) {
+         var isOrder = QueryString('isOrder');
+        var shopBranchId = QueryString('shopBranchId');
+        if (isOrder) {
+            window.location.href = editUrl + '?addressId=' + editId + '&isUpdate=1&isOrder=' + isOrder + '&shopBranchId=' + shopBranchId;
+        }
+        else {
+            window.location.href = editUrl + '?addressId=' + editId + '&isUpdate=1&shopBranchId=' + shopBranchId;
+        }
+    }
+
+    function EditAddr(addId) {
+        var isOrder = QueryString('isOrder');
+        var shopBranchId = QueryString('shopBranchId');
+        if (isOrder) {
+            window.location.href = editUrl + '?addressId=' + addId + '&isOrder=' + isOrder + '&shopBranchId=' + shopBranchId;
+        }
+        else {
+            window.location.href = editUrl + '?addressId=' + addId + '&shopBranchId=' + shopBranchId;
+        }
+    }
+
+    function DeleteAddr(item, addId) {
+        var loading = showLoading();
+        $.post(deleteUrl, { addressId: addId }, function (result) {
+            if (result.success) {
+                loading.close();
+                $(item).closest('li').remove();
+                count = $('ul.address').children('li').length;
+                if (count == 0) {
+                    window.saveToLocalStorage(cacheKey, { isClear: true });
+                }
+            }
+        });
+    }
+
+    function saveAndGoBack(addId) {
+        var refer = window.localStorage.getItem("refer");
+        if (refer == null) {
+            Refresh();
+        }
+        var li = $('#' + addId);
+        var value = {
+            id: addId,
+            latAndLng:li.attr("latAndLng"),
+            shipTo: li.attr('shipTo'),
+            phone: li.attr('phone'),
+            regionFullName: li.attr('regionFullName'),
+            address: li.attr('address'),
+            regionId: li.attr('regionId'),
+            addressDetail: li.attr('addressDetail')
+        };
+        window.saveToLocalStorage(cacheKey, value);
+        if (refer != null && refer != '') {
+            window.localStorage.removeItem("refer");
+            window.location.href = refer;
+        }
+    }
+</script>

@@ -1,0 +1,190 @@
+﻿@model Mall.Entities.OrderRefundInfo
+@{
+    ViewBag.Title = "退换货详情";
+    long? branchId = ViewBag.ShopBranchId;
+
+    var order = ViewBag.OrderInfo as Mall.Entities.OrderInfo;
+    var verificationCodeIds = ViewBag.VerificationCodeIds;
+}
+
+<style>
+    .btn-ag {
+        color: #494e52;
+        border: 1px solid #494e52;
+        background-color: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+</style>
+<div class="container RefundDetail">
+    <div class="refund-states">
+        @if (Model.ManagerConfirmStatus == Mall.Entities.OrderRefundInfo.OrderRefundConfirmStatus.Confirmed)
+        {
+            <h3><span class="glyphicon glyphicon-ok-circle" style="color:green"></span>@ViewBag.RefundStatus</h3>
+        }
+        else
+        {
+            if (Model.SellerAuditStatus == Mall.Entities.OrderRefundInfo.OrderRefundAuditStatus.UnAudit)
+            {
+                <h3><span class="glyphicon glyphicon-remove-circle"></span>@ViewBag.RefundStatus</h3>
+            }
+            else
+            { <h3>@ViewBag.RefundStatus</h3>
+        }
+    }
+        @if (verificationCodeIds != null && verificationCodeIds.Count > 0)
+        {
+            <span>核销码：
+            @for (var i=0;i<verificationCodeIds.Count;i++)
+            {
+                <i>@System.Text.RegularExpressions.Regex.Replace(verificationCodeIds[i], @"(\d{4})", "$1 ")</i>
+                if (verificationCodeIds.Count > 1 && verificationCodeIds.Count - 1 != i) {
+                    <text>；</text>
+                }
+            }
+            </span><br>
+        }
+        @if (Model.SellerAuditStatus == Mall.Entities.OrderRefundInfo.OrderRefundAuditStatus.WaitDelivery)
+        {
+            <span class="post-back" dataShop="@(Model.ShopId)" datasbid="@(branchId??0)" dataid="@(Model.Id)">快递寄回</span>
+        }
+        @if (Model.SellerAuditStatus == Mall.Entities.OrderRefundInfo.OrderRefundAuditStatus.UnAudit)
+        {
+            <span>原因：<i>@Model.SellerRemark</i></span>
+            <span>时间：<time>@Model.SellerAuditDate.ToString()<time></span>
+            if (Model.IsOrderRefundTimeOut == false)
+            {
+                if (
+                    (Model.RefundMode != Mall.Entities.OrderRefundInfo.OrderRefundMode.OrderRefund)
+                    || (Model.RefundMode == Mall.Entities.OrderRefundInfo.OrderRefundMode.OrderRefund && (order.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitDelivery || order.OrderStatus == Mall.Entities.OrderInfo.OrderOperateStatus.WaitSelfPickUp))
+                    )
+                {
+                    <br /><span><a class="btn btn-ag" href="/@(CurrentAreaName)/OrderRefund/RefundApply/?orderid=@(Model.OrderId)&refundid=@(Model.Id)@Html.Raw(Model.RefundMode == Mall.Entities.OrderRefundInfo.OrderRefundMode.OrderRefund ? "" : "&itemId=" + Model.OrderItemId.ToString())">重新激活售后</a></span>
+                }
+            }
+        }
+        else
+        {
+            <span>退款金额：<i>@Model.Amount.ToString("f2")</i></span><br>
+            <span>处理时间：<time>@(Model.ManagerConfirmDate > Model.SellerAuditDate ? Model.ManagerConfirmDate.ToString() : Model.SellerAuditDate.ToString()) <time></span>
+        }
+    </div>
+    <div class="consult-detail">
+        <a href="/@(CurrentAreaName)/OrderRefund/RefundProcessDetail?id=@Model.Id"><h3>协商详情<span class="glyphicon glyphicon-menu-right pull-right"></span></h3></a>
+    </div>
+    <div class="refund-content">
+        @if (branchId.HasValue && branchId.Value > 0)
+        {
+            <p class="name">店铺名称<a class="shop">@ViewBag.ShopBranchName</a></p>
+        }
+        else
+        {
+            <p class="name">店铺名称<a class="shop">@Model.ShopName</a></p>
+        }
+        <div class="content">
+            <ul>
+                @if (Model.RefundMode == Mall.Entities.OrderRefundInfo.OrderRefundMode.ReturnGoodsRefund)
+                {
+                    <li><span>售后类型</span><em>退货退款</em></li>
+                    <li><span>退货数量</span><em>@Model.ReturnQuantity</em></li>
+                }
+                else
+                {
+                    <li><span>售后类型</span><em>仅退款</em></li>
+                }
+                <li><span>退款金额</span><em>@Model.Amount.ToString("f2")元</em></li>
+                <li><span>退款方式</span><em>@ViewBag.RefundPayType</em></li>
+                <div class="hidee" style="display: none">
+                    <li class="reason" style="height: auto !important;"><span>退款理由</span><em>@Model.Reason </em></li>
+                    <li class="reasonremark" style="height: auto !important;"><span>退款说明</span><em>@Model.ReasonDetail </em></li>
+                    <li><span>售后单号</span><em>@Model.Id</em></li>
+                    <li><span>申请时间</span><time>@Model.ApplyDate.ToString()</time></li>
+                    <li class="remark"><span>备注信息</span><em>@Model.SellerRemark</em></li>
+                </div>
+                <li class="more">更多<span class="glyphicon glyphicon-menu-down "></span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="reback-dialog">
+        <span class="glyphicon glyphicon-remove"></span>
+        <label><span>商家退货地址：</span></label>
+        <label><span id="shopsendaddress"></span></label>
+        <label><span>快递公司：</span><input type="text" id="expressCompanyName"> </label>
+        <label><span>快递单号：</span><input type="text" id="shipOrderNumber"> </label>
+        <p class="reback-submit" id="btnOK">确认</p>
+    </div>
+    <div class="coverage"></div>
+</div>
+
+<script>
+    var curentId = 0;
+    $(function () {
+        $(".more").click(function () {
+            $(".hidee").css("display", "block");
+            $(this).css("display", "none");
+        })
+
+        $('#btnOK').click(backSubmit);
+
+        $(".post-back").click(function () {
+            var shopId = $(this).attr("dataShop");
+            sbid = $(this).attr("datasbid");
+            curentId = $(this).attr("dataId");
+            $.ajax({
+                type: 'get',
+                async: false,
+                url: "/OrderRefund/GetShopGetAddress?shopId=" + shopId + "&shopBranchId=" + sbid,
+                dataType: 'json',
+                data: {},
+                success: function (result) {
+                    var d = result.data;
+                    if (d && d.Phone.length > 0) {
+                        var str = "" + d.ShipperName + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + d.Phone + "";
+                        str += "<br>" + d.Region + "  " + d.Address + "";
+                        console.log(str);
+                        $("#shopsendaddress").html(str);
+                    } else {
+                        $("#shopsendaddress").text("商家未设置收货地址，请与商家主动联系！");
+                    }
+                }
+            });
+            $(".reback-dialog").css('visibility', 'visibile').show();
+            $("#expressCompanyName").text("");
+            $("#shipOrderNumber").text("");
+            $(".coverage").addClass("cover");
+        });
+
+        $(".reback-dialog .glyphicon-remove").click(function () {
+            $(".reback-dialog").hide();
+            $(".coverage").removeClass("cover");
+        });
+        $(".reback-dialog .reback-submit").click(function () {
+            $(".reback-dialog").hide();
+            $(".coverage").removeClass("cover");
+        });
+    })
+
+    function backSubmit() {
+        var expressCompanyName = $("#expressCompanyName").val();
+        var shipOrderNumber = $("#shipOrderNumber").val();
+        if (expressCompanyName == "" || shipOrderNumber == "") {
+            $.dialog.errorTips("请输入快递公司和快递单号！", '', 1);
+            return;
+        }
+        var loading = showLoading();
+        $.post("/" + areaName + "/OrderRefund/UpdateRefund", { id: curentId, expressCompanyName: expressCompanyName, shipOrderNumber: shipOrderNumber }, function (result) {
+            loading.close();
+            if (result.success) {
+                $.dialog.succeedTips("提交成功！", function () {
+                    Refresh();
+                }, 1);
+            }
+            else {
+                $.dialog.errorTips("提交失败," + result.msg, '', 2);
+            }
+        });
+
+    }
+</script>

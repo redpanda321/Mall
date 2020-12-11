@@ -1,0 +1,8 @@
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\bin\Debug\netcoreapp3.0\Shop.Open.Api.deps.json
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\bin\Debug\netcoreapp3.0\Shop.Open.Api.dll
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\bin\Debug\netcoreapp3.0\Shop.Open.Api.pdb
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\obj\Debug\netcoreapp3.0\Shop.Open.Api.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\obj\Debug\netcoreapp3.0\Shop.Open.Api.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\obj\Debug\netcoreapp3.0\Shop.Open.Api.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\obj\Debug\netcoreapp3.0\Shop.Open.Api.dll
+C:\S\nopCommerce_4.20\Libraries\Shop.Open.Api\obj\Debug\netcoreapp3.0\Shop.Open.Api.pdb

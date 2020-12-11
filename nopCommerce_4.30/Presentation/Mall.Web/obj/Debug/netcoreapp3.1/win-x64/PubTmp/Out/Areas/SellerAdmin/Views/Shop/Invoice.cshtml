@@ -1,0 +1,85 @@
+﻿@model Mall.Entities.ShopInvoiceConfigInfo
+@{
+    ViewBag.Title = "发票管理";
+}
+
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopInvoiceSetting.js"></script>
+<style type="text/css">
+	.spec input{
+		display: inline-block;
+	}
+</style>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>发票管理</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i> 说明：开启时，用户提交订单时出现填写发票入口；若关闭，则前台隐藏发票填写入口</span></h5>
+    <form class="form-horizontal" id="form-invoice" method="post">
+        <input type="hidden" id="Id" name="Id" value="5" />
+        <input type="hidden" id="ShopId" name="ShopId" value="@Model.ShopId" />
+        <div class="form-group">
+            <label for="" class="label-inline w100" style="float:left; margin-left:100px;">提供发票：</label>
+            <div style="display:block;float:left;">
+                <input type="checkbox" class="pluginCheck" name="ProvideInvoice" @(Model.IsInvoice ? "checked" : "")>
+            </div>
+        </div>
+        <div class="invoiceconfig" style="display:none;">
+            <div class="form-group">
+                <label for="" class="label-inline w100" style="float:left; margin-left:100px;">普通发票：</label>
+                <div style="display:block;float:left;">
+                    <input type="checkbox" class="subpluginCheck" name="IsPlainInvoice" @(Model.IsPlainInvoice ? "checked" : "")>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="label-inline w120" style="float:left; margin-left:80px;">电子普通发票：</label>
+                <div style="display:block;float:left;">
+                    <input type="checkbox" class="subpluginCheck" name="IsElectronicInvoice" @(Model.IsElectronicInvoice ? "checked" : "")>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 label-inline" for=""><span class="red">*</span>普通税率：</label>
+                <div class="col-sm-2 spec">
+                    @Html.TextBoxFor(p => p.PlainInvoiceRate, new
+                   {
+                       @class = "form-control input-sm w120",
+                       @onkeyup = "number(this);"
+                   }) %
+                </div>
+                <div class="col-sm-5"><span class="Sclear-P40 help-default">设置税率之后，会员索要普通发票、电子普通发票时需要支付额外的税费。</span></div>
+            </div>
+            <div class="form-group">
+                <label for="" class="label-inline w100" style="float:left; margin-left:100px;">增值税发票：</label>
+                <div style="display:block;float:left;">
+                    <input type="checkbox" class="subpluginCheck" name="IsVatInvoice" @(Model.IsVatInvoice ? "checked" : "")>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 label-inline" for=""><span class="red">*</span>订单结束交易超过：</label>
+                <div class="col-sm-5 spec">
+                    @Html.TextBoxFor(p => p.VatInvoiceDay, new
+                    {
+                       @class = "form-control input-sm w120"
+                    }) 天开具增值税发票
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 label-inline" for=""><span class="red">*</span>增值税税率：</label>
+                <div class="col-sm-2 spec">
+                    @Html.TextBoxFor(p => p.VatInvoiceRate, new
+                   {
+                       @class = "form-control input-sm w120",
+                       @onkeyup = "number(this);"
+                   }) %
+                </div>
+                <div class="col-sm-5"><span class="Sclear-P40 help-default">设置税率之后，会员索要增值税发票时需要支付额外的税费。</span></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input id="submit" class="btn btn-primary" type="submit" value="保 存" />
+            </div>
+        </div>
+    </form>
+</div>

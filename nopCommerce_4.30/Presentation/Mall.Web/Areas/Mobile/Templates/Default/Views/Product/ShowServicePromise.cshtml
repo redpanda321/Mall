@@ -1,0 +1,19 @@
+﻿@model Mall.DTO.CashDepositsObligation
+@{
+	Layout = null;
+}
+
+    @if (Model.IsCustomerSecurity || Model.IsSevenDayNoReasonReturn || Model.CanSelfTake)
+    {
+        <ul class="ensary j_ensary">
+            @if (Model.IsCustomerSecurity)
+            {
+                <li class="flex-center"><i>消费者保障</i></li> }
+            @if (Model.IsSevenDayNoReasonReturn)
+            {
+            <li class="flex-center"><i>七天退换货</i></li> }
+        </ul>
+    }
+      
+@Html.Hidden("shopId", (long)ViewBag.ShopId)
+@Html.Hidden("productId", (long)ViewBag.ProductId)

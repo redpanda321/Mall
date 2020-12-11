@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "系统发生错误";
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'microsoft yahei','simsun';
+        }
+
+        body {
+            background: #fff;
+        }
+
+        .error-page {
+            margin: 150px auto 0;
+            width: 650px;
+            overflow: hidden;
+        }
+
+            .error-page img {
+                float: left;
+                margin-right: 15px;
+            }
+
+            .error-page h2 {
+                font-size: 18px;
+                margin-bottom: 10px;
+                color: #020202;
+                font-weight: normal;
+                margin-top: 80px;
+            }
+
+            .error-page p {
+                font-size: 14px;
+            }
+
+            .error-page a {
+                color: #307bfb;
+                text-decoration: none;
+            }
+    </style>
+    <script>
+        var pageurl = location.href.toLowerCase();
+        if (pageurl.indexOf("/product/detail/") != -1) {
+            pageurl = pageurl.replace("/product/", "/m-wap/product/");
+            location.href = pageurl;
+        } else {
+            location.href = "/m-wap";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="error-page">
+        <img src="/Images/errors.png" />
+        <h2>该端暂未开放，请移步其他端访问</h2>
+    </div>
+</body>
+</html>

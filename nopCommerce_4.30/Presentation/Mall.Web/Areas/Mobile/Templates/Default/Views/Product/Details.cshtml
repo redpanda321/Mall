@@ -1,0 +1,274 @@
+﻿@using Mall.Core
+@model Mall.Web.Areas.Web.Models.ProductDetailModelForWeb
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "商品详情";
+    ViewBag.ShowAside = 1;
+    var detailModel = (Mall.Web.Areas.Mobile.Models.ProductDetailModel)ViewBag.DetailModel;
+}
+<input type="hidden" id="gid" value="@Model.Product.Id" />
+<input type="hidden" id="categoryId" value="@Model.Product.CategoryId" />
+<input type="hidden" id="has" value="1" />
+<div id="J_shop_att"></div>
+<div class="container container-z">
+	<div class="cover distribution">
+        <img src="/Areas/Mobile/Templates/Default/Images/proShare.png" />
+    </div>
+    <div class="detail-hd">
+        <div id="slides">
+            @if (Model.Product.VideoPath != null && Model.Product.VideoPath.Length > 0)
+            {
+                <div class="video-box">
+                    <div class="j_preview">
+                        <video id="video1" webkit-playsinline="true" x-webkit-playsinline="true" x-webkit-airplay="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-ignore-metadata="true" poster="@Mall.Core.MallIO.GetProductSizeImage(Model.Product.RelativePath, 1, (int)Mall.CommonModel.ImageSize.Size_500)" src="@Model.Product.VideoPath"></video>
+                        <div class="fd_gif"><i class="j_startPic"></i></div>
+                    </div>
+                </div>
+            }
+            @for (int i = 1; i < 6; i++)
+            {
+                if (MallIO.ExistFile((Model.Product.RelativePath + string.Format("/{0}.png", i))))
+                {
+                    <img data-src="@(MallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Mall.CommonModel.ImageSize.Size_500))" />
+                }
+            }
+        </div>
+    </div>
+    <div class="detail-bd">
+        <div class="goods-info">
+        	<div class="icon-share hide" id="dis-share">
+        		<i class="iconfonts icon-icon_-share"></i>
+        		<div class="most hide" id="dis-maxbrokeragebox">最高赚 <span class="price" id="dis-maxbrokerage">￥0.00</span></div>
+        	</div>
+            <div id="preheat"></div>
+            <div class="item">
+                <div class="goods-price" id="jd-price">
+                    @if (Model.Product.IsOpenLadder)
+                    {
+                        <div class="pr">
+                            <div class="xiaoliang">
+                                <b>价格：</b><ul id="ladder-prices"></ul>
+                            </div>
+                            <div class="qipiliang">
+                                <b>起批量：</b><ul id="ladder-counts"></ul>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <span id="jd-saleprice"></span>
+                        if (Model.Product.MarketPrice > 0)
+                        {
+                            <s id="marketpricebox">￥@Model.Product.MarketPrice.ToString("F2")</s>
+                        }
+                    }
+					
+                </div>
+                <h4>@Model.Product.ProductName</h4>
+                <h5>@Model.Product.ShortDescription</h5>
+                <div class="salefreight" id="salefreight">
+                    @if (Model.Product.ProductType == 0)
+                    {
+                        if (Model.IsSaleCountOnOff)
+                        {
+                            <span id="saleCountsSpan">销量 <a id="saleCounts"></a>@(Model.Product.MeasureUnit)</span>
+                        }
+                        <span><a id="freight">@(Model.Freight)</a></span>
+                        <span>@((Model.FreightTemplate != null && !string.IsNullOrEmpty(Model.FreightTemplate.SendTime)) ? (Model.FreightTemplate.SendTime + "h内发货") : "")</span>
+                    }
+                </div>
+            </div>
+          
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                        <li class="promotion-coupon" style="display:none;" onclick="showPortfolio()">
+                            <a href="javascript:;" class="item-navigate-right">
+                                <span id="activespan"><i class="coupon-tip">促销优惠</i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="productColloCation"></div>
+                <div class="goods-address" id="showDeportAddress">
+                </div>
+            </div>
+			  @if (Model.VirtualProductInfo != null)
+            {
+                <div class="virtual-detail">
+                    <div class="top">
+                        @if (Model.VirtualProductInfo.SupportRefundType == (sbyte)Mall.Entities.ProductInfo.SupportVirtualRefundType.SupportAnyTime)
+                        {
+                            <span><i class="iconfonts icon-icon-3"></i>随时退</span>
+                            <span><i class="iconfonts icon-icon-3"></i>过期自动退</span>
+                        }
+                        @if (Model.VirtualProductInfo.SupportRefundType == (sbyte)Mall.Entities.ProductInfo.SupportVirtualRefundType.SupportValidity)
+                        {
+                            <span><i class="iconfonts icon-icon-3"></i>未过期前可退</span>
+                            <span><i class="iconfonts icon-icon_-fobid1"></i>过期不可退</span>
+                        }
+                        @if (Model.VirtualProductInfo.SupportRefundType == (sbyte)Mall.Entities.ProductInfo.SupportVirtualRefundType.NonSupport)
+                        {
+                            <span><i class="iconfonts icon-icon_-fobid1"></i>购买后不可退</span>
+                        }
+                        @if (Model.IsSaleCountOnOff)
+                        {
+                            <span class="txtRight">已售 <a id="saleCounts"></a></span>
+                        }
+                    </div>
+                    <div class="tipBox">
+                        <h5>使用须知:</h5>
+                        <ul>
+                            @if (!Model.VirtualProductInfo.ValidityType)
+                            {
+                                <li><span>有效期：长期有效</span></li>
+                            }
+                            else
+                            {
+                                <li><span>有效期：@Model.VirtualProductInfo.StartDate.Value.ToString("yyyy-MM-dd") ~ @Model.VirtualProductInfo.EndDate.Value.ToString("yyyy-MM-dd")</span></li>
+                            }
+                            @if (Model.VirtualProductInfo.EffectiveType == 1)
+                            {
+                                <li><span>购买后立即使用</span></li>
+                            }
+                            else if (Model.VirtualProductInfo.EffectiveType == 2)
+                            {
+                                <li><span>购买 @Model.VirtualProductInfo.Hour 小时后使用</span></li>
+                            }
+                            else
+                            {
+                                <li><span>购买后次日使用</span></li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.VirtualProductInfo.UseNotice))
+                            {
+                                <li><span>@Model.VirtualProductInfo.UseNotice</span></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+            @Html.RenderAction("ShowServicePromise", "Product", new { id = Model.Product.Id, shopId = Model.Product.ShopId })
+        </div>
+        @if (Model.Color.Count > 0 || Model.Size.Count > 0 || Model.Version.Count > 0)
+        {
+            <div class="item">
+                <a class="item-navigate-right att-popup-trigger spec">选择规格</a>
+            </div>
+        }
+        @*门店信息-前端调整界面样式*@
+        <div class="item detail-comment j_storesInfo product-store-title" style="display:none">
+            <div class="goods-comment">
+                <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1>
+                <p class="j_storeAddress"></p>
+                <a class="j_storelist btn btn-default"></a>
+            </div>
+        </div>
+        @*门店信息-前端调整界面样式*@
+        <div class="item detail-comment">
+            <div class="detail-comment-hd">
+                商品评价
+                <span class="detail-comment-num">@(detailModel.CommentCount)</span>
+            </div>
+            <div id="productCommentShow">
+            </div>
+            <div class="detail-comment-ft">
+                <a class="btn btn-default" href="../ProductComment?pId=@(Model.Product.Id)&commentType=0">查看全部评价</a>
+            </div>
+        </div>
+
+        @Html.RenderAction("ShowShopScore", "VShop", new { id = Model.Product.ShopId })
+
+        <div id="productColloCation">
+        </div>
+        @*<div class="item details-link">
+                <a href="#top" onclick="gotoProductImg()"><span>查看更多详情</span></a>
+            </div>
+            <div class="goods-img"></div>*@
+        @Html.RenderAction("ShowProductDescription", "Product", new { id = Model.Product.Id })
+
+        <div class="right" style="display:none;background:#fff">
+            <div class="relation-title text-center"><span>猜你喜欢</span></div>
+            <div id="relationProducts" class="clearfix">
+                <template>
+                    <a class="relation-pro clearfix" href="@Url.Action("detail",new { id=(object)null})/{{id}}">
+                        <div class="relation-pro-img">
+                            <img src="{{imagePath}}" />
+                        </div>
+                        <p class="relation-pro-price"><i>￥</i>{{minSalePrice}}</p>
+                        <p class="relation-pro-name">{{productName}}</p>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="s-actionBar-container">
+    <div id="s-actionbar" class="action-bar">
+        <div class="cell tocart icon-cart-c">
+            购物车
+            <a href="/@ViewBag.AreaName/Cart/Cart?returnUrl=@HttpUtility.UrlEncode(Context.Request.GetDisplayUrl())"></a>
+            <span class="plus-one">1</span>
+        </div>
+    </div>
+</section>
+<input type="hidden" id="proDesc" value="@Model.ProductDescription" />
+<input type="hidden" id="shopId" value="@Model.Shop.Id" />
+<input type="hidden" id="couponUrl" value="@Url.Action("ShopCouponList","coupon")" />
+<input type="hidden" id="skuUrl" value="@Url.Action("GetSKUInfo", "Product")" />
+<input type="hidden" id="productType" value="@Model.Product.ProductType" />
+<!--_WeiXinShare start-->
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+<!--_WeiXinShare end-->
+<script>
+    var loading = showLoading();
+    var winxinShareArgs = {
+        success: function () {
+            loading.close();
+        },
+        error: function () {
+            loading.close();
+        },
+        share: {
+            title: '@Model.Product.ProductName',
+            desc: '@(string.IsNullOrEmpty(Model.Product.ShortDescription) ? Model.Product.ProductName.Replace("\n", "") : Model.Product.ShortDescription.Replace("\n", ""))',
+            link: location.href,
+            imgUrl: '@MallIO.GetRomoteProductSizeImage(Model.Product.RelativePath, 1, (int)Mall.CommonModel.ImageSize.Size_150)',
+            success: null,
+            cancel: null,
+            fail: null,
+            complete: null,
+            trigger: null
+        }
+    };
+</script>
+<script src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/fly-zomm-img.min.js"></script>
+<a class="WX-backtop"></a>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+    <div class="modul-popup">
+        <div class="modul-popup-container sale-popup-container">
+            <div class="sale-popup-header"></div>
+            <div class="sale-popup-body">
+                <div class="modul-scroll">
+                    <table class="sale-table" width="100%">
+                        <tbody id="activeList"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sale-popup-footer">
+                <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="javascript:;" class="btn_top"></a>
+

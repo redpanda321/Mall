@@ -1,0 +1,27 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.Distribution.DistributionProduct>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>商品名称</th>
+            <th>分销状态</th>
+            <th>成交件数</th>
+            <th>成交金额</th>
+            <th>已结算佣金</th>
+            <th>未结算佣金</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>@*商品名称*@
+                <td>@item.ShowProductStatus</td>@*分销状态*@
+                <td>@item.SaleCount</td>@*成交件数*@
+                <td>@item.SaleAmount</td>@*成交金额*@
+                <td>@item.SettlementAmount.ToString("f2")</td>@*已结算佣金*@
+                <td>@item.NoSettlementAmount.ToString("f2")</td>@*未结算佣金*@
+            </tr>
+        }
+    </tbody>
+</table>

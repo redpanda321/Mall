@@ -1,0 +1,12 @@
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\bin\Debug\netcoreapp2.2\Mall.Core.deps.json
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\bin\Debug\netcoreapp2.2\Mall.Core.dll
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\bin\Debug\netcoreapp2.2\Mall.Core.pdb
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\bin\Debug\netcoreapp2.2\Nop.Core.dll
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\bin\Debug\netcoreapp2.2\Nop.Core.pdb
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\obj\Debug\netcoreapp2.2\Mall.Core.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\obj\Debug\netcoreapp2.2\Mall.Core.csproj.CoreCompileInputs.cache
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\obj\Debug\netcoreapp2.2\Mall.Core.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\obj\Debug\netcoreapp2.2\Mall.Core.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\obj\Debug\netcoreapp2.2\Mall.Core.csproj.CopyComplete
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\obj\Debug\netcoreapp2.2\Mall.Core.dll
+C:\S\nopCommerce_4.20\Libraries\Mall.Core\obj\Debug\netcoreapp2.2\Mall.Core.pdb

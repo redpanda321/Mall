@@ -1,0 +1,54 @@
+﻿
+@{
+    var items = Mall.Core.EnumHelper.ToDescriptionDictionary<Mall.Entities.ApplyWithdrawInfo.ApplyWithdrawStatus>().Select(e => new SelectListItem
+    {
+        Text = e.Value,
+        Value = e.Key.ToString()
+    }).ToList();
+    items.Insert(0, new SelectListItem { Text = "全部", Value = "0", Selected = true });
+}
+@{var status = Context.Request.Query["status"];}
+<script src="~/Areas/Admin/Scripts/ApplyWithDraw.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<input type="hidden" id="inputApplyStatus" />
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Index">预存款管理</a></li>
+        <li class="active"><a>微信提现管理</a></li>
+        <li><a href="../Capital/AlipayWithDraw">支付宝提现管理</a></li>
+        <li><a href="Setting">提现设置</a></li>
+    </ul>
+
+    <h5 class="tips-top"><span class="help-default"><i></i>
+                     说明：使用微信企业付款需要企业预先充值（登录微信支付平台——点击资金管理——选择充值），请您确保微信账户有足够的余额用于会员提现。若会员提现处理失败，可能原因如下：<br />
+                     1、新入驻90天内的商户，且连续交易未满30天不支持企业付款功能。<br />
+                     2、企业帐号余额不足<br />
+                     3、系统超时<br />
+                     4、商户未开通此接口权限<br /></span></h5>
+    <div class="search-box pt0" id="search-box">
+        <form class="form-inline custom-inline">           
+            <div class="form-group">
+                <label class="label-inline w75">状态：</label>
+                @Html.DropDownList("applyType", items, new { @class = "form-control input-sm" })
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95">提现单号：</label>
+                <input id="inputWithNo" class="form-control input-ssm" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95">提现会员：</label>
+                <input id="inputWithDrawUser" class="form-control input-ssm" type="text">
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="hidApplyType" name="hidApplyType" value="@(Mall.CommonModel.UserWithdrawType.WeiChat.GetHashCode())" />
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table">
+        <div class="tabel-operate" id="batchOperate">
+            <button type="button" class="btn btn-default btn-ssm" onclick="BatchDoOperate()">批量审核</button>
+        </div>
+    </table>
+</div>

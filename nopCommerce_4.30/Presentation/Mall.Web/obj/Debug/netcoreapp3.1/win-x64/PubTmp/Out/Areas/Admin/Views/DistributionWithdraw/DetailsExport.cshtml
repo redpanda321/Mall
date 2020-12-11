@@ -1,0 +1,29 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.DistributionWithdraw>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>销售员账号</th>
+            <th>申请提现时间</th>
+            <th>提现单号</th>
+            <th>提现金额</th>
+            <th>提现方式</th>
+            <th>状态</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@(item.Member != null ? item.Member.UserName : "")</td>@*销售员账号*@
+            <td>@item.ApplyTime</td>@*申请提现时间*@
+            <td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.Id</td>@*提现单号*@
+            <td>@item.Amount</td>@*提现金额*@
+            <td>@item.WithdrawType.ToDescription()</td>@*提现方式*@
+            <td>@item.WithdrawStatus.ToDescription()</td>@*状态*@
+            <td>@(item.Remark)</td>@*备注*@
+        </tr>
+        }
+    </tbody>
+</table>

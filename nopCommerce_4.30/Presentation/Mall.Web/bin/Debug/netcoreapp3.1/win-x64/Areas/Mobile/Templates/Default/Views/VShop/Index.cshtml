@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.FootIndex = 1;
+    ViewBag.Title = "微店列表";
+    var tagsArray = (string[])ViewBag.TagsArray;
+    string tag1 = "",tag2 = "";
+    if (tagsArray != null)
+    {
+        if (tagsArray.Length > 0) {
+            tag1 = tagsArray[0];
+        }
+        if (tagsArray.Length > 1) {
+            tag2 = "<i></i>" + tagsArray[1];
+        }
+    }
+}
+@model Mall.Entities.VShopInfo
+<div class="container page-vshop-list">
+    @if (Model != null) {
+        <section  class="vshop-list">
+            <div class="item">
+                <div class="info">
+                        <a href="/@ViewBag.AreaName/VShop/Detail/@Model.Id"><img src="@(Mall.Core.MallIO.GetImagePath(Model.Logo))" /></a>
+                        <h3><a href="/@ViewBag.AreaName/VShop/Detail/@Model.Id">@Model.Name</a><i onclick="goAddFav(this)" type="addFavorite" class="iconfonts @(ViewBag.IsFavorite ? "icon-aixin" : "icon-guanzhu")" shopId="@Model.ShopId"></i></h3>
+                        <p>宝贝数 <span>@ViewBag.ProductCount</span><em></em>关注度 <span>@ViewBag.FavoritesCount</span></p>
+                        <h5><span>@tag1</span><span>@(new HtmlString(tag2))</span></h5>
+                </div>
+                <ul class="product clearfix">
+                    @{var products = (IEnumerable<Mall.Web.Areas.Mobile.Models.ProductItem>)ViewBag.TopShopProducts;}
+                    @foreach (var product in products) {
+                        <li>
+                            <a class="p-img" href="/@ViewBag.AreaName/product/detail/@product.Id"><img src="@product.ImageUrl" alt=""></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="vshop-recomm-tip">推荐</div>
+        </section>
+    }
+    <section class="vshop-list" id="shopList"></section>
+    <div class="more-btn" id="more"></div>
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+<a class="WX-backtop" href="#"></a>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/vshopMain.js?v=20183030"></script>
+<script>
+	var winxinShareArgs = {
+		share: {
+			title: '与你分享一些不错的店铺',
+			desc: '我发现了一些不错的店铺，分享给你，快去看看吧。',
+			link: location.href,
+			imgUrl: '@(Mall.Core.MallIO.GetRomoteImagePath(this.SiteSetting.WXLogo))'
+		}
+	};
+</script>
+
+@Html.Partial("_WeiXinShare")

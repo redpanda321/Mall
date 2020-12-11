@@ -1,0 +1,67 @@
+﻿@{ Layout = null;}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/artdialog.css" rel="stylesheet" />
+<link href="~/Content/custom.css" rel="stylesheet" />
+<link href="~/Content/inner-custom.css" rel="stylesheet" />
+<link href="~/Areas/SellerAdmin/Content/business.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/ueditor/ueditor.config.js"></script>
+<script src="~/Scripts/ueditor/ueditor.all.min.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Scripts/jquery.artDialog.js"></script>
+<script src="~/Scripts/artDialog.iframeTools.js"></script>
+
+<div class="container" style="padding-left: 20px!important;padding-top: 10px!important;">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            
+            <div class="col-sm-3 form-control-static">
+                <textarea style="width:600px; margin-left:10px;" maxlength="500" id="Footer" name="Footer">@ViewBag.Footer</textarea>
+            </div>
+        </div>
+        <div class="form-group" style="display:none">
+            <div class="col-sm-3 form-control-static" style="margin-left:10px;">
+                <button type="button" id="submit" name="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var _jquery = $;
+    if (window.top) {
+        window.top._refreshFooter = function () {
+            _jquery('button[name=submit]').trigger('click');
+        };
+    }
+    $( function ()
+    {
+        editor = UE.getEditor('Footer', 0, { maximumWords: 1000 });
+        editor.addListener( 'contentChange', function ()
+        {
+            $( '#contentError' ).hide();
+        } );
+
+        $('button[name="submit"]').click(function ()
+        {
+            var loading = showLoading(); 
+            var footer = UE.getEditor("Footer").getContent();
+            if (footer.length >= 5000) {
+                loading.close();
+                $.dialog.errorTips("保存失败，文本样式过多，代码字数超过5000字符");                
+                return false;
+            }
+            $.post("/selleradmin/ShopHomeModule/EditFooter", { footer: footer }, function (data)
+            {
+                if ( data.success )
+                {
+                    $.dialog.succeedTips( "保存成功" )
+                }
+                else
+                {
+                    $.dialog.errorTips( '保存失败！' );
+                }
+                loading.close();
+            } )
+        } )
+    } )
+</script>

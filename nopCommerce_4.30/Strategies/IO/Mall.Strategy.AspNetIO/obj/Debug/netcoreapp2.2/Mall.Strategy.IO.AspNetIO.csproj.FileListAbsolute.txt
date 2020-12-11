@@ -1,0 +1,16 @@
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\bin\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.deps.json
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\bin\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.dll
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\bin\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.pdb
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\bin\Debug\netcoreapp2.2\Mall.Core.dll
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\bin\Debug\netcoreapp2.2\Nop.Core.dll
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\bin\Debug\netcoreapp2.2\Mall.Core.pdb
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\bin\Debug\netcoreapp2.2\Nop.Core.pdb
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Strategies\IO\AspNetIO\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Strategies\IO\AspNetIO\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Strategies\IO\AspNetIO\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.pdb
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\obj\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\obj\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\obj\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\obj\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.csproj.CopyComplete
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\obj\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.dll
+C:\S\nopCommerce_4.20\Strategies\IO\Mall.Strategy.AspNetIO\obj\Debug\netcoreapp2.2\Mall.Strategy.IO.AspNetIO.pdb

@@ -1,0 +1,486 @@
+﻿@{
+    Layout = "~/Areas/Web/Views/Shared/_UserCenter.cshtml";
+    ViewBag.Title = "订单详情";
+    var shipperAddress = (string)ViewBag.ShipperAddress;
+    var shipperTelPhone = (string)ViewBag.ShipperTelPhone;
+}
+@model Mall.DTO.OrderListModel
+@using Mall.Core
+@using Mall.Entities
+@using Mall.CommonModel;
+@{
+    var createTime = true;
+    var hasPayTime = Model.PayDate.HasValue;
+    var senddate = Model.ShippingDate.HasValue;
+    var finishdate = Model.OrderType == OrderInfo.OrderTypes.Virtual ? (Model.FinishDate.HasValue && Model.OrderStatus != OrderInfo.OrderOperateStatus.Close) : Model.FinishDate.HasValue;
+    FightGroupOrderJoinStatus? fgojoinstate = Model.FightGroupJoinStatus;
+    bool canfgrefund = false;
+    if (Model.OrderType == Mall.Entities.OrderInfo.OrderTypes.FightGroup)
+    {
+        canfgrefund = (bool)Model.FightGroupCanRefund;
+    }
+
+}
+@{var itemDis = Model.OrderItemList.Sum(i => i.DiscountAmount);}
+
+<link href="~/Areas/Web/Content/order-detail.css?v=20183030" rel="stylesheet" />
+<style type="text/css">
+    .order-total span i {
+        width: 90px;
+        text-align: right;
+        padding-left: 0;
+    }
+
+    .order-total span label {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+</style>
+<div class="box1 lh24">
+    <div class="title" style="float:none">
+        <span class="title_txt curr">订单详情</span>
+    </div>
+
+    <div class="process">
+        <div class="submit-order">
+            <span class="txt01">提交订单</span>
+            <time>@Model.OrderDate.ToString("yyyy/MM/dd HH:mm:ss")</time>
+            <i class="p-gray"></i>
+        </div>
+        <div class="payment-order">
+            <span class="txt01">订单支付</span>
+            <time>@(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+            <i class="p-gray"></i>
+        </div>
+        @if (Model.OrderType != OrderInfo.OrderTypes.Virtual)
+        {
+            if (Model.DeliveryType == Mall.CommonModel.DeliveryType.SelfTake)
+            {
+                <div class="complete-order">
+                    <span class="txt01">确认提货</span>
+                    <time>@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+                    <i class="p-gray"></i>
+                </div>
+            }
+            else
+            {
+                <div class="shipment-order">
+                    <span class="txt01">商家发货</span>
+                    <time>@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+                    <i class="p-gray"></i>
+                </div>
+                <div class="complete-order">
+                    <span class="txt01">确认收货</span>
+                    <time>@(Model.FinishDate.HasValue ? Model.FinishDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+                    <i class="p-gray"></i>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="complete-order">
+                <span class="txt01">待消费</span>
+                <time></time>
+                <i class="p-gray"></i>
+            </div>
+            <div class="complete-order">
+                <span class="txt01">交易完成</span>
+                <time>@((Model.FinishDate.HasValue && Model.OrderStatus != OrderInfo.OrderOperateStatus.Close) ? Model.FinishDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</time>
+                <i class="p-gray"></i>
+            </div>
+        }
+    </div>
+
+    <div class="orderstate-detail">
+        <p>
+            <label>订单状态：</label><span style="color:#fe3a3a;">@Model.OrderStatus.ToDescription()</span>
+            @if (Model.OrderType == Mall.Entities.OrderInfo.OrderTypes.FightGroup)
+            {
+                <span class="fgordstatus  fgordstatus@(fgojoinstate.GetHashCode())">@(fgojoinstate.ToDescription())</span>
+            }
+            <em style="font-size:13px;color:#acb1b9;padding-left:13px;font-family:SimSun;">@Model.CloseReason</em><span id="pay-button-1622972656"></span>
+        </p>
+        <p><label>订单单号：</label><span>@Model.Id</span></p>
+        @if (!String.IsNullOrEmpty(Model.PaymentTypeName))
+        {
+            <p style="position:relative">
+                <label>支付方式：</label><span>
+                    @if (Model.OrderTotalAmount == 0)
+                    {
+                        <span>@Model.PaymentTypeDesc</span>
+                    }
+                    else
+                    {
+                        @Model.PaymentTypeDesc <span>@(string.IsNullOrEmpty(Model.PayRemark) ? "" : "(" + Model.PayRemark + ")")</span>
+                    }
+                    <a class="more">更多<i></i></a>
+                </span>
+            </p>
+            <div class="pay-method-detail">
+                @if (!string.IsNullOrWhiteSpace(Model.GatewayOrderId))
+                {
+                <p>
+                    <label>流水号：</label><span>@Model.GatewayOrderId</span>
+                </p>
+                }
+                <p>
+                    <label>支付时间：</label><span>@(Model.PayDate.HasValue ? Model.PayDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : "")</span>
+                </p>
+            </div>
+        }
+        @if (Model.OrderVerificationCodes != null && Model.OrderVerificationCodes.Count > 0)
+        {
+            <p>
+                <label>核销码：</label>
+                <span class="vericode">
+                @foreach (var item in Model.OrderVerificationCodes)
+                {
+                    <span>@System.Text.RegularExpressions.Regex.Replace(item.VerificationCode, @"(\d{4})", "$1 ")<img src="@item.QRCode" /></span>
+                }
+                </span>
+            </p>
+        }
+        @if (Model.OrderType == OrderInfo.OrderTypes.Virtual && !string.IsNullOrWhiteSpace(shipperAddress) && !string.IsNullOrWhiteSpace(shipperTelPhone))
+        {
+            <p>
+                <label>联系电话：</label><span>@shipperTelPhone</span>
+            </p>
+            <p>
+                <label>核销地址：</label><span>@shipperAddress</span>
+            </p>
+        }
+        @if (Model.OrderType != OrderInfo.OrderTypes.Virtual)
+        {
+            if (Model.DeliveryType != Mall.CommonModel.DeliveryType.SelfTake)
+            {
+                <p><label>收货信息：</label><span>@Model.ShipTo &nbsp;&nbsp;@Model.CellPhone &nbsp;&nbsp;@Model.RegionFullName @Model.Address</span></p>
+            }
+            var invoice = Model.OrderInvoice;
+            if (invoice != null)
+            {
+                <div class="order-invoice clearfix">
+                    <p><label>发票类型：</label><span>@invoice.InvoiceTypeName</span></p>
+                    <p><label>发票抬头：</label><span>@invoice.InvoiceTitle</span></p>
+                    @if (!string.IsNullOrWhiteSpace(invoice.InvoiceCode))
+                    {
+                    <p><label>纳税人识别号：</label><span>@invoice.InvoiceCode</span></p>
+                    }
+                    <p><label>发票内容：</label><span>@invoice.InvoiceContext</span></p>
+                    @if (!string.IsNullOrWhiteSpace(invoice.RegisterAddress))
+                    {
+                        <p><label>注册地址：</label><span>@invoice.RegisterAddress</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.RegisterPhone))
+                    {
+                        <p><label>注册电话：</label><span>@invoice.RegisterPhone</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.BankName))
+                    {
+                        <p><label>开户银行：</label><span>@invoice.BankName</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.BankNo))
+                    {
+                        <p><label>银行账户：</label><span>@invoice.BankNo</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.RealName))
+                    {
+                        <p><label>收票人姓名：</label><span>@invoice.RealName</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.CellPhone))
+                    {
+                        <p><label>收票人手机：</label><span>@invoice.CellPhone</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.Email))
+                    {
+                        <p><label>收票人邮箱：</label><span>@invoice.Email</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.RegionFullName))
+                    {
+                        <p class="w-percent-100"><label>收票人地区：</label><span>@invoice.RegionFullName</span></p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(invoice.Address))
+                    {
+                        <p class="w-percent-100"><label style="width: 120px; margin-left: -20px;">收票人详细地址：</label><span>@invoice.Address</span></p>
+                    }
+                </div>
+            }
+        }
+    </div>
+    @if (Model.VirtualOrderItems != null && Model.VirtualOrderItems.Count > 0)
+    {
+        <div class="orderstate-detail">
+                @foreach (var item in Model.VirtualOrderItems)
+                {
+                    if (item.VirtualProductItemType == ProductInfo.VirtualProductItemType.Picture)
+                    {
+                        var pics = item.Content.Split(',').ToList();
+                    <p>
+                        <label>@item.VirtualProductItemName：</label>
+                        <span class="after-service-img">
+                            @foreach (var src in pics)
+                            {
+                                <img src="@src" width="64" height="64" />
+                            }
+                        </span>
+                    </p>
+                    }
+                    else
+                    {
+                        <p><label>@item.VirtualProductItemName：</label><span>@item.Content</span></p>
+                    }
+                }
+            </div>
+    }
+    @if (Model.OrderType != OrderInfo.OrderTypes.Virtual && Model.ShopBranchId > 0)
+    {
+        <div class="orderstate-detail">
+            @if (Model.DeliveryType == Mall.CommonModel.DeliveryType.SelfTake && !string.IsNullOrWhiteSpace(Model.PickupCode))
+            {
+                <p><label>提货码：</label><span style="color:#fe3a3a;">@Model.PickupCode</span></p>
+            }
+            @if (Model.DeliveryType != Mall.CommonModel.DeliveryType.SelfTake)
+            {
+                <p><label>配送门店：</label><span>@Model.ShopBranchName</span></p>
+                <p><label>配送方式：</label><span>门店配送</span></p>
+                <p><label>配送时间：</label><span>@(Model.ShippingDate.HasValue ? Model.ShippingDate.Value.ToString("yyyy-MM-dd") : "任意时间")</span></p>
+            }
+            <p><label>联系电话：</label><span>@Model.ShopBranchContactPhone</span></p>
+            <p><label>门店地址：</label><span>@Model.ShopBranchAddress</span></p>
+        </div>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.ExpressCompanyName) && (!string.IsNullOrWhiteSpace(Model.ShipOrderNumber)))
+    {
+        <div class="order-delivery-detail">
+            <h3><span style="margin-right:65px;">物流公司：@Model.ExpressCompanyName</span><span>快递单号：@Model.ShipOrderNumber</span></h3>
+            <p id="tbExpressData">
+            </p>
+        </div>
+    }
+    <dl class="detail-pro-list">
+        <dt>
+            <span class="i-mt">商品清单</span>
+            <span style="vertical-align: middle;">@Html.RenderAction("CustmerServices", new { shopId = Model.ShopId })</span>
+            <div id="couponListShow" class="prompt p-fquan">
+                <div id="couponList" class="pc"></div>
+            </div>
+            <div class="clr"></div>
+        </dt>
+        <dd class="p-list">
+            <table width="100%" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;padding-left:43px;font-weight: bold;" width="300">商品</th>
+                        <th style="text-align:center;font-weight: bold;" width="100">单价/数量</th>
+                        <th style="text-align:center;font-weight: bold;" width="100">总价</th>
+                        @if (itemDis != 0)
+                        {
+                            <th style="text-align:center;font-weight: bold;" width="100">改价</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var freightProductGroup = ViewBag.freightProductGroup as IEnumerable<IGrouping<long, OrderItemInfo>>;
+                    }
+                    @foreach (var items in freightProductGroup)
+                    {
+
+                        int rows = 0;
+
+                        foreach (var orderItem in items)
+                        {
+                            rows++;
+                            <tr>
+                                <td>
+                                    <div class="img-list">
+                                        <a href="@Url.Action("Detail", "Product", new { id = @orderItem.ProductId })" target="_blank" class="img-box">
+                                            <img width="80" height="80" title="" src="@MallIO.GetProductSizeImage(orderItem.ThumbnailsUrl, 1, (int)Mall.CommonModel.ImageSize.Size_100)">
+                                            <span>@orderItem.ProductName</span>
+                                            <br /><em>@orderItem.Color @(new HtmlString(orderItem.Size)) @orderItem.Version</em>
+                                        </a>
+
+                                        <div class="fl" id="coupon_1160338"></div>
+                                    </div>
+                                </td>
+                                <td>@orderItem.SalePrice.ToString("F2") * @orderItem.Quantity</td>
+                                <td><span class="ftx04"> ￥@((orderItem.SalePrice * orderItem.Quantity).ToString("F2"))</span></td>
+                                @if (itemDis != 0)
+                                {
+                                    <td>
+                                        <span>
+                                            @if (orderItem.DiscountAmount > 0)
+                                            {
+                                                <span>-@orderItem.DiscountAmount.ToString("F2")</span>
+                                            }
+                                            else
+                                            {
+                                                <span>+@Math.Abs(orderItem.DiscountAmount).ToString("F2")</span>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+
+    <!--条形码-->
+    <div class="barcode">
+
+        <ul class="hide" id="sn_list"></ul>
+    </div>    <!-- 商家运费险  -->
+    <input type="hidden" value="" id="venderIdListStr">
+    <div id="yunFeiXian"></div>
+
+    <!--金额-->
+    <div class="order-bottom-detail">
+        <!--留言字段添加6-12-->
+        <div class="leave-message">
+            <label>买家留言：</label>
+            <span>@Model.UserRemark</span>
+        </div>
+        <div class="order-total">
+            <span><label>商品总价 :</label><i>￥@(Model.ProductTotalAmount.ToString("F2"))</i></span>
+            @if (Model.FullDiscount > 0)
+            {
+                <span><label>满减优惠 :</label><i>-￥@Model.FullDiscount.ToString("F2")</i></span>
+            }
+
+            @if (Model.DiscountAmount > 0)
+            {
+
+                <span><label>优惠券抵扣金额 :</label><i>-￥@Model.DiscountAmount.ToString("F2")</i></span>
+            }
+            @if (Model.IntegralDiscount > 0)
+            {
+                <span><label>积分抵扣金额 :</label><i>-￥@Model.IntegralDiscount.ToString("F2")</i></span>
+            }
+            @*@if (itemDis != 0)
+            {
+                <span>
+                    <label style="position:relative;left:3px;">商家改价 :</label>
+
+                    @if (itemDis > 0)
+                    {
+                        <i>- @itemDis</i>
+                    }
+                    else
+                    {
+                        <i>+ @(-itemDis)</i>
+                    }
+                </span>
+            }*@
+            @if (Model.OrderType != OrderInfo.OrderTypes.Virtual)
+            {
+                <span><label>运费 :</label><i> ￥@Model.Freight.ToString("F2")</i></span>
+                if (Model.Tax > 0)
+                {
+                    <span><label>税费 :</label><i> ￥@Model.Tax.ToString("F2")</i></span>
+                }
+            }
+            <span><label style="color:#fe3a3a;">订单实付金额 :</label><i style="color:#fe3a3a;"> ￥@Html.Raw((Model.OrderTotalAmount).ToString("F2"))</i></span>
+            @if (Model.CapitalAmount > 0)
+            {
+                <span><label>预存款抵扣金额 :</label><i>￥@Model.CapitalAmount.ToString("F2")</i></span>
+            }
+            @if ((Model.OrderPayAmount) > 0)
+            {
+                <span><label>@Model.PaymentTypeName：</label><i>￥@((Model.OrderPayAmount).ToString("F2"))</i></span>
+            }
+        </div>
+    </div>
+</div>
+<div class="cover"></div>
+<div class="preview-img"><img src="" /></div>
+<script type="text/javascript">
+    $(function () {
+        var ExpressCompanyName = '@Model.ExpressCompanyName';
+        var ShipOrderNumber = '@Model.ShipOrderNumber';
+        if (ExpressCompanyName != "" & ShipOrderNumber != "") {
+            // 物流信息
+            $.post('/Common/ExpressData/Search', { expressCompanyName: ExpressCompanyName, shipOrderNumber: ShipOrderNumber }, function (result) {
+                var html = '';
+                var obj = result;
+                if (obj.success) {
+                    var data = obj.data;
+                    for (var i = 0; i < data.length ; i++) {
+                        html += '<tr><td class="time"><i></i><span>' + data[i].time + '</span></td>\
+                             <td class="content">' + data[i].content + '</td>';
+                        html += '<td></td></tr>';
+                    }
+                }
+                else {
+                    if (ExpressCompanyName.indexOf('顺丰') == 0) {
+                        html += '<tr><td colspan="3">暂无物流信息，请稍后再试；如有信息推送不及时，请前往物流官网查询！<br/><a class="express-link" href="http://www.sf-express.com/cn/sc/dynamic_function/waybill/#search/bill-number/' + ShipOrderNumber + '" target="_blank">顺丰官网查询</a></td></tr>';
+                    } else {
+                        html += '<tr><td colspan="3">暂无物流信息，请稍后再试；如有信息推送不及时，请前往物流官网查询！<br/><a class="express-link" href="https://www.kuaidi100.com/chaxun?nu=' + ShipOrderNumber + '" target="_blank">快递100查询</a></td></tr>';
+                    }
+                }
+
+                //html += '<tr><td><a href="http://www.kuaidi100.com" target="_blank" id="power" runat="server" style="color:Red;">此物流信息由快递100提供</a></td></tr>';
+                $("#tbExpressData").append(html);
+            });
+        }
+        $('#id_a').bind('click', function () {
+            $('#id_a').addClass('curr');
+            $('#id_b').removeClass('curr');
+            $($('.tabcon')[0]).show();
+            $($('.tabcon')[1]).hide();
+        });
+        $('#id_b').bind('click', function () {
+            $('#id_b').addClass('curr');
+            $('#id_a').removeClass('curr');
+            $($('.tabcon')[1]).show();
+            $($('.tabcon')[0]).hide();
+        });
+
+    });
+    $(function () {
+        $(".orderstate-detail .more").click(function () {
+            $(".pay-method-detail").toggle();
+        })
+
+        SetOrderSatus();
+    })
+
+    function SetOrderSatus() {
+        var orderStatus = "@Model.OrderStatus";
+
+        if ("@createTime" == "True") {
+            $(".submit-order i").removeClass("p-gray");
+        }
+
+        if ("@hasPayTime" == "True") {
+            $(".payment-order i").removeClass("p-gray");
+        }
+        if ("@senddate" == "True") {
+            $(".shipment-order i").removeClass("p-gray");
+        }
+        if ("@finishdate" == "True") {
+            $(".complete-order i").removeClass("p-gray");
+        }
+    }
+    $(function () {
+        $(".after-service-img img").click(function () {
+            $(".preview-img").show();
+            $(".preview-img img").attr("src", $(this).attr("src"));
+            $(".cover").show();
+        });
+        $(".vericode img").click(function () {
+            $(".preview-img").show();
+            $(".preview-img img").attr("src", $(this).attr("src"));
+            $(".cover").show();
+        });
+        $(".preview-img").click(function () {
+            $(this).hide()
+            $(".cover").hide();
+        });
+        $(".cover").click(function () {
+            $(".preview-img").hide();
+            $(".cover").hide();
+        })
+    });
+</script>

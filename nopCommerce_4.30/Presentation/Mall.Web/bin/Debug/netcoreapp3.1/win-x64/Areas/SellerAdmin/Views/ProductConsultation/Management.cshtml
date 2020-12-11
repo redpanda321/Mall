@@ -1,0 +1,35 @@
+﻿<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jqeury.MallLinkage.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ProductConsultation.js"></script>
+@{ var isReply = (int)ViewBag.isReply;}
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li flag="" onclick="query('')"><a>全部</a></li>
+        <li flag="false" onclick="query('false')" class="j_reply"><a id="notReply">未处理</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>商品咨询只会显示在PC端商品详情页。</span></li>
+				<li><span>可以对咨询进行回复，解答用户的疑问，但不可以删除咨询（只有平台有权删除）。</span></li>
+			</ul>
+		</div>
+	</div>
+    <table class="table" id="list"></table>
+</div>
+<div class="dialog-form" id="reply-form" style="display:none">
+    <div class="form-group">
+        <p class="help-top pl0">请填写您的回复内容（必填）</p>
+            <textarea id="replyContent" name="replyContent" class="form-control" cols="50" rows="3" ></textarea>
+            <br/>
+            <span class="field-validation-error" id="consultationCotentTip">回复内容在200个字符以内！</span>
+    </div>
+</div>
+<input type="hidden" id="isReply" name="isReply" value="@isReply" />
+
+
+
+

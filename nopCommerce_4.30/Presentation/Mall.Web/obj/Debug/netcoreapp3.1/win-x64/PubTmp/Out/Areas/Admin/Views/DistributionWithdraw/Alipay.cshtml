@@ -1,0 +1,198 @@
+﻿<div class="container">
+    @Html.Partial("tabs", 3)
+    <h5 class="tips-top">
+        <span class="help-default">
+            <i></i>
+            说明：提现处理失败，可能原因如下：<br />
+            1、商户未开通此接口权限<br />
+        </span>
+    </h5>
+    <div class="search-box pt0" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75">状态</label>
+                <select name="status" class="form-control input-ssm">
+                    <option>全部</option>
+                    <option value="1">待审核</option>
+                    <option value="3">已拒绝</option>
+                    <option value="2">付款中</option>
+                    <option value="4">提现失败</option>
+                    <option value="5">提现成功</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95">提现单号：</label>
+                <input class="form-control input-ssm" type="text" name="withdrawId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95">提现销售员：</label>
+                <input class="form-control input-ssm" type="text" name="memberName">
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="type" value="3" />
+                <button type="button" class="btn btn-primary btn-sm" id="btnSearch">搜索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+    <div class="tabel-operate" id="batchOperate">
+        <button type="button" class="btn btn-default btn-ssm" id="btnBatch">批量审核</button>
+    </div>
+</div>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSearch").click(function () { query(); });
+        query();
+
+        $("#list").on("click", "[tag=audit]", function () {
+            var id = $(this).data("id");
+            showConfim(id);
+        });
+        $("#list").on("click", "[tag=remark]", function () {
+            var id = $(this).data("id");
+            var rows = $("#list").MallDatagrid("getRows");
+            var item = rows.first(function (i) { return i.id == id; });
+            showRemark(item.remark);
+        });
+
+        $("body").on("click", "#btnBatch", function () {
+            var rows = $("#list").MallDatagrid("getSelections");
+            var batchs = rows.select(function (i) { return i.id; });
+            if (batchs.length == 0) {
+                $.dialog.tips("请选择操作项");
+                return;
+            }
+            showConfim(null, batchs);
+        });
+        $("#list").on("click", "[tag=remark]", function () {
+            var id = $(this).data("id");
+            var rows = $("#list").MallDatagrid("getRows");
+            var item = rows.first(function (i) { return i.id == id; });
+        });
+    });
+
+    function showRemark(remark) {
+        remark = remark || "提现成功";
+        $.dialog({
+            title: '查看原因',
+            lock: true,
+            content: ['<div class="dialog-form">',
+                '<div class="form-group">',
+                '<p>' + remark + '</p>',
+                '</div>',
+                '</div>'].join(''),
+            padding: '0 40px',
+            button: []
+        });
+    }
+    function showConfim(id, batchs) {
+        var data = {}
+        if (id) data.id = id;
+        else if (batchs) data.batchs = batchs
+
+        $.dialog({
+            title: '审核付款',
+            lock: true,
+            content: ['<div class="dialog-form">',
+                '<div class="form-group">',
+                '<p class="help-esp">备注</p>',
+                '<textarea id="textRemark" class="form-control" cols="40" rows="2"  ></textarea>',
+                '<p id="valid" style="visibility:hidden;color:red;line-height:18px;">请填写未通过理由</p>',
+                '<p id="validateLength" style="visibility:hidden;color:red;line-height:18px;padding:0;">备注在40字符以内</p>',
+                '</div>',
+                '</div>'].join(''),
+            padding: '0 40px',
+            init: function () { $("#textRemark").focus(); },
+            button: [
+                {
+                    name: '付款',
+                    callback: function () {
+                        if ($("#textRemark").val().length > 40) {
+                            $('#validateLength').css('visibility', 'visible');
+                            return false;
+                        }
+                        data.remark = $("#textRemark").val();
+                        $.post("./confirm", data, function (result) {
+                            if (result.success) {
+                                $.dialog.succeedTips("操作完成");
+                                query();
+                            } else
+                                $.dialog.errorTips(result.msg);
+                        });
+                    },
+                    focus: true
+                },
+                {
+                    name: '拒绝',
+                    callback: function () {
+                        if (!$.trim($('#textRemark').val())) {
+                            $('#valid').css('visibility', 'visible');
+                            return false;
+                        }
+                        else if ($("#textRemark").val().length > 40) {
+                            $('#validateLength').css('visibility', 'visible');
+                            return false;
+                        }
+                        data.remark = $("#textRemark").val();
+                        $.post("./refused", data, function (result) {
+                            if (result.success) {
+                                $.dialog.succeedTips("操作完成");
+                                query();
+                            } else
+                                $.dialog.errorTips(result.msg);
+                        });
+                    }
+                }]
+        });
+    }
+   
+
+    function query() {
+        var search = $("#search-box").inputToJson();
+        $("#list").MallDatagrid({
+            url: './withdrawlist',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            pageSize: 10,
+            queryParams: search,
+            operationButtons: "#batchOperate",
+            columns:
+                [[
+                {
+                    title: '选择', checkbox: true, width: 35, formatter: function (value, row, index) {
+                        var html = "<input type=\"checkbox\" ";
+                        if (row.status != 1) {
+                            html += ' disabled ';
+                        }
+                        html += ">";
+                        return html;
+                    }},
+                    { field: "id", title: '提现单号' },
+                    { field: "withdrawStatus", title: '状态' },
+                    { field: "memberName", title: '提现销售员' },
+                    { field: "withdrawName", title: '真实姓名' },
+                    { field: "amount", title: '提现金额' },
+                    { field: "time", title: '申请时间' },
+                    { field: "confirmTime", title: '处理时间' },
+                    { field: "payTime", title: '付款时间' },
+                    { field: "payNo", title: '付款流水号' },
+                    {
+                        field: "option", title: '操作', formatter: function (value, row, index) {
+                            if (row.status == 1)
+                                return '<a href="javascript:;" tag="audit" data-id="{0}">审核</a>'.format(row.id);
+                            else if (row.status == 3)
+                                return '<a href="javascript:;" tag="remark" data-id="{0}">查看</a>'.format(row.id);
+                            else if (row.status == 5)
+                                return '<a href="javascript:;" tag="remark" data-id="{0}">查看</a>'.format(row.id);
+                        }
+                    }
+                ]]
+        });
+    }
+</script>

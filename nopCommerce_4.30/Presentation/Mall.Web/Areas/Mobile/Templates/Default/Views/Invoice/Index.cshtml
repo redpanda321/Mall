@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "发票管理";
+}
+
+<div class="container invoice">
+	<div class='single-info pb0'>
+        <h3 class='title'>发票类型</h3>
+        <div class='btns'>
+            <span class="active">普通发票</span>
+            <span>电子发票</span>
+            <span>增值税发票</span>
+        </div>
+    </div>
+    <div class='single-info'>
+        <h3 class='title'>发票抬头</h3>
+        <div class='btns'>
+        	<span>个人</span>
+            <span class="active">公司</span>
+        </div>
+        <div class="company">
+        	<input type="text" placeholder="请输入公司名称"/>
+        	<ul>
+        		<li>长沙海商网络科技有限公司<i class="iconfonts icon-icon__trash"></i></li>
+        		<li>长沙海商网络科技有限公司<i class="iconfonts icon-icon__trash"></i></li>
+        		<li>长沙海商网络科技有限公司<i class="iconfonts icon-icon__trash"></i></li>
+        	</ul>
+        </div>
+        <input type="text" placeholder="请输入公司纳税人识别号, 必填"/>
+    </div>
+    <div class='single-info pb0'>
+        <h3 class='title'>发票内容</h3>
+        <div class='btns'>
+            <span class="active">明细</span>
+            <span>办公用品</span>
+            <span>餐饮住宿</span>
+            <span>旅行门票</span>
+        </div>
+    </div>
+    <div class='single-info pb0 edit-con'>
+        <h3 class='title'>增票资质</h3>
+        <div class="line">
+        	<label>单位名称</label>
+			<input type="text" placeholder="请填写单位名称, 必填">
+        </div>
+        <div class="line">
+        	<label>纳税人识别号</label>
+			<input type="text" placeholder="请填写纳税人识别号, 必填">
+        </div>
+        <div class="line">
+        	<label>注册地址</label>
+			<input type="text" placeholder="请填写公司注册地址, 必填">
+        </div>
+        <div class="line">
+        	<label>注册电话</label>
+			<input type="text" placeholder="请填写公司注册电话, 必填">
+        </div>
+        <div class="line">
+        	<label>开户银行</label>
+			<input type="text" placeholder="请填写公司开户银行, 必填">
+        </div>
+        <div class="line">
+        	<label>银行账户</label>
+			<input type="text" placeholder="请填写开户银行账号, 必填">
+        </div>
+    </div>
+    <div class='single-info pb0 edit-con'>
+        <h3 class='title'>收票人信息</h3>
+        <div class="line">
+        	<label>收票人姓名</label>
+			<input type="text" placeholder="请填写真实姓名, 必填">
+        </div>
+        <div class="line">
+        	<label>收票人手机</label>
+			<input type="text" placeholder="请输入手机号码, 必填">
+        </div>
+        <div class="line">
+        	<label>收票人邮箱</label>
+			<input type="text" placeholder="收票人邮箱, 必填">
+        </div>
+        <div class="line">
+        	<label>收票人地区</label>
+			<input type="text" placeholder="省/市/区(县)">
+        </div>
+        <div class="line">
+        	<label>详细地址</label>
+			<input type="text" placeholder="请输入详细地址, 必填">
+        </div>
+    </div>
+    <div class="button-area mt30 basebtn">
+        <a class="btn btn-danger btn-any nofix">确定</a>
+    </div>
+</div>

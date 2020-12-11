@@ -1,0 +1,12 @@
+﻿@model IEnumerable<NopCommerce.Api.SampleApplication.DTOs.CustomerApi>
+
+@{
+    Layout = "Layout.cshtml";
+}
+
+<ul>
+    @foreach (var customer in Model)
+    {
+        <li>@customer.FirstName @customer.LastName - <a href="/UpdateCustomer/@customer.Id">Reset Last Name</a></li>     
+    }
+</ul>

@@ -1,0 +1,206 @@
+﻿@model Mall.DTO.DistributionWithdrawSettings
+@{
+    ViewBag.FootIndex = 4;
+    decimal maxwithdraw = (decimal)ViewBag.Balance;
+    if(maxwithdraw> Model.MaxLimit)
+    {
+        maxwithdraw = Model.MaxLimit;
+    }
+}
+
+<div class="container distribution">
+    <div class="my_menu">
+        <ul class="clearfix">
+            <li class="active"><a>申请提现</a></li>
+            <li><a href="@Url.Action("Withdraws")">提现记录</a></li>
+        </ul>
+    </div>
+    <div id="form_box" class="edit-con">
+        <div class="line">
+            <label>提现金额</label>
+            <input type="number" name="amount" placeholder="填写您的提现金额" />
+        </div>        
+        <div class="tips">
+            <span>单次最多可提现 @maxwithdraw.ToString("n2") 元, 最少提现 @Model.MinLimit.ToString("n2") 元</span>
+            <a id="all" val="@ViewBag.Balance" min="@Model.MinLimit" max="@Model.MaxLimit">全部提现</a>
+        </div>
+        <div class="group-line">
+            <div class="line arrow">
+                <label>提现方式</label>
+                <input type="text" id="lblType" readonly="readonly" placeholder="请选择提现方式" />
+                <input type="hidden" name="type" />
+            </div>
+            <div class="line alipay hide">
+                <label>支付宝账号</label>
+                <input type="text" name="withdrawAccount" placeholder="请输入支付宝账号" />
+            </div>
+            <div class="line alipay hide">
+                <label>真实姓名</label>
+                <input type="text" name="withdrawName" placeholder="请输入您的真实姓名" />
+            </div>
+            <div class="line">
+                <label>交易密码</label>
+                <input type="password" name="password" placeholder="请输入交易密码" />
+            </div>
+        </div>
+        @if (ViewBag.IsSetPassword)
+        {
+            <div class="tips">
+                <a href="@Url.Action("ChangePayPwd","Member")">点击重置</a>
+                <span class="fr mr10">忘记密码? </span>
+            </div>
+        }
+        else
+        {
+            <div class="tips">
+                <a id="setPayPassword" class="warning">请先设置交易密码</a>
+            </div>
+        }
+    </div>
+    <div class="button-area mt30">
+        <a id="btnSubmit" class="btn btn-danger btn-any nofix">申请提现</a>
+    </div>
+    <div class="cover"></div>
+    <div class="actionsheet">
+        <ul>
+            @if (Model.EnableCapital) {
+                <li value="1">预存款</li>
+            }
+            @if (Model.EnableWeChat) {
+                <li value="2">微信</li>
+            }
+            @if (Model.EnableAlipay) {
+                <li value="3">支付宝</li>
+            }
+        </ul>
+        <div class="quit">取消</div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#lblType").click(function () {
+            $(".actionsheet").addClass('active');
+            $(".cover").show();
+        });
+        if ($("#setPayPassword").length > 0) {
+            $("[name=password]").click(function () {
+                $("#setPayPassword").trigger("click");
+            });
+        }
+
+        $("#all").click(function () {
+            var val =@(maxwithdraw);
+            $("[name=amount]").val(val);
+        });
+
+        $(".actionsheet li").click(function () {
+            var val = $(this).attr("value");
+            var text = $(this).text();
+            $("[name=type]").val(val);
+            $("#lblType").val(text);
+            if (val == 3) $(".alipay").removeClass("hide");
+            else $(".alipay").addClass("hide");
+
+            $(".actionsheet").removeClass('active');
+            $(".cover").hide();
+        })
+        $(".quit").click(function () {
+            $(".actionsheet").removeClass('active');
+            $(".cover").hide();
+        });
+        $("#btnSubmit").click(function () {
+            var data = $("#form_box").inputToJson();
+            var min = parseFloat($("#all").attr("min"));
+            var max = parseFloat($("#all").attr("max"));
+            var val = parseFloat($("#all").attr("val"));
+            tipscolor(true);
+            if (!data.amount) {
+                tipscolor(false);
+                $.dialog.tips("请正确填写您的提现金额");
+                return;
+            }
+            if (!data.type) {
+                $.dialog.tips("请选择提现方式");
+                return;
+            }
+            if (!data.password) {
+                $.dialog.tips("请输入交易密码");
+                return;
+            }
+            if (data.amount > max) {
+                tipscolor(false);
+                $.dialog.tips("请正确填写您的提现金额");
+                return;
+            }
+            if (data.amount > val) {
+                tipscolor(false);
+                $.dialog.tips("请正确填写您的提现金额");
+                return;
+            }
+            if (data.amount < min) {
+                tipscolor(false);
+                $.dialog.tips("请正确填写您的提现金额");
+                return;
+            }
+            $.post("@Url.Action("postWithdraw")", data, function (result) {
+                if (result.success)
+                {
+                    $.dialog.tips("提交完成", function () {
+                        location.href = "@Url.Action("withdraws")";
+                    });
+                } else
+                    $.dialog.errorTips(result.msg);
+            });
+        });
+
+        function tipscolor(ok) {
+            if (ok) {
+                $(".tips span").css({ color: "" });
+            } else {
+                $(".tips span").css({ color: "red" });
+            }
+        }
+
+        $("#setPayPassword").click(function () {
+            $(".cover").show();
+            $.dialog({
+                title: '设置交易密码',
+                content: '<input type="password" name="payPassword" placeholder="请输入交易密码"/>\
+                          <input type="password" name="payPasswordConfim" placeholder="请再次输入交易密码"/>',
+                init: function () {
+                    $("[name=payPassword]").focus();
+                },
+                button: [
+                    { name: '取消', callback: function () { $(".cover").hide(); } },
+                    {
+                        name: '确认', callback: function () {
+                            var password = $("[name=payPassword]").val();
+                            var passwordConfim = $("[name=payPasswordConfim]").val();
+                            if (password.length<6) {
+                                $.dialog.tips("密码长度至少6位字符！");
+                                return false;
+                            }
+                            if (password != passwordConfim) {
+                                $.dialog.tips("两次密码输入不一致");
+                                return false;
+                            }
+                            $.post("@Url.Action("InitPayPassowrd")", { password: password }, function (result) {
+                                if (result.success) {
+                                    $("input[name='password']")
+                                        .unbind("click")
+                                        .val(password);
+                                    $.dialog.tips("设置成功");
+                                    $(".cover").hide();
+                                } else {
+                                    $.dialog.errorTips(result.msg);
+                                    $(".cover").hide();
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        });
+    });
+
+</script>

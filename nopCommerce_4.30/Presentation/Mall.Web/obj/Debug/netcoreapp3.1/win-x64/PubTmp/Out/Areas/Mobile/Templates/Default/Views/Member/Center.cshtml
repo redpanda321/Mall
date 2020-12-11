@@ -1,0 +1,175 @@
+﻿@model Mall.Web.Areas.Mobile.Models.MemberCenterModel
+
+@{
+    ViewBag.Title = "个人中心";
+    ViewBag.FootIndex = 4;
+}
+
+
+<div class="container" style="padding-bottom:50px;">
+    <div class="user-info clearfix">
+        @if (string.IsNullOrWhiteSpace(Model.userMemberInfo.CellPhone))
+        {
+            <div class="phone-tips">
+                <span><s></s>您还未绑定手机&nbsp;&nbsp;<a href="@Url.Action("BindPhone", "Member")">去绑定</a><em></em></span>
+                <i id="closeTip"></i>
+            </div>
+        }
+        <a href="AccountSecure"><div class="img"><img onerror="$(this).remove();this.onerror=null;" src="@(Mall.Core.MallIO.GetImagePath(Model.Member.Photo))" alt="" /><div class="border"></div></div></a>
+        <p><span>@(string.IsNullOrWhiteSpace(Model.Member.RealName) ? Model.Member.Nick : Model.Member.RealName)</span><span>@(Model.GradeName != null ? Model.GradeName : string.Empty)</span></p>
+        <div class="user-fav row">
+            <span class="col-xs-5"><a href="CollectionProduct"><i>@Model.FavoriteProductCount</i><br />收藏的商品</a></span>
+            <span class="col-xs-2 line"><br>|</span>
+            <span class="col-xs-5"><a href="CollectionShop"><i>@Model.CollectionShop</i><br />收藏的店铺</a></span>
+        </div>
+
+    </div>
+
+    <div class="my_menu">
+        <div class="total-order">
+            <a href="../Member/Orders?orderStatus=0&returnUrl=@HttpUtility.UrlEncode(Context.Request.GetDisplayUrl())"><h5>全部订单</h5> <i class="glyphicon glyphicon-menu-right"></i><em>查看全部订单</em></a>
+            @if (Model.SignInIsEnable && Model.CanSignIn)
+            {
+                <a id="signbtn" class="SignIn-btn @(Model.CanSignIn ? "" : "disabled")"></a>
+            }
+        </div>
+        <ul class="clearfix">
+            <li><a href="../Member/Orders?orderStatus=1"><span class="icon01"></span><p>待付款</p>@(new HtmlString(Model.WaitingForPay == 0 ? "" : "<i>" + Model.WaitingForPay + "</i>"))</a></li>
+            <li><a href="../Member/Orders?orderStatus=2"><span class="icon02"></span><p>待发货</p>@(new HtmlString(Model.WaitingForDelivery == 0 ? "" : "<i>" + Model.WaitingForDelivery + "</i>"))</a></li>
+            <li><a href="../Member/Orders?orderStatus=3"><span class="icon03"></span><p>待收货/消费</p>@(new HtmlString(Model.WaitingForRecieve == 0 ? "" : "<i>" + Model.WaitingForRecieve + "</i>"))</a></li>
+            <li><a href="../Member/Orders?orderStatus=5"><span class="icon04"></span><p>待评论</p>@(new HtmlString(Model.WaitingForComments == 0 ? "" : "<i>" + Model.WaitingForComments + "</i>"))</a></li>
+            <li><a href="../OrderRefund/RefundList"><span class="icon05"></span><p>退款/售后</p>@(new HtmlString(Model.RefundOrders == 0 ? "" : "<i>" + Model.RefundOrders + "</i>"))</a></li>
+        </ul>
+    </div>
+    <div class="groupp-top">
+        <div class="list-grouppp">
+            <a href="../Coupon/Management">
+                <b class="icon06"></b><div class="list">我的优惠券</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+                @if (Model.CouponsCount > 0)
+                {
+                    <span class="rt">你有@(Model.CouponsCount)张优惠券未使用</span>
+                }
+                else
+                {
+                    <span class="rt"></span>
+                }
+            </a>
+        </div>
+        <div class="list-grouppp">
+            <a href="../Member/Integral">
+                <b class="icon07"></b><div class="list">我的积分</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+                <span class="rt">@(Model.MemberAvailableIntegrals)分</span>
+            </a>
+        </div>
+        <div class="list-grouppp" style="border:none;">
+            <a href="/common/site/pay?area=mobile&platform=@(ViewBag.AreaName.Replace("m-",""))&controller=Capital&action=Index">
+                <b class="icon08"></b><div class="list">我的资产</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+                @if (!Model.IsOpenRechargePresent)
+                {
+                    <span class="rt">@(Model.Capital)元</span>
+                }
+                else
+                {
+                    <span class="rt"><em class='red'>充值赠送</em></span>
+                }
+            </a>
+        </div>
+    </div>
+
+    @if (Model.IsShowDistributionMyShop || Model.IsShowDistributionOpenMyShop)
+    {
+        <div class="groupp-middle">
+            @if (Model.IsShowDistributionOpenMyShop)
+            {
+                <div class="list-grouppp" style="border:none;">
+                    <a href="@Url.Action("MyShop", "Distribution")">
+                        <b class="icon9"></b><div class="list">@(Model.DistributionOpenMyShopShow)</div>
+                        <span class="glyphicon glyphicon-menu-right"></span>
+                    </a>
+                </div>
+            }
+            @if (Model.IsShowDistributionMyShop)
+            {
+                <div class="list-grouppp" style="border:none;">
+                    <a href="@Url.Action("MyShop", "Distribution")">
+                        <b class="icon10"></b><div class="list">@(Model.DistributionMyShopShow)</div>
+                        <span class="glyphicon glyphicon-menu-right"></span>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+    <div class="groupp-middle2">
+        @*
+    <div class="list-grouppp">
+        <a href="@Url.Action("index","userinvite")">
+            <b class="icon11"></b><div class="list">我要推广</div>
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </a>
+    </div>
+        *@
+        <div class="list-grouppp">
+            <a href="@Url.Action("MyGroups", "MyFightGroup")">
+                <b class="icon14"></b><div class="list">我的拼团</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+                @if (Model.BulidFightGroupNumber > 0)
+                {
+                    <span class="rt ">@(Model.BulidFightGroupNumber)个团正在火拼中</span>
+                }
+            </a>
+        </div>
+    </div>
+    <div class="groupp-bottom">
+
+        <div class="list-grouppp">
+            <a href="../Order/ChooseShippingAddress?returnUrl=@HttpUtility.UrlEncode(Context.Request.GetDisplayUrl())">
+                <b class="icon12"></b><div class="list">收货地址管理</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+            </a>
+        </div>
+        <div class="list-grouppp" style="border:none;">
+            <a href="/@(CurrentAreaName)/Member/AccountSecure">
+                <b class="icon13"></b><div class="list">账号管理</div>
+                <span class="glyphicon glyphicon-menu-right"></span>
+            </a>
+        </div>
+    </div>
+
+    @{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot.cshtml");}
+</div>
+
+@if (Model.CanSignIn)
+{
+    <script type="text/javascript">
+        $(function () {
+
+            $("#signbtn").click(function () {
+                var _t = $(this);
+                if (!_t.hasClass("disabled")) {
+                    var loading = showLoading();
+                    $.post('../SignIn/Sign', null, function (result) {
+                        loading.close();
+                        if (result.success) {
+                            _t.addClass("disabled")
+                            $.dialog.succeedTips(result.msg, function () { window.location.reload(); });
+                        }
+                        else {
+                            //$.dialog.errorTips('签到成功！<br>+5分<br>再签到2天奖50分');
+                            $.dialog.errorTips(result.msg);
+                        }
+                    }, "json");
+                }
+            });
+        });
+    </script>
+}
+<script type="text/javascript">
+        $(function () {
+            $("#closeTip").click(function () {
+                $(".phone-tips").hide();
+            })
+        })
+</script>

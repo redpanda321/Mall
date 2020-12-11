@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\bin\Debug\netcoreapp2.2\Hishop.Open.Api.deps.json
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\bin\Debug\netcoreapp2.2\Hishop.Open.Api.dll
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\bin\Debug\netcoreapp2.2\Hishop.Open.Api.pdb
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\obj\Debug\netcoreapp2.2\Hishop.Open.Api.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\obj\Debug\netcoreapp2.2\Hishop.Open.Api.csproj.CoreCompileInputs.cache
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\obj\Debug\netcoreapp2.2\Hishop.Open.Api.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\obj\Debug\netcoreapp2.2\Hishop.Open.Api.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\obj\Debug\netcoreapp2.2\Hishop.Open.Api.dll
+C:\S\nopCommerce_4.20\Libraries\Hishop.Open.Api\obj\Debug\netcoreapp2.2\Hishop.Open.Api.pdb

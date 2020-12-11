@@ -1,0 +1,59 @@
+﻿@{ ViewBag.Title = "ConfigSetting";
+    bool isneedaudit = (bool)ViewBag.LimitTimeBuyNeedAuditing;
+    }
+@model Mall.DTO.FlashSaleConfigModel
+
+<script src="~/Areas/Admin/Scripts/LimitTimeBuyConfigSetting.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="./Management">活动列表</a></li>
+        <li><a href="./SetSlide">活动页面设置</a></li>
+        <li><a href="./BoughtList">服务购买列表</a></li>
+        <li><a href="./MarketCategory">活动商品分类</a></li>
+        <li><a href="./ServiceSetting">服务费用设置</a></li>
+        <li class="active"> <a href="./ConfigSetting">活动参数设置</a></li>
+
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>可以设置商家购买限时购功能模块所需费用，购买后商家可以在所购买周期内发布限时购活动 ，相关费用会在店铺的余额中扣除，余额不够的商家需要先进行充值。</span></li>
+				<li><span>PC端、微信端、APP、商城小程序都支持限时购活动。</span></li>
+				<li class="mark-info"><span>注意：活动页面设置仅针对PC端。</span></li>
+			</ul>
+		</div>
+	</div>
+    <h5 class="tips-top"><span class="help-default"><i></i>说明：预热阶段，商品将提前出现在活动专区，在商品正常购买页提示商品在参加活动</span></h5>
+    <div class="form-horizontal" style="padding-top:0;">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动开始前：</label>
+            <div class="col-sm-1"><input id="Preheat" type="text" class="form-control input-int-num" value="@Model.Preheat"/></div><span class="help-default">小时</span>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">预热阶段：</label>
+            <div class="col-sm-3 clear-v18">
+                <input type="radio" name="IsNormalPurchase" value="1" @if(Model.IsNormalPurchase){ <text>checked</text> }/>
+                <label for="rdi1">允许正常购买</label><br />
+                <input type="radio" name="IsNormalPurchase" value="0" @if( !Model.IsNormalPurchase ) { <text> checked </text>  } />
+                <label for="rdi2">不允许购买</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">活动是否需要审核：</label>
+            <div class="col-sm-8 form-control-static">
+                @Html.RadioButton("isneedaudit", "1", isneedaudit) 是
+                @Html.RadioButton("isneedaudit", "0", !isneedaudit) 否
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

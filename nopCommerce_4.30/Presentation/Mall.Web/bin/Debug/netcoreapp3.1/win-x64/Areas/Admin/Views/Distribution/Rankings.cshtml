@@ -1,0 +1,142 @@
+﻿@model Mall.Entities.DistributionRankingBatchInfo
+<style>
+    .choose-right ul i {
+        display: none;
+    }
+</style>
+
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>销售员排行</a></li>
+        <li><a href="@Url.Action("Orders")">分销订单明细</a></li>
+    </ul>
+    <h5 class="tips-top">
+        <span class="help-default">
+            <i></i>
+            @if (Model != null)
+    {
+        @: 说明： 上次生成报表时间： @Model.CreateTime.ToString("yyyy/MM/dd HH:mm:ss")&nbsp;&nbsp;&nbsp;
+        @: 下单时间范围：@Model.BeginTime.ToString("yyyy/MM/dd") ~ @Model.EndTime.ToString("yyyy/MM/dd")&nbsp;&nbsp;&nbsp;
+        @: 可重新选择时间点击生成报表
+}
+else
+{
+    @: 说明：暂时没有报表数据，请先选择下单时间范围，然后点击报表来查看相关数据
+}
+
+        </span>
+    </h5>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline" id="from_search">
+            <div class="form-group">
+                <label class="label-inline" for="">下单时间范围</label>
+                <input class="form-control input-ssm" type="text" name="begin">
+                <input class="form-control input-ssm" type="text" name="end">
+            </div>
+            <div class="form-group">
+                @if (Model != null)
+    {
+            <input type="hidden" value="@Model.Id" name="batch" />
+}
+                <button type="button" class="btn btn-primary btn-sm" id="generate">生成报表</button>
+            </div>
+        </form>
+    </div>
+  
+    <table id="list" class="table"></table>
+
+    <div class="table-head-l">
+        <div id="orderOperate"><a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a></div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("[name=begin],[name=end]").datetimepicker({
+                        language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+        $("#generate").click(function () {
+                        var data = {
+                begin: $("[name=begin]").val(),
+                end: $("[name=end]").val()
+            };
+            if (!data.begin) {
+                $.dialog.tips("请选择开始时间");
+                return;
+            }
+            if (!data.end) {
+                $.dialog.tips("请选择截止时间");
+                return;
+            }else
+            var loading = showLoading();
+            $.post("@Url.Action("GenerateRanking")", data, function (result) {
+                if (result.success) {
+                    setInterval(() => {
+                        $.get("@Url.Action("CheckGenerate")", {}, function (r) {
+                        if (r.success)
+                            location.reload();//刷新当前页面
+                    });
+                }, 1000);
+            } else {
+                    loading.close();
+                    $.dialog.errorTips('生成失败:' + result.msg);
+                }
+            });
+        });
+        loadTable();
+    });
+    function loadTable() {
+        var prarms = {
+            batchId: $("[name=batch]").val() || 0
+        };
+        var msg = '暂时没有报表数据,请先选择下单时间范围<br/>然后点击生成报表来查看相关数据';
+        if (prarms.batchId > 0) msg = "没有找到符合条件的数据";
+        //商品表格
+        $("#list").MallDatagrid({
+            url: "@Url.Action("Rankings")",
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: msg,
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            pageSize: 10,
+            pagePosition: 'bottom',
+            queryParams: prarms,
+            operationButtons: "#orderOperate",
+            columns:
+                [[
+                { field: "rank", title: '排名', width: 150, align: 'center' },
+                    { field: "distributorName", title: '销售员', width: 150, align: 'center' },
+                    { field: "shopName", title: '小店名称', width: 150, align: 'center' },
+                    { field: "gradeName", title: '销售员等级', width: 150, align: 'center' },
+                    { field: "quantity", title: '分销件数', width: 150, align: 'center', sort: true },
+                    { field: "amount", title: '成交金额', width: 150, align: 'center', sort: true },
+                    { field: "settlement", title: '已结算佣金', width: 150, align: 'center', sort: true },
+                    { field: "noSettlement", title: '未结算佣金', width: 150, align: 'center', sort: true },
+                    {
+                        field: "operation", title: '操作', width: 150, align: 'center',
+                        formatter: function (value, row, index) {
+                            return '<a href="/Admin/Distribution/Orders?distributor={0}">查看详情</a>'.format(row.distributorId);
+                        }
+                    }
+                ]]
+        });
+    }
+
+    //导出
+    function ExportExecl() {
+        var batchId = $("[name=batch]").val() || 0;
+        var href = "/Admin/Distribution/RankingsExportToExcel?batchId=" + batchId;
+
+        $("#aExport").attr("href", href);
+    }
+</script>

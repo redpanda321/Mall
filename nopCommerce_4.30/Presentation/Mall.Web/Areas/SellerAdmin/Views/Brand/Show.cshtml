@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Show";
+}
+@model Mall.Entities.ShopBrandApplyInfo
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+       
+        <li><a href="./Management">申请列表</a></li>
+        <li class="active"><a>查看申请</a></li>
+        
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>申请一个平台已有品牌/全新品牌的经营权，平台审核通过并进行关联之后，商家在发布商品时可以下拉选择该品牌。</span></li>
+			</ul>
+		</div>
+	</div>
+	<div id="id_band">
+		<form role="form" class="form-horizontal" id="brandform">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">品牌名称：</label>
+					<div class="col-sm-6 form-control-static">@Model.BrandName</div>
+					<div class="col-sm-4"></div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">是否平台现有品牌：</label>
+					<div class="col-sm-6 form-control-static">
+						@(Model.ApplyMode == 1 ? "是" : "否")
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">品牌Logo：</label>
+					<div class="col-sm-6 form-control-static"><img src="@Mall.Core.MallIO.GetImagePath(Model.Logo)" /></div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="">简介：</label>
+					<div class="col-sm-10 form-control-static">
+						@Model.Description
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">品牌说明/授权资料：</label>
+					<div class="col-sm-6 form-control-static">
+						@{
+							string[] pics = Model.AuthCertificate.Split(',');
+							for (int i = 0; i < pics.Length; i++)
+							{
+								<img src="@Mall.Core.MallIO.GetImagePath(pics[i])" />
+							}
+						}
+	
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="">备注：</label>
+					<div class="col-sm-10 form-control-static">@Model.Remark</div>
+				</div>
+		</form>
+	</div>
+</div>

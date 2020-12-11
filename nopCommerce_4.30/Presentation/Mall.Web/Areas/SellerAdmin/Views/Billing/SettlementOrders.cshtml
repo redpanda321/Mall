@@ -1,0 +1,56 @@
+﻿<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.json.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/SettlementOrders.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+@model Mall.DTO.SettlementStatistics 
+<div class="container">
+    <ul class="breadcrumb clearfix">
+		<li><a href="@Url.Action("SettlementList")">已结算列表</a></li>
+		<li><a href="#" onclick="return false">已结算订单</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>平台可以设置与各商家的结算周期，每个结算周期都会生成一个结算账单，账单会对这个周期内所有“已完成”且过了售后维权期的订单进行结算。</span></li>
+				<li><span>计算公式：平台应结金额 = 订单实付金额 + 积分抵扣金额 - 平台抽佣 - 分销佣金 - 退款金额。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w95" for="">订单完成时间</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">结算时间</label>
+                <input id="BillingStartDate" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line">-</label>
+                <input id="BillingEndDate" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w95" for="">订单编号</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtOrderId">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <div class="tips-top-single">
+        <span class="tips-top-single-icon">结算合计：@Model.SettlementAmount ， 平台佣金合计：@Model.PlatCommission ， 分销佣金合计：@Model.DistributorCommission</span>
+    </div>
+    <table id="list" class="table"></table>
+	<div class="tabel-operate" id="operationButtons">
+		<a class="btn-export" href='@Url.Action("ExportSettlementOrder")' onclick="ExportExecl.call(this);">导出EXCEL</a>
+	</div>
+</div>

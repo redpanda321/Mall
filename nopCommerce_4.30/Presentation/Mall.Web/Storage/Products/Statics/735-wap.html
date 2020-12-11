@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>&#x5546;&#x54C1;&#x8BE6;&#x60C5;</title>
+	<script>
+		(function() {
+			var baseFontSize = 100;
+			var baseWidth = 320;
+			var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+			var innerWidth = Math.max(Math.min(clientWidth, 480), 320);
+
+			var rem = 100;
+
+			if (innerWidth > 362 && innerWidth <= 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.9);
+			}
+
+			if (innerWidth > 375) {
+				rem = Math.floor(innerWidth / baseWidth * baseFontSize);
+				//rem = Math.floor(innerWidth / baseWidth * baseFontSize * 0.84);
+			}
+
+			window.__baseREM = rem;
+			document.querySelector('html').style.fontSize = rem + 'px';
+		}());
+	</script>
+	<link rel="stylesheet" href="/Content/bootstrap.min.css">
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/custom.css">
+	
+	<script src="/Scripts/jquery-1.7.1.min.js"></script>
+	<script src="/Scripts/CommonJS.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/custom.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/buylib.js"></script>
+	<script src="/Scripts/imitateRequire.js"></script>
+	<script>
+		imitateRequireJS.addJsFile([{
+			group: 'common',
+			fileNames: [
+				{ nickName: 'jquery.artDialog', fileName: 'jquery.artDialog.js' },
+				{ nickName: 'artDialog', fileName: 'artDialog.iframeTools.js', depends: ['jquery.artDialog'] },
+			]
+		}]);
+	</script>
+</head>
+<body>
+	<!--_Base start-->
+	<script>
+		var areaName = 'm-Wap';
+		var MAppType = '';
+	</script>
+	<input type="hidden" id="gid" value="735" />
+<input type="hidden" id="categoryId" value="37" />
+<input type="hidden" id="has" value="1" />
+<div id="J_shop_att"></div>
+<div class="container container-z">
+    <div class="detail-hd">
+        <div id="slides">
+        </div>
+    </div>
+    <a class="dis-info-a bt_share" id="dis-brokerage-box" style="display:none;">赚<span id="dis-brokerage">00.00</span>元</a>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <div id="preheat"></div>
+            <div class="item">
+                <div class="goods-price" id="jd-price">
+                    <span id="jd-saleprice"></span>
+                    <s>￥500.00</s>
+                </div>
+                <h4>&#x60E0;&#x5B9D;&#x9686;&#x65E0;&#x94C5;&#x6C34;&#x6676;&#x7EA2;&#x9152;&#x9192;&#x9152;&#x5668;&#x8717;&#x725B;&#x5F62;&#x5E72;&#x7EA2;&#x8461;&#x8404;&#x9152;&#x9192;&#x9152;&#x58F6;&#x5206;&#x9152;&#x5668;500ml</h4>
+                <h5></h5>
+            </div>
+            <div class="item promotion-wrap" id="divCoupon">
+                <div class="promotion">
+                    <ul class="promotion-list" id="showPromotion">
+                        <li class="promotion-coupon spec-arrow" style="display:none;" onclick="showPortfolio()">
+                            <a href="javascript:;">
+                                <span id="activespan"><i class="coupon-tip">促销优惠</i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="productColloCation"></div>
+                <div class="goods-address" id="showDeportAddress">
+                </div>
+
+                <ul class="ensary j_ensary">
+            <li class="flex-center"><i>消费者保障</i></li> </ul>
+<input data-val="true" data-val-required="The Int64 field is required." id="shopId" name="shopId" type="hidden" value="1" />
+<input data-val="true" data-val-required="The Int64 field is required." id="productId" name="productId" type="hidden" value="735" />
+
+            </div>
+        </div>
+        <div class="item detail-comment j_storesInfo product-store-title" style="display:none">
+            <div class="goods-comment">
+                <h1><b class="j_storeName"></b><span class="j_distanceUnit"></span><i class="ic-arrow"></i></h1>
+                <p class="j_storeAddress"></p>
+                <a class="j_storelist btn btn-default"></a>
+            </div>
+        </div>
+        <div class="item detail-comment">
+            <div class="detail-comment-hd">
+                商品评价
+                <span class="detail-comment-num">0</span>
+            </div>
+            <div id="productCommentShow">
+            </div>
+            <div class="detail-comment-ft">
+                <a class="btn btn-default" href="../ProductComment?pId=735&commentType=0">查看全部评价</a>
+            </div>
+        </div>
+
+
+        <div class="item shop-wrap">
+    <div class="shop-hd">
+        <div class="shop-logo"><img src="/Storage/Shop/1/VShop/201702141734365302700.png"></div>
+        <h4 class="j_shopName">&#x5B98;&#x65B9;&#x81EA;&#x8425;&#x5E97;</h4>
+        <div class="shop-hd-info">
+            <span>宝贝数<strong>7</strong></span>
+            <span>关注人数<strong>3</strong></span>
+        </div>
+    </div>
+    <ul class="shop-bd clearfix">
+        <li>商品：<strong>5.00</strong></li>
+        <li>发货：<strong>5.00</strong></li>
+        <li>服务：<strong>5.00</strong></li>
+    </ul>
+    <div class="shop-ft clearfix">
+        <span><a class="btn btn-default" id="bt_govshop" href="/m-Wap/vshop/detail/10" vshopid="10">进入店铺</a></span>
+        <span><a class="btn btn-default " id="addShopFavorite" shopid="1">关注</a></span>
+    </div>
+</div>
+<input type="hidden" id="shopId" name="shopId" value="1" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/ShowShopScore.js"></script>
+
+
+        <div id="productColloCation">
+        </div>
+            <div class="item details-link">
+        <a href="javascript:void(0)" id="showmoreprodesc"><span>查看更多详情</span></a>
+    </div>
+    <div class="goods-img clearfix" id="prodesccon"></div>
+    <div id="autoLoad" class="loading"></div>
+<input id="gid_desc" name="gid_desc" type="hidden" value="735" />
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductShowProductDescription.js"></script>
+<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/loading.js"></script>
+        <div class="right" style="display:none;background:#fff">
+            <div class="relation-title text-center"><span>猜你喜欢</span></div>
+            <div id="relationProducts" class="clearfix">
+                <template>
+                    <a class="relation-pro clearfix" href="/Mobile/Product/detail/{{id}}">
+                        <div class="relation-pro-img">
+                            <img src="{{imagePath}}" />
+                        </div>
+                        <p class="relation-pro-price"><i>￥</i>{{minSalePrice}}</p>
+                        <p class="relation-pro-name">{{productName}}</p>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="s-actionBar-container">
+    <div id="s-actionbar" class="action-bar">
+        <div class="cell tocart icon-cart-c">
+            购物车
+            <a href="/m-Wap/Cart/Cart?returnUrl=https%3A%2F%2Fwww.weiyou7.com%2Fm-wap%2FProduct%2FDetails%2F735%3Fnojumpfg%3D1"></a>
+            <span class="plus-one">1</span>
+        </div>
+    </div>
+</section>
+<input type="hidden" id="proDesc" value="&lt;p&gt;&lt;img src=&quot;/Storage/Shop/1/Products/735/remark/e45f945a40b344e692e922ed4bd42ec6.jpg&quot; style=&quot;&quot; title=&quot;132947138174987279773260_x.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/Storage/Shop/1/Products/735/remark/cdd6014e85bc46b585050d91076c499b.jpg&quot; style=&quot;&quot; title=&quot;174581541815330709731594_x.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/Storage/Shop/1/Products/735/remark/057ed9f3ef104b08b3f4670ab9151386.jpg&quot; style=&quot;&quot; title=&quot;290564507192393574294180_x.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/Storage/Shop/1/Products/735/remark/1eeefb8c61bd48deac2741335c4b88cf.jpg&quot; style=&quot;&quot; title=&quot;000000000145086165_5.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/Storage/Shop/1/Products/735/remark/c7a2f1b42f7544f58e53b20456a6038b.jpg&quot; style=&quot;&quot; title=&quot;545816566120000764139960_x.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;" />
+<input type="hidden" id="shopId" value="1" />
+<input type="hidden" id="couponUrl" value="/Mobile/coupon/ShopCouponList" />
+<input type="hidden" id="skuUrl" value="/api/Product/GetSKUInfo" />
+    <script>
+        var winxinShareArgs = {
+            share: {
+                title: '&#x60E0;&#x5B9D;&#x9686;&#x65E0;&#x94C5;&#x6C34;&#x6676;&#x7EA2;&#x9152;&#x9192;&#x9152;&#x5668;&#x8717;&#x725B;&#x5F62;&#x5E72;&#x7EA2;&#x8461;&#x8404;&#x9152;&#x9192;&#x9152;&#x58F6;&#x5206;&#x9152;&#x5668;500ml',
+                desc: '&#x60E0;&#x5B9D;&#x9686;&#x65E0;&#x94C5;&#x6C34;&#x6676;&#x7EA2;&#x9152;&#x9192;&#x9152;&#x5668;&#x8717;&#x725B;&#x5F62;&#x5E72;&#x7EA2;&#x8461;&#x8404;&#x9152;&#x9192;&#x9152;&#x58F6;&#x5206;&#x9152;&#x5668;500ml',
+                link: location.href,
+                imgUrl: 'http://www.weiyou7.com/Storage/Shop/1/Products/735/1_150.png',
+                success: null,
+                cancel: null,
+                fail: null,
+                complete: null,
+                trigger: null
+            }
+        };
+    </script>
+    <!--_WeiXinShare start-->
+    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+    <!--_WeiXinShare end-->
+<script src="https://map.qq.com/api/js?v=2.exp&key=56QBZ-R763U-UNTVS-B2AZF-EU7R7-LLFOQ&libraries=convertor" async></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js?key=56QBZ-R763U-UNTVS-B2AZF-EU7R7-LLFOQ" async></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDetail.js"></script>
+<script src="/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script src="/Scripts/jquery.cookie.js"></script>
+<script src="/Scripts/jquery.slides.min.js"></script>
+<a class="WX-backtop"></a>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon">
+	<div class="modul-popup">
+	    <div class="modul-popup-container sale-popup-container">
+	        <div class="sale-popup-header"></div>
+	        <div class="sale-popup-body">
+	            <div class="modul-scroll">
+	                <table class="sale-table" width="100%">
+	                        <tbody id="activeList">
+	                    	</tbody>
+	                </table>
+                </div>
+	        </div>
+	        <div class="sale-popup-footer">
+	            <a href="javascript:" class="modul-popup-close sale-popup-close"></a>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+
+<!--_Aside start-->
+<div id="_Aside_CustomServices">
+</div>
+<script src="/Areas/Mobile/Templates/Default/Scripts/_Aside.js"></script>
+
+    <div class="wx_aside">
+            <!-- 更多 -->
+            <a href="javascript:;" class="btn_more"></a>
+                <div class="wx_aside_item">
+                        <a href="/m-wap"><img src="/temp/201810170225284811350.png" style="width:25px;height:25px;" />Home</a>
+                        <a href="/m-wap/category"><img src="/temp/201810170226199645080.png" style="width:25px;height:25px;" />Good</a>
+                        <a href="/m-wap/cart/cart"><img src="/temp/201810170226412488170.png" style="width:25px;height:25px;" />Cart</a>
+                        <a href="/m-wap/member/center"><img src="/temp/201810170227011843730.png" style="width:25px;height:25px;" />Me</a>
+                </div>
+    </div>
+<!--_Aside end-->		<script src="/Scripts/jquery.nicescroll.min.js"></script>
+	<script src="/Areas/Mobile/Templates/Default/Scripts/_Base.js"></script>
+	<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/artdialog.css">
+	<script src="/Scripts/jquery.artDialog.js"></script>
+	<script src="/Scripts/artDialog.iframeTools.js"></script>
+	<script src="/Scripts/jquery.cookie.js"></script>
+	<script src="/Scripts/jquery.scrollLoading.min.js"></script>
+
+		
+
+		<script>
+		(function () {
+			var data= null;
+			if (data) {
+				var callback;
+				if (data.goBack == true)
+					callback = function () { history.go(-1); };
+				var fun;
+				if (data.type == -1)
+					fun='errorTips';
+				else if(data.type==0)
+					fun='alert';
+				else if (data.type == 1)
+					fun='alertTips';
+				else if (data.type == 2)
+					fun='succeedTips';
+				if(fun)
+					$.dialog[fun](data.message,callback,data.time);
+			}
+		})();
+</script>
+	<!--_Base end-->
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Mall.DTO.ExpressCompany>
+
+<div>
+    <div class="container">
+        <ul class="nav nav-tabs-custom clearfix">
+            <li class="active"><a href="./Management">快递单模板管理</a></li>
+            <li><a href="./Setting">物流设置</a></li>
+        </ul>
+        <div class="queryDiv">
+			<img class="queryImg" src="/Images/ic_query.png">
+			<div class="tipBox">
+				<h5>温馨提示:</h5>
+				<ul>
+					<li><span>状态为开启的快递公司，商家发货时才能进行选择。</span></li>
+					<li><span>其中<a target="_blank" href="https://www.kuaidi100.com">快递100</a>code和<a target="_blank" href="http://www.kdniao.com">快递鸟</a>code分别是这两家系统内对应快递公司的代号，可以登录对方官网查询。</span></li>
+				</ul>
+			</div>
+		</div>
+        <div class="form-group mt15 clearfix">
+            <button type="button" class="btn btn-primary btn-sm fr" id="addExpress">添加物流公司</button>
+        </div>
+        <table class="table mt20">
+            <thead>
+                <tr>
+                    <th >快递公司</th>
+                    <th >快递100code</th>
+                    <th >快递鸟code</th>
+                    <th class="">开启状态</th>
+                    <th class="td-operate clear-q9">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var express in Model)
+                {
+                    <tr>
+                        <td class="clear-i2">@express.Name</td>
+                        <td class="clear-i2">@express.Kuaidi100Code</td>
+                        <td class="clear-i2">@express.KuaidiNiaoCode</td>
+                        <td width="100px">
+                            <input type="checkbox" expressid="@express.Id" class="expressCheck" @(express.Status== Mall.CommonModel.ExpressStatus.Open ? "checked" : "")>
+                        </td>
+                        <td class="td-operate clear-q10">
+                            <span class="btn-a"><a onclick="showAddWindow(@express.Id,'@express.Name','@express.KuaidiNiaoCode','@express.Kuaidi100Code')">编辑</a></span>
+                            <span class="btn-a"><a href="Edit?name=@(express.Name)">模板设置</a></span>
+                            <span class="btn-a"><a onclick="deleteExpress(@express.Id,'@express.Name')">删除</a></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="~/Areas/Admin/Scripts/ExpressManage.js"></script>
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>

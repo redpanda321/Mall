@@ -1,0 +1,80 @@
+﻿@model Mall.Web.Areas.Admin.Models.HomeFloorDetail
+@using Mall.Web.Areas.Admin.Models;
+@using System.Linq;
+
+@{
+    Layout = "FloorDetail.cshtml";
+}
+
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.productSelector2.js"></script>
+<script src="~/Areas/Admin/Scripts/pageSettings-floorDetail10.js"></script>
+<link href="~/Content/pagesetting.css" rel="stylesheet" />
+
+<style>
+    .floor-ex-img img {
+        height: 250px;
+        width: auto;
+    }
+</style>
+<div class="container">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>楼层名称：</label>
+            <div class="col-sm-3 form-control-static">
+                <input class="form-control input-xs" type="text" id="FloorName" name="FloorName" placeholder="最多10个字符" maxlength="10" value="@ViewBag.FloorName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>商品样式：</label>
+            <div class="col-sm-3 form-control-static">
+                @Html.RadioButton("CommodityStyle", 1, Model.CommodityStyle == 1)一排5个商品
+                @Html.RadioButton("CommodityStyle", 2, Model.CommodityStyle == 2)一排4个商品
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>显示方式：</label>
+            <div class="col-sm-3 form-control-static">
+                @Html.RadioButton("DisplayMode", 1, Model.DisplayMode == 1)平铺展示
+                @Html.RadioButton("DisplayMode", 2, Model.DisplayMode == 2)左右轮播
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label"><b>*</b>商品：</label>
+            <div class="col-sm-9">
+                <table class="table table-bordered clear-v12">
+                    <thead>
+                        <tr>
+                            <th>商品</th>
+                            <th>售价</th>
+                            <th align="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="prol">
+                        @foreach (var item in Model.ProductModules)
+                        {
+                            <tr>
+                                <td><img src="@item.productImg" alt="" />@item.productName </td>
+                                <td>@item.price</td>
+                                <td align="center">
+                                    <input type="hidden" value="@item.ProductId" class="fid" />
+                                    <a href="javascript:;" class="proremove">删除</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="add-atrr" id="addProducts"><span class="glyphicon glyphicon-plus-sign"></span>添加</a>&nbsp;<span>(最多增加30个)</span>
+            </div>
+        </div>
+
+        <input type="hidden" name="id" id="homeFloorId" value="@Model.Id" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" name="submit" class="j_saveHide btn btn-primary">保存楼层</button>
+            </div>
+        </div>
+    </form>
+</div>

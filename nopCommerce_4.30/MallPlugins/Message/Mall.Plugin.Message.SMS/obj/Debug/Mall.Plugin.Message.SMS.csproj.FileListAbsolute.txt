@@ -1,0 +1,3 @@
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.Plugin.Message.SMS\obj\Debug\Mall.Plugin.Message.SMS.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.Plugin.Message.SMS\obj\Debug\Mall.Plugin.Message.SMS.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Message\Mall.Plugin.Message.SMS\obj\Debug\Mall.Plugin.Message.SMS.AssemblyInfo.cs

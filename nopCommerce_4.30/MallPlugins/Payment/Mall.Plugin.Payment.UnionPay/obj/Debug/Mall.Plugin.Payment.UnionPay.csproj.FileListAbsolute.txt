@@ -1,0 +1,3 @@
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.UnionPay\obj\Debug\Mall.Plugin.Payment.UnionPay.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.UnionPay\obj\Debug\Mall.Plugin.Payment.UnionPay.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.UnionPay\obj\Debug\Mall.Plugin.Payment.UnionPay.AssemblyInfo.cs

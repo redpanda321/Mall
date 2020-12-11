@@ -1,0 +1,48 @@
+﻿@using Mall.Core;
+@model Mall.DTO.MarketServicesRecord
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<div class="container">
+    <ul class="breadcrumb clearfix"> 
+        <li><a>收支明细</a></li>
+        <li class="active"><a>营销服务费明细</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>平台可以设置与各商家的结算周期，每个结算周期都会生成一个结算账单，账单会对这个周期内所有“已完成”且过了售后维权期的订单进行结算。</span></li>
+				<li><span>计算公式：平台应结金额 = 订单实付金额 + 积分抵扣金额 - 平台抽佣 - 分销佣金 - 退款金额。</span></li>
+			</ul>
+		</div>
+	</div>
+    <table id="list" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    金额
+                </th>
+                <th>
+                    购买周期
+                </th>
+                <th>
+                    营销服务类型
+                </th>
+                <th>
+
+                    购买时间
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Price</td>
+                <td>@Model.BuyingCycle</td>
+                <td>@Model.MarketType</td>
+                <td>@Model.BuyTime</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

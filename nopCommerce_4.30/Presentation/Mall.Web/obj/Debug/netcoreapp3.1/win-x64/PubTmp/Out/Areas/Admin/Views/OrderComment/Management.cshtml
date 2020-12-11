@@ -1,0 +1,58 @@
+﻿@{ ViewBag.Title = "OrderComment";}
+@model IEnumerable<Mall.Core.Plugins.PluginInfo>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Areas/Admin/Scripts/orderCommentManagement.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>订单评分会影响到店铺、门店的综合评分，以及商品的好评率。</span></li>
+				<li><span>平台删除订单评分后，店铺、店门的综合评分以及商品好评率将会重新计算。</span></li>
+				<li><span>评分计算规则：历史评分取平均数。</span></li>
+				<li><span>其中门店订单的评分会计算给门店的同时，也会计算给门店所属于的商家店铺。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">开始日期</label>
+                <input id="inputStartDate" class="form-control input-ssm start_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">结束日期</label>
+                <input id="inputEndDate" class="form-control input-ssm end_datetime" type="text" >
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单编号</label>
+                <input class="form-control input-ssm input-number" type="text" id="txtOrderId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">店铺名</label>
+                <input class="form-control input-ssm" type="text" id="txtShopName">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">评价人</label>
+                <input class="form-control input-ssm" type="text" id="txtUserName" >
+            </div>
+            <div class="form-group">
+                <button type="button" id="searchButton" class="btn btn-primary btn-sm">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+</div>

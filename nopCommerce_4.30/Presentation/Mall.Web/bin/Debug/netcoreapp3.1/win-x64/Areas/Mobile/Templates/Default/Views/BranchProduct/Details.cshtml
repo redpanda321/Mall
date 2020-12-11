@@ -1,0 +1,131 @@
+﻿@using Mall.Core
+@model Mall.Web.Areas.Web.Models.ProductDetailModelForWeb
+@{
+    Layout = "../Shared/_Base.cshtml";
+    ViewBag.Title = "商品详情";
+    ViewBag.ShowAside = 1;
+    var detailModel = (Mall.Web.Areas.Mobile.Models.ProductDetailModel)ViewBag.DetailModel;
+    var productSaleCountOnOff = (bool)ViewBag.ProductSaleCountOnOff;
+}
+<input type="hidden" id="gid" value="@Model.Product.Id" />
+<input type="hidden" id="bid" value="@ViewBag.bid" />
+<input type="hidden" id="categoryId" value="@Model.Product.CategoryId" />
+<input type="hidden" id="has" value="1" />
+<div id="J_shop_att"></div>
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchcarts.css" rel="stylesheet" />
+
+<div class="container container-z store-prodetail">
+	<div class="cover distribution">
+        <img src="/Areas/Mobile/Templates/Default/Images/proShare.png" />
+    </div>
+    <div class="detail-hd">
+        <div id="slides">
+            @for (int i = 1; i < 6; i++)
+            {
+                if (MallIO.ExistFile((Model.Product.RelativePath + string.Format("/{0}.png", i))))
+                {
+                    <img data-src="@(MallIO.GetProductSizeImage(Model.Product.RelativePath, i, (int)Mall.CommonModel.ImageSize.Size_350))" />
+                }
+            }
+        </div>
+    </div>
+    <div class="detail-bd">
+        <div class="goods-info">
+            <span class="icon-share hide" id="dis-share"><i class="iconfonts icon-icon_-share"></i></span>
+            <div id="preheat"></div>
+            <div class="item">
+                <h4>@Model.Product.ProductName</h4>
+                <h5>@Model.Product.ShortDescription</h5>
+                <div id="salefreight">
+                    @if (productSaleCountOnOff)
+                    {
+                        <h6 id="saleCountsSpan">月销 @Model.Product.SaleCounts@(string.IsNullOrWhiteSpace(Model.Product.MeasureUnit) ? "" : Model.Product.MeasureUnit)</h6>
+                    }
+                </div>
+                <div class="goods-price" id="jd-price">
+                    <span id="jd-saleprice"></span>
+                    <s id="marketpricebox">@Html.Raw(Model.Product.MarketPrice > 0 ? '￥' + Model.Product.MarketPrice.ToString("F2") : "")</s>
+                    <span class="most hide" id="dis-maxbrokeragebox">最高赚 <span class="price" id="dis-maxbrokerage">￥0.00</span></span>
+                    @if (Model.Color.Count > 0 || Model.Size.Count > 0 || Model.Version.Count > 0)
+                    {
+                        <span id="btnCheckSku" class="btnBlue">选规格</span><span class="plus-one">0</span>
+                    }
+                    else
+                    {
+                        <span id="btnAddCart" class="btnBlue">加入购物车</span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item" style="display:none">
+            <a onclick="showPortfolio()" class="item-navigate-right att-popup-trigger">优惠活动<span id="activespan"></span></a>
+        </div>
+
+        <div class="item">
+            <a href="../ProductComment?pId=@(Model.Product.Id)&commentType=0&shopBranchId=@ViewBag.bid" class="item-navigate-right att-popup-trigger">商品评价(@(detailModel.CommentCount))</a>
+        </div>
+        <div id="productColloCation">
+        </div>
+        @*<div class="item details-link">
+            <a href="#top" onclick="gotoProductImg()">详情描述</a>
+        </div>*@
+        @Html.RenderAction("ShowProductDescription", "BranchProduct", new { id = Model.Product.Id })
+        @*<div class="goods-img"></div>*@
+    </div>
+</div>
+
+@{Html.RenderPartial("~/Areas/Mobile/Templates/Default/Views/Shared/_4ButtonsFoot_shopBranch.cshtml");}
+
+<a href="javascript:;" class="btn_top"></a>
+
+<input type="hidden" id="proDesc" value="@Model.ProductDescription" />
+<input type="hidden" id="shopId" value="@Model.Shop.Id" />
+<input type="hidden" id="couponUrl" value="@Url.Action("ShopCouponList","coupon")" />
+<input type="hidden" id="skuUrl" value="@Url.Action("GetSKUInfo", "BranchProduct")" />
+<script>
+    var winxinShareArgs = {
+        share: {
+            title: '@Model.Product.ProductName',
+            desc: '@(string.IsNullOrEmpty(Model.Product.ShortDescription) ? Model.Product.ProductName.Replace("\n", "") : Model.Product.ShortDescription.Replace("\n", ""))',
+            link: location.href,
+            imgUrl: '@MallIO.GetRomoteProductSizeImage(Model.Product.RelativePath, 1, (int)Mall.CommonModel.ImageSize.Size_150)',
+            success: null,
+            cancel: null,
+            fail: null,
+            complete: null,
+            trigger: null
+        }
+    };
+</script>
+<!--_WeiXinShare start-->
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/WeiXinShare.js"></script>
+<!--_WeiXinShare end-->
+<script src="https://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/BranchProductDetail.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/ProductDistributionBrokerage.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<script src="~/Scripts/jquery.slides.min.js"></script>
+<a class="WX-backtop"></a>
+<div id="ShopCoupon"></div>
+<div id="portfolioCoupon" class="store-prodetail">
+    <div class="modul-popup">
+        <div class="modul-popup-container sale-popup-container">
+            <div class="sale-popup-header">
+                <span>优惠活动</span>
+                <i class="ic_close modul-popup-close"></i>
+            </div>
+            <div class="sale-popup-body">
+                <div class="modul-scroll">
+                    <table class="sale-table" width="100%">
+                        <tbody id="activeList"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sale-popup-footer">
+                <a href="javascript:" class="modul-popup-close">我知道了</a>
+            </div>
+        </div>
+    </div>
+</div>

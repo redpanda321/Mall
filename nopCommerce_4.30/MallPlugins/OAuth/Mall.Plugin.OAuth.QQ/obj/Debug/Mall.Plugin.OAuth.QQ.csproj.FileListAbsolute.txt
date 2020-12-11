@@ -1,0 +1,3 @@
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.QQ\obj\Debug\Mall.Plugin.OAuth.QQ.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.QQ\obj\Debug\Mall.Plugin.OAuth.QQ.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\OAuth\Mall.Plugin.OAuth.QQ\obj\Debug\Mall.Plugin.OAuth.QQ.AssemblyInfo.cs

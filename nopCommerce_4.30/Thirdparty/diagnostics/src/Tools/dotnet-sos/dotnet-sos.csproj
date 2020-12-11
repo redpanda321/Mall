@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RuntimeFrameworkVersion>2.1.0</RuntimeFrameworkVersion>
+    <ToolCommandName>dotnet-sos</ToolCommandName>
+    <RootNamespace>Microsoft.Diagnostics.Tools.SOS</RootNamespace>
+    <Description>Diagnostic SOS installer</Description>
+    <PackageTags>Diagnostic</PackageTags>
+    <PackageReleaseNotes>$(Description)</PackageReleaseNotes>
+    <SOSPackagePathPrefix>tools/$(TargetFramework)/any</SOSPackagePathPrefix>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\CommandExtensions.cs" Link="CommandExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\SOS\SOS.InstallHelper\SOS.InstallHelper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine.Experimental" Version="$(SystemCommandLineExperimentalVersion)" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\sos-packaging.props" />
+</Project>

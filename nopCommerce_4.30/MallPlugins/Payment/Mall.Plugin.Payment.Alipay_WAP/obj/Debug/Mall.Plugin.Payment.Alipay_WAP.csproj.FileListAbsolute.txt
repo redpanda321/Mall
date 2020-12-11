@@ -1,0 +1,3 @@
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.Alipay_WAP\obj\Debug\Mall.Plugin.Payment.Alipay_WAP.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.Alipay_WAP\obj\Debug\Mall.Plugin.Payment.Alipay_WAP.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.Alipay_WAP\obj\Debug\Mall.Plugin.Payment.Alipay_WAP.AssemblyInfo.cs

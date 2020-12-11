@@ -1,0 +1,3 @@
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.WeiXinPay_JSAPI\obj\Debug\Mall.Plugin.Payment.WeiXinPay_JSAPI.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.WeiXinPay_JSAPI\obj\Debug\Mall.Plugin.Payment.WeiXinPay_JSAPI.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Payment\Mall.Plugin.Payment.WeiXinPay_JSAPI\obj\Debug\Mall.Plugin.Payment.WeiXinPay_JSAPI.AssemblyInfo.cs

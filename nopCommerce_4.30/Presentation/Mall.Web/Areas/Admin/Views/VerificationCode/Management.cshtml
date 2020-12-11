@@ -1,0 +1,67 @@
+﻿@{ ViewBag.Title = "VerificationCode";}
+@{ 
+    bool isOpenStore = (bool)ViewBag.IsOpenStore;
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Areas/Admin/Scripts/verificationCodeManagement.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>核销码记录</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">订单号</label>
+                <input class="form-control input-ssm input-number" type="text" id="OrderId" name="OrderId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">核销码状态</label>
+                <select class="form-control input-ssm" id="Status" name="Status">
+                    <option value="">全部</option>
+                    @foreach (var d in Mall.Core.EnumHelper.ToDescriptionDictionary<Mall.Entities.OrderInfo.VerificationCodeStatus>())
+                    {
+                        <option value="@d.Key">@d.Value</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">付款时间</label>
+                <input id="PayDateStart" name="PayDateStart" class="form-control input-ssm start_datetime" type="text">
+                <label class="label-inline-line" for="">至</label>
+                <input id="PayDateEnd" name="PayDateEnd" class="form-control input-ssm end_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">核销码</label>
+                <input class="form-control input-ssm input-number" type="text" id="VerificationCode" name="VerificationCode">
+            </div>
+            @if (isOpenStore)
+            {
+                <div class="form-group">
+                    <label class="label-inline w75" for="">商家/门店</label>
+                    <input class="form-control input-ssm" type="text" id="ShopBranchName" name="ShopBranchName" autocomplete="off">
+                </div>
+            }
+            <div class="form-group">
+                <label class="label-inline w75" for="">核销时间</label>
+                <input id="VerificationTimeStart" name="VerificationTimeStart" class="form-control input-ssm start_verification_datetime" type="text">
+                <label class="label-inline-line" for="">至</label>
+                <input id="VerificationTimeEnd" name="VerificationTimeEnd" class="form-control input-ssm end_verification_datetime" type="text">
+            </div>
+            <div class="form-group">
+                <button type="button" id="searchButton" class="btn btn-primary btn-sm">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+    <div class="cover"></div>
+    <div class="preview-img"><img src="" /></div>
+</div>

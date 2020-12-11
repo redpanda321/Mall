@@ -1,0 +1,106 @@
+﻿@model Mall.Web.Areas.Admin.Models.Market.BonusModel
+
+@{
+	Layout = "";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>红包领取</title>
+	<link href="~/Content/bootstrap.min.css?v=20183030" rel="stylesheet" />
+	<link href="~/Areas/Mobile/Templates/Default/Content/custom.css?v=20183030" rel="stylesheet" />
+	<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+</head>
+
+
+<script type="text/javascript">
+	$( function ()
+	{
+	    //$( '.bonus' ).height( $( '.bonus' ).width() * 39 / 28 )
+	    if(window.__wxjs_environment === 'miniprogram'){
+	        $("#btnBackApplet").show();
+	    }
+	    else{
+	        $("#btnBackApplet").hide();
+	    }
+	} );
+	function onBackApplet(){
+	    wx.miniProgram.navigateBack();
+	}
+</script>
+
+<style>
+	body, html, .container {
+		height: 100%;
+	}
+
+	.imgSize {
+		width: 80px;
+		height: 80px;
+	}
+</style>
+<body>
+    <button id="btnBackApplet" onclick="onBackApplet()">返回小程序</button>
+	<div class="container"></div>
+	<script>
+		var winxinShareArgs = {
+			success: function(){
+				LoadBody();
+			},
+			error:function(){
+				$.dialog.errorTips('注册微信接口失败，请刷新页面');
+			},
+			share: {
+				title: '@Model.Name',
+				desc: '@Model.Description',
+				link: '@Model.ReceiveHref',
+			    imgUrl: '@(Mall.Core.MallIO.GetRomoteImagePath(Model.ImagePath))',
+			    success: function (res) {
+			        setshare();
+			    }
+			}
+		};
+	</script>
+	@Html.Partial("_WeiXinShare")
+	<script type="text/javascript">
+        function LoadBody()
+        {
+            var html = "";
+
+            html += '<div class="b-cover"></div>';
+            html += '<div class="bonus">';
+            html += '<form id="bonusFrom" method="post" action="/m-wap/bonus/receive">';
+            html += '<input type="hidden" value="@Model.Id" name="id" />';
+            html += '<input type="hidden" value="@ViewBag.OpenId" name="openId" />';
+            html += '<input type="hidden" value="@ViewBag.UnionId" name="unionId" />';
+            html += '<img class="" src="@Model.ImagePath" />';
+            html += '<h3>来自于 @Model.MerchantsName 的红包</h3>';
+            html += '<p>已有@(Model.ReceiveCount)人领取</p>';
+            html += '<button type="Submit" id="subCate" class="bonus-btn"></button>';
+            html += '</form>';
+            html += '</div>';
+
+            $("body").html(html);
+
+            $( '.bonus' ).height( $( '.bonus' ).width() * 39 / 28 );
+
+            //$("#subCate").click(function(){
+
+            //    document.getElementById( "bonusFrom" ).submit();
+            //})
+        }
+
+        function setshare()
+        {
+            var id = @Model.Id;
+            var openId = '@ViewBag.OpenId';
+            $.post("/m-weixin/Bonus/SetShare",{ id : id , openId : openId },function( result ){
+                location.href = "/m-weixin/bonus/index/"+id;
+            })
+        }
+
+	</script>
+</body>
+</html>

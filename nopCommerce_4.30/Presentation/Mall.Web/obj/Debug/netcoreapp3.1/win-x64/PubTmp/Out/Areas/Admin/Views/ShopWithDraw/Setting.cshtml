@@ -1,0 +1,46 @@
+﻿@model Mall.DTO.SiteSettings
+@{
+    ViewBag.Title = "商家提现金额设置";
+}
+
+<script src="~/Areas/Admin/Scripts/ShopCapitalSetting.js"></script>
+<script src="~/Scripts/v.js"></script>
+<div class="container clear-v">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Management?status=3" id="dh_3">提现成功</a></li>
+        <li><a href="Management?status=1" id="dh_1">待处理</a></li>
+        <li><a href="Management?status=5" id="dh_5">付款中</a></li>
+        <li><a href="Management?status=4" id="dh_4">提现失败</a></li>
+        <li><a href="Management?status=2" id="dh_2">拒绝提现</a></li>
+        <li class="active"><a>提现金额设置</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>其中提现方式为银行账户的申请，需由平台线下打款至商家账户，其他方式可由系统自动完成转账。</span></li>
+			</ul>
+		</div>
+	</div>
+    @using (Html.BeginForm("Setting", "ShopWithDraw", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">最低提现金额：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.ShopWithDrawMinimum, new { htmlAttributes = new { @class = "form-control input-sm input-int-num" } })</div>
+                <div class="col-sm-5"><span class="help-default">设置最低提现金额.</span></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">最高提现金额：</label>
+                <div class="col-sm-3">@Html.EditorFor(item => item.ShopWithDrawMaximum, new { htmlAttributes = new { @class = "form-control input-sm input-int-num" } })</div>
+                <div class="col-sm-5"><span class="help-default">设置最高提现金额(最高不能大于1000000).</span></div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,27 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.BrokerageOrder>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>订单编号</th>
+            <th>商品名称</th>
+            <th>订单状态</th>
+            <th>结算时间</th>
+            <th>结算状态</th>
+            <th>佣金</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.OrderId</td>@*售后编号*@
+            <td>@item.ProductName</td>@*商品名称*@
+            <td>@item.OrderStatusText</td>@*订单状态*@
+            <td>@item.SettlementTime</td>@*结算时间*@
+            <td>@item.StatusText</td>@*结算状态*@
+            <td>@item.TotalBrokerage </td>@*佣金*@
+        </tr>
+        }
+    </tbody>
+</table>

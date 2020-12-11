@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "门店标签设置";
+}
+
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/ShopBranchTags.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="shopbranchmanagement"><a href="@Url.Action("Management")">门店列表</a></li>
+        <li class="active"><a>门店标签设置</a></li>
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>门店标签：平台可设置标签来帮助会员筛选门店，商家添加门店时可以打上某门店标签。平台编辑周边门店页面时可以导航过去，显示标签所关联的本市所有门店。</span></li>
+				<li style="color: red;"><span style="color: red;">注意：冻结门店后，门店商品都会下架。解冻后，门店商品需要重新上架。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div id="shopToolBar">
+        <div class="search-box">
+            <div class="form-group" style="float:right;">
+                <input type="button" class="btn btn-primary btn-sm" id="btnAddTags" value="添加标签">
+            </div>
+        </div>
+    </div>
+
+    <table class="table" id="list"></table>
+</div>
+
+
+<div class="dialog-form" id="addTagsform" style="display:none">
+    <div class="form-group" id="UserNameDiv">
+        <label class="label-inline fl" for="">标签名称：</label>
+        <input class="form-control input-sm" type="text" id="txtTitle" name="Title" maxlength="10">
+        <input type="hidden" id="txtTagId" name="tagId">
+    </div>
+</div>

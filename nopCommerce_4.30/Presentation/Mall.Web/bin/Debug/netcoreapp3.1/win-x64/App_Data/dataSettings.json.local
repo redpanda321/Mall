@@ -1,0 +1,5 @@
+﻿{
+  "DataProvider": "sqlserver",
+  "DataConnectionString": "Data Source=localhost\\SQLEXPRESS;Initial Catalog=shop43;Integrated Security=True;Persist Security Info=False;connect timeout=0;Max Pool Size=20000",
+  "RawDataSettings": {}
+}

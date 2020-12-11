@@ -1,0 +1,178 @@
+﻿@model List<Mall.DTO.FullOrder>
+@{
+    Layout = null;
+}
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>订单来源</th>
+            <th>订单类型</th>
+            <th>订单编号</th>
+            <th>店铺(门店)</th>
+            <th>买家</th>
+            <th>下单时间</th>
+            <th>付款时间</th>
+            <th>支付方式</th>
+            <th>商品总额</th>
+            <th>运费</th>
+            <th>税金</th>
+            <th>优惠券抵扣</th>
+            <th>满额减</th>
+            <th>商家改价</th>
+            <th>积分代支付</th>
+            <th>订单实付总额</th>
+            <th>平台佣金</th>
+            <th>分销员佣金</th>
+            <th>订单状态</th>
+            <th>买家留言</th>
+            <th>收货人</th>
+            <th>手机号码</th>
+            <th>收货地址</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>用户信息（虚拟）</th>
+            <th>发票类型</th>
+            <th>发票抬头</th>
+            <th>发票税号</th>
+            <th>发票内容</th>
+            <th>电子普通发票信息</th>
+            <th>增值税发票信息</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+            int rowcount = 1;
+            if (item.OrderItems != null)
+            {
+                rowcount = item.OrderItems.Count;
+            }
+
+            <tr>
+                <td rowspan='@rowcount'>@((item.Platform == PlatformType.Android || item.Platform == PlatformType.IOS) ? "App" : item.Platform.ToDescription())</td>
+                <td rowspan='@rowcount'>@(item.OrderType == Mall.Entities.OrderInfo.OrderTypes.Virtual ? "虚拟" : "实物")</td>   @*订单类型*@
+                <td rowspan='@rowcount' style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.Id.ToString()</td>
+                <td rowspan='@rowcount'>@(item.ShopName)(@item.ShopBranchName)</td>@*店铺/门店*@
+                <td rowspan='@rowcount'>@item.UserName</td>
+                <td rowspan='@rowcount' style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.OrderDate</td>
+                <td rowspan='@rowcount' style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.PayDate</td>   @*付款时间*@
+                <td rowspan='@rowcount'>@(item.PaymentTypeDesc) </td>
+                <td rowspan='@rowcount'>@item.ProductTotalAmount.ToString("F2")</td>@*商品总额*@
+                <td rowspan='@rowcount'>@item.Freight.ToString("F2")</td>           @*运费*@
+                <td rowspan='@rowcount'>@item.Tax.ToString("F2")</td>               @*税金*@
+                <td rowspan='@rowcount'>@item.DiscountAmount.ToString("F2")</td>    @*优惠券抵扣*@
+                <td rowspan='@rowcount'>@item.FullDiscount</td>   @*满额减*@
+                @{var itemDis = item.OrderItems.Sum(r => r.DiscountAmount);}
+                <td rowspan='@rowcount'>@(itemDis > 0 ? "-" : "+") @itemDis.ToString("F2") </td>    @*改价*@
+                <td rowspan='@rowcount'>@item.IntegralDiscount.ToString("F2")</td>  @*积分抵扣*@
+                <td rowspan='@rowcount'>@item.OrderTotalAmount.ToString("F2")</td>  @*订单实付总额*@
+                <td rowspan='@rowcount'>@item.PlatCommission.ToString("F2")</td>   @*平台佣金*@
+                <td rowspan='@rowcount'>@item.DistributorCommission.ToString("F2")</td>   @*分销员佣金*@
+                <td rowspan='@rowcount'>@item.OrderStatus.ToDescription()</td>      @*订单状态*@
+                <td rowspan='@rowcount'>@item.OrderRemarks</td>                       @*买家留言*@
+                <td rowspan='@rowcount'>@item.ShipTo</td>                           @*收货人*@
+                <td rowspan='@rowcount'>@item.CellPhone</td>                        @*手机号码*@
+                <td rowspan='@rowcount'>@item.RegionFullName @item.Address</td>                   @*收货地址*@
+
+                @if (item.OrderItems.Count > 0)
+                {
+                    var orderItem = item.OrderItems[0];
+                    <td>@orderItem.ProductName  @orderItem.Color @orderItem.Size @orderItem.Version</td> @*商品名称*@
+                    <td>@orderItem.SalePrice.ToString("F2")</td> @*单价*@
+                    <td>@orderItem.Quantity</td> @*数量*@
+
+                    <td>
+                        @if (orderItem.VirtualOrderItem != null && orderItem.VirtualOrderItem.Count() > 0)
+                        {
+                            <table>
+                                @foreach (var virinfo in orderItem.VirtualOrderItem)
+                                {
+                                    <tr>
+                                        <td>@virinfo.VirtualProductItemName:@virinfo.Content</td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    </td> @*用户信息（虚拟）*@
+                }
+                else
+                {
+                    <td></td> @*商品名称*@
+                    <td></td> @*单价*@
+                    <td></td> @*数量*@
+                    <td></td> @*用户信息（虚拟）*@
+                }
+                @if (item.OrderInvoice != null)
+                {
+                    <td rowspan='@rowcount'>@item.OrderInvoice.InvoiceType.ToDescription()</td>@*发票类型*@
+                    <td rowspan='@rowcount'>@item.OrderInvoice.InvoiceTitle</td>@*发票抬头*@
+                    <td rowspan='@rowcount' style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.OrderInvoice.InvoiceCode</td>@*发票税号*@
+                    <td rowspan='@rowcount'>@item.OrderInvoice.InvoiceContext</td>@*发票内容*@
+                    <td rowspan='@rowcount'>
+                        @if (item.OrderInvoice.InvoiceType == Mall.CommonModel.InvoiceType.ElectronicInvoice)
+                        {
+                            <table>
+                                <tr><td>收票人手机号</td><td align="left">@item.OrderInvoice.CellPhone</td></tr>
+                                <tr><td>收票人邮箱</td><td align="left">@item.OrderInvoice.Email</td></tr>
+                            </table>
+                        }
+                    </td>@*电子普通发票信息*@
+                    <td rowspan='@rowcount'>
+                        @if (item.OrderInvoice.InvoiceType == Mall.CommonModel.InvoiceType.VATInvoice)
+                        {
+                            <table>
+                                <tr><td>注册地址</td><td align="left">@item.OrderInvoice.RegisterAddress</td></tr>
+                                <tr><td>注册电话</td><td align="left">@item.OrderInvoice.RegisterPhone</td></tr>
+                                <tr><td>开户银行</td><td align="left">@item.OrderInvoice.BankName</td></tr>
+                                <tr><td>银行帐号</td><td align="left" style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.OrderInvoice.BankNo</td></tr>
+                                <tr><td>收票人姓名</td><td align="left">@item.OrderInvoice.RealName</td></tr>
+                                <tr><td>收票人手机号</td><td align="left">@item.OrderInvoice.CellPhone</td></tr>
+                                @*<tr><td>收票人邮箱</td><td align="left">@item.OrderInvoice.Email</td></tr>*@
+                                <tr><td>收票人地址</td><td align="left">@(Mall.Application.RegionApplication.GetFullName(item.OrderInvoice.RegionID)) @item.OrderInvoice.Address</td></tr>
+                            </table>
+                        }
+                    </td>@*增值税发票信息*@
+                }
+                else
+                {
+                    <td rowspan='@rowcount'></td>@*发票类型*@
+                    <td rowspan='@rowcount'></td>@*发票抬头*@
+                    <td rowspan='@rowcount'></td>@*发票税号*@
+                    <td rowspan='@rowcount'></td>@*发票内容*@
+                    <td rowspan='@rowcount'></td>@*电子普通发票信息*@
+                    <td rowspan='@rowcount'></td>@*增值税发票信息*@
+                }
+            </tr>
+            if (item.OrderItems.Count >= 2)
+            {
+                int index = 1;
+                foreach (var orderItem in item.OrderItems)
+                {
+                    if (index >= 2)
+                    {
+                        <tr>
+                            <td>@orderItem.ProductName  @orderItem.Color @orderItem.Size @orderItem.Version</td>   @*商品名称*@
+                            <td>@orderItem.SalePrice.ToString("F2")</td>                       @*单价*@
+                            <td>@orderItem.Quantity</td>                       @*数量*@
+                            <td>
+                                @if (orderItem.VirtualOrderItem != null && orderItem.VirtualOrderItem.Count() > 0)
+                                {
+                                    <table>
+                                        @foreach (var virinfo in orderItem.VirtualOrderItem)
+                                        {
+                                            <tr>
+                                                <td>@virinfo.VirtualProductItemName:@virinfo.Content</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+                            </td>                       @*用户信息（虚拟）*@
+                        </tr>
+                    }
+                    index++;
+                }
+            }
+        }
+    </tbody>
+</table>

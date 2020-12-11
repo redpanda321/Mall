@@ -1,0 +1,89 @@
+﻿@model Mall.Entities.ShopBrandApplyInfo
+@{
+    ViewBag.Title = "重新编辑";
+}
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/brandManagement.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/brandEdit.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+
+        <li><a href="./Management">申请列表</a></li>
+        <li class="active"><a>重新编辑申请</a></li>
+
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>申请一个平台已有品牌/全新品牌的经营权，平台审核通过并进行关联之后，商家在发布商品时可以下拉选择该品牌。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div id="id_band">
+        <div>
+            <form role="form" class="form-horizontal" id="brandform">
+                @Html.Hidden("Id", Model.Id)
+                @Html.Hidden("BrandId", Model.BrandId)
+                @Html.Hidden("mode", Model.ApplyMode)
+                @Html.Hidden("Logo", Model.Logo)
+                @Html.Hidden("AuthCertificate", Model.AuthCertificate)
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">品牌类型</label>
+                    <div class="col-sm-6">
+                        @(Model.ApplyMode == 1 ? "平台已有品牌" : "新品牌")
+                </div>
+            </div>
+            <div id="divExist" @Html.Raw(Model.ApplyMode == 2 ? "style=\"display:none;\"" : "")>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">选择品牌：</label>
+                    <div class="col-sm-9 brand-letter" id="id_tab">
+                        @(Model.BrandName)
+                    </div>
+                    <div class="col-sm-9 brand-group">
+                        <div class="checkbox-group">
+                        </div>
+                        <div id="id_s" class="choose-brand">
+                            <span>已选择：</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="brandLetter" class="form-group upload-img"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="">备注：</label>
+                    <div class="col-sm-9"><textarea rows="4" cols="50" class="form-control" id="band_remark">@(Model.Remark)</textarea></div>
+                    <label class="col-sm-2 control-label" for="">&nbsp;</label>
+                    <div class="col-sm-9"><span class="field-validation-error" id="band_remarkTip"></span></div>
+                </div>
+            </div>
+            <div id="divNew" @Html.Raw(Model.ApplyMode == 1 ? "style=\"display:none;\"" : "")>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="red">*</span>名称：</label>
+                    <div class="col-sm-6"><input type="text" class="form-control input-sm" id="band_name" value="@(Model.BrandName)"></div>
+                    <div class="col-sm-4"><span class="field-validation-error" id="brandNameTip"></span></div>
+                </div>
+                <div id="brandPic" class="form-group upload-img"></div>
+                <div id="brandAuthPic" class="form-group upload-img"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>简介：</label>
+                    <div class="col-sm-9"><textarea rows="4" cols="50" class="form-control" id="band_des">@(Model.Description)</textarea></div>
+                    <label class="col-sm-2 control-label" for="">&nbsp;</label>
+                    <div class="col-sm-9"><span class="field-validation-error" id="band_desTip"></span></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" onclick="return EditApply();" class="btn btn-primary">提 交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<input id="hdId" type="hidden" value="@Model.BrandId" />
+<input id="hdAction" type="hidden" value="edit" />
+</div>

@@ -1,0 +1,31 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.Distribution.BrokerageRanking>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>排名</th>
+            <th>销售员</th>
+            <th>销售员</th>
+            <th>销售员等级</th>
+            <th>分销件数</th>
+            <th>成交金额</th>
+            <th>已计算佣金</th>
+            <th>未结算佣金</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Rank</td>@*排名*@
+            <td>@(item.Member!=null?item.Member.UserName:"")</td>@*销售员*@
+            <td>@(item.Distributor!=null?item.Distributor.ShopName:"")</td>@*小店名称*@
+            <td>@(item.Grade!=null?item.Grade.GradeName:"")</td>@*销售员等级*@
+            <td>@item.Quantity</td>@*分销件数*@
+            <td>@item.Amount.ToString("F2")</td>@*成交金额*@
+            <td>@(item.Settlement.ToString("F2"))</td>@*已计算佣金*@
+            <td>@item.NoSettlement.ToString("F2") </td>@*未结算佣金*@
+        </tr>
+        }
+    </tbody>
+</table>

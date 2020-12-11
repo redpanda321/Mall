@@ -1,0 +1,194 @@
+﻿@model Mall.Entities.MemberInfo
+@{
+    ViewBag.Title = "修改个人信息";
+    Random rand = new Random(100);
+    var Photo = string.IsNullOrWhiteSpace(Model.Photo) ? "/Images/default-head.jpg" : Model.Photo;
+}
+@using Mall.Core
+@*<meta name="viewport" content="width=device-width" />
+<link rel="stylesheet" href="/Content/bootstrap.min.css">
+<link rel="stylesheet" href="/Areas/Mobile/Templates/Default/Content/custom.css">
+<script src="/Scripts/jquery-1.7.1.min.js"></script>*@
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.picker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.poppicker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.dtpicker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/style.css?v=20183030" />
+<style> 
+    html,body{ background: #fff;}
+    .img {
+        z-index: 1;
+        width: 60px;
+        border-radius: 50%;
+        margin: 10px;
+        background-color: #fff;
+        position: relative;
+        display: inline-block;
+    }
+    .img img {
+    width: 60px;
+    height: 60px;
+    border-radius:100%;
+}
+    #shipping-form{margin:0;}
+    #btn-area {
+    width: 100%;
+    padding: .11rem;
+    margin-top: .14rem;
+}
+#shipping-form .mui-input-row label{
+	padding: .15rem 0 .15rem .16rem;
+}
+    #btn-area .mui-btn-danger {
+    color: #fff;
+    border: 1px solid #f3b40b;
+    background-color: #f3b40b;
+}
+.glyphicon{ position: absolute; right: 20px; top: 50%; transform: translateY(-50%); -webkit-transform: translateY(-50%); font-size: 13px; color: #999;}
+</style>
+<div class="container  ">   
+    <form id="shipping-form" class="mui-input-group">
+        <div class="mui-input-row" style="height:.8rem;">
+            <label style="padding: .35rem .16rem">头像</label>
+            <div class="img" id="logox"><img src="@(Mall.Core.MallIO.GetImagePath(Photo))?v=@rand.Next()" alt="" /></div>
+            <input type="hidden" id="newphoto" value="@(Mall.Core.MallIO.GetImagePath(Model.Photo))" />
+            <input type="hidden" id="oldphoto" value="@(Mall.Core.MallIO.GetImagePath(Model.Photo))" />
+        </div>
+        <div class="mui-input-row">
+            <label>真实姓名</label>
+            <input maxlength="10" type="text" class="mui-input" placeholder="请输入真实姓名" id="realName" value="@Model.RealName">
+        </div>
+        <div class="mui-input-row">
+            <label>性别</label>
+            <select id="sex" value="@((int)Model.Sex)" style="font-size: .13rem; height: 100%;">
+            	<option  value="1">男</option>
+            	<option value="2">女</option>
+            </select>
+            <i class="glyphicon glyphicon-menu-right"></i>
+        </div>
+        <div class="mui-input-row">
+            <label>生日</label>
+            <input type="text" class="mui-input" placeholder="请选择日期" readonly id="birthDay" value="@(Model.BirthDay.HasValue ? Model.BirthDay.Value.ToString("yyyy/MM/dd") : "")">
+        	<i class="glyphicon glyphicon-menu-right"></i>
+        </div>
+        <div class="mui-input-row">
+            <label>QQ</label>
+            <input maxlength="20" type="text" class="mui-input" placeholder="请输入QQ号" id="QQ" value="@Model.QQ">
+        </div>
+        <div class="mui-input-row">
+            <label>昵称</label>
+            <input maxlength="10" type="text" class="mui-input" placeholder="请输入昵称" id="nick" value="@Model.Nick">
+        </div>        
+    </form>
+    <div id="btn-area">
+        <button type="button" class="mui-btn mui-btn-danger mui-btn-block" id="submitAds">保存</button>
+    </div>
+</div>
+<article class="htmleaf-container">
+    <div id="clipArea"></div>
+    <div class="foot-use">
+        <div class="uploader1 blue">
+            <input type="button" name="file" class="button" value="打开" style="width:50%;" />
+            <input id="file" type="file" onchange="javascript:setImagePreview();" accept="image/*" multiple />
+        </div>
+        <button id="clipBtn">确定</button>
+    </div>
+    <div id="view"></div>
+</article>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.picker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.poppicker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.dtpicker.js"></script>
+
+<script>window.jQuery || document.write('<script src="~/Areas/Mobile/Templates/Default/Scripts/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/iscroll-zoom.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/hammer.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/jquery.photoClip.js"></script>
+<script>
+    $("#clipArea").photoClip({
+        width: 199,
+        height: 166,
+        file: "#file",
+        view: "#view",
+        ok: "#clipBtn",
+        loadStart: function() {
+            //console.log("照片读取中");
+        },
+        loadComplete: function() {
+            //console.log("照片读取完成");
+        },
+        clipFinish: function(dataURL) {
+            //console.log(dataURL);
+        }
+    });
+</script>
+<script>
+    $(function () {
+        $("#birthDay").click(function () {
+            var option = { type: "date", beginYear: 1907, endYear: @DateTime.Now.Year };
+            var dtpicker = new mui.DtPicker(option)
+            dtpicker.show(function (e) {
+                $("#birthDay").val(e.y.text+"/"+e.m.text+"/"+e.d.text);
+            })
+        });
+        $("#logox").click(function(){
+            $(".htmleaf-container").show();
+        });
+        $("#clipBtn").click(function(){
+            if(imgsource){
+                $('#newphoto').val(imgsource);
+                $('#logox img').attr("src",imgsource);
+            }
+            $(".htmleaf-container").hide();
+        });
+        $("#submitAds").click(function(){
+            var oldphoto = $("#oldphoto").val();//旧头像地址
+            var newphoto = $("#newphoto").val();//新头像地址
+            var realName = $("#realName").val();//真实姓名
+            var sex = $("#sex").val();//性别
+            var birthDay = $("#birthDay").val();//生日
+            var QQ = $("#QQ").val();//QQ
+            var nick = $("#nick").val();//nick
+            
+            $.post('SaveAccountInfo', {photo:(oldphoto==newphoto)?"":newphoto,realName:realName,sex:sex,birthDay:birthDay,QQ:QQ,nick:nick }, function (result) {
+                if (result.success) {
+                    $.dialog.succeedTips("修改成功！", '', 2);
+                    location.href='@Url.Action("AccountSecure", "Member")';
+                }
+                else
+                    $.dialog.errorTips('保存失败!' + result.msg);
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    function setImagePreview() {
+        var preview, img_txt, localImag, file_head = document.getElementById("file_head"),
+                picture = file_head.value;
+        if (!picture.match(/.jpg|.gif|.png|.bmp/i)) return alert("您上传的图片格式不正确，请重新选择！"),
+                !1;
+        if (preview = document.getElementById("preview"), file_head.files && file_head.files[0]) preview.style.display = "block",
+                preview.style.width = "63px",
+                preview.style.height = "63px",
+                preview.src = window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1 ? window.webkitURL.createObjectURL(file_head.files[0]) : window.URL.createObjectURL(file_head.files[0]);
+        else {
+            file_head.select(),
+                    file_head.blur(),
+                    img_txt = document.selection.createRange().text,
+                    localImag = document.getElementById("localImag"),
+                    localImag.style.width = "63px",
+                    localImag.style.height = "63px";
+            try {
+                localImag.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)",
+                        localImag.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = img_txt
+            } catch(f) {
+                return alert("您上传的图片格式不正确，请重新选择！"),
+                        !1
+            }
+            preview.style.display = "none",
+                    document.selection.empty()
+        }
+        return document.getElementById("DivUp").style.display = "block",
+                !0
+    }
+</script>

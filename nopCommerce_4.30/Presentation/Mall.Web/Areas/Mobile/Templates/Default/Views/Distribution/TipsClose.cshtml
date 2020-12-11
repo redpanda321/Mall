@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "分销己关闭";
+    ViewBag.FootIndex = 4;
+}
+
+<script type="text/javascript">
+    $(function () {
+        $.dialog({
+            title: '分销己关闭',
+            content: "商城已关闭分销功能,正为您跳转至个人中心",
+            time: 3,
+            cancelVal: "跳转",
+            cancel: function () { window.location.href = "@(Url.Action("Center","Member"))"; }
+        });
+    });
+</script>

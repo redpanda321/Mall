@@ -1,0 +1,36 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.BrokerageOrder>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>订单编号</th>
+            <th>商品名称</th>
+            <th>店铺</th>
+            <th>订单状态</th>
+            <th>结算时间</th>
+            <th>结算状态</th>
+            <th>分销销售员</th>
+            <th>佣金</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td style='vnd.ms-excel.numberformat:@Html.Raw("@")'>@item.OrderId</td>@*售后编号*@
+            <td>@item.ProductName</td>@*商品名称*@
+            <td>@item.ShopName</td>@*店铺*@
+            <td>@item.OrderStatusText</td>@*订单状态*@
+            <td>@item.SettlementTime</td>@*结算时间*@
+            <td>@item.StatusText</td>@*结算状态*@
+            <td>
+                @(item.SuperiorId1 <= 0 ? "" : "一级:" + item.SuperiorName1)  @(item.SuperiorId2 <= 0 ? "" : ",二级:" + item.SuperiorName2) @(item.SuperiorId3 <= 0 ? "" : ",三级:" + item.SuperiorName3)
+            </td>@*分销销售员*@
+            <td>
+                @*@item.TotalBrokerage.ToString("F2")*@
+                @(item.SuperiorId1 <= 0 ? "" : "一级:" + item.Brokerage1.ToString("f2"))  @(item.SuperiorId2 <= 0 ? "" : ",二级:" + item.Brokerage2.ToString("f2")) @(item.SuperiorId3 <= 0 ? "" : ",三级:" + item.Brokerage3.ToString("f2"))
+            </td>@*佣金*@
+        </tr>
+        }
+    </tbody>
+</table>

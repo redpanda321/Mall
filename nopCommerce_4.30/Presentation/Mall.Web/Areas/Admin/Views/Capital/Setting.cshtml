@@ -1,0 +1,63 @@
+﻿@model Mall.DTO.SiteSettings
+@{
+    ViewBag.Title = "提现金额设置";
+}
+<link href="~/Content/jquery.onoff.css.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.onoff.min.js"></script>
+<script src="~/Areas/Admin/Scripts/CapitalSetting.js"></script>
+<script src="~/Scripts/v.js"></script>
+<div class="container clear-v">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="Index">预存款管理</a></li>
+        <li><a href="../Capital/WithDraw">微信提现管理</a></li>
+        <li><a href="../Capital/AlipayWithDraw">支付宝提现管理</a></li>
+        <li class="active"><a>提现设置</a></li>
+    </ul>
+    @using (Html.BeginForm("Setting", "Capital", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="">允许提现：</label>
+                <div class="col-sm-2 IsOpenWithdrawCheck"><span><input type="checkbox" name="IsOpenWithdraw" id="IsOpenWithdraw" @(Model.IsOpenWithdraw ? "checked" : "")></span></div>
+                <div class="col-sm-8"><span class="help-default">关闭时，预存款里的金额，用户不可以提现；一旦开启过充值赠送的营销活动，并且用户参与过活动，该用户提现功能将永久关闭</div>
+            </div>
+            <div id="configbox" @Html.Raw(Model.IsOpenWithdraw ? "" : "style=\"display:none;\"")>
+            <div class="form-group">
+            <label class="col-sm-2 control-label" for="">最低提现金额：</label>
+            <div class="col-sm-2">@Html.EditorFor(item => item.WithDrawMinimum, new { htmlAttributes = new { @class = "form-control input-sm input-int-num" } })</div>
+            <div class="col-sm-5"><span class="help-default">设置最低提现金额.</span></div>
+            </div>
+            <div class="form-group">
+            <label class="col-sm-2 control-label" for="">最高提现金额：</label>
+            <div class="col-sm-2">@Html.EditorFor(item => item.WithDrawMaximum, new { htmlAttributes = new { @class = "form-control input-sm input-int-num" } })</div>
+            <div class="col-sm-5"><span class="help-default">设置最高提现金额(最高不能大于1000000).</span></div>
+            </div>
+            <div class="form-group">
+            <label class="col-sm-2 control-label" for="">开启支付宝提现：</label>
+            <div class="col-sm-2 WithdrawalipayCheck"><span><input type="checkbox" name="Withdraw_AlipayEnable" id="Withdraw_AlipayEnable" @(@Model.Withdraw_AlipayEnable ? "checked" : "")></span></div>
+            <div class="col-sm-5"><span class="help-default">开启前请配置好&nbsp;<a href="/Admin/Payment/management">支付宝支付方式</a></span></div>
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" id="Save" class="btn btn-primary" value="保 存">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('input[type="checkbox"]').onoff();
+        $("#IsOpenWithdraw").click(function () {
+            var isShow = $(this).is(":checked");
+            if (isShow) {
+                $("#configbox").show();
+            } else {
+                $("#configbox").hide();
+            }
+        });
+    });
+</script>

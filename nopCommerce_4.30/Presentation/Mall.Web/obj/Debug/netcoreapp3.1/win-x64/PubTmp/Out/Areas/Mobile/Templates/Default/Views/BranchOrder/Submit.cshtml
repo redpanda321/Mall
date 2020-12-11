@@ -1,0 +1,992 @@
+﻿@{
+    ViewBag.Title = "订单提交";
+    var model = (Mall.DTO.MobileOrderDetailConfirmModel)ViewBag.ConfirmModel;
+    var products = model.products;
+    //var products = (IEnumerable<Mall.DTO.MobileShopCartItemModel>)ViewBag.ConfirmModel.products;
+    var canIntegralPerMoney = (bool?)ViewBag.CanIntegralPerMoney;
+    var canCapital = (bool)ViewBag.CanCapital;
+    var productType = (sbyte)ViewBag.productType;
+    var shipperAddress = (string)ViewBag.ShipperAddress;
+    var shipperTelPhone = (string)ViewBag.ShipperTelPhone;
+}
+
+<link href="~/Areas/Mobile/Templates/Default/Content/shopbranchs.css?v=20183030" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.picker.css" />
+<link rel="stylesheet" type="text/css" href="~/Areas/Mobile/Templates/Default/Content/mui.poppicker.css" />
+<input id="icod" type="hidden" value="@ViewBag.IsCashOnDelivery.ToString()" />
+<input id="total" type="hidden" value="@ViewBag.ConfirmModel.orderAmount.ToString( "F2" )" />
+<input id="ProvideInvoice" type="hidden" value="@ViewBag.ProvideInvoice.ToString()" />
+<input type="hidden" id="productType" value="@productType" />
+<input type="hidden" id="shopBranchId" value="@ViewBag.shopBranchId"/>
+
+<div class="container submit-cart store-submit">
+    @{
+        var defaultAddress = ViewBag.address as Mall.Entities.ShippingAddressInfo;
+        Mall.Entities.ShopBranchInfo shopBranchInfo =ViewBag.ConfirmModel.shopBranchInfo;
+        
+    }
+    @if (productType == 0)
+    {
+        if (defaultAddress != null)
+        {
+            var addDetail = defaultAddress.AddressDetail ?? "";
+            <a class="street-well" id="choiceAddr" href="/@(ViewBag.AreaName)/BranchOrder/ChooseShippingAddress?isOrder=1&addId=@defaultAddress.Id&shopBranchId=@shopBranchInfo.Id&returnUrl=@HttpUtility.UrlEncode(Context.Request.GetDisplayUrl())">
+                <p>@defaultAddress.ShipTo, @defaultAddress.Phone</p>
+                <span>@defaultAddress.RegionFullName &nbsp;@defaultAddress.Address&nbsp;@addDetail</span>
+                <i class="glyphicon glyphicon-menu-right"></i>
+            </a>
+        }
+        else
+        {
+            <a class="street-well" id="choiceAddr" href="/@(ViewBag.AreaName)/BranchOrder/ChooseShippingAddress?isorder=1&shopBranchId=@shopBranchInfo.Id&returnUrl=@HttpUtility.UrlEncode(Context.Request.GetDisplayUrl())">
+                <p>请选择收货地址</p>
+                <span style="color:red;padding: 0;">您没有收货地址或已有地址不在服务范围内</span>
+            </a>
+        }
+    }
+
+
+    <div class="item mb11">
+        @if (productType == 0)
+        {
+            <div class="detail-anchor divider">
+                <span>配送方式</span>
+                @if (shopBranchInfo.IsAboveSelf)
+                {
+                    <label class="divider-btn @(shopBranchInfo.IsStoreDelive ? "" : "active")" deliverytype="@((int)Mall.CommonModel.DeliveryType.SelfTake)">到店自提</label>
+                }
+                @if (shopBranchInfo.IsStoreDelive)
+                {
+                    <label class="divider-btn active" deliverytype="@((int)Mall.CommonModel.DeliveryType.ShopStore)">门店配送</label>
+                }
+            </div>
+            <div class="addr-detail hide" id="divshopbranchInfo" shopbranchid="@shopBranchInfo.Id">
+                <h4>@shopBranchInfo.ShopBranchName, @shopBranchInfo.ContactPhone</h4>
+                <p>@(Mall.Application.RegionApplication.GetRegionName(shopBranchInfo.AddressPath)) @shopBranchInfo.AddressDetail </p>
+                <h4 class="mt8">营业时间: @shopBranchInfo.StoreOpenStartTime.ToString(@"hh\:mm")-@shopBranchInfo.StoreOpenEndTime.ToString(@"hh\:mm")</h4>
+            </div>
+        }
+    </div>
+    @{
+        var zyShop = products.Where(p => p.shopId == 1).FirstOrDefault();
+        var otherShops = products.Where(p => p.shopId != 1).ToList();
+        var shop = products[0];
+    }
+    <div class="goods-info mb10" id="@shop.shopId" shopid="@shop.shopId" shopbranchid="@shop.ShopBranchId">
+        <div class="item">
+            <div class="goods-shop">
+                <i class="ic_store"></i>
+                @shop.ShopBranchName
+            </div>
+        </div>
+        @foreach (var product in shop.CartItemModels)
+        {
+            <div class="item" pid="@product.id" skuid="@product.skuId" count="@product.count" price="@product.price">
+                <div class="buy-goods">
+                    <img src="@product.imgUrl">
+                    <h6><span><a href="/@(ViewBag.AreaName)/Branchproduct/detail/@product.id?shopBranchId=@product.ShopBranchId">@product.name</a></span><em>¥ @product.price.ToString("F2")</em></h6>
+                    <h5>
+                        <p class="gray">
+                            @if (!string.IsNullOrEmpty(product.size))
+                            {
+                                <label>@product.SizeAlias：@(new  HtmlString(product.size)) &nbsp;&nbsp;</label>
+                            }
+                            @if (!string.IsNullOrEmpty(product.color))
+                            {
+                                <label>@product.ColorAlias：@(new HtmlString(product.color)) &nbsp;&nbsp;</label>
+                            }
+                            @if (!string.IsNullOrEmpty(product.version))
+                            {
+                                <label>@product.VersionAlias：@(new HtmlString(product.version))</label>
+                            }
+                            &nbsp;
+                        </p>
+                        <p class="gray text-right">x @product.count</p>
+                    </h5>
+                </div>
+            </div>
+        }
+        <div id="payment_m" class="payment_m">
+            <span style="font-size: 16px;color: #212121;">支付方式</span>
+            <span class="payment-c"><a href="javascript:void(0)">在线支付 </a></span>
+        </div>
+
+
+    </div>
+    @if (productType == 1 && !string.IsNullOrWhiteSpace(shipperAddress) && !string.IsNullOrWhiteSpace(shipperTelPhone))
+    {
+        <div class="goods-info mb10">
+            <div class="item">
+                <div class="detail-anchor">联系电话<span class="pull-right">@shipperTelPhone</span></div>
+            </div>
+            <div class="item">
+                <div class="detail-anchor" style="height: auto;padding: 10px 0;line-height: 22px;display: flex;justify-content: space-between;">
+                    <span style="flex-shrink:0; margin-left:10px;">核销地址</span>
+                    <span  style="flex-shrink: 1;width:100%;text-align:right;margin: 0 10px;">@shipperAddress</span>
+                </div>
+            </div>
+        </div>
+    }
+    @if (productType == 0)
+    {
+        <div class="bill btnbill h47 @(shop.IsInvoice ? "" : "hide")" data-shopid="@shop.shopId">
+            <span>发票信息</span>
+            <i class="glyphicon glyphicon-menu-right"></i>
+            <span class="bill-detail">
+                <a href="javascript:void(0)" class="bill-title@(shop.shopId)">不需要发票</a>
+                <input type="hidden" id="invoicecode" />
+            </span>
+        </div>
+    }
+
+
+
+    <!--留言字段添加6-12-->
+    <div class="item">
+        <div class="leave-message h47">
+            <label>留言</label>
+            <div class="leave-message-inner" style="left:75px"><input type="text" class="orderRemarks" id="remark_@shop.shopId" placeholder="选填,可填写您和卖家达成一致的要求"></div>
+        </div>
+    </div>
+
+    <div class="item bottom-info mb11">
+        @if (shop.FullDiscount > 0)
+        {
+            <div class="detail-anchor">满额优惠<span class="pull-right rtext">-¥@shop.FullDiscount</span></div>
+        }
+        <div class="detail-anchor">商品金额<span class="pull-right rtext" id="proAmount" data-price="@ViewBag.ConfirmModel.totalAmount.ToString("F2")">¥@ViewBag.ConfirmModel.totalAmount.ToString("F2")</span></div>
+        @if (shop.BaseCoupons != null && shop.BaseCoupons.Count() > 0)
+        {
+            <div class="item choseCoupon">
+                <div class="detail-anchor divider">
+                    <label class="ml0">选择优惠券</label>
+                    <i class="glyphicon glyphicon-menu-right" style="float:right;line-height:43px"></i>
+                    <label class="content rtext fr">@(shop.OneCoupons == null ? "不使用优惠券" : " - ¥" + shop.OneCoupons.BasePrice)</label>
+                </div>
+                <div class='dialog dialogCoupon'>
+                    <div class='dialog-title'>
+                        <div class='text'>选择优惠券</div>
+                        <i class='dialog-close'></i>
+                    </div>
+                    <div class='dialog-content'>
+                        <ul class='coupon-chooselist'>
+                            <li class='coupon-item' onclick="onChooseCoupon(0,99, this)">
+                                <input type="radio" name="coupon" @(shop.OneCoupons == null ? "checked" : "") />
+                                <p>不使用优惠券</p>
+                            </li>
+                            @foreach (var coupon in shop.BaseCoupons)
+                            {
+                                <li class='coupon-item' onclick="onChooseCoupon(@(coupon.BaseId),@((int)coupon.BaseType), this)">
+                                    <input type="radio" name="coupon" @((shop.OneCoupons != null && shop.OneCoupons.BaseId == coupon.BaseId) ? "checked" : "") />
+                                    <div class='detail'>
+                                        <p class='couponprice'>￥ @(coupon.BasePrice)</p>
+                                        <p class='rule'>满@(coupon.OrderAmount)元可用（不含运费）</p>
+                                    </div>
+                                    <div class='desc'>
+                                        <p>@(coupon.UseArea == 0 ? "全场通用" : coupon.Remark)</p>
+                                        <p>@(coupon.StartDateStr)-@(coupon.EndDateStr)</p>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                        @if (shop.OneCoupons != null)
+                        {
+                            <input type="hidden" data-type="@((int)shop.OneCoupons.BaseType)" name="couponIds" value="@shop.OneCoupons.BaseId" />
+                        }
+                        else
+                        {
+                            <input type="hidden" data-type="99" name="couponIds" value="0" />
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="detail-anchor">优惠券<span class="pull-right rtext">-¥@shop.OneCoupons.BasePrice</span></div>
+                <input type="hidden" data-type="@((int)shop.OneCoupons.BaseType)" name="couponIds" value="@shop.OneCoupons.BaseId" />*@
+        }
+        @if (productType == 0)
+        {
+            var total = shop.CartItemModels.Sum(item => item.price * item.count) - shop.FullDiscount - (shop.OneCoupons == null ? 0 : shop.OneCoupons.BasePrice);
+            if (total < 0)
+            { total = 0; }
+            var canFreeMailFee = shopBranchInfo.FreeMailFee <= total && shopBranchInfo.IsFreeMail;
+        
+            if (shopBranchInfo.DeliveFee > 0 && !canFreeMailFee)
+            {
+                <div class="detail-anchor" id="divDeliveFee" data-fee="@shopBranchInfo.DeliveFee">配送费<span class="pull-right rtext">¥@shopBranchInfo.DeliveFee</span></div>
+            }
+            if (canFreeMailFee)
+            {
+                <div class="detail-anchor" id="divDeliveFee" data-fee="0">配送费<span class="pull-right rtext">满额免运费</span></div>
+            }
+        }
+    </div>
+    <div class="goods-info mb11" id="divInvoiceAmount" style="display:none;">
+        <div class="item">
+            <div class="detail-anchor">税费<span class="pull-right" id="invoiceAmount" data-amount="0.00">￥0.00 </span></div>
+        </div>
+    </div>
+    @if (canIntegralPerMoney==true && ViewBag.ConfirmModel.integralPerMoney != null && ViewBag.ConfirmModel.userIntegrals > 0)
+    {
+        <div class="goods-info mb11">
+            <div class="item">
+                <div class="detail-anchor" style="overflow:hidden;">
+                    <input type="hidden" id="userIntegrals" value="@ViewBag.ConfirmModel.userIntegrals" />
+                    <span class="pull-left score">可用积分抵扣<label><em>￥@(ViewBag.ConfirmModel.integralPerMoney)</em></label></span>
+                    <span class="pull-right">
+                        <label class="custom-switch">
+                            <input type="checkbox" class="hidden" id="userIntegralSwitch" />
+                            <div class="switch-inner"><div class="switch-handle"></div></div>
+                        </label>
+                    </span>
+                </div>
+            </div>
+
+            <div class="item" id="integralContainer" style="display:none;">
+                <div class="detail-anchor">
+                    <span class="pull-left score">
+                        使用积分:<input type="number" class="text-center quantity-text" style="height:22px;margin-left:30px;border:none; text-align: left;"
+                                    onkeyup="(this.v=function(){this.value = this.value.replace(/[^\d]/g,'');}).call(this);" name="useintegral" id="useintegral" value="@(Math.Ceiling(ViewBag.ConfirmModel.integralPerMoney*ViewBag.ConfirmModel.integralPerMoneyRate))" data-maxmoney="@ViewBag.ConfirmModel.integralPerMoney" data-rate="@ViewBag.ConfirmModel.integralPerMoneyRate" />
+                    </span>
+                    <span class="pull-right score"><em id="integralPrice"></em></span>
+                </div>
+            </div>
+        </div>
+    }
+    @if (canCapital && ViewBag.ConfirmModel.capitalAmount > 0)
+    {
+        <div class="goods-info mb11">
+            <div class="item">
+                <div class="detail-anchor" style="overflow:hidden;">
+                    <input type="hidden" id="userCapitals" value="0" />
+                    <span class="pull-left score">余额支付<label>共 ￥@(ViewBag.ConfirmModel.capitalAmount) 可用<em></em></label></span>
+                    <span class="pull-right">
+                        <label class="custom-switch">
+                            <input type="checkbox" class="hidden" id="userCapitalSwitch" />
+                            <div class="switch-inner"><div class="switch-handle"></div></div>
+                        </label>
+                    </span>
+                </div>
+            </div>
+            <div class="item" id="capitalContainer" style="display:none;">
+                <div class="detail-anchor">
+                    <span class="pull-left score">使用余额:<input type="text" class="text-center quantity-text" style="height:22px;margin-left:30px;border:none; text-align: left;" name="capital" id="capital" value="@ViewBag.ConfirmModel.capitalAmount" data-balance="@ViewBag.ConfirmModel.capitalAmount" /></span>
+                    <span class="pull-right score"><em id="capitalPrice"></em></span>
+                </div>
+            </div>
+        </div>
+    }
+    @if (productType == 0)
+     {
+    <div class="bill-Cart" name="divInvoice@(shop.shopId)">
+        <div class="bill-C00">
+            <div class="form invoice" id="dvInvoice" name="formInvoice@(shop.shopId)">
+                <div class='single-info pb0'>
+                    <h3 class='title'>发票类型 <a class="noInvoice" style="float:right;font-size:12px;color:blue;font-weight:500;" data-shopid="@shop.shopId">不需要发票</a></h3>
+                    <div class='btns dvInvoiceType'>
+                        <span data-id="0" data-rate="0" data-shopid="@shop.shopId" style="display:none;">不需要发票</span>
+                        @if (shop.invoiceTpyes != null)
+                        {
+                            var index = 0;
+                            foreach (var it in shop.invoiceTpyes)
+                            {
+                                <span class="@(index==0?"active":"")" data-id="@it.Id" data-rate="@it.Rate" data-shopid="@shop.shopId">@it.Name</span>
+                                index++;
+                            }
+                        }
+                    </div>
+                </div>
+                <div class='single-info dvInvoiceTitle'>
+                    <h3 class='title'>发票抬头</h3>
+                    <div class='btns dvInvoiceRise'>
+                        <span class="@((string.IsNullOrEmpty(model.invoiceName) || model.invoiceName.Equals("个人"))?"active":"")" data-id="0">个人</span>
+                        <span class="@((!string.IsNullOrEmpty(model.invoiceName) && !model.invoiceName.Equals("个人"))?"active":"")" data-id="1">公司</span>
+                    </div>
+                    <div class="dvInvoincCompany" style="@((!string.IsNullOrEmpty(model.invoiceName) && !model.invoiceName.Equals("个人"))?"":"display:none;")">
+                        <div class="company">
+                            <input type="text" name="invoicename" placeholder="请输入公司名称" value="@(model.invoiceName)" />
+                            <ul class="companylist">
+                                @foreach (var i in model.InvoiceTitle)
+                                {
+                                    <li><a style="display: list-item;" data-code="@i.Code">@i.Name</a><i class="iconfonts icon-icon__trash del-title" data-id="@i.Id"></i></li>
+                                }
+                            </ul>
+                        </div>
+                        <input type="text" name="invoicecode" placeholder="请输入公司纳税人识别号, 必填" value="@(model.invoiceCode)" />
+                    </div>
+                </div>
+                <div class='single-info pb0'>
+                    <h3 class='title'>发票内容</h3>
+                    <div class='btns dvInvoiceContext'>
+                        @{ var inde = 0;}
+                        @foreach (var item in model.InvoiceContext)
+                        {
+                            <span class="invoicecontext @(inde==0?"active":"")">@item.Name</span>
+                            inde++;
+                        }
+                    </div>
+                </div>
+                <div class="single-info pb0 elInvoice" style="display:none;">
+                    <div class="line">
+                        <label>收票人手机</label>
+                        <input type="text" name="cellphone" placeholder="请输入手机号码, 必填" value="@(model.cellPhone)" />
+                    </div>
+                    <div class="line">
+                        <label>收票人邮箱</label>
+                        <input type="text" name="email" placeholder="收票人邮箱, 必填" value="@(model.email)" />
+                    </div>
+                </div>
+                <div class="vatInvoice" style="display:none;">
+                    <div class='single-info pb0 edit-con'>
+                        <h3 class='title'>增票资质</h3>
+                        <div class="line">
+                            <label>单位名称</label>
+                            <input type="text" name="companyname" placeholder="请填写单位名称, 必填" value="@(model.vatInvoice.Name)" />
+                        </div>
+                        <div class="line">
+                            <label>纳税人识别号</label>
+                            <input type="text" name="companyno" placeholder="请填写纳税人识别号, 必填" value="@(model.vatInvoice.Code)" />
+                        </div>
+                        <div class="line">
+                            <label>注册地址</label>
+                            <input type="text" name="registeraddress" placeholder="请填写公司注册地址, 必填" value="@(model.vatInvoice.RegisterAddress)" />
+                        </div>
+                        <div class="line">
+                            <label>注册电话</label>
+                            <input type="text" name="registerphone" placeholder="请填写公司注册电话, 必填" value="@(model.vatInvoice.RegisterPhone)" />
+                        </div>
+                        <div class="line">
+                            <label>开户银行</label>
+                            <input type="text" name="bankname" placeholder="请填写公司开户银行, 必填" value="@(model.vatInvoice.BankName)" />
+                        </div>
+                        <div class="line">
+                            <label>银行账户</label>
+                            <input type="text" name="bankno" placeholder="请填写开户银行账号, 必填" value="@(model.vatInvoice.BankNo)" />
+                        </div>
+                    </div>
+                    <div class='single-info pb0 edit-con'>
+                        <h3 class='title'>收票人信息</h3>
+                        <div class="line">
+                            <label>收票人姓名</label>
+                            <input type="text" name="vatrealname" placeholder="请填写真实姓名, 必填" value="@(model.vatInvoice.RealName)" />
+                        </div>
+                        <div class="line">
+                            <label>收票人手机</label>
+                            <input type="text" name="vatcellphone" placeholder="请输入手机号码, 必填" value="@(model.vatInvoice.CellPhone)" />
+                        </div>
+                        <div class="line">
+                            <label>收票人地区</label>
+                            <input type="text" name="showCity" readonly="readonly" placeholder="省/市/区(县)" value="@(model.vatInvoice.RegionFullName)" />
+                            <input type="hidden" name="RegionID" value="@(model.vatInvoice.RegionID)" />
+                        </div>
+                        <div class="line">
+                            <label>详细地址</label>
+                            <input type="text" name="vataddress" placeholder="请输入详细地址, 必填" value="@(model.vatInvoice.Address)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="bill-submit clearfix" data-shopid="@shop.shopId">
+                确定
+            </a>
+        </div>
+    </div>
+    }
+    <div class="custom-dialog" id="paymentsChooser"></div>
+    <!--支付方式弹框页-->
+
+</div>
+<div class="cover" style="display:none;"></div>
+
+<script>
+    var isLimitTimeBuy = "@ViewBag.IsLimit";
+    var isFightGroup = @(((bool?)ViewBag.IsFightGroup)==true?"true":"false");
+    var hasVerifiedPayPwd=false;
+</script>
+<input type="hidden" id="latAndLng" value="@(defaultAddress != null ? defaultAddress.Latitude+","+defaultAddress.Longitude : "0,0")" />
+<input type="hidden" id="shippingAddressId" value="@(defaultAddress != null ? defaultAddress.Id.ToString() : "")" />
+<input type="hidden" id="shippingAddressRegionId" value="@(defaultAddress != null ? defaultAddress.RegionId.ToString() : "")" />
+<input type="hidden" id="integralPerMoney" value="@(ViewBag.ConfirmModel.integralPerMoney)" />
+<input type="hidden" id="capitalAmount" value="@(ViewBag.ConfirmModel.capitalAmount)" />
+<input type="hidden" id="collPIds" value="@ViewBag.collpids">
+<input type="hidden" id="groupActionId" value="@ViewBag.GroupActionId">
+<input type="hidden" id="groupId" value="@ViewBag.GroupId">
+<input type="hidden" id="PayCapitalPwd" value="" />
+
+<footer class="clearfix footer-cart">
+    <em class="cart-total cart-total-lg">
+        总金额<a id="allTotal" data-alltotal="@ViewBag.ConfirmModel.orderAmount.ToString("F2")">¥@ViewBag.ConfirmModel.orderAmount.ToString("F2")</a><em class="price" data-price="@ViewBag.ConfirmModel.orderAmount"></em>
+    </em>
+    <a id="submit-order" class="cart-pay">提交</a>
+</footer>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.min.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.picker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/mui.poppicker.js"></script>
+<script src="~/Areas/Mobile/Templates/Default/Scripts/BranchSubmitOrder.js?v=20183030"></script>
+<script type="text/javascript">
+    var existShopBranchUrl='@Url.Action("ExistShopBranch")';
+    var isintegral = false;
+    var iscapital = false;
+    var isResetUseCapital=false;
+    var choseShopBranch = {};
+    $(function () {
+        $('.choseCoupon').click(function(){
+            $('.dialogCoupon',this).addClass('active').show();
+            $('.cover').fadeIn();
+        });
+
+        $('.dialog-close').click(function(e){
+            e.stopPropagation();
+            $('.dialogCoupon.active').hide();
+            $('.cover').fadeOut();
+        });
+        //<!--商品滑动-->
+        $(".pro-list .pro-img").each(function () {
+            $(this).width($('li', this).length * 72);
+        });
+        //配送方式
+        if($(".divider .active").attr("deliverytype")=="2"){
+            $("#choiceAddr").show();
+            $("#divshopbranchInfo").addClass("hide");
+            $("#divDeliveFee").show();
+            var alltotal = parseFloat($("#allTotal").attr("data-alltotal"));
+            $("#allTotal").html("¥"+(alltotal).toFixed(2));
+        }else{
+            $("#choiceAddr").hide();
+            $("#divshopbranchInfo").removeClass("hide");
+            $("#divDeliveFee").hide();
+            var delivefee = parseFloat($("#divDeliveFee").attr("data-fee"));
+            delivefee = isNaN(delivefee) ? 0 : delivefee;//当店铺只有到店自提时没有改控件，则判断默认值为0
+            var alltotal = parseFloat($("#allTotal").attr("data-alltotal"));
+            $("#allTotal").html("¥"+(alltotal-delivefee).toFixed(2));
+        }
+        $(".divider .divider-btn").each(function(){
+            $(this).click(function(){
+                if($(this).hasClass("active")){
+                    return;
+                }
+                $(this).siblings(".divider-btn").removeClass("active");
+                $(this).addClass("active");
+                if($(this).attr("deliverytype")=="2"){
+                    $("#choiceAddr").show();
+                    $("#divshopbranchInfo").addClass("hide");
+                    $("#divDeliveFee").show();
+                }else{
+                    $("#choiceAddr").hide();
+                    $("#divshopbranchInfo").removeClass("hide");
+                    $("#divDeliveFee").hide();
+                }
+                CalcPrice();
+            })
+        })
+
+        $('input[name=$".DeliveryType"].express').change(function () {
+            if (this.checked == false)
+                return;
+
+            var goodsInfo = $(this).closest('.goods-info');
+            var shopId = goodsInfo.attr('shopid');
+            var div = goodsInfo.find('.choseshopbranch');
+            div.addClass('hide');
+
+            var priceElement = goodsInfo.find('.item .price');
+            var oldPrice = parseFloat(priceElement.data('oldprice'));
+            priceElement.html('￥' + oldPrice.toFixed(2)).data('price', oldPrice);
+
+            //运费
+            var strFreight = "免运费";
+            if (parseFloat(priceElement.data('freight')) > 0)
+                strFreight = priceElement.data('freight') + "元";
+            goodsInfo.find(".showfreight").html(strFreight);
+            $('.goods-info#{0} .price'.format(shopId)).removeAttr('selftake');
+
+            CalcPrice();
+        }).each(function () { this.checked = true; });
+
+        $('input[name=$".DeliveryType"].selftake').change(function () {
+            if (this.checked == false)
+                return;
+
+            var div = $(this).closest('.goods-info').find('.choseshopbranch');
+            if ($('#shippingAddressId').val() == '') {
+                $.dialog.errorTips('请先设置收货地址');
+                $(this).parent().parent().find('input[name$=".DeliveryType"].express').get(0).checked = true;
+                return;
+            }
+            div.removeClass('hide');
+
+            var $this = $(this);
+            if ($this.attr('sbid')) {
+                var shopId = $this.closest('.goods-info').attr('shopid');
+                freeFreight(shopId);
+                $('.goods-info#{0} .price'.format(shopId)).attr('selftake', '');
+            }
+        });
+        $('#capital').keyup(function () {
+            var c = $(this);
+            var oldVal = c.val();
+            c.val(oldVal.replace(/[^\d|.]/, ''));
+            c.val(c.val().replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'));
+        });
+
+        var tagCacheKey = 'tagCacheKey';//标记，用于标记是否是从地址选择页或门店选择页返回到当前页的
+        var sbCacheKey = 'ChoseShopBranch.Value';
+        var saCacheKey = 'ChoseShippingAddress.Value';
+        var $shippingAddressId = $('#shippingAddressId');
+        var shippingAddressId = $shippingAddressId.val();
+        var $shippingAddressRegionId = $('#shippingAddressRegionId');
+        var shippingAddressRegionId = $shippingAddressRegionId.val();
+        
+        //首次进入提交订单页面清除上次选择门店，链接未带优惠券参数且页面来源不是选择门店即为初次进入
+    	if(!QueryString('couponids')&& document.referrer.indexOf('order')==-1){
+    		window.localStorage.removeItem(tagCacheKey);
+    	}
+
+        var cacheValue = window.getFromLocalStorate(tagCacheKey);
+        //如果标记值为空，表示是从商品等其它页面过来的
+        if (cacheValue) {
+            cacheValue = window.getFromLocalStorate(saCacheKey);
+            if ($.notNullOrEmpty(cacheValue)) {
+                if (cacheValue.isClear) {
+                    $("#latAndLng").val("0,0");
+                    shippingAddressId = '';
+                    shippingAddressRegionId = '';
+                    $shippingAddressId.val('');
+                    $shippingAddressRegionId.val('');
+                    $('#choiceAddr').html('<p>请选择收货地址<spa style="color:red">您没有收货地址或已有地址不在服务范围内</spa></p>');
+                    return;
+                }
+                $('#choiceAddr').html(('<p>{0}, {1}</p><span>{2} &nbsp;{3}&nbsp;{4}</span>'+
+                '<i class="glyphicon glyphicon-menu-right"></i>')
+					.format(cacheValue.shipTo, cacheValue.phone, cacheValue.regionFullName, cacheValue.address,cacheValue.addressDetail));
+
+                $("#latAndLng").val(cacheValue.latAndLng);
+                $shippingAddressId.val(cacheValue.id);
+                shippingAddressId = cacheValue.id;
+                $shippingAddressRegionId.val(cacheValue.regionId);
+                shippingAddressRegionId = cacheValue.regionId;
+
+                refreshFreight(cacheValue.regionId);//刷新运费
+
+                $('input[name=$".DeliveryType"].selftake').each(function () {
+                    var $this = $(this);
+                    var sid = $this.attr('sid');
+                    var pids = $this.attr('pids').split(',');
+                    $.ajax({
+                        url: existShopBranchUrl + '?shopId={0}&regionId={1}&productIds={2}'.format(sid, cacheValue.regionId, pids.join('&productIds=')),
+                        context: { element: $this },
+                        success: function (result) {
+                            if (result.data == true) {
+                                this.element.removeAttr('disabled');
+                            } else if (result.data == false) {
+                                this.element.attr('disabled', '');
+                            }
+                        }
+                    });
+                });
+            }
+
+            cacheValue = window.getFromLocalStorate(sbCacheKey);
+            if ($.notNullOrEmpty(cacheValue) && $.notNullOrEmpty(shippingAddressRegionId)) {
+                for (var shopId in cacheValue) {
+                    var temp = cacheValue[shopId];
+                    if (temp.regionId != shippingAddressRegionId) {
+                        cacheValue = null;
+                        break;
+                    }
+
+                    var radio = $('input[name="shop{0}.DeliveryType"].selftake'.format(shopId));
+                    if (radio.length > 0) {
+                        radio.get(0).checked = true;
+                        radio.attr('sbid', temp.sbId);
+                        var goodsInfo = $(radio).closest('.goods-info');
+                        goodsInfo.find('.choseshopbranch').removeClass('hide').find('.content').html(temp.sbName);
+                        radio.change();
+                    }
+                }
+
+                CalcPrice();
+            }
+        } else {
+            window.localStorage.removeItem(saCacheKey);
+            window.localStorage.removeItem(sbCacheKey);
+        }
+        //window.localStorage.removeItem(tagCacheKey);
+
+        $('#choiceAddr').click(function () {
+            setTag();
+            window.localStorage.removeItem(sbCacheKey);
+            setReferrer();//写入当前地址
+            setLeaveMmessage();//写入留言信息
+            location.href = '/' + areaName + '/BranchOrder/ChooseShippingAddress?returnURL=' + encodeURIComponent(location.href);
+        });
+
+        $('a.choseshopbranch').click(function () {
+            setTag();
+            setReferrer();//写入当前地址
+            setLeaveMmessage();//写入留言信息
+            //$(this).attr('href',$(this).attr('bak-href')+'&shippingAddressId='+shippingAddressId+'&regionId='+shippingAddressRegionId);
+        });
+
+        function setTag() {
+            window.saveToLocalStorage(tagCacheKey, {});
+        }
+
+        $('#userIntegralSwitch').change(function(){
+            var checked=this.checked;
+            if(checked){
+                isResetUseCapital=true;
+            }
+            isintegral = checked;
+            if (isintegral) {
+                var _curpminput = $("#useintegral");
+                var _curval = parseFloat(_curpminput.val());
+
+                if (_curval <= 0 || isNaN(_curval)) {
+                    _curpminput.val(Math.ceil(_curpminput.data("maxmoney") * _curpminput.data("rate")));
+                    _curpminput.trigger("change");
+                }
+                $("#integralContainer").show();
+            } else {
+                $("#integralContainer").hide();
+            }
+            CalcPrice();//切换积分兑换后要重新计算价格
+        });
+
+        $('#userCapitalSwitch').change(function(){
+            iscapital = this.checked;
+            if(iscapital){
+                if(hasVerifiedPayPwd){
+                    pwd=$("#PayCapitalPwd").val();
+                    CanPayCapital(pwd);
+                    return;
+                }
+                var cover = InitCover();
+                $.ajax({
+                    type: 'post',
+                    url: '/' + areaName + '/Payment/GetPayPwd',
+                    dataType: 'json',
+                    data: {},
+                    success: function (d) {
+                        if (d.success) {
+                            if ($('#payCapitalPwd').length < 1) {
+                                var htmlPayPwd = "";
+                                htmlPayPwd += '<div class="box1 lh24 steponeee" id="payCapitalPwd" style="display:none">';
+                                htmlPayPwd += '<span class="close" aria-hidden="true"></span><form>';
+                                htmlPayPwd += '<h3 class="title_txt cur">支付密码</h3>';
+                                htmlPayPwd += '<div class="item"><div>';
+                                htmlPayPwd += '<input type="password" placeholder="请输入支付密码" value="" id="inputCapitalPwd"  maxlength="20" class="form-control itxt fl">';
+                                htmlPayPwd += '</div></div><div class="item"> <div><a id="submitCapitalPay" class="btn btn-primary">确认</a></div></div></form></div>';
+                                $("body").append(htmlPayPwd);
+                            }
+                            cover.fadeIn();
+                            $('#payCapitalPwd').show().find("#inputCapitalPwd").focus();
+                        }
+                        else {
+                            if ($('#capitalstepone').length < 1) {
+                                var htmlSetPad = "";
+                                htmlSetPad += '<div class="box1 lh24 steponeee" id="capitalstepone" style="display:none">';
+                                htmlSetPad += '<span class="close" aria-hidden="true"></span><form>';
+                                htmlSetPad += '<h3 class="title_txt cur">请设置支付密码</h3>';
+                                htmlSetPad += '<div class="item"><div class="fl">';
+                                htmlSetPad += '<input type="password" placeholder="请输入支付密码" value="" id="firstCapitalPwd"  maxlength="20" class="form-control itxt fl">';
+                                htmlSetPad += '</div></div><div class="item"> <div class="fl">';
+                                htmlSetPad += '<input type="password" placeholder="请再次输入支付密码" value="" id="secondCapitalPwd"  maxlength="20" class="form-control itxt fl">';
+                                htmlSetPad += '</div></div><div class="item"> <div class="fl"><a id="submitCapitalPwd" class="btn btn-primary">提交</a></div></div></form></div>';
+                                $("body").append(htmlSetPad);
+                            }
+                            cover.fadeIn();
+                            $('#capitalstepone').show().find("#firstCapitalPwd").focus();
+                        }
+                    }
+                });
+            }else{
+                $("#capitalContainer").hide();
+                CalcPrice();//切换预存款支付后要重新计算价格
+            }
+        });
+
+        $("body").on("click","#submitCapitalPay",function(){
+            var pwd = "";
+            pwd=$("#inputCapitalPwd").val();
+            if (pwd.length == 0) {
+                $.dialog.alert("请输入支付密码");
+                return false;
+            }
+            $.post('/' + areaName + '/Payment/ValidPayPwd', { pwd: pwd }, function (result) {
+                if (result.success) {
+                    CanPayCapital(pwd);
+                    hasVerifiedPayPwd=true;
+                }
+                else {
+                    hasVerifiedPayPwd=false;
+                    $.dialog.errorTips(result.msg);
+                    return false;
+                }
+            });
+        }).on("click","#submitCapitalPwd",function(){
+            var firstInput = $("#firstCapitalPwd");
+            var secondInput = $("#secondCapitalPwd");
+            var firstp = firstInput.val();
+            var secondp = secondInput.val();
+            if(!firstp || !secondp){
+                $.dialog.alert('密码不能为空！');
+                return false;
+            }
+            if (firstp.length < 6 || secondp.length < 6) {
+                $.dialog.alert('密码长度不能少于6位');
+                return false;
+            }
+            if(firstp != secondp){
+                $.dialog.alert('两次密码不一致！');
+                return false;
+            }
+            $.ajax({
+                type: 'post',
+                url: '/' + areaName + '/Payment/SetPayPwd',
+                data: { "pwd": firstp },
+                dataType: "json",
+                success: function (data) {
+                    var cover = InitCover();
+                    cover.fadeOut();
+                    if (data.success) {
+                        $.dialog.succeedTips('设置成功！');
+                        $('#capitalstepone').remove();
+                        $("#capitalContainer").show();
+                        $("#capital").focus();
+                        CalcPrice();//切换预存款支付后要重新计算价格
+                    }else{
+                        $.dialog.errorTips('设置失败请重试');
+                        $('#capitalstepone').remove();
+                        $('#userCapitalSwitch').click();
+                    }
+                }
+            });
+        }).on("click","#capitalstepone .close,#payCapitalPwd .close",function(){
+            $(this).parent().hide();
+            var cover = InitCover();
+            cover.fadeOut();
+            $('#capitalstepone').remove();
+            $('#payCapitalPwd').remove();
+            $('#userCapitalSwitch').click();
+        }).on('click','.cover',function(){
+        	$('#capitalstepone .close,#payCapitalPwd .close').click();
+        });
+
+        function CanPayCapital(pwd){
+            $("#PayCapitalPwd").val(pwd);
+            var cover = InitCover();
+            cover.fadeOut();
+            $('#payCapitalPwd').remove();
+            $("#capitalContainer").show();
+            $("#capital").val($("#capital").data("balance"));
+            $("#capital").focus();
+            CalcPrice();//切换预存款支付后要重新计算价格
+        }
+
+        $(".bill-Cart .content-bill .bill-check").eq(0).addClass("active");
+        //$("#choiceAddr").click(function () {
+        //    location.href = "ChooseShippingAddress?returnURL=" + encodeURIComponent(location.href);
+        //})
+
+        //支付方式选择
+        $(".way-detail>a").click(function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+
+        //发票选择
+        $("#AllInvoice>div>div>span").click(function () {
+            $("#AllInvoice>div>div>span").removeClass("active");
+            $(this).addClass("active");
+        });
+        $(".content-bill>p").click(function () {
+            $(".content-bill>p>span").removeClass("active");
+            $("span", this).addClass("active");
+        });
+
+        var orderTag = '@ViewBag.OrderTag';
+        $.ajax({
+            url: '@Url.Action("IsSubmited", "BranchOrder", new { area = "mobile" })?orderTag=' + orderTag,
+            cache: false,
+            success: function (result) {
+                if (result.data == true)
+                    window.history.go(-1);//提交的订单不能退回
+            }
+        });
+        initLeaveMsgAndBill();
+
+        $("#capital").bind("change", function () {
+            CalcPrice();
+        });
+
+        $("#useintegral").bind("change", function () {
+            var _t = $(this);
+            var v = _t.val(), max = _t.data("maxmoney"), rate = _t.data("rate");
+            var maxpoint = Math.ceil(max * rate);
+            v = parseInt(v);
+            if (isNaN(v)) {
+                v = 0;
+            }
+            if (v <= maxpoint) {
+                var _dm = MoneyRound(v / rate);
+                if (_dm > max) {
+                    _dm = max;
+                }
+                $("#integralPerMoney").val(_dm);
+            } else {
+                _t.val(maxpoint);
+            }
+            CalcPrice();
+        });
+    })
+    function setReferrer() {
+        window.localStorage.setItem("refer", window.location.href);
+    }
+    function setLeaveMmessage() {
+        var remarkList = [];
+        $('.goods-info[shopid]').each(function () {
+            var shopId = $(this).attr('shopid');
+            remarkList.push($('.orderRemarks#remark_' + shopId).val());
+        });
+        window.localStorage.setItem("remarkList", remarkList.join(','));
+    }
+    function initLeaveMsgAndBill() {
+        var remarkList = window.localStorage.getItem("remarkList");
+        //var invoiceTitle = window.localStorage.getItem("invoiceTitle");
+        //var invoiceCode = window.localStorage.getItem("invoiceCode");
+        //var invoiceContext = window.localStorage.getItem("invoiceContext");
+        if (remarkList != null && remarkList.length > 0) {
+            var remark = remarkList.split(',');
+            $('.goods-info[shopid]').each(function (i) {
+                var shopId = $(this).attr('shopid');
+                $('.orderRemarks#remark_' + shopId).val(remark[i]);
+            });
+            window.localStorage.removeItem("remarkList");
+        }
+        $('.goods-info[shopid]').each(function () {
+            var shopId = $(this).attr('shopid');
+            var invoiceinfo = JSON.parse(window.localStorage.getItem("invoiceInfo"+shopId));
+            if(invoiceinfo != null){
+                var $form = $(this).parent().find('div[name="formInvoice' + shopId + '"]');
+                //发票类型默认
+                $form.find('.dvInvoiceType span').removeClass('active');
+                $form.find('.dvInvoiceType span').each(function(){
+                    if(parseInt($(this).attr('data-id')) == invoiceinfo.InvoiceType){
+                        $(this).addClass("active");
+                    }
+                });
+                switch (invoiceinfo.InvoiceType) {
+                    case 0:
+                        break;
+                    case 1:
+                        $form.find('.elInvoice').hide();
+                        $form.find('.dvInvoiceTitle').show();
+                        $form.find('.vatInvoice').hide();
+                        $form.find('.invoiceDay').hide();
+                        break;
+                    case 2:
+                        $form.find('.elInvoice').show();
+                        $form.find('.dvInvoiceTitle').show();
+                        $form.find('.vatInvoice').hide();
+                        $form.find('.invoiceDay').hide();
+                        break;
+                    case 3:
+                        $form.find('.elInvoice').hide();
+                        $form.find('.dvInvoiceTitle').hide();
+                        $form.find('.vatInvoice').show();
+                        $form.find('.invoiceDay').show();
+                        break;
+                }
+                //发票抬头默认
+                $form.find('.dvInvoiceRise span').removeClass('active');
+                if(invoiceinfo.Name == "个人")
+                    $form.find('.dvInvoiceRise span').eq(0).addClass('active');
+                else{
+                    $form.find('.dvInvoiceRise span').eq(1).addClass('active');
+                    $(this).parent().parent().find('.dvInvoincCompany').show();
+                    $form.find('input[name="invoicename"]').val(invoiceinfo.Name);
+                    $form.find('input[name="invoicecode"]').val(invoiceinfo.Code);
+                }
+
+                //发票类容默认
+                $form.find('.dvInvoiceContext span').removeClass('active');
+                $form.find('.dvInvoiceContext span').each(function(){
+                    if($(this).text() == invoiceinfo.InvoiceContext){
+                        $(this).addClass("active");
+                    }
+                });
+                //电子发票默认收票人信息
+                if(invoiceinfo.InvoiceType==2){
+                    $form.find('input[name="cellphone"]').val(invoiceinfo.CellPhone);
+                    $form.find('input[name="email"]').val(invoiceinfo.Email);
+                }
+                //增值税默认
+                if(invoiceinfo.InvoiceType == 3){
+                    $form.find('input[name="companyname"]').val(invoiceinfo.Name);
+                    $form.find('input[name="companyno"]').val(invoiceinfo.Code);
+                    $form.find('input[name="registeraddress"]').val(invoiceinfo.RegisterAddress);
+                    $form.find('input[name="registerphone"]').val(invoiceinfo.RegisterPhone);
+                    $form.find('input[name="bankname"]').val(invoiceinfo.BankName);
+                    $form.find('input[name="bankno"]').val(invoiceinfo.BankNo);
+                    $form.find('input[name="vatrealname"]').val(invoiceinfo.RealName);
+                    $form.find('input[name="vatcellphone"]').val(invoiceinfo.CellPhone);
+                    $form.find('input[name="RegionID"]').val(invoiceinfo.RegionID);
+                    $form.find('input[name="vataddress"]').val(invoiceinfo.Address);
+                }
+                var rate = parseFloat($form.find('.dvInvoiceType span.active').attr('data-rate'));
+                var typename = $form.find('.dvInvoiceType span.active').html();
+                var s = '<span style="' + (rate <= 0 ? "display:none" : "") + '">(税率<span class="taxprice red" shopid="' + shopId + '">' + rate + '%</span>)</span> ' + typename + '(' + invoiceinfo.Name + ')';
+                $('.bill-title' + shopId).html(s);
+                CalcPrice();
+            }else{
+                var s = '不需要发票';
+                $('.bill-title' + shopId).html(s);
+                CalcPrice();
+            }
+            window.localStorage.removeItem("invoiceInfo"+shopId);
+        });
+        //if (invoiceTitle != null && invoiceTitle != '') {
+        //    $(".bill a").text(invoiceTitle);
+        //    $(".bill #invoicecode").text(invoiceCode);
+        //    $(".bill-Cart .content-bill .bill-check").removeClass("active").eq(invoiceContext - 1).addClass("active");
+        //    window.localStorage.removeItem("invoiceTitle");
+        //    window.localStorage.removeItem("invoiceCode");
+        //    window.localStorage.removeItem("invoiceContext");
+        //}
+    }
+
+    function onChooseCoupon(couponBaseId,baseType,obj){
+        var oldCouponId = $(obj).parent().next().val();
+        if(couponBaseId!=oldCouponId){
+            $(obj).parent().next().val(couponBaseId);
+            $(obj).parent().next().attr("data-type",baseType);
+            changeConditionReload();
+        }
+    }
+
+    function changeConditionReload(){
+        var couponIds = "";
+        $('input[name="couponIds"]').each(function (i, e) {
+            var type = $(this).attr("data-type");
+            couponIds = couponIds + $(e).val() + '_' + type + ',';
+        })
+        if (couponIds != '') {
+            couponIds = couponIds.substring(0, couponIds.length - 1);
+        }
+        var url = location.href;
+        if (url.toLowerCase().indexOf("couponids") < 0) {
+            var splitText = "?";
+            var _tmparr = url.split(splitText);
+            console.log(_tmparr);
+            url=_tmparr[0];
+            url+="?couponids=";
+            if(_tmparr.length>1){
+                url+="&"+_tmparr[1];
+            }
+        }
+        console.log(url);
+        url = url.replace(/([\?&]couponids=)[^\?&]*/, "$1" + couponIds);
+        location.href = url;
+    }
+</script>

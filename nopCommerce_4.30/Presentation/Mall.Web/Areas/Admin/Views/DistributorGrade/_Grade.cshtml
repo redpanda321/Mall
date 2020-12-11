@@ -1,0 +1,110 @@
+﻿@model Mall.Web.Areas.Admin.Models.Distribution.DistributorGradeModel
+
+@{
+
+}
+    <div class="container clear-v20">
+
+        <ul class="nav nav-tabs-custom clearfix">
+            <li><a href="@Url.Action("Management")">管理</a></li>
+            <li class="active"><a>新增</a></li>
+        </ul>
+        <h5 class="tips-top"><span class="help-default"><i></i>  说明：最多可以有10个销售员等级，佣金门槛金额上限为¥99999。</span></h5>
+        @*
+        @using (Ajax.BeginForm("Save", "DistributorGrade", null
+            , new AjaxOptions { HttpMethod = "post", OnBegin = "beginpost", OnSuccess = "successpost" }
+            , new { id = "addform" }))
+
+        *@
+
+
+        <form asp-controller="Save" asp-action="DistributiorGrade" , data-ajax-begin="beginPost" ,data-ajax-success="successPost" data-ajax-method="POST" class="form-horizontal" id="addform">
+
+            {
+            <div class="form-horizontal">
+                @Html.HiddenFor(d => d.Id)
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>销售员等级名称：</label>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.GradeName, new { @class = "form-control input-sm gradeName" })
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
+                        <span class="help-default">显示在销售员小店首页</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for=""><span class="red">*</span>佣金门槛：</label>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.Quota, new { @class = "form-control input-sm", })
+
+                    </div>
+                    <div class="col-md-5">
+                        @Html.ValidationMessageFor(model => model.Quota, "", new { @class = "text-danger" })
+                        <span class="help-default">销售员历史已结算佣金达到此金额后，自动升级到对应等级</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" id="btsubmit" class="btn btn-primary">保 存</button>
+                    </div>
+                </div>
+            </div>
+            }
+
+            </form>
+
+
+    </div>
+@Html.Hidden("mgurl", Url.Action("Management"))
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    var btsubmit;
+    var loading;
+
+    var isposting = false;
+    $(function () {
+
+        btsubmit = $("#btsubmit");
+
+        //提交前检测
+        $("#addform").bind("submit", function (e) {
+            var _t = $(this);
+            var isdataok = true;
+            return isdataok;
+        });
+        
+        $('.gradeName').keyup(function(){
+        	this.value=this.value.replace(' ','');
+        });
+    });
+    function beginpost() {
+
+        if (isposting) {
+            $.dialog.tips("数据提交中...");
+            return false;
+        }
+        isposting = true;
+        btsubmit.text("提交中...");
+        loading = showLoading();
+    }
+
+    function successpost(data) {
+        isposting = false;
+        btsubmit.text("保 存");
+        loading.close();
+        if (data.success == true) {
+            $.dialog.tips("销售员等级操作成功", function () {
+                window.location.href = $("#mgurl").val();//数据提交成功页面跳转
+            });
+        } else {
+            $.dialog.errorTips(data.msg);
+        }
+    }
+</script>

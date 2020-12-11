@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "审核未通过";
+    ViewBag.FootIndex = 4;
+}
+
+<div class="container distribution">
+    <div class="auditing notpass">
+    	<img src="/Areas/Mobile/Templates/Default/Images/audit1.png"/>
+    	<h5>审核未通过</h5>
+    	<p>拒绝理由: @(ViewBag.remark)</p>
+    	<div class="button-area">
+	    	<a class="btn btn-danger btn-any nofix" href="@(Url.Action("OpenMyShop","Distribution"))">重新申请</a>
+	    	<a class="btn btn-primary btn-any nofix mt10" href="@(Url.Action("Center","Member"))">返回</a>
+	    </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "SlideManagement";
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/CommonJS.js"></script>
+<script src="~/Areas/Admin/Scripts/LimitTimeBuySetSlide.js"></script>
+<style type="text/css">
+	#slidePic label.col-sm-4{
+		padding-left: 0;
+	}
+	.dialog-form .label-inline{
+	    text-align: left !important;
+    	margin-right: 0 !important;
+	}
+</style>
+
+<div class="container">
+
+    <ul class="nav nav-tabs-custom clearfix">
+        <li ><a href="./Management">活动列表</a></li>
+        <li class ="active"><a>活动页面设置</a></li>
+        <li><a href="./BoughtList">服务购买列表</a></li>
+        <li><a href="./MarketCategory">活动商品分类</a></li>
+        <li><a href="./ServiceSetting">服务费用设置</a></li>
+        <li><a href="./ConfigSetting">活动参数设置</a></li>
+
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>可以设置商家购买限时购功能模块所需费用，购买后商家可以在所购买周期内发布限时购活动 ，相关费用会在店铺的余额中扣除，余额不够的商家需要先进行充值。</span></li>
+				<li><span>PC端、微信端、APP、商城小程序都支持限时购活动。</span></li>
+				<li class="mark-info"><span>注意：活动页面设置仅针对PC端。</span></li>
+			</ul>
+		</div>
+	</div>
+
+        <a  id="AddSlide" class="btn" ><span class="glyphicon glyphicon-plus" style="color:#8d9092"></span>&nbsp; 新增轮播图</a>
+
+    <table id="slideDatagrid" class="table"></table>
+
+    @*<div style="margin:10px 0px;">
+        <span>注：最多同时增加<strong>6</strong>张图片</span>
+    </div>*@
+</div>
+
+

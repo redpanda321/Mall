@@ -1,0 +1,169 @@
+﻿@model Mall.Web.Areas.Admin.Models.DistributorDetailModel
+@{
+    ViewBag.Title = "Manage";
+    var distributor = Model.Distributor;
+    var superiorName = "平台";
+    if (Model.SuperiorDistributor != null) {
+        superiorName = Model.SuperiorDistributor.Member.UserName;
+    }
+}
+<style>
+    /*会员详情页*/
+    .user-detail { margin-top: 24px; padding-bottom: 50px; }
+    .user-detail .vip-info { width: 100%; height: 200px; background-color: #fbfbfb; border: 1px dotted #eaeaea;}
+    .user-detail .vip-info .vipinfo-left { width: 40%; float: left; height: 100%; }
+    .user-detail .vip-info .vipinfo-right { width: 60%; float: left; padding-left: 40px; padding-right: 60px; padding-top: 20px; }
+    .user-detail .vip-info .vip-icon { width: 43%; float: left; }
+    .user-detail .vip-info .vip-icon img { width: 105px; height: 105px; border-radius: 50%; position: relative; left: 35px; top: 44px }
+    .user-detail .vip-info .vipinfo-a { width: 57%; float: right }
+    .vip-info .vipinfo-a h4 { margin-top: 20px; font-size: 16px; color: #2b2c2e; font-weight: bold; line-height: 25px; margin-bottom: 0; }
+    .vip-info .vipinfo-a p.grade span { height: 30px; line-height: 30px; font-size: 13px; color: #f6b20e; font-weight: bold; }
+    .vip-info .vipinfo-a p.grade span em { color: #3b3b3b; font-size: 20px; padding-left: 6px; padding-right: 9px; }
+    .vip-info .vipinfo-a p.card { font-size: 13px; color: #6b6c6e; height: 25px; line-height: 25px; }
+    .vip-info .vipinfo-a p.card em { color: #494e52; }
+    .vip-info .vipinfo-a p.tag { max-height: 85px; overflow: hidden; }
+    .vip-info .vipinfo-a p.tag label { height: 22px; padding: 0 10px; line-height: 22px; display: inline-block; background-color: #ff9696; font-size: 12px; color: #fff; margin-bottom: 6px; }
+    .user-detail .vip-info .vipinfo-right p { width: 50%; float: left; height: 28px; line-height: 28px; font-size: 14px; margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .user-detail .vip-info .vipinfo-right p span { color: #6b6c6e }
+    .user-detail .vip-info .vipinfo-right p i { color: #494e52; }
+    .user-detail .nav-tabs-custom { width: 109px; margin-top: 50px; margin-bottom: 30px; }
+    .user-detail #buyRecord .data3 { height: 86px; width: 100%; background-color: #fbfbfb; border: 1px dashed #eaeaea; border-radius: 5px; }
+    .user-detail #buyRecord .data3 span { line-height: 84px; width: 33.3%; float: left; padding-left: 80px; font-size: 14px; color: #2b2c2e; }
+    .user-detail #buyRecord .data3 span em { font-size: 16px; color: #ff434c; }
+    .user-detail #buyRecord .vipinfo-search { margin-top: 60px; margin-bottom: 30px; }
+    #buyRecord .vipinfo-search label { width: 65px; text-align: right; padding-right: 15px; font-size: 13px; color: #494e52; }
+    #buyRecordList td { text-align: center; }
+
+    #assignShop .label-inline { width: 90px; }
+    #assignShop #shopList { margin-top: 30px; }
+    .container .user-detail ul.brokeage-group{margin-left: 20px;margin-bottom: 20px;height: auto;overflow: hidden;}
+    .container .user-detail ul.brokeage-group li{margin-bottom: 10px;font-size: 14px;line-height: 16px;float: left;text-align: center;width: 16.6%;color: #FF434C;}
+    .container .user-detail ul.brokeage-group li span{color:#757575;margin-right: 10px;display: block;margin-bottom: 10px;}
+
+</style>
+
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">销售员管理</a></li>
+        <li class="active"><a>销售员详情</a></li>
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>销售员分享出去的页面，其他人通过此页面注册为商城的新会员，即成为了销售员的下级会员，上下级关系进行绑定。后续此下级会员购买任何参与分销的商品，销售员都可以从中获得一级佣金。该下级会员也申请成为销售员后，也可以继续发展下级会员，新的下级会员则为第一个销售员的二级会员。</span></li>
+				<li><span>上级销售员为平台的，即该销售员是自由注册申请的，不是任何人的下级。</span></li>
+				<li><span>平台可以调整销售员的上级归属，但只能调给上级为平台的销售员。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="user-detail">
+        <div class="delivery-detail">
+            <p class="clear-q3">基本信息</p>
+        </div>
+        <div class="vip-info">
+            <div class="vipinfo-left">
+                <div class="vip-icon">
+                    <img src="@MallIO.GetRomoteImagePath(distributor.Member.Photo)" />
+                </div>
+            </div>
+            <div class="vipinfo-right">
+                <p><span>会员名：</span><i>@distributor.Member.UserName</i></p>
+                <p><span>上级销售员：</span><i>@superiorName</i></p>
+                <p><span>小店名称：</span><i>@distributor.ShopName</i></p>
+                <p><span>申请时间：</span><i>@distributor.ApplyTime</i></p>
+                <p><span>销售员等级：</span><i>@distributor.Grade.GradeName</i></p>
+            </div>
+        </div>
+
+        <div class="delivery-detail">
+            <p class="clear-q3">业绩佣金信息</p>
+        </div>
+        <ul class="brokeage-group">
+            <li>
+                <span>分销件数</span>
+                <i>@Model.Achievement.TotalCount</i>
+            </li>
+            <li>
+                <span>成交金额</span>
+                <i>@Model.Achievement.TotalAmount</i>
+            </li>
+            <li>
+                <span>已结算佣金总额</span>
+                <i>@distributor.SettlementAmount</i>
+            </li>
+            <li>
+                <span>可提现佣金总额</span>
+                <i>@distributor.Balance</i>
+            </li>
+            <li>
+                <span>冻结金额</span>
+                <i>@distributor.FreezeAmount</i>
+            </li>
+            <li>
+                <span>已提现佣金总额</span>
+                <i>@distributor.WithdrawalsAmount</i>
+            </li>
+        </ul>
+
+        <ul class="nav nav-tabs clearfix" id="leveltab">
+            <li class="active" data-level="1"><a>@(Model.SiteSetting.DistributorRenameMemberLevel1)</a></li>
+            @if (Model.MaxLevel > 1)
+            {
+                <li data-level="2"><a>@(Model.SiteSetting.DistributorRenameMemberLevel2)</a></li>
+            }
+            @if (Model.MaxLevel > 2)
+            {
+                <li data-level="3"><a>@(Model.SiteSetting.DistributorRenameMemberLevel3)</a></li>
+            }
+        </ul>
+        <div id="levellist">
+            <table id="list" class="table"></table>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#leveltab li").click(function () {
+            curLevel = $(this).data("level");
+            $(this).addClass("active").siblings().removeClass("active");
+            loadTable();
+        });
+        loadTable();
+    });
+   
+
+    function loadTable() {
+        var data = {
+            superiorId: @Model.Distributor.MemberId,
+            level: $("#leveltab li.active").data("level")
+        };
+        $("#list").MallDatagrid({
+            url: '@Url.Action("GetSubDistributorList")',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            idField: "MemberId",
+            pageSize: 10,
+            pageNumber: 1,
+            queryParams: data,
+            operationButtons: "#operatebox",
+            columns:
+            [[
+                { field: "memberName", title: '会员名',width:300 },
+                { field: "totalCount", title: '成交件数', width: 200 },
+                { field: "totalAmount", title: '成交金额', width: 200 },
+                { field: "regTime", title: '注册时间', width: 300 }
+            ]]
+        });
+    }
+</script>

@@ -1,0 +1,84 @@
+﻿@model List<Mall.Entities.WeiXinMsgTemplateInfo>
+@{
+    var WeixinO2OAppletId = ViewBag.WeixinO2OAppletId;
+    var WeixinO2OAppletSecret = ViewBag.WeixinO2OAppletSecret;
+}
+<script src="~/Areas/Admin/Scripts/WXSmallMessage.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix clear-v16">       
+        @*<li><a href="@Url.Action("EditWXMessage")">商城小程序微信通知</a></li>*@
+        <li class="active"><a href="@Url.Action("EditWXO2OMessage")">O2O小程序微信通知</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>O2O小程序的相关消息推送设置，详细说明请点击"<a target="_blank" href="http://download.92hi.com/bangzhuzhongxin/changjianwenti/Mall(xcxxxmb).pdf">帮助指南</a>"。</span></li>
+				<li><span>设置完成之后，消息会通过微信的“服务通知”推送给会员。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="form-horizontal" style="padding:20px 0 0 0;">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">O2O小程序AppId</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm text-box single-line" id="WeixinO2OAppletId" name="WeixinO2OAppletId" type="text" value="@WeixinO2OAppletId">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">O2O小程序AppSecret</label>
+            <div class="col-sm-4">
+                <input class="form-control input-sm text-box single-line" id="WeixinO2OAppletSecret" name="WeixinO2OAppletSecret" type="text" value="@WeixinO2OAppletSecret">
+            </div>
+        </div>
+        <input type="hidden" value="true" name="IsO2O" id="IsO2O" />
+    </div>
+    <table class="table mt20">
+        <thead>
+            <tr>
+                <th width="260" class="tac">微信模版名称</th>               
+                <th width="120" class="tac">模板编号</th>
+                <th class="tac">模板ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                Mall.Core.Plugins.Message.MessageTypeEnum curmsgtype = ((Mall.Core.Plugins.Message.MessageTypeEnum)item.MessageType);
+                <tr style="text-align:center">
+                    <td align="center">
+                        @if (curmsgtype == Mall.Core.Plugins.Message.MessageTypeEnum.OrderCreated)
+                        {
+                            @("订单未付款")
+                        }
+                        else if (curmsgtype == Mall.Core.Plugins.Message.MessageTypeEnum.OrderRefundFail)
+                        {
+                            @("退款失败通知")
+                        }
+                        else
+                        {
+                        @(curmsgtype.ToDescription())
+                        }
+                    </td>
+                    <td align="center">
+                        @(item.TemplateNum)
+                    </td>
+                    <td align="center">
+                        <input type="text" formitem name="@(item.Id)" class="form-control input-sm w240" value="@(item.TemplateId)" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-horizontal pd0 mt20 ml15">
+        <div class="form-group">
+            <div class="col-sm-3"><input type="button" id="btn" class="btn btn-primary" value="保 存" /></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

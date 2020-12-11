@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Mall.Entities.DistributorGradeInfo>
+@{
+    ViewBag.Title = "Manage";
+}
+<style>
+    .choose-right ul i { display: none; }
+</style>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="@Url.Action("Add")">新增</a></li>
+    </ul>
+    <h5 class="tips-top"><span class="help-default"><i></i>  说明：最多可以有10个销售员等级，佣金门槛金额上限为¥99999。</span></h5>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    销售员等级
+                </th>
+                <th class="text-center">销售员人数</th>
+                <th class="text-center">佣金门槛</th>
+                <th class="td-operate text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@(item.GradeName)</td>
+                    <td class="text-center"><a href="@(Url.Action("Management","Distributor",new { gradeId = item.Id }))">@(item.MemberCount)</a></td>
+                    <td class="text-center">￥ @(item.Quota.ToString("F0"))</td>
+                    <td class="text-center td-operate">
+                        <span class="btn-a">
+                            <a href="@Url.Action("Edit",new { id=item.Id})">编辑</a>
+                            <a href="javascript:Del(@(item.Id))">删除</a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+
+    function Del(id) {
+        $.dialog.confirm('确定要执行该删除操作吗？<br>删除后将不可以恢复！', function () {
+            loading = showLoading();
+            $.post('/Admin/DistributorGrade/Delete', { id: id }, function (result) {
+                loading.close();
+                if (result.success) {
+                    $.dialog.tips('操作完成', function () {
+                        window.location.reload();
+                    });
+                }
+                else {
+                    $.dialog.alert('操作失败!' + result.msg);
+                }
+            });
+        });
+    }
+</script>

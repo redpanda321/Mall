@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhaijisong\Mall.Plugin.Express.Zhaijisong.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhaijisong\Mall.Plugin.Express.Zhaijisong.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Zhaijisong\Mall.Plugin.Express.Zhaijisong.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhaijisong\obj\Debug\Mall.Plugin.Express.Zhaijisong.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhaijisong\obj\Debug\Mall.Plugin.Express.Zhaijisong.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhaijisong\obj\Debug\Mall.Plugin.Express.Zhaijisong.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhaijisong\obj\Debug\Mall.Plugin.Express.Zhaijisong.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhaijisong\obj\Debug\Mall.Plugin.Express.Zhaijisong.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Zhaijisong\obj\Debug\Mall.Plugin.Express.Zhaijisong.pdb

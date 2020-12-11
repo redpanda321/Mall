@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "活动列表";
+    var CheckDate = (ViewBag.Available != null) ? ((bool)ViewBag.Available) : false;
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<div class="container clear-v20">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>活动列表</a></li>
+        @if (CheckDate)
+        {
+            <li class=""><a href="@Url.Action("AddActive")">新增满额减</a></li>
+        }
+        <li class=""><a href="@Url.Action("BuyMarketService")">购买服务</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>对点击“购买服务”按钮可以开通或续费套餐。相关费用会在店铺的余额中扣除。</span></li>
+                <li><span>所有端都支持满额减活动。</span></li>
+                <li class="mark-info"><span>注意：同一商品只能参加一个满额减活动。</span></li>
+            </ul>
+        </div>
+    </div>
+    @if (CheckDate)
+    {
+        <div class="search-box only-line" id="search-box">
+            <form class="form-inline custom-inline">
+                <div class="form-group">
+                    <label class="label-inline w75" for="">活动状态</label>
+                    <select id="selactivestatus" class="form-control input-ssm">
+                        <option value="">请选择</option>
+                        <option value="@(Mall.CommonModel.FullDiscountStatus.Ongoing.GetHashCode())">进行中</option>
+                        <option value="@(Mall.CommonModel.FullDiscountStatus.WillStart.GetHashCode())">未开始</option>
+                        <option value="@(Mall.CommonModel.FullDiscountStatus.Ending.GetHashCode())">已结束</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">活动名称</label>
+                    <input class="form-control input-ssm" type="text" id="txtactivename">
+                </div>
+                <div class="form-group">
+                    <label class="label-inline w75" for="">开始时间</label>
+                    <input id="txtStartDate" class="form-control input-ssm start_datetime" type="text">
+                    <label class="label-inline-line" for="">-</label>
+                    <input id="txtEndDate" class="form-control input-ssm end_datetime" type="text">
+                </div>
+                <div class="form-group"><button type="button" class="btn btn-primary btn-sm" id="searchButton">搜 索</button></div>
+            </form>
+        </div>
+
+        <table id="list" class="table"></table>
+    }
+    else
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <p class="apply-primary"><span class="glyphicon glyphicon-info-sign"></span>您还未购买满额减服务或者服务已到期，<a href="@Url.Action("BuyMarketService")">现在购买</a></p>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="linkshowcon" class="hide">
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.TextBox("linkurl", "", new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-sm-12">
+            <center><img src="#" id="linkqrpic" height="260" /></center>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("dataurl", Url.Action("PostActiveList"))
+@Html.Hidden("delurl", Url.Action("PostActiveDelete"))
+<script type="text/javascript" src="~/Areas/SellerAdmin/Scripts/FullDiscountIndex.js"></script>

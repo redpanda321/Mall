@@ -1,0 +1,43 @@
+﻿@model Mall.DTO.SiteSettings
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="/Admin/Bonus/Management">管理</a></li>
+        <li><a href="/Admin/Bonus/Add">新增</a></li>
+        <li class="active">配置</li>
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>吸粉红包总共分为三个类型，活动红包：直接通过链接发放给用户的福利红包；关注红包：会员第一次关注将获得红包，同一时间段内关注送红包活动只能添加一个；奖品红包：与刮刮卡，幸运大转盘搭配使用，参与抽奖活动获得的红包。</span></li>
+				<li><span>目前仅微信端支持吸粉红包活动。</span></li>
+			</ul>
+		</div>
+	</div>
+
+    @using (Html.BeginForm("Config", "Bonus", null, FormMethod.Post,false, new { id = "BonusForm", @class = "form-horizontal" }))
+    {
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">微信模板消息编号：</label>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(p => p.WX_MSGGetCouponTemplateId, new { @class = "form-control input-sm", @maxlength = "60" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="subCate" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
+                <label style="color:red;">温馨提示：</label><br />
+                <label>请在公众平台开通模板消息功能，并添加“领取红包通知”（OPENTM200681790）模板消息，并将模板ID填入上面“微信模板消息编号”文本框。</label>
+            </div>
+        </div>
+    }
+</div>

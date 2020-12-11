@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "分销提现管理";
+}
+<style>
+    .choose-right ul i {
+        display: none;
+    }
+</style>
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("management")">佣金管理</a></li>
+        <li class=active><a>提现记录</a></li>
+    </ul>
+    <div class="search-box" id="search-box">
+        <form class="form-inline custom-inline" id="from_search">
+            <div class="form-group">
+                <label class="label-inline">申请提现时间</label>
+                <input class="form-control input-ssm" type="text" id="begin" name="begin">
+                <input class="form-control input-ssm" type="text" id="end" name="end">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75">提现单号</label>
+                <input class="form-control input-ssm" type="text" id="withdrawId" name="withdrawId">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75">状态</label>
+                <select id="status" name="status" class="form-control input-ssm">
+                    <option>全部</option>
+                    <option value="1">待审核</option>
+                    <option value="3">已拒绝</option>
+                    <option value="2">付款中</option>
+                    <option value="4">提现失败</option>
+                    <option value="5">提现成功</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="hidden" value="@ViewBag.MemberId" id="memberId" name="memberId" />
+                <button type="button" class="btn btn-primary btn-sm" id="searchBtn">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table id="list" class="table"></table>
+
+    <div class="table-head-l">
+        <div id="orderOperate"><a class="btn-export" id="aExport" href='javascript:;' onclick="ExportExecl();">导出查询结果</a></div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("[name=begin],[name=end]").datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            weekStart: 1,
+            minView: 2
+        });
+        $("#searchBtn").click(function () { query(); });
+        query();
+    });
+
+    function query() {
+        var search = $("#from_search").inputToJson();
+        $("#list").MallDatagrid({
+            url: './withdrawlist',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有找到符合条件的数据',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: true,
+            pageSize: 10,
+            queryParams: search,
+            operationButtons: "#orderOperate",
+            columns:
+                [[
+                    { field: "time", title: '申请提现时间' },
+                    { field: "id", title: '提现单号' },
+                    { field: "amount", title: '提现金额' },
+                    { field: "withdrawType", title: '提现方式' },
+                    { field: "withdrawStatus", title: '状态' },
+                    { field: "remark", title: '备注', },
+                ]]
+        });
+    }
+
+    //导出
+    function ExportExecl() {
+        var memberId = $("#memberId").val();
+        var begin = $("#begin").val();
+        var end = $("#end").val();
+        var withdrawId = $("#withdrawId").val();
+        var status = $("#status").val();
+
+        var href = "/Admin/DistributionWithdraw/DetailsExportToExcel?memberId={0}&begin={1}&end={2}&withdrawId={3}&status={4}"
+            .format(memberId, begin, end, withdrawId, status);
+
+        $("#aExport").attr("href", href);
+    }
+</script>

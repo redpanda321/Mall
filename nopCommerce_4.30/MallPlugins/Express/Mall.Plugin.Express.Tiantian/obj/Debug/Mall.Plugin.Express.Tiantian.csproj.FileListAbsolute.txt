@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Tiantian\Mall.Plugin.Express.Tiantian.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Tiantian\Mall.Plugin.Express.Tiantian.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Tiantian\Mall.Plugin.Express.Tiantian.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Tiantian\obj\Debug\Mall.Plugin.Express.Tiantian.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Tiantian\obj\Debug\Mall.Plugin.Express.Tiantian.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Tiantian\obj\Debug\Mall.Plugin.Express.Tiantian.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Tiantian\obj\Debug\Mall.Plugin.Express.Tiantian.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Tiantian\obj\Debug\Mall.Plugin.Express.Tiantian.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Tiantian\obj\Debug\Mall.Plugin.Express.Tiantian.pdb

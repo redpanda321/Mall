@@ -1,0 +1,128 @@
+﻿@model Mall.Web.Areas.Mobile.Models.MySubordinateViewModel
+@{
+    ViewBag.FootIndex = 4;
+}
+
+<div class="container distribution">
+    <div class="my_menu">
+        <ul class="clearfix">
+            @if (Model.MaxLevel >= 1)
+            {
+                <li class="active" level="1">
+                    <a>
+                        @Model.Levels[1].Name
+                    <span>(@Model.Levels[1].Count)</span>
+                </a>
+            </li>
+            }
+            @if (Model.MaxLevel >= 2)
+            {
+                <li level="2">
+                    <a>
+                        @Model.Levels[2].Name
+                        <span>(@Model.Levels[2].Count)</span>
+                    </a>
+                </li>
+            }
+            @if (Model.MaxLevel >= 3)
+            {
+                <li level="3">
+                    <a>
+                        @Model.Levels[3].Name
+                        <span>(@Model.Levels[3].Count)</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="distributors">
+        <script id="itemTemplate" type="text/html">
+            {{each list as item i}}
+            <li>
+                <div class="title clearfix">
+                    <img src="{{item.photo}}" />
+                    <span>{{item.memberName}}</span>
+                    <span class="fr">注册时间: {{item.regTime}}</span>
+                </div>
+                <div class="asset-addup clearfix">
+                    <div class="item">
+                        <div class="h3">{{item.totalCount}}</div>
+                        <div class="p">成交件数</div>
+                    </div>
+                    <div class="item">
+                        <div class="h3"><div>￥</div>{{item.totalAmount}}</div>
+                        <div class="p">成交金额</div>
+                    </div>
+                </div>
+            </li>
+            {{/each}}
+        </script>
+        <ul id="list"></ul>
+        <div id="noMore" class="item details-link">
+            <a href="javascript:void(0)"><span>别拉了, 快去分享吧</span></a>
+        </div>
+    </div>
+    <div id="emptyBox" class="null-content hide">
+        <img src="~/Areas/Mobile/Templates/Default/Images/no-subordinate.png">
+        <h3>暂无记录</h3>
+        <h5>还没有对应的会员哦</h5>
+    </div>
+</div>
+<a href="javascript:;" class="btn_top"></a>
+<script src="~/Scripts/template.js"></script>
+<script type="text/javascript">
+    var curIndex = 1;
+    $(function () {
+        $("li[level]").click(function () {
+            var cur = $(this).is(".active");
+            if (!cur) {
+                $(this).addClass("active").siblings().removeClass("active");
+                $("#list").empty();
+                EmptyBoxShow(false);
+                loadSub();
+            }
+        });
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+            if (scrollTop + windowHeight >= scrollHeight) {
+                $('#autoLoad').removeClass('hide');
+                EmptyBoxShow(false);
+                loadSub(++curIndex);
+            }
+        });
+        EmptyBoxShow(false);
+        loadSub();
+    });
+
+    function EmptyBoxShow(s) {
+        if (s) {
+            $("#emptyBox").removeClass("hide");
+        } else {
+            if (!$("#emptyBox").hasClass("hide")) {
+                $("#emptyBox").addClass("hide");
+            }
+        }
+    }
+   
+    function loadSub(index) {
+        var data = {
+            level: $("li[level].active").attr("level"),
+            pageSize: 10,
+            pageNo: index || 1
+        };
+        curIndex = data.pageNo;
+        $.post("", data, function (data) {
+            if (data.length == 0) {
+                if (curIndex == 1) EmptyBoxShow(true);
+                else $("#noMore").show();
+            }
+            else {
+                $("#noMore").hide();
+            }
+            var items = template('itemTemplate', { list: data });
+            $("#list").append(items);
+        });
+    }
+</script>

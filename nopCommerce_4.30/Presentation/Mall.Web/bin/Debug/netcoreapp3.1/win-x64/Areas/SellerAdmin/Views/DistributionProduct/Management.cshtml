@@ -1,0 +1,65 @@
+﻿@model Mall.DTO.SiteSettings
+@{
+    ViewBag.Title = "Manage";
+}
+<style>
+    .choose-right ul i { display: none; }
+    .table .text-order.checkError { border: 1px solid #f00; }
+</style>
+<div class="container Sclear-N2 ">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>分销商品设置</a></li>
+        <li><a href="@Url.Action("DefaultBrokerage")">默认佣金比例设置</a></li>
+    </ul>
+    <div class="queryDiv">
+        <img class="queryImg" src="/Images/ic_query.png">
+        <div class="tipBox">
+            <h5>温馨提示:</h5>
+            <ul>
+                <li><span>平台开启分销功能后，商家可以添加商品参与分销活动。根据平台开启的级数来设置每级的佣金比例。</span></li>
+                <li><span>销售员获得的佣金和商品最终价格有关，佣金的计算在商品抵扣了满额减和优惠券之后。</span></li>
+                <li><span>此部分佣金由商家承担，在平台和商家之间结算时，系统将从商家应结金额中扣除。</span></li>
+            </ul>
+        </div>
+    </div>
+    <h5 class="tips-top"><span class="help-default"><i></i>  说明：被选中且佣金大于0的商品将进入到平台分销市场</span></h5>
+    <div class="custom-inline Sclear-N3">
+        <div class="col-sm-5" style="padding-left:0;">
+            <a class="btn btn-primary btn-sm" id="addBtn" style="margin-left:0;"><i class="glyphicon glyphicon-plus"></i>添加分销商品</a>
+        </div>
+    </div>
+    <div class="form-inline custom-inline">
+        <div class="form-group">
+            <label class="label-inline w75" for="">名称</label>
+            <input type="text" id="skey" class="form-control input-ssm">
+        </div>
+        <div class="form-group">
+            <label class="label-inline w75" for="">类目</label>
+            <select id="category1" class="form-control input-ssm">
+                <option>分类</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select id="category2" class="form-control input-ssm">
+                <option>分类</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button id="searchBtn" class="btn btn-primary btn-sm" type="button">搜 索</button>
+        </div>
+    </div>
+
+    <table id="list" class="table"></table>
+
+    <div class="tabel-operate" id="batbtnbox" style="display:none;">
+        <button type="button" id="btnBatchCancel" onclick="BatchCancel()" class="btn btn-default btn-ssm">批量取消推广商品</button>
+    </div>
+
+</div>
+<input type="hidden" name="maxBrokerageRate" id="maxBrokerageRate" value="@(Model.DistributionMaxBrokerageRate)"/>
+<input type="hidden" name="maxLevel" id="maxLevel" value="@(Model.DistributionMaxLevel)" />
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/DistributionProductManage.js"></script>
+<script src="~/Scripts/jquery.zclip.js"></script>

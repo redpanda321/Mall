@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MobileDetect</id>
+    <version>2.0.0</version>
+    <authors>MobileDetect</authors>
+    <owners>MobileDetect</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Nop.Core" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework=".NETCoreApp3.1">
+        <frameworkReference name="Microsoft.AspNetCore.App" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="C:\S\nopCommerce_4.30_dev\Thirdparty\MobileDetect\bin\Debug\netcoreapp3.1\MobileDetect.dll" target="lib\netcoreapp3.1\MobileDetect.dll" />
+  </files>
+</package>

@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "礼品订单";
+    ViewBag.ShowAside = 3;//显示浮动菜单栏、回到顶部按钮
+    int? status = ViewBag.status;
+}
+<div class="container pb0">
+	<ul class="gift-order-nav border-bot">
+		<li data-status="0">全部</li>
+		<li data-status="2">待发货<i id="sendNum" style="display: none;">0</i></li>
+		<li data-status="3">待收货<i id="receivedNum" style="display: none;">0</i></li>
+		<li data-status="5">已完成</li>
+	</ul>
+	<ul class="gift-order-list" id="List"></ul>
+	<div class="loading" id="autoLoad"><span></span></div>
+</div>
+
+<script>
+	
+	
+	
+	$(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+
+        if (scrollTop + windowHeight >= scrollHeight) {
+            loadGifts();
+        }
+    });
+    
+    var page = 0,
+		isnodata = false,
+		list = $('#List'),
+		status=QueryString('status')||0;
+	
+	$('li[data-status='+status+']').addClass('active');
+	
+	loadGifts();
+	
+	$('.gift-order-nav').on('click','li',function(){
+		var _this=$(this);
+		status=_this.data('status');
+		_this.addClass('active').siblings().removeClass();
+		page = 0;
+		isnodata = false;
+		$('#autoLoad').html('<span></span>');
+		list.html('');
+		loadGifts();
+	});
+	
+	$.get('/' + areaName + '/MyGifts/GetOrderCount',function(data){
+		if(data.WaitDeliveryCount){
+			$('#sendNum').text(data.WaitDeliveryCount).show();
+		}
+		if(data.WaitReceivingCount){
+			$('#receivedNum').text(data.WaitReceivingCount).show();
+		}
+	});
+	
+	function loadGifts() {
+	    if (!isnodata) {
+	        page++;
+	        $.get('/' + areaName + '/MyGifts/GetOrderList',
+	            {
+	                page: page,
+	                pageSize: 10,
+	                status:status
+	            }
+	            , function (data) {
+	            	data=data.data.rows;
+	                if (data.length > 0) {
+	                    var str = '';
+	                    $.each(data, function (i, item) {
+	                    	str+='<li>'+
+								'<div class="gift-order-hd">'+
+									'<i class="glyphicon glyphicon-list-alt"></i>'+item.Id+
+									'<span class="'+(item.OrderStatus==2||item.OrderStatus==3?'active':'')+'">'+item.ShowOrderStatus+'</span>'+
+								'</div>'+
+								'<div class="gift-item">'+
+                                '<a href="/' + areaName+'/MyGifts/OrderDetail/'+item.Id+'">'+
+										'<img src="'+item.Items[0].DefaultImage+'" />'+
+										'<p>'+item.Items[0].GiftName+'</p>'+
+										'<span>'+item.Items[0].SaleIntegral+'<em>积分</em><br/>× '+item.Items[0].Quantity+'</span>'+
+									'</a>'+
+								'</div>'+
+								'<div class="gift-order-txt">共 <span>'+item.Items[0].Quantity+'</span> 件礼品  花费积分：<span>'+item.TotalIntegral+'</span></div>';
+								if(item.OrderStatus==3){
+                                    str += '<div class="gift-order-bot border-top">' +
+                                        '<a class="gift-btn light" onclick="ConfirmOrder(\'' + item.Id+'\',this)">确认收货</a>'+
+									'</div>';
+								}
+								
+							str+='</li>';
+	                    });
+	                    list.append(str);
+	                }
+	                if(data.length<10){
+	                	isnodata = true;
+	                    $('#autoLoad').html('没有更多订单了');
+	                }
+	            }
+	        );
+	    }
+    }
+
+
+    function ConfirmOrder(orderId, dom) {
+        $.dialog.confirm("你确定收到货了吗？", function () { Confirm(orderId, dom); });
+    }
+
+    function Confirm(orderId, dom) {
+        var loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: "/"+areaName+"/MyGifts/ConfirmOrderOver",
+            dataType: 'json',
+            data: { OrderId: orderId },
+            success: function (d) {
+                loading.close();
+                if (d.success) {
+                    $.dialog.succeedTips("确认成功！", function () {
+                        page = 0;
+                        isnodata = false;
+                        $('#autoLoad').html('<span></span>');
+                        list.html('');
+                        loadGifts();
+                    }, 1);
+                }
+                else {
+                    $.dialog.errorTips("确认失败！", '', 2);
+                }
+            }
+        });
+    }
+</script>

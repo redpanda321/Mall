@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "发/退货地址";
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix" id="ulMenu">
+        <strong>发/退货地址</strong>
+        <li class="active"><a id="btnManage">管理</a></li>
+        <li><a id="btnAdd" href="Add">新增</a></li>
+    </ul>
+	<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>可以选择一个发/退货地址作为默认地址，买家退货时会自动选择默认退货地址，不再需要买家输入。</span></li>
+			</ul>
+		</div>
+	</div>
+    <table class="table Sclear-I" id="list"></table>
+</div>
+<script type="text/javascript">
+    $(function () {
+        LoadData();
+
+        $("#list").on("click", ".bt-sendgoods", function () {
+            var _id = $(this).data("id");
+            SetDefaultSend(_id);
+        });
+        $("#list").on("click", ".bt-getgoods", function () {
+            var _id = $(this).data("id");
+            SetDefaultGet(_id);
+        });
+        $("#list").on("click", ".bt-verification", function () {
+            var _id = $(this).data("id");
+            SetDefaultVerification(_id);
+        });
+    });
+    function LoadData() {
+        $("#list").MallDatagrid({
+            url: 'List',
+            nowrap: false,
+            rownumbers: true,
+            NoDataMsg: '没有发/退货地址',
+            border: false,
+            fit: true,
+            fitColumns: true,
+            pagination: false,
+            idField: "id",
+            pageSize: 100,
+            pageNumber: 1,
+            queryParams: {},
+            toolbar: /*"#goods-datagrid-toolbar",*/'',
+            columns:
+            [[
+                { field: "id", hidden: true },
+                {
+                    field: "shipperTag", title: '发货点名称', align: "left", width: 200
+                },
+                {
+                    field: "isDefaultSendGoods", title: '默认发货信息', align: "center", width: 100, formatter: function (value, row, index) {
+                        var html = '<a href="javascript:void(0);">';
+                        if (value) {
+                            html += '<i class="glyphicon glyphicon-ok bt-sendgoods" style="color:#009e1a" data-id="' + row.id + '"></i>';
+                        }
+                        else {
+                            html += '<i class="glyphicon glyphicon-remove bt-sendgoods" style="color:#ff551f" data-id="' + row.id + '"></i>';
+                        }
+                        html += "</a>";
+                        return html;
+                    }
+                },
+                {
+                    field: "isDefaultGetGoods", title: '默认收货信息', align: "center", width: 100, formatter: function (value, row, index) {
+                        var html = '<a href="javascript:void(0);">';
+                        if (value) {
+                            html += '<i class="glyphicon glyphicon-ok bt-getgoods" style="color:#009e1a" data-id="' + row.id + '"></i>';
+                        }
+                        else {
+                            html += '<i class="glyphicon glyphicon-remove bt-getgoods" style="color:#ff551f" data-id="' + row.id + '"></i>';
+                        }
+                        html += "</a>";
+                        return html;
+                    }
+                },
+                {
+                    field: "isDefaultVerification", title: '默认核销地址', align: "center", width: 100, formatter: function (value, row, index) {
+                        var html = '<a href="javascript:void(0);">';
+                        if (value) {
+                            html += '<i class="glyphicon glyphicon-ok bt-verification" style="color:#009e1a" data-id="' + row.id + '"></i>';
+                        }
+                        else {
+                            html += '<i class="glyphicon glyphicon-remove bt-verification" style="color:#ff551f" data-id="' + row.id + '"></i>';
+                        }
+                        html += "</a>";
+                        return html;
+                    }
+                },
+                {
+                    field: "shipperName", title: '发货人', align: "center", width: 100
+                },
+                {
+                    field: "address", title: '地址', align: "center"
+                },
+                {
+                    field: "telPhone", title: '手机号码', align: "center", width: 100
+                },
+                {
+                    field: "operation", operation: true, title: "操作", width: 100,
+                    formatter: function (value, row, index) {
+                        var id = row.id;
+                        var html = [];
+                        html.push("<span class=\"btn-a\"><a  href='Add?id=" + id + "'>编辑</a></span>");
+                        html.push("<span class=\"btn-a\"><a  onclick='Delete(" + id + "," + (row.isDefaultSendGoods || row.isDefaultGetGoods) + ")'>删除</a></span>");
+                        return html.join("");
+                    }
+                }
+            ]]
+        });
+    };
+
+    function Delete(id, isDefault) {
+        if (isDefault) {
+            $.dialog.tips('不能删除默认的发货/收货信息！');
+            return;
+        }
+        $.dialog.confirm('确认删除此地址吗？', function () {
+            var loading = showLoading();
+            $.post('/Selleradmin/ShopShipper/Delete', { id: id }, function (result) {
+                loading.close();
+                if (result.success) {
+                    $.dialog.tips('删除成功！');
+                    LoadData();
+                }
+                else {
+                    $.dialog.errorTips(result.msg);
+                }
+            });
+        });
+
+    }
+    function SetDefaultSend(id) {
+        var loading = showLoading();
+        $.post('/Selleradmin/ShopShipper/SetDefaultSend', { id: id }, function (result) {
+            loading.close();
+            if (result.success) {
+                $.dialog.tips('操作成功！');
+                LoadData();
+            }
+            else {
+                $.dialog.errorTips(result.msg);
+            }
+        });
+    }
+    function SetDefaultGet(id) {
+        var loading = showLoading();
+        $.post('/Selleradmin/ShopShipper/SetDefaultGet', { id: id }, function (result) {
+            loading.close();
+            if (result.success) {
+                $.dialog.tips('操作成功！');
+                LoadData();
+            }
+            else {
+                $.dialog.errorTips(result.msg);
+            }
+        });
+    }
+    function SetDefaultVerification(id) {
+        var loading = showLoading();
+        $.post('/Selleradmin/ShopShipper/SetDefaultVerification', { id: id }, function (result) {
+            loading.close();
+            if (result.success) {
+                $.dialog.tips('操作成功！');
+                LoadData();
+            }
+            else {
+                $.dialog.errorTips(result.msg);
+            }
+        });
+    }
+</script>

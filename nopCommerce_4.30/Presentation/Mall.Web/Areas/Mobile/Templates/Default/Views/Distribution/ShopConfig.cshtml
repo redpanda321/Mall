@@ -1,0 +1,137 @@
+﻿@model Mall.Entities.DistributorInfo
+@{
+    ViewBag.FootIndex = 4;
+    var weiXinShareArgs = this.WeiXinShareArgs;
+}
+<div class="container distribution">
+    <div class="group mt10">
+        <div class="group-inner clearfix">
+            <div class="label spc">小店logo</div>
+            <img class="shoplogo" src="@(Model.ShopLogo)" onclick="UploadWXImage()"/>
+            <input type="hidden" name="ShopLogo" id="ShopLogo" data-src="@(Model.ShopLogo)" value="" />
+        </div>
+        <div class="group-inner clearfix">
+            <div class="label fl mt10">展示首页logo</div>
+            <label class="custom-switch fr">
+                <input type="checkbox" class="hidden" @(Model.IsShowShopLogo?"checked":"") id="IsShowShopLogo">
+                <div class="switch-inner"><div class="switch-handle"></div></div>
+            </label>
+        </div>
+        <div class="group-inner">
+            <div class="label">小店名称</div>
+            <input type="text" placeholder="小店名称不能超过10个字符" name="ShopName" id="ShopName" value="@(Model.ShopName)" maxlength="10" />
+        </div>
+    </div>
+    <div class="button-area mt10">
+        <a class="btn btn-danger btn-any nofix" href="javascript:PostApplyDistributor();">保存信息</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('#IsShowShopLogo').click(function(){
+            var _this=$(this),
+                isShowLogo = _this.is(':checked');
+            if(!isShowLogo){
+                $.dialog.confirm('选择不展示首页logo，其他会员进入您分享的链接后，商城首页顶部不再显示个性化小店logo，确认要继续吗？',
+                    function(){},
+                    function(){
+                        _this.attr('checked','checked');
+                    }
+                );
+            }
+        });
+    });
+    var loading;
+    function PostApplyDistributor() {
+        var serverid = $("#ShopLogo").val(), ShopName = $("#ShopName").val(),ShopLogo = $("#ShopLogo").attr('data-src');
+        if (ShopLogo.length < 1) {
+            $.dialog.errorTips('请上传小店logo');
+            return;
+        }
+        if (ShopName.length < 1) {
+            $.dialog.errorTips('请填写小店名称');
+            return;
+        }
+        if (ShopName.length > 10) {
+            $.dialog.errorTips('小店名称不能超过10个字符');
+            return;
+        }
+        var isShowLogo = $('#IsShowShopLogo').is(':checked');
+        loading = showLoading();
+        $.ajax({
+            type: 'post',
+            url: '/' + areaName + '/Distribution/SaveShopConfig',
+            data: { logoWXmediaId: serverid, shopname: ShopName, isShowLogo: isShowLogo },
+            success: function (data) {
+                loading.close();
+                if (data.success) {
+                    $.dialog.succeedTips('操作成功', function () {
+                        window.location.href = '/' + areaName + '/Distribution/myshop';
+                    });
+                }
+                else {
+                    $.dialog({
+                        title: '申请失败',
+                        content: data.msg,
+                        button: [
+                            {
+                                name: '确认', callback: function () { }
+                            }
+                        ]
+                    });
+                }
+            }
+        });
+    }
+
+</script>
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+        $(function () {
+            var  AppId='@weiXinShareArgs.AppId';// 必填，公众号的唯一标识
+            var Timestamp=@weiXinShareArgs.Timestamp ;// 必填，生成签名的时间戳
+            var NonceStr='@weiXinShareArgs.NonceStr'; // 必填，生成签名的随机串
+            var Signature='@weiXinShareArgs.Signature';// 必填，签名，见附录1
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: AppId, // 必填，公众号的唯一标识
+                timestamp: Timestamp, // 必填，生成签名的时间戳
+                nonceStr: NonceStr, // 必填，生成签名的随机串
+                signature: Signature,// 必填，签名，见附录1
+                jsApiList: ['chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+           // alert(Signature);
+        });
+        function UploadWXImage()
+        {
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    loading = showLoading();
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    function UploadOneImage() {  
+                    	wx.uploadImage({
+	                        localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+	                        isShowProgressTips: 1, // 默认为1，显示进度提示
+	                        success: function (res) {
+	                            var serverId = res.serverId; // 返回图片的服务器端ID
+	                            $(".shoplogo").attr('src',localIds[0]);
+	                            $("#ShopLogo").attr('data-src',localIds[0]);
+                                $("#ShopLogo").val(serverId);
+                                loading.close();
+	                        }
+	                    });
+                    }
+                    UploadOneImage();
+                }
+            });
+        }
+        function Remove(obj)
+        {
+            $(obj).parent().remove();
+        }
+</script>

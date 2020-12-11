@@ -1,0 +1,90 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\S\\nopCommerce_4.20\\Libraries\\Shop.Weixin.MP\\Shop.Weixin.MP.csproj": {}
+  },
+  "projects": {
+    "C:\\S\\nopCommerce_4.20\\Libraries\\Shop.Weixin.MP\\Shop.Weixin.MP.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\S\\nopCommerce_4.20\\Libraries\\Shop.Weixin.MP\\Shop.Weixin.MP.csproj",
+        "projectName": "Shop.Weixin.MP",
+        "projectPath": "C:\\S\\nopCommerce_4.20\\Libraries\\Shop.Weixin.MP\\Shop.Weixin.MP.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\S\\nopCommerce_4.20\\Libraries\\Shop.Weixin.MP\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.0": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "Senparc.CO2NET": {
+              "target": "Package",
+              "version": "[1.0.102, )"
+            },
+            "Senparc.Weixin": {
+              "target": "Package",
+              "version": "[6.6.102, )"
+            },
+            "Senparc.Weixin.MP": {
+              "target": "Package",
+              "version": "[16.9.102, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[4.6.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

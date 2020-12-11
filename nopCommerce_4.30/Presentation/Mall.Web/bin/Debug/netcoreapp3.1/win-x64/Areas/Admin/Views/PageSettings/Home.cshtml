@@ -1,0 +1,74 @@
+﻿@model List<Mall.Web.ManageThemeInfo>
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>模板管理</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>系统默认内嵌多套模板可选择，任意一套模板都可以单独编辑。</span></li>
+				<li><span>对模板做过的修改会保存，下次再启用时会沿用之前做过的修改。</span></li>
+			</ul>
+		</div>
+	</div>
+    @{
+        var temp = ((Mall.Web.Models.TemplateSetting)ViewBag.CurrentTemplate);
+        var url = ViewBag.CurUrl;
+    }
+    <form name="aspnetForm" method="post" action="" id="aspnetForm" class="form-horizontal clear-v45 pb0 template-pc">
+        <h3 class="templateTitle mt0">当前使用的模板</h3>
+        <div class="set-switch clearfix">
+            <div class="usertemplate"> <img src="/Areas/Admin/Templates/home/t_@temp.Id/default.jpg"> </div>
+            <div class="usertemplateInfo">
+                <p><h2>@temp.Name</h2></p>
+                <a class="btn btn-primary mt20" target="_blank" href="./Index?tName=@temp.CurrentTemplateName&name=@temp.Name&tid=@temp.Id">编辑模板</a>
+                <a class="btn btn-primary mt20" id="btn_show" target="_blank" href="/">预览</a>&nbsp;&nbsp;
+                <a class="btn btn-primary mt20" id="btn_default" style="display:none">恢复默认</a>
+                <a class="btn btn-primary mt20" target="_blank" href="/Admin/Theme/Index?tid=@temp.Id">主题配色</a>
+            </div>
+        </div>
+        <h3 class="templateTitle mt0">可用模板(共3套)</h3>
+        <div class="templateList">
+            <ul class="clearfix mb0">
+                @for (var i = 1; i <= 3; i++)
+                {
+                    <li class="">
+                        <div class="img">
+                            <div> <img src="/Areas/Admin/Templates/home/t_@i/default.jpg"> </div>
+                        </div>
+                        <div class="lightBtn">
+                            <div class="enableExit">
+                                <input type="button" class="btn btn-sm btn-enableTemplate" value="启用" dataid="@i" tname="template_@i" name="模板_@i">
+                                <a type="button" class="btn btn-sm btn-primary" target="_blank" href="./Index?tName=template_@i&tid=@i&name=模板_@i">编辑</a>
+                            </div>
+                        </div>
+                        <p class="templateUser">模板<text>@i</text></p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".btn-enableTemplate").click(function () {
+            setCurrentTemplate($(this).attr("tname"), $(this).attr("name"), $(this).attr("dataid"));
+        });
+        $("#btn_default").click(function () {
+            setCurrentTemplate("template_0", "默认模板", 0);
+        });
+    });
+    function setCurrentTemplate(tname, name, tid) {
+        $.post('./UpdateCurrentTemplate', { tName: tname, name: name, tid: tid }, function (result) {
+            if (result.success) {
+                $.dialog.succeedTips(result.msg, function () { location.href = "./home"; });
+            }
+            else
+                $.dialog.errorTips(result.msg);
+            loading.close();
+        }, "json");
+    }
+</script>

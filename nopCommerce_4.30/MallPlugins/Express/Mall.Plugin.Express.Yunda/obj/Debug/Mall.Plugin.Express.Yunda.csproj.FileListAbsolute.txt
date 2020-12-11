@@ -1,0 +1,9 @@
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Yunda\Mall.Plugin.Express.Yunda.deps.json
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Yunda\Mall.Plugin.Express.Yunda.dll
+C:\S\nopCommerce_4.20\Presentation\Mall.Web\Plugins\Express\Mall.Plugin.Express.Yunda\Mall.Plugin.Express.Yunda.pdb
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yunda\obj\Debug\Mall.Plugin.Express.Yunda.csprojAssemblyReference.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yunda\obj\Debug\Mall.Plugin.Express.Yunda.AssemblyInfoInputs.cache
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yunda\obj\Debug\Mall.Plugin.Express.Yunda.AssemblyInfo.cs
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yunda\obj\Debug\Mall.Plugin.Express.Yunda.csproj.CopyComplete
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yunda\obj\Debug\Mall.Plugin.Express.Yunda.dll
+C:\S\nopCommerce_4.20\MallPlugins\Express\Mall.Plugin.Express.Yunda\obj\Debug\Mall.Plugin.Express.Yunda.pdb

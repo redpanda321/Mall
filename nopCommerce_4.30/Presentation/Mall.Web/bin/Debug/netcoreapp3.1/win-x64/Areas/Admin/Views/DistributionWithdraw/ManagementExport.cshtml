@@ -1,0 +1,29 @@
+﻿@{ Layout = null;}
+@model List<Mall.DTO.Distributor>
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+    <thead>
+        <tr>
+            <th>销售员账号</th>
+            <th>小店名称</th>
+            <th>累积结算佣金</th>
+            <th>待结算佣金</th>
+            <th>可提现金额</th>
+            <th>冻结金额</th>
+            <th>已提现金额</th>
+        </tr>
+    </thead>
+    <tbody id="list-table-body">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@(item.Member!=null?item.Member.UserName:"")</td>@*销售员账号*@
+            <td>@item.ShopName</td>@*小店名称*@
+            <td>@item.SettlementAmount.ToString("F2")</td>@*累积结算佣金*@
+            <td>@item.NoSettlementAmount.ToString("F2")</td>@*待结算佣金*@
+            <td>@item.Balance.ToString("F2")</td>@*可提现金额*@
+            <td>@item.FreezeAmount.ToString("F2")</td>@*冻结金额*@
+            <td>@(item.WithdrawalsAmount.ToString("F2"))</td>@*已提现金额*@
+        </tr>
+        }
+    </tbody>
+</table>

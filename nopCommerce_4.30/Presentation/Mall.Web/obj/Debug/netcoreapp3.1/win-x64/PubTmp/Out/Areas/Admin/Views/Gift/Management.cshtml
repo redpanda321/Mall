@@ -1,0 +1,44 @@
+﻿<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Areas/Admin/Scripts/GiftManagement.js"></script>
+
+
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>礼品列表</a></li>
+        <li><a href="@Url.Action("Add")">新增礼品</a></li>
+
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>礼品可以在PC端、微信端、APP端积分商城兑换。</span></li>
+				<li><span>礼品的编辑与发放全部由平台完成，礼品发货不会收取用户邮费。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">名称</label>
+                <input class="form-control input-ssm" type="text" id="title">
+            </div>
+            <div class="form-group">
+                <label class="label-inline w75" for="">状态</label>
+                <select class="form-control input-ssm" id="status">
+                    <option value="">全部</option>
+                    <option value="1">可兑换</option>
+                    <option value="2">已过期</option>
+                    <option value="0">已下架</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" id="search" class="btn btn-primary btn-sm">搜索</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="table clear-v39" id="list"></table>
+</div>

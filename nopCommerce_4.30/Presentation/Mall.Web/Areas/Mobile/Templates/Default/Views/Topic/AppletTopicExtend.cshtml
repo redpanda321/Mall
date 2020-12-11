@@ -1,0 +1,43 @@
+﻿
+
+<script type="text/javascript">
+    $(function () {
+        //$( '.bonus' ).height( $( '.bonus' ).width() * 39 / 28 )
+        if (window.__wxjs_environment === 'miniprogram') {
+            $("#btnBackApplet").show();
+            $('footer').hide();
+        }
+        else {
+            $("#btnBackApplet").hide();
+        }
+        $('a').click(function () {
+            var _this = $(this);
+            var href = _this.attr('href');
+            var isMiniHref = false;
+            if (href.indexOf('/productdetail/') > 0
+                || href.indexOf('/countdowndetail/') > 0
+                || href.indexOf('/countdown/') > 0
+                || href.indexOf('/coupondetail/') > 0
+                || href.indexOf('/grouplist/') > 0)
+            {
+                isMiniHref = true;
+            }
+            if (href.indexOf('/Product/Detail/') > 0) {
+                isMiniHref = true;
+                href = href.replace(/\/m-wap\/Product\/Detail\//g, "../productdetail/productdetail?id=")
+            }
+            if (isMiniHref) {
+                wx.miniProgram.navigateTo({ url: href });
+            }
+            else {
+                window.location.href = href;
+            }
+            return false;
+        });
+
+    });
+    function onBackApplet() {
+        wx.miniProgram.switchTab({ url: '../home/home' });
+    }
+</script>
+<div id="btnBackApplet" onclick="onBackApplet()"></div>

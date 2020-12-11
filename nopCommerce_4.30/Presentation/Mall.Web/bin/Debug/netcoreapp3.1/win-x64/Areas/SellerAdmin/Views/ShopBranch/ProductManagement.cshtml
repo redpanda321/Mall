@@ -1,0 +1,100 @@
+﻿@{  var shopCategorys = (List<Mall.DTO.ShopCategory>)ViewBag.ShopCategorys;
+}
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Scripts/jquery.MallLinkage.nocreate.js"></script>
+<script src="~/Scripts/jquery.Mall.Region.js"></script>
+<script src="~/Scripts/jquery.productSelector.js"></script>
+<script src="~/Areas/SellerAdmin/Scripts/ShopBranchProductManagement.js"></script>
+<div class="container Sclear-M">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li><a href="@Url.Action("Management")">门店管理</a></li>
+        <li class="active"><a>商品管理</a></li>
+        <li><a href="@Url.Action("Setting")">门店设置</a></li>
+        <li><a href="@Url.Action("DaDaConfig")">同城物流设置</a></li>
+    </ul>
+    @*<div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>门店只能由商家添加，但平台、商家都可以对门店进行冻结。</span></li>
+				<li class="mark-info"><span>注意：冻结门店后，门店商品都会下架。解冻后门店商品都需要重新上架。</span></li>
+			</ul>
+		</div>
+	</div>*@
+    <div class="search-box">
+        <form class="form-inline custom-inline" onkeydown="if(event.keyCode==13){return false;}">
+        	<div class="form-group pull-right">
+        		<a  class="btn btn-primary btn-sm" id="SaleOn" onclick="SaleOnProduct();">上架商品</a>
+        	</div>
+            <div class="form-group" filter normal audit saleoff>
+                <label class="label-inline" for="">当前门店：@ViewBag.ShopBranchName</label>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline" for="">商品名称：<input class="form-control input-ssm" type="text" id="shopBranchName"></label>
+            </div>
+            <div class="form-group" filter normal>
+                <label class="label-inline" for="">商品分类：
+                <select id="shopCategory" class="form-control input-ssm w90">
+                    <option value="0">请选择</option>
+                    @{
+                        var dic = new Dictionary<long, string>();
+                        for (int i = 0; i < shopCategorys.Count; i++)
+                        {
+                            var item = shopCategorys[i];
+                            var isParent = item.ParentCategoryId == 0;
+                            var key = isParent ? item.Id : item.ParentCategoryId;
+                            var html = string.Format("<option value='{0}'>{1}{2}</option>", item.Id, isParent ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;", item.Name);
+
+                            if (dic.ContainsKey(key))
+                            {
+                                html = isParent ? html + dic[key] : (dic[key] + html);
+                            }
+                            dic[key] = html;
+                        }
+                    }
+                    @Html.Raw(string.Join("", dic.Values.ToArray()))
+                </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-sm" id="searchButton" style="top:0">搜 索</button>
+            </div>
+        </form>
+    </div>
+    <table class="table mt5" id="shopDatagrid"></table>
+    <div class="tabel-operate hidden" id="saleOff">
+        <a class="btn btn-danger btn-ssm" id="batchSaleOff" onclick="SaleOff();">批量下架</a>
+        <a class="btn btn-default btn-ssm" id="batchEdit" onclick="bachEdit();">批量编辑</a>
+    </div>
+</div>
+<div class="dialog-form" id="storesLink-form" style="display:none">
+    <div class="form-group">
+        <span class="sign-t"><i class="red">*</i>&nbsp;&nbsp;推广链接：</span>
+        <input class="form-control input-ssm" type="text" id="referralsLink"  style="width:300px"/>
+    </div>
+    <div class="form-group">
+        <span class="sign-t">&nbsp;&nbsp;&nbsp;二维码：</span>
+        <img id="imgsrc" type="img" width="100" />
+    </div>
+</div>
+
+<div class="dialog-form" id="batchSettingStock" style="display:none;height:500px;width:900px; position: relative;overflow-x: hidden;overflow-y: scroll;">
+    <div class="form-group">
+        <label>批量设置：</label>
+        <input class="form-control input-ssm input-number" type="text" id="updateStock" placeholder="库存" style="width: 80px;" maxlength="6" onkeyup="value = value.replace(/[^\-?\d]/g, '')" />
+        <input type="button" value="确定" class="btn btn-primary" id="btnSaveStock" style="height:30px;" />
+    </div>
+    <table class="table table-bordered table-choose">
+        <thead>
+            <tr>                
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:350px;">商品</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:250px;">规格</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:80px;">平台价格</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:80px;">门店价格</th>
+                <th style="text-align:center;padding-left:0px;padding-right:0px;width:120px;">门店库存</th>
+            </tr>            
+        </thead>
+        <tbody class="j_productResult"></tbody>
+    </table>
+</div>

@@ -1,0 +1,34 @@
+﻿<script src="~/Scripts/jquery.MallUpload.js"></script>
+<script src="~/Scripts/jquery.placeholder.min.js"></script>
+<script src="~/Scripts/bootstrap.autocomplete.js"></script>
+<script src="~/Scripts/jquery.MallDatagrid.js"></script>
+<script src="~/Areas/Admin/Scripts/WeiActivityManagement.js"></script>
+<div class="container">
+    <ul class="nav nav-tabs-custom clearfix">
+        <li class="active"><a>管理</a></li>
+        <li><a href="@Url.Action("Add", "WeiActivity", new { area = "Admin" })">新增</a></li>
+    </ul>
+    <div class="queryDiv">
+		<img class="queryImg" src="/Images/ic_query.png">
+		<div class="tipBox">
+			<h5>温馨提示:</h5>
+			<ul>
+				<li><span>刮刮卡活动奖励分为三种：积分、奖品红包、优惠券。其中优惠券必须为主动发放类型。</span></li>
+				<li><span>目前仅微信端、APP支持刮刮卡活动。</span></li>
+			</ul>
+		</div>
+	</div>
+    <div class="search-box">
+        <form class="form-inline custom-inline">
+            <div class="form-group">
+                <label class="label-inline w75" for="">名称</label>
+                <input type="text" class="form-control input-ssm" id="searchName"  />
+            </div>
+            <div class="form-group">
+                <button type="button" id="btnSearch" class="btn btn-primary btn-sm">搜索</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="table clear-v26" id="list"></table>
+</div>
