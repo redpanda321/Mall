@@ -1,19 +1,40 @@
 # Mall
 Base on NopCommerce  B2B2C Ecommercial Shopping System
 
+
+a.Installation
+
+1. .net core 3.1  &&  MySql 8.0.17
+
+
+2. Create MySql Database
+
+    Sql file at  Mall.Web/SqlScripts/Mall33.sql
+    
+3. Configuation
+
+    Mall.Web/appsettings.json
+
+   Mall:ConnectionString": "server=localhost;user id=root;password=xxxxxxxxx;persistsecurityinfo=True;database=mall33;Allow User Variables=True;SslMode=none"
+   
+      
+
+b.Logical structure
+
+
 Administrator
 
-    commodity
-    transaction
-    member
+    Commodity
+    Transaction
+    Member
     Shop
-    statistics
-    website
+    Statistics
+    Website
     Distribution
-    system
+    System
     Marketing
     Micro Mall
-    application
+    Application
     Applets
 
  SellerAdmin
@@ -52,9 +73,9 @@ Personal center
 
     Asset Center
   
-    my discount coupon
+    My discount coupon
     My scores
-    my account
+    My account
 
     My focus
      
@@ -83,6 +104,6 @@ Personal center
 
     Customer Center
 
-    help
+    Help
     After sale
     Complaint
