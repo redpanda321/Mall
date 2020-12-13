@@ -2,16 +2,18 @@
 Base on NopCommerce  B2B2C Ecommercial Shopping System
 
 
-a.Installation
+A.Installation
 
 1. .net core 3.1  &&  MySql 8.0.17
 
 
-2. Create MySql Database
+2. Initial  NopCommerce 4.30 first
+
+3. Create Mall 4.30  MySql Database
 
     Sql file at  Mall.Web/SqlScripts/Mall33.sql
     
-3. Configuation
+4.  Mall 4.30  Configuation
 
     Mall.Web/appsettings.json
 
@@ -19,7 +21,7 @@ a.Installation
    
       
 
-b.Logical structure
+B.Logical Structure
 
 
 Administrator
