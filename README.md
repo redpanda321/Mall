@@ -9,6 +9,17 @@ A.Installation
 
 2. Initial  NopCommerce 4.30 first
 
+   Mall.Web/App_Data/dataSettings.json
+   
+   {
+  "DataProvider": "sqlserver",
+  "DataConnectionString": "Data Source=localhost\\SQLEXPRESS;Database=shop43;Integrated Security=True;Persist Security Info=True;Trusted_Connection=False;MultipleActiveResultSets=True;",
+  "RawDataSettings": {}
+}
+
+
+
+
 3. Create Mall 4.30  MySql Database
 
     Sql file at  Mall.Web/SqlScripts/Mall33.sql
