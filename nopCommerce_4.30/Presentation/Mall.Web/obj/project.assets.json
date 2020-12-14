@@ -6452,7 +6452,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "SOS.NETCore/5.0.0-dev.20611.1": {
+      "SOS.NETCore/5.0.0-dev.20613.1": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -17137,7 +17137,7 @@
       "path": "../Nop.Web.Framework/Nop.Web.Framework.csproj",
       "msbuildProject": "../Nop.Web.Framework/Nop.Web.Framework.csproj"
     },
-    "SOS.NETCore/5.0.0-dev.20611.1": {
+    "SOS.NETCore/5.0.0-dev.20613.1": {
       "type": "project",
       "path": "../../Thirdparty/diagnostics/src/SOS/SOS.NETCore/SOS.NETCore.csproj",
       "msbuildProject": "../../Thirdparty/diagnostics/src/SOS/SOS.NETCore/SOS.NETCore.csproj"
@@ -17175,7 +17175,7 @@
       "MaxMind.GeoIP2 >= 3.2.0",
       "NPOI >= 2.5.1",
       "RedLock.net.StrongName >= 2.1.0",
-      "SOS.NETCore >= 5.0.0-dev.20611.1",
+      "SOS.NETCore >= 5.0.0-dev.20613.1",
       "Senparc.CO2NET >= 1.3.104.1",
       "Senparc.CO2NET.AspNet >= 0.3.104.1",
       "Senparc.CO2NET.Cache.Memcached >= 3.1.3.2",

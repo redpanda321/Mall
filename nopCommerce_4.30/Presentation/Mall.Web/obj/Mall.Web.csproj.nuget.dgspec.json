@@ -2597,7 +2597,7 @@
       }
     },
     "C:\\Mall\\nopCommerce_4.30\\Thirdparty\\diagnostics\\src\\SOS\\SOS.NETCore\\SOS.NETCore.csproj": {
-      "version": "5.0.0-dev.20611.1",
+      "version": "5.0.0-dev.20613.1",
       "restore": {
         "projectUniqueName": "C:\\Mall\\nopCommerce_4.30\\Thirdparty\\diagnostics\\src\\SOS\\SOS.NETCore\\SOS.NETCore.csproj",
         "projectName": "SOS.NETCore",
