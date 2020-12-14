@@ -1,5 +1,5 @@
 # Mall
-Base on NopCommerce  B2B2C Ecommercial Shopping System
+ B2B2C Ecommercial Shopping System Base on NopCommerce 
 
 
 A.Installation
